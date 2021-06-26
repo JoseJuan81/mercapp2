@@ -1,0 +1,55 @@
+{
+    "data": [
+        {
+            "title": "Aceite de Oliva", "price": 20, "currency": "S/.", "labels": ["500ml", "Carbonell", "metro", "2 und"]
+        },
+        {
+            "title": "Harina Pan", "price": 5.50, "currency": "S/.", "labels": ["1 Kg", "PAN", "San Felipe", "2 und"]
+        },
+        {
+            "title": "Atun", "price": 5.50, "currency": "S/.", "labels": ["primor", "2 und", "en trosos", "plaza vea", "metro"]
+        },
+        {
+            "title": "Avena", "price": 9.25, "currency": "S/.", "labels": ["1 Kg", "1 und", "San Felipe"]
+        },
+        {
+            "title": "Avena Canela y Manzana", "price": 17, "currency": "S/.", "labels": ["330 g", "1 und", "metro", "quacker"]
+        },
+        {
+            "title": "Lentejas", "price": 2.50, "currency": "S/.", "labels": ["1 Kg", "1 und", "Mass", "plaza vea", "bells"]
+        },
+        {
+            "title": "Corn Flakes", "price": 18, "currency": "S/.", "labels": ["800 g", "1 und", "metro", "nestle"]
+        },
+        {
+            "title": "Espagueti", "price": 5, "currency": "S/.", "labels": ["500 g", "2 und", "metro", "cusine"]
+        },
+        {
+            "title": "Pasta de Tomate", "price": 11, "currency": "S/.", "labels": ["700 g", "1 und", "plazavea", "mutti", "albahaca"]
+        },
+        {
+            "title": "Mayonesa", "price": 11, "currency": "S/.", "labels": ["200 g", "1 und", "metro", "kraft"]
+        },
+        {
+            "title": "Arroz", "price": 3.00, "currency": "S/.", "labels": ["1 Kg", "1 und", "Faraon"]
+        },
+        {
+            "title": "Mostaza", "price": 17, "currency": "S/.", "labels": ["250 g", "1 und", "metro", "heinz", "french"]
+        },
+        {
+            "title": "Tomate", "price": 2, "currency": "S/.", "labels": ["mass", "san felipe"]
+        },
+        {
+            "title": "Cebolla", "price": 2, "currency": "S/.", "labels": ["blanca", "san felipe"]
+        },
+        {
+            "title": "Azucar morena", "price": 5, "currency": "S/.", "labels": ["dulfina", "2 Kg"]
+        },
+        {
+            "title": "Sal de mara", "price": 4, "currency": "S/.", "labels": ["200 g"]
+        },
+        {
+            "title": "Lecha en polvo", "price": 17, "currency": "S/.", "labels": ["900 g", "1 und", "san felipe", "la campina"]
+        }
+    ]
+}

@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: 'Poppins';
+        font-weight: 100;
+        src: url('../assets/fonts/Poppins/Poppins-Thin.ttf');
+    }
+
+    @font-face {
+        font-family: 'Poppins';
+        font-weight: 200;
+        src: url('../assets/fonts/Poppins/Poppins-ExtraLight.ttf');
+    }
+
+    @font-face {
+        font-family: 'Poppins';
+        font-weight: 300;
+        src: url('../assets/fonts/Poppins/Poppins-Light.ttf');
+    }
+
+    @font-face {
+        font-family: 'Poppins';
+        font-weight: 400;
+        src: url('../assets/fonts/Poppins/Poppins-Regular.ttf');
+    }
+
+    @font-face {
+        font-family: 'Poppins';
+        font-weight: 500;
+        src: url('../assets/fonts/Poppins/Poppins-Medium.ttf');
+    }
+
+    @font-face {
+        font-family: 'Poppins';
+        font-weight: 600;
+        src: url('../assets/fonts/Poppins/Poppins-SemiBold.ttf');
+    }
+
+    @font-face {
+        font-family: 'Poppins';
+        font-weight: 700;
+        src: url('../assets/fonts/Poppins/Poppins-Bold.ttf');
+    }
+
+    @font-face {
+        font-family: 'Poppins';
+        font-weight: 900;
+        src: url('../assets/fonts/Poppins/Poppins-Black.ttf');
+    }
+
+    @font-face {
+        font-family: 'icomoon';
+        src: url('../assets/fonts/icons/icomoon.eot?f1e6dn');
+        src: url('../assets/fonts/icons/icomoon.eot?f1e6dn#iefix') format('embedded-opentype'),
+            url('../assets/fonts/icons/icomoon.ttf?f1e6dn') format('truetype'),
+            url('../assets/fonts/icons/icomoon.woff?f1e6dn') format('woff'),
+            url('../assets/fonts/icons/icomoon.svg?f1e6dn#icomoon') format('svg');
+        font-weight: normal;
+        font-style: normal;
+        font-display: block;
+      }
+      
+      [class^="icon-"], [class*=" icon-"] {
+        /* use !important to prevent issues with browser extensions that change fonts */
+        font-family: 'icomoon' !important;
+        speak: never;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+      
+        /* Better Font Rendering =========== */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      
+      .icon-search:before {
+        content: "\e986";
+      }
+      .icon-plus:before {
+        content: "\ea0a";
+      }
+      .icon-checkmark:before {
+        content: "\ea10";
+      }
+
+}
