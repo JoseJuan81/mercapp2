@@ -8,8 +8,8 @@ const InsumoEtiquetas = ({ labels, checked }) => {
                 labels.map(la => (
                     <li
                         className={`
-                            ${checked ? 'bg-lime-100' : 'bg-white'} rounded-md
-                            text-xs ${checked ? 'text-lime-700' : 'text-warmGray-800'}
+                            bg-white
+                            text-xs ${ checked ? 'text-lime-700' : 'text-warmGray-800' }
                             mr-1 mb-1 p-1
                         `}
                     >{ la }</li>
@@ -26,8 +26,8 @@ export const Insumo = ({ title, price, currency, labels, checked }) => {
         <div
             className={`
                 duration-200
-                rounded-lg ${checked ? 'shadow-xl' : 'shadow-md'}
-                border border-solid ${checked ? 'border-lime-400' : 'border-warmGray-100'}
+                rounded-lg ${checked && 'shadow-xl'}
+                border border-solid ${checked ? 'border-lime-400' : 'border-warmGray-300'}
             `}
         >
 
@@ -38,7 +38,7 @@ export const Insumo = ({ title, price, currency, labels, checked }) => {
                         className={`
                             duration-200
                             flex-auto
-                            text-2xl font-bold ${checked ? 'text-warmGray-600' : 'text-warmGray-400'}
+                            text-2xl font-bold ${checked ? 'text-lime-600' : 'text-warmGray-400'}
                         `}
                     >
                         { title }
@@ -46,8 +46,8 @@ export const Insumo = ({ title, price, currency, labels, checked }) => {
 
                     <dt
                         className={`
-                            text-2xl ${checked ? 'text-lime-600' : 'text-warmGray-400'}
-                            ${checked && 'font-semibold'}
+                            text-2xl ${checked ? 'text-lime-400' : 'text-warmGray-400'}
+                            ${checked && 'font-bold'}
                         `}
                     >
                         <small
@@ -64,11 +64,11 @@ export const Insumo = ({ title, price, currency, labels, checked }) => {
             </dl>
 
             <div
-                className="
+                className={`
                     rounded-br-lg rounded-bl-lg
-                    bg-warmGray-50
+                    ${ checked ? 'bg-lime-100' : 'bg-warmGray-100' }
                     px-2 py-2
-                "
+                `}
             >
                 <InsumoEtiquetas
                     labels={ labels }

@@ -1,4 +1,4 @@
-import { equality, findIndex, map, setNewProperty } from 'functionallibrary';
+import { equality, findIndex, isEmpty, map, setNewProperty } from 'functionallibrary';
 
 export const selectAllInsumos = (state) => {
     const checked = setNewProperty('checked', true);
@@ -32,6 +32,25 @@ const onSearch = (state, searchVal) => {
     return state.filter(i => i.title.toLowerCase().includes(searchVal.toLowerCase()));
 }
 
+const onFilter = (state, searchVal) => {
+
+    if(searchVal === '' || searchVal === null) {
+        return state;
+    }
+
+    return state.filter((i) => {
+
+        const { labels } = i;
+
+        if (isEmpty(labels)) {
+            return false;
+        }
+
+        const exist = labels.find(l => l.toLowerCase().includes(searchVal.toLowerCase()));
+        return !!exist;
+    });
+}
+
 const onReset = (initialState) => [...initialState];
 
 export const insumoReducer = (state, action) => {
@@ -41,6 +60,7 @@ export const insumoReducer = (state, action) => {
         unSelectAll: () => unSelectAllInsumos(state),
         toogleCheck: () => onToogleCheck(state, action.payload),
         search: () => onSearch(state, action.payload),
+        filter: () => onFilter(state, action.payload),
         reset: () => onReset(action.payload),
     }
 

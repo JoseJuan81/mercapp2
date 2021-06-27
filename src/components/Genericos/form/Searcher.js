@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { isEmpty } from 'functionallibrary';
 
-export const Searcher = ({ onSearch }) => {
+export const Searcher = ({ onSearch, placeholder }) => {
+    console.log('Searcher');
 
     const [formState, setFormState] = useState({
         search: ''
@@ -31,6 +32,12 @@ export const Searcher = ({ onSearch }) => {
         }
     }
 
+    useEffect(() => {
+
+        inputRef.current.focus();
+
+    }, [])
+
     return (
         <form
             className="h-12 flex-auto"
@@ -46,7 +53,7 @@ export const Searcher = ({ onSearch }) => {
                 ref={ inputRef }
                 type="search"
                 autoComplete="off"
-                placeholder="Buscar insumo..."
+                placeholder={ placeholder }
                 name="search"
                 onChange={ handleInputChange }
                 value={ formState.search }

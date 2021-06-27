@@ -1,6 +1,6 @@
 import { decide, equality, find, reduce } from 'functionallibrary';
 
-import { data as dataInsumos } from '../fakeData/insumos.json';
+import { data as dataInsumos } from '../../fakeData/insumos.json';
 
 import { getFromLocalStorage } from '../../helper/localStorage';
 import { alphabeticSorting } from '../../helper/alphabeticSorting';

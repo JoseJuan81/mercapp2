@@ -53,11 +53,7 @@
 
     @font-face {
         font-family: 'icomoon';
-        src: url('../assets/fonts/icons/icomoon.eot?f1e6dn');
-        src: url('../assets/fonts/icons/icomoon.eot?f1e6dn#iefix') format('embedded-opentype'),
-            url('../assets/fonts/icons/icomoon.ttf?f1e6dn') format('truetype'),
-            url('../assets/fonts/icons/icomoon.woff?f1e6dn') format('woff'),
-            url('../assets/fonts/icons/icomoon.svg?f1e6dn#icomoon') format('svg');
+        src: url('../assets/fonts/icons/IcoMoon.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
         font-display: block;
@@ -86,6 +82,9 @@
       }
       .icon-checkmark:before {
         content: "\ea10";
+      }
+      .icon-filter:before {
+        content: "\ea5b";
       }
 
 }

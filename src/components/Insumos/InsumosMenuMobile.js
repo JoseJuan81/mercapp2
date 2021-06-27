@@ -1,31 +1,32 @@
 import React from 'react';
 
-export const InsumosMenuMobile = ({ selectAll, unSelectAll, toogleShowSearch }) => {
+export const InsumosMenuMobile = React.memo(({ insumos, selectAll, unSelectAll, toogleShowSearch, toogleShowFilter }) => {
+    console.log('menu movil')
     return (
         <div
             className="
-                grid grid-cols-4
+                grid grid-cols-5
                 fixed bottom-0 left-0
                 w-full h-16
-                bg-lime-50
-                border-t border-solid border-lime-300
+                bg-white
+                border-t border-solid border-warmGray-300
+                shadow-inner
             "
         >
             
             <button
                 className="icon-checkmark text-lime-400 text-3xl"
                 title="Seleccionar todo"
-                onClick={ selectAll }
+                onClick={ () => selectAll(insumos) }
             ></button>
 
             <button
                 className="
                     icon-checkmark
                     text-3xl text-warmGray-300
-                    border-l border-r border-solid border-lime-300
                 "
                 title="Deseleccionar todo"
-                onClick={ unSelectAll }
+                onClick={ () => unSelectAll(insumos) }
                 ></button>
 
             <button
@@ -35,14 +36,19 @@ export const InsumosMenuMobile = ({ selectAll, unSelectAll, toogleShowSearch }) 
             ></button>
 
             <button
+                className="icon-filter text-3xl text-blue-400"
+                title="Filtrar"
+                onClick={ toogleShowFilter }
+            ></button>
+
+            <button
                 className="
                     icon-plus
                     text-3xl text-lime-600
-                    border-l border-solid border-lime-300
                 "
                 title="Agregar"
             ></button>
 
         </div>
     )
-}
+})

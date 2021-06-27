@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const PageTitle = React.memo(({ title }) => {
-
+    console.log('PageTitle');
     return (
         <h1
             className="

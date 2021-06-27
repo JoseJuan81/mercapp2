@@ -12,8 +12,11 @@ import { initReducer } from '../components/Insumos/initReducer';
 
 export const PaginaInsumos = () => {
 
+    // mostrar u ocultar buscadores
     const [showSearch, setShowSearch] = useState(false);
+    const [showFilter, setShowFilter] = useState(false);
 
+    // manejador del estado de los insumos
     const [insumosState, dispatch] = useReducer(insumoReducer, [], initReducer);
 
 
@@ -24,21 +27,21 @@ export const PaginaInsumos = () => {
 
     }
 
-    const selectAll = useCallback( () => {
+    const selectAll = useCallback( (insumos) => {
 
-        dispatch({ type: 'selectAll', payload: insumosState });
+        dispatch({ type: 'selectAll', payload: insumos });
 
-        const allSelected = selectAllInsumos(insumosState);
+        const allSelected = selectAllInsumos(insumos);
         setInLocalStorage('selected-insumos', allSelected);
         
-    }, [dispatch]);
+    }, []);
     
-    const unSelectAll = useCallback( () => {
+    const unSelectAll = useCallback( (insumos) => {
         
-        dispatch({ type: 'unSelectAll', payload: insumosState });
+        dispatch({ type: 'unSelectAll', payload: insumos });
         setInLocalStorage('selected-insumos', []);
 
-    }, [dispatch]);
+    }, []);
 
 
     const searchingInsumos = (value) => {
@@ -52,10 +55,37 @@ export const PaginaInsumos = () => {
             dispatch({ type: 'reset', payload: initReducer() });
 
         }
-    }
+    };
+
+    const filteringInsumos = (value) => {
+
+        if (value) {
+
+            dispatch({ type: 'filter', payload: value });
+            
+        } else {
+            
+            dispatch({ type: 'reset', payload: initReducer() });
+
+        }
+    };
+
+    const toogleShowSearch = useCallback( () => {
+
+        setShowFilter(false);
+        setShowSearch(s => !s);
+
+    }, []);
+
+    const toogleShowFilter = useCallback( () => {
+
+        setShowSearch(false);
+        setShowFilter(s => !s);
+
+    }, []);
 
     return (
-        <div className="px-2 mt-4 relative">
+        <div className="px-2 pb-20 mt-4 relative">
             
             <PageTitle title="Insumos" />
 
@@ -64,13 +94,23 @@ export const PaginaInsumos = () => {
                     flex
                     mb-4
                     overflow-hidden
-                    ${showSearch ? 'max-h-20' : 'max-h-0'}
+                    ${showSearch || showFilter ? 'max-h-20' : 'max-h-0'}
                     duration-300
                 `}
             >
-                <Searcher
-                    onSearch={ searchingInsumos }
-                />
+                {
+                    showSearch && <Searcher
+                        onSearch={ searchingInsumos }
+                        placeholder="Buscar insumo"
+                    />
+                }
+                {
+                    showFilter && <Searcher
+                        onSearch={ filteringInsumos }
+                        placeholder="Filtrar insumo"
+                    />
+                }
+
             </div>
 
             <ListadoInsumos
@@ -79,9 +119,11 @@ export const PaginaInsumos = () => {
             />
 
             <InsumosMenuMobile
+                insumos={ insumosState }
                 selectAll={ selectAll }
                 unSelectAll={ unSelectAll }
-                toogleShowSearch={ () => setShowSearch(s => !s) }
+                toogleShowSearch={ toogleShowSearch }
+                toogleShowFilter={ toogleShowFilter }
             />
             
         </div>
