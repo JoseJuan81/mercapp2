@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pruebas sobre archivo ListadoInsumos.js Se debe renderizar Insumo cuando insumoState != [] 1`] = `
+<ul
+  className=""
+>
+  <li
+    className="mb-3"
+    key="Aceite de Oliva-0-function random() { [native code] }"
+    onClick={[Function]}
+  >
+    <Memo()
+      currency="S/."
+      id="82b4791a4e7cb"
+      labels={
+        Array [
+          "500ml",
+          "Carbonell",
+          "metro",
+          "2 und",
+        ]
+      }
+      price={20}
+      title="Aceite de Oliva"
+    />
+  </li>
+  <li
+    className="mb-3"
+    key="Harina Pan-1-function random() { [native code] }"
+    onClick={[Function]}
+  >
+    <Memo()
+      currency="S/."
+      id="972de0224af17"
+      labels={
+        Array [
+          "1 Kg",
+          "PAN",
+          "San Felipe",
+          "2 und",
+        ]
+      }
+      price={5.5}
+      title="Harina Pan"
+    />
+  </li>
+</ul>
+`;
+
+exports[`Pruebas sobre archivo ListadoInsumos.js Se debe renderizar correctamente <ListadoInsumos /> 1`] = `
+<ul
+  className=""
+>
+  <h1>
+    Debe agregrar insumos :)
+  </h1>
+</ul>
+`;

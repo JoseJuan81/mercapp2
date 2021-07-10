@@ -5,25 +5,35 @@ import {
     Route,
 } from 'react-router-dom';
 
+import { InsumoStore } from './context/InsumoContext';
+
 import { PaginaInsumos } from './Pages/PaginaInsumos';
 import { NavBar } from './components/NavBar/NavBar';
 
+import './indexDB';
+
 export const Main = () => {
+
     return (
         <div className="font-poppins">
-            <NavBar />
 
-            <Router>
+            <InsumoStore>
+                
+                <NavBar />
 
-                <Switch>
+                <Router>
 
-                    <Route exact path="/">
-                        <PaginaInsumos />
-                    </Route>
+                    <Switch>
 
-                </Switch>
+                        <Route exact path="/">
+                            <PaginaInsumos />
+                        </Route>
 
-            </Router>
+                    </Switch>
+
+                </Router>
+
+            </InsumoStore>
         </div>
     )
 }

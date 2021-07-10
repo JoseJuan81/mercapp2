@@ -3,88 +3,109 @@
 @tailwind utilities;
 
 @layer base {
-    @font-face {
-        font-family: 'Poppins';
-        font-weight: 100;
-        src: url('../assets/fonts/Poppins/Poppins-Thin.ttf');
-    }
+	@font-face {
+		font-family: 'Poppins';
+		font-weight: 100;
+		src: url('../assets/fonts/Poppins/Poppins-Thin.ttf');
+	}
 
-    @font-face {
-        font-family: 'Poppins';
-        font-weight: 200;
-        src: url('../assets/fonts/Poppins/Poppins-ExtraLight.ttf');
-    }
+	@font-face {
+		font-family: 'Poppins';
+		font-weight: 200;
+		src: url('../assets/fonts/Poppins/Poppins-ExtraLight.ttf');
+	}
 
-    @font-face {
-        font-family: 'Poppins';
-        font-weight: 300;
-        src: url('../assets/fonts/Poppins/Poppins-Light.ttf');
-    }
+	@font-face {
+		font-family: 'Poppins';
+		font-weight: 300;
+		src: url('../assets/fonts/Poppins/Poppins-Light.ttf');
+	}
 
-    @font-face {
-        font-family: 'Poppins';
-        font-weight: 400;
-        src: url('../assets/fonts/Poppins/Poppins-Regular.ttf');
-    }
+	@font-face {
+		font-family: 'Poppins';
+		font-weight: 400;
+		src: url('../assets/fonts/Poppins/Poppins-Regular.ttf');
+	}
 
-    @font-face {
-        font-family: 'Poppins';
-        font-weight: 500;
-        src: url('../assets/fonts/Poppins/Poppins-Medium.ttf');
-    }
+	@font-face {
+		font-family: 'Poppins';
+		font-weight: 500;
+		src: url('../assets/fonts/Poppins/Poppins-Medium.ttf');
+	}
 
-    @font-face {
-        font-family: 'Poppins';
-        font-weight: 600;
-        src: url('../assets/fonts/Poppins/Poppins-SemiBold.ttf');
-    }
+	@font-face {
+		font-family: 'Poppins';
+		font-weight: 600;
+		src: url('../assets/fonts/Poppins/Poppins-SemiBold.ttf');
+	}
 
-    @font-face {
-        font-family: 'Poppins';
-        font-weight: 700;
-        src: url('../assets/fonts/Poppins/Poppins-Bold.ttf');
-    }
+	@font-face {
+		font-family: 'Poppins';
+		font-weight: 700;
+		src: url('../assets/fonts/Poppins/Poppins-Bold.ttf');
+	}
 
-    @font-face {
-        font-family: 'Poppins';
-        font-weight: 900;
-        src: url('../assets/fonts/Poppins/Poppins-Black.ttf');
-    }
+	@font-face {
+		font-family: 'Poppins';
+		font-weight: 900;
+		src: url('../assets/fonts/Poppins/Poppins-Black.ttf');
+	}
 
-    @font-face {
-        font-family: 'icomoon';
-        src: url('../assets/fonts/icons/IcoMoon.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-        font-display: block;
-      }
-      
-      [class^="icon-"], [class*=" icon-"] {
-        /* use !important to prevent issues with browser extensions that change fonts */
-        font-family: 'icomoon' !important;
-        speak: never;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-      
-        /* Better Font Rendering =========== */
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      
-      .icon-search:before {
-        content: "\e986";
-      }
-      .icon-plus:before {
-        content: "\ea0a";
-      }
-      .icon-checkmark:before {
-        content: "\ea10";
-      }
-      .icon-filter:before {
-        content: "\ea5b";
-      }
+	@font-face {
+		font-family: 'IcoMoon';
+		src: url('../assets/fonts/icons/IcoMoon.ttf') format('truetype');
+		font-weight: normal;
+		font-style: normal;
+		font-display: block;
+	}
+			
+	[class^="icon-"], [class*=" icon-"] {
+		/* use !important to prevent issues with browser extensions that change fonts */
+		font-family: 'IcoMoon' !important;
+		speak: never;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		line-height: 1;
+	
+		/* Better Font Rendering =========== */
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	
+	.icon-search:before {
+		content: "\e986";
+	}
+	.icon-plus:before {
+		content: "\ea0a";
+	}
+	.icon-checkmark:before {
+		content: "\ea10";
+	}
+	.icon-filter:before {
+		content: "\ea5b";
+	}
+	.icon-minus:before {
+		content: "\ea0b";
+	}
+	.icon-circle-left:before {
+		content: "\ea44";
+	}
+	.icon-pencil:before {
+		content: "\e905";
+	}
+	.icon-bin2:before {
+		content: "\e9ad";
+	}
+	.icon-cancel-circle:before {
+		content: "\ea0d";
+	}
+	.icon-cross:before {
+		content: "\ea05";
+	}
+	.icon-blocked:before {
+		content: "\ea0e";
+	}
 
 }

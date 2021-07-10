@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Prueba sobre archivo PaginaInsumo Se debe renderizar correctamente 1`] = `
+<div
+  className="px-2 pb-20 mt-4 relative"
+>
+  <Memo()
+    title="Insumos"
+  />
+  <InsumosContainer />
+</div>
+`;

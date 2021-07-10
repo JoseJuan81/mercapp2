@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { round } from 'functionallibrary';
+import { InsumoContext } from '../../context/InsumoContext';
 
-const InsumoEtiquetas = ({ labels, checked }) => {
+const twoDecimals = round(2);
+
+const InsumoEtiquetas = React.memo( ({ labels, checked }) => {
+    console.log('etiquetas');
     return (
-        <ul className="flex flex-wrap mt-2">
+        <ul className="flex flex-wrap">
 
             {
-                labels.map(la => (
+                labels.map((la, i) => (
                     <li
+                        key={`${la}-${i}-${Math.random}`}
                         className={`
                             bg-white
                             text-xs ${ checked ? 'text-lime-700' : 'text-warmGray-800' }
-                            mr-1 mb-1 p-1
+                            m-1 p-1
                         `}
                     >{ la }</li>
                 ))
@@ -18,9 +24,210 @@ const InsumoEtiquetas = ({ labels, checked }) => {
 
         </ul>
     )
-}
+})
 
-export const Insumo = ({ title, price, currency, labels, checked }) => {
+const InsumoTitle = React.memo( ({ title, checked }) => {
+    console.log('titulo');
+    return (
+        <dt
+            className={`
+                duration-200
+                flex-auto
+                text-2xl font-bold ${checked ? 'text-lime-600' : 'text-warmGray-400'}
+                pr-6
+            `}
+        >
+            { title }
+        </dt>
+    )
+})
+
+const InsumoPrice = React.memo( ({ currency, price }) => {
+    console.log('precio');
+    return (
+        <dt
+            className="
+                text-lg text-warmGray-400
+                font-semibold
+            "
+        >
+            <small
+                className="text-xs font-light"
+            >
+                { currency }
+            </small>
+            <span>{ price }</span>
+        </dt>
+    )
+})
+
+const InsumoTotal = React.memo( ({ currency, total }) => {
+    console.log('total');
+    return (
+        <dt
+            className="
+                text-2xl text-lime-500
+                font-bold
+            "
+        >
+            <small className="text-xs font-normal mr-1">total:</small>
+            <small className="text-base font-light">{ currency }</small>
+            <span>{ total }</span>
+        </dt>
+    )
+})
+
+const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
+    console.log('cantidad', id);
+
+    const { updateQuantityInSelectedInsumo } = useContext(InsumoContext);
+
+    const[q, setQ] = useState(1);
+
+    const handleMinusQuantity = (ev) => {
+        ev.stopPropagation();
+
+        const result = q - 1;
+        const quantity = result <= 0 ? 1 : result;
+
+        setQ(quantity);
+        updateQuantityInSelectedInsumo(id, quantity);
+        
+    }
+    
+    const handleAddQuantity = (ev) => {
+        ev.stopPropagation();
+
+        const quantity = q + 1;
+
+        setQ(quantity);
+        updateQuantityInSelectedInsumo(id, quantity);
+    }
+
+    useEffect( () => {
+
+        const total = twoDecimals( q * price );
+        setTotal( total );
+
+    }, [q, price])
+
+    return (
+        <div className="flex mx-2">
+            <button
+                data-jest="minusQuantity"
+                className="
+                    icon-minus
+                    bg-gray-100
+                    text-gray-500
+                    w-12 h-12
+                "
+                onClick={ handleMinusQuantity }
+            ></button>
+            <input
+                className="
+                    mx-1
+                    w-10 h-12
+                    text-center text-xl font-medium text-warmGray-500
+                "
+                type="number"
+                value={ q }
+                onChange={ () => {} }
+            />
+            <button
+                data-jest="addQuantity"
+                className="
+                    icon-plus
+                    bg-lime-50
+                    text-lime-500
+                    w-12 h-12
+                "
+                onClick={ handleAddQuantity }
+            ></button>
+        </div>
+    )
+})
+
+const InsumoActions = React.memo( ({ id }) => {
+    console.log('insumoactions', id);
+
+    const { deletingInsumo } = useContext( InsumoContext );
+
+    const [toogle, setToogle] = useState(false);
+
+    const handleClick = ev => {
+        ev.stopPropagation();
+
+        setToogle( s => !s );
+    }
+
+    const handleDeleteInsumo = (ev) => {
+        ev.stopPropagation();
+
+        deletingInsumo( id );
+    }
+
+    return (
+        <div
+            className={`
+                absolute right-0
+                pr-2
+                bg-warmGray-100
+                flex
+                transform ${ toogle ? 'translate-x-0' : 'translate-x-24' }
+                border border-solid ${ toogle ? 'border-warmGray-200' : 'border-white' }
+                rounded-l-full
+                duration-300
+            `}
+        >
+            <button
+                type="button"
+                className={`
+                    bg-white
+                    icon-circle-left
+                    flex items-center justify-center
+                    text-warmGray-500
+                    text-2xl
+                    transform ${toogle ? 'rotate-180' : 'rotate-0'}
+                    w-10
+                    ${ toogle && 'rounded-full' }
+                    border border-solid ${ toogle ? 'border-warmGray-200' : 'border-white' }
+                    duration-300
+                `}
+                onClick= { handleClick }
+            ></button>
+
+            <div
+                className="
+                    grid grid-cols-2 gap-2
+                "
+            >
+                <button
+                    type="button"
+                    className="
+                        icon-pencil
+                        px-2
+                        text-2xl text-blue-500
+                    "
+                ></button>
+                <button
+                    type="button"
+                    className="
+                        icon-bin2
+                        px-2
+                        text-2xl text-rose-500
+                    "
+                    onClick={ handleDeleteInsumo }
+                ></button>
+            </div>
+
+        </div>
+    )
+})
+
+export const Insumo = React.memo(({ id, title, price, currency, labels, checked }) => {
+    console.log('insumo');
+
+    const [total, setTotal] = useState(price);
 
     return (
         <div
@@ -31,51 +238,56 @@ export const Insumo = ({ title, price, currency, labels, checked }) => {
             `}
         >
 
-            <dl className="flex flex-auto p-2 mb-2">
+            <dl className="flex p-2 overflow-hidden relative">
 
                 <div className="flex flex-auto">
-                    <dt
-                        className={`
-                            duration-200
-                            flex-auto
-                            text-2xl font-bold ${checked ? 'text-lime-600' : 'text-warmGray-400'}
-                        `}
-                    >
-                        { title }
-                    </dt>
+                    
+                    <InsumoTitle title={ title } checked={ checked } />
 
-                    <dt
-                        className={`
-                            text-2xl ${checked ? 'text-lime-400' : 'text-warmGray-400'}
-                            ${checked && 'font-bold'}
-                        `}
-                    >
-                        <small
-                            className="text-xs font-light"
-                        >
-                            { currency }
-                        </small>
-                        <span>{ price }</span>
-                    </dt>
                 </div>
 
-                <div className="ml-4">...</div>
+                <InsumoActions id={ id } />
 
             </dl>
 
-            <div
-                className={`
-                    rounded-br-lg rounded-bl-lg
-                    ${ checked ? 'bg-lime-100' : 'bg-warmGray-100' }
-                    px-2 py-2
-                `}
-            >
-                <InsumoEtiquetas
-                    labels={ labels }
-                    checked={ checked }
-                />
-            </div>
+            {labels && labels.length > 0 &&
+                <div
+                    className={`
+                        rounded-br-lg rounded-bl-lg
+                        ${ checked ? 'bg-lime-100' : 'bg-warmGray-100' }
+                        p-1
+                    `}
+                >
+                    <InsumoEtiquetas
+                        labels={ labels }
+                        checked={ checked }
+                    />
+                </div>
+            }
+
+            {checked &&
+                <div className="flex justify-between items-center py-2 pr-4">
+
+                    <InsumoQuantity
+                        setTotal={ setTotal }
+                        price={ price }
+                        id={ id }
+                    />
+    
+                    <InsumoPrice
+                        currency={ currency }
+                        price={ price }
+                        checked={ checked }
+                    />
+
+                    <InsumoTotal
+                        currency={ currency }
+                        total={ total }
+                    />
+
+                </div>
+            }
             
         </div>
     )
-}
+})

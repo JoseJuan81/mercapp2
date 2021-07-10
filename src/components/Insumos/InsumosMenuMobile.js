@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { InsumoContext } from '../../context/InsumoContext';
 
-export const InsumosMenuMobile = React.memo(({ insumos, selectAll, unSelectAll, toogleShowSearch, toogleShowFilter }) => {
-    console.log('menu movil')
+export const InsumosMenuMobile = React.memo(({ toogleShowSearch, toogleShowFilter, openModal }) => {
+    console.log('menu movil');
+
+    const { selectingAllInsumos, unSelectingAllInsumos } = useContext( InsumoContext );
+    
     return (
         <div
             className="
@@ -17,7 +21,7 @@ export const InsumosMenuMobile = React.memo(({ insumos, selectAll, unSelectAll, 
             <button
                 className="icon-checkmark text-lime-400 text-3xl"
                 title="Seleccionar todo"
-                onClick={ () => selectAll(insumos) }
+                onClick={ selectingAllInsumos }
             ></button>
 
             <button
@@ -26,7 +30,7 @@ export const InsumosMenuMobile = React.memo(({ insumos, selectAll, unSelectAll, 
                     text-3xl text-warmGray-300
                 "
                 title="Deseleccionar todo"
-                onClick={ () => unSelectAll(insumos) }
+                onClick={ unSelectingAllInsumos }
                 ></button>
 
             <button
@@ -47,6 +51,7 @@ export const InsumosMenuMobile = React.memo(({ insumos, selectAll, unSelectAll, 
                     text-3xl text-lime-600
                 "
                 title="Agregar"
+                onClick={ openModal }
             ></button>
 
         </div>
