@@ -1,11 +1,10 @@
-import { createContext, useEffect, useMemo, useState } from 'react';
-import { removeItemFromArrayByProp } from 'functionallibrary';
+import { useEffect, useState } from 'react';
+import { equality, find, removeItemFromArrayByProp } from 'functionallibrary';
 
-import { useIndexDB } from '../hooks/useIndexDB';
+import { InsumoContext } from './InsumoContext';
 
-import { getFromLocalStorage, setInLocalStorage } from '../helper/localStorage';
+import { getFromLocalStorage, setInLocalStorage } from '../../helper/localStorage';
 import {
-    initialInsumos,
     onFilter,
     onSearch,
     updateItemInArrayById,
@@ -13,12 +12,7 @@ import {
     unSelectAllInsumos,
     updateTotal,
     updatingQuantity,
-} from '../helper/helperInsumoContext';
-
-/**
- * Crear contexto de Insumo
- */
-export const InsumoContext = createContext(null);
+} from '../../helper/helperInsumoContext';
 
 const dataSelected = getFromLocalStorage('selected-insumos') || [];
 
@@ -28,20 +22,11 @@ const dataSelected = getFromLocalStorage('selected-insumos') || [];
  */
 export const InsumoStore = ({ children }) => {
 
-    // obtener insumos de indexDB
-    const {
-        deleteInsumo,
-        insumos: insumosInLocalBD,
-        setNewInsumo
-    } = useIndexDB();
-
-
-    // Ordenar insumos provenientes de indexDB y actualizarlos con los seleccionados
-    const initInsumos = useMemo( () => initialInsumos( insumosInLocalBD ), [insumosInLocalBD] );
-
-    const [insumos, setInsumos] = useState(initInsumos);
-    const [selectedInsumos, setSelectedInsumos] = useState(dataSelected);
+    const [insumos, setInsumos] = useState([]);
+    const [insumosCache, setInsumosCache] = useState([]);
+    const [selectedInsumos, setSelectedInsumos] = useState( dataSelected );
     const [total, setTotal] = useState(0);
+    const [insumoToUpdate, setInsumoToUpdate] = useState({});
 
 
     /**
@@ -51,9 +36,7 @@ export const InsumoStore = ({ children }) => {
     const toogleCheck = (newInsumo) => {
 
         // Actualizar insumos
-        setInsumos(
-            updateItemInArrayById(insumos, newInsumo)
-        )
+        setInsumos( i => updateItemInArrayById(i, newInsumo) );
 
         // actualizar insumos seleccionados
         const updatedSelectedInsumos = newInsumo.checked
@@ -63,8 +46,7 @@ export const InsumoStore = ({ children }) => {
         setSelectedInsumos( [...updatedSelectedInsumos] );
         setInLocalStorage('selected-insumos', updatedSelectedInsumos);
 
-
-    }
+    };
 
     /**
      * @description: actualiza cantidad del insumo
@@ -73,24 +55,23 @@ export const InsumoStore = ({ children }) => {
      */
     const updateQuantityInSelectedInsumo = (id, quantity) => {
 
-        setSelectedInsumos(
-            updatingQuantity( id, quantity, selectedInsumos )
-        );
+        setSelectedInsumos( si => updatingQuantity( id, quantity, si ) );
 
-    }
+    };
 
     /**
      * @description: selecciona todos los insumos
      * @param {array} insumos - arreglo de insumos
      */
-    const selectingAllInsumos = (insumos) => {
+    const selectingAllInsumos = () => {
 
         const allSelected = selectAllInsumos(insumos);
 
         setInsumos( allSelected );
         setSelectedInsumos([...allSelected]);
         setInLocalStorage('selected-insumos', allSelected);
-    }
+
+    };
     
     /**
      * @description: deselecciona todos los insumos
@@ -98,11 +79,12 @@ export const InsumoStore = ({ children }) => {
      */
     const unSelectingAllInsumos = () => {
         
-        const allUnSelected = unSelectAllInsumos( initialInsumos() );
+        const allUnSelected = unSelectAllInsumos( insumos );
 
         setInsumos( allUnSelected );
         setSelectedInsumos( [] );
         setInLocalStorage( 'selected-insumos', [] );
+
     };
 
     /**
@@ -113,14 +95,17 @@ export const InsumoStore = ({ children }) => {
 
         if(searchVal === '' || searchVal === null || searchVal === undefined) {
 
-            setInsumos( initialInsumos() );
+            setInsumos( insumosCache );
         } else {
+
+            setInsumosCache( insumos );
 
             const result = onSearch( insumos, searchVal );
             setInsumos( result );
+
         }
 
-    }
+    };
 
     /**
      * @description: Busca insumos usando los labels
@@ -130,35 +115,42 @@ export const InsumoStore = ({ children }) => {
 
         if(searchVal === '' || searchVal === null || searchVal === undefined) {
 
-            setInsumos( initialInsumos() );
+            setInsumos( insumosCache );
         } else {
+
+            setInsumosCache( insumos );
 
             const result = onFilter( insumos, searchVal );
             setInsumos( result );
         }
 
-    }
+    };
 
-    const addingNewInsumo = async (newInsumo) => {
 
-        try {
+    /**
+     * @description agregar insumo nuevo al contexto
+     * @param {object} newInsumo - nuevo insumo
+     */
+    const addingNewInsumo = (newInsumo) => {
 
-            await setNewInsumo( newInsumo );
-            setInsumos( i => [{ ...newInsumo }, ...i] );
+        setInsumos( i => [{ ...newInsumo }, ...i] );
+    };
 
-        } catch(err) {
-            console.log('Erro al crear insumo', err);
-        }
-
-    }
-
-    const deletingInsumo = async (insumoId) => {
-
-        await deleteInsumo(insumoId);
+    const deletingInsumo = (insumoId) => {
 
         setInsumos(
             removeItemFromArrayByProp('id', insumoId, insumos)
         );
+    };
+
+    const updatingInsumo = ( id ) => {
+
+        const insumo = find( equality('id', id), insumos ) || {};
+        setInsumoToUpdate( insumo );
+    };
+
+    const updatingInsumoInContext = (insumo) => {
+        setInsumos( i => updateItemInArrayById(i, insumo) );
     }
 
     // Total de insumos seleccionados => price * quantity
@@ -170,23 +162,23 @@ export const InsumoStore = ({ children }) => {
         
     }, [selectedInsumos])
 
-    useEffect( () => {
-
-        setInsumos(initInsumos);
-
-    }, [initInsumos])
-
     const insumoContextProps = {
         addingNewInsumo,
         deletingInsumo,
-        selectingAllInsumos,
         filteringInsumos,
         insumos,
-        unSelectingAllInsumos,
+        insumoToUpdate,
+        setInsumosInCache: setInsumosCache,
+        setInsumosInContext: setInsumos,
         searchingInsumos,
         selectedInsumos,
+        selectingAllInsumos,
+        setInsumoToUpdate,
         total,
         toogleCheck,
+        unSelectingAllInsumos,
+        updatingInsumo,
+        updatingInsumoInContext,
         updateQuantityInSelectedInsumo,
     }
 

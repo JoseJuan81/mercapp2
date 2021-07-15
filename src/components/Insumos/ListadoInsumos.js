@@ -1,12 +1,17 @@
-import { setNewProperty } from 'functionallibrary';
 import React, { useContext } from 'react';
-import { InsumoContext } from '../../context/InsumoContext';
+import { setNewProperty } from 'functionallibrary';
+
+import { InsumoContext } from '../../context/Insumo/InsumoContext';
 import { Insumo } from './Insumo';
 
-export const ListadoInsumos = React.memo( () => {
-    console.log('listadoInsumo')
+export const ListadoInsumos = () => {
+    console.log('5 LISTADO INSUMOS');
 
-    const { insumos, toogleCheck } = useContext( InsumoContext );
+    const {
+        insumos,
+        toogleCheck,
+    } = useContext( InsumoContext );
+
 
     const handleClickOnInsumo = (insumo) => {
 
@@ -38,4 +43,4 @@ export const ListadoInsumos = React.memo( () => {
             }
         </ul>
     )
-})
+}

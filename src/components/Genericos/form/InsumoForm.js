@@ -1,10 +1,18 @@
-import React, { useContext, useLayoutEffect, useRef } from 'react'
+import React, { useContext, useLayoutEffect, useRef, useState } from 'react';
+import { compose, isEmpty, isNotEmpty, setNewProperty } from 'functionallibrary';
+import PropType from 'prop-types';
+
 import { useForm } from '../../../hooks/useForm';
 
-import PropType from 'prop-types';
-import { compose, setNewProperty } from 'functionallibrary';
-import { InsumoContext } from '../../../context/InsumoContext';
+import { InsumoContext } from '../../../context/Insumo/InsumoContext';
 import { LabelsField } from './LabelsField';
+import { useIndexDB } from '../../../hooks/useIndexDB';
+
+const defaultInsumoForm = {
+    labels: [],
+    title: '',
+    price: 0
+}
 
 /**
  * 
@@ -13,19 +21,20 @@ import { LabelsField } from './LabelsField';
  */
 export const InsumoForm = ({ closeModal }) => {
 
-    const { addingNewInsumo } = useContext( InsumoContext );
-
     const nameInput = useRef(null);
 
-    const { formState, handleInputChange, invalidForm } = useForm({
-        labels: [],
-        title: '',
-        price: 0
-    }, ['title']);
+    const { setNewInsumoInLocalDB, updateInsumoInLocalDB } = useIndexDB();
 
-    const handleSubmit = (ev) => {
-        ev.preventDefault();
+    const { addingNewInsumo, insumoToUpdate, updatingInsumoInContext } = useContext( InsumoContext );
 
+    const [isUpdating] = useState( isNotEmpty( insumoToUpdate ) );
+
+    const initInsumo = isUpdating ? insumoToUpdate : defaultInsumoForm;
+
+    const { formState, handleInputChange, invalidForm } = useForm(initInsumo, ['title']);
+
+
+    const createInsumo = async () => {
         const setCurrency = setNewProperty( 'currency', 'S/.' );
         const setId = setNewProperty( 'id', Math.random().toString(16).slice(2) );
         const setQuantity = setNewProperty( 'quantity', 1 );
@@ -34,6 +43,24 @@ export const InsumoForm = ({ closeModal }) => {
         const parsedInsumo = compose( setCurrency, setId, setQuantity, setPriceInNumber )(formState);
 
         addingNewInsumo( parsedInsumo );
+        await setNewInsumoInLocalDB( parsedInsumo );
+    }
+
+    const updateInsumo = async () => {
+        updatingInsumoInContext( formState );
+        await updateInsumoInLocalDB( formState );
+    }
+
+    const handleSubmit = async (ev) => {
+        ev.preventDefault();
+
+        if ( isUpdating ) {
+
+            updateInsumo();
+        } else {
+
+            createInsumo();
+        }
 
         closeModal();
     };

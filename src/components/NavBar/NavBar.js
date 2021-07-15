@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { InsumoContext } from '../../context/InsumoContext';
+import { InsumoContext } from '../../context/Insumo/InsumoContext';
 
 export const NavBar = () => {
 

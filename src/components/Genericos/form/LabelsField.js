@@ -48,7 +48,7 @@ export const LabelsField = ({ labels = [], addLabels }) => {
                 <div className="flex flex-wrap">
                     {
                         labelsState.map( (l, ind) => (
-                            <div
+                            <span
                                 className="
                                     relative
                                     flex items-center
@@ -70,7 +70,7 @@ export const LabelsField = ({ labels = [], addLabels }) => {
                                         text-rose-300
                                     "
                                 ></button>
-                            </div>
+                            </span>
                         ) )
                     }
                 </div>

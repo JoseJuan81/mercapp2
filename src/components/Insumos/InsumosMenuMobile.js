@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { InsumoContext } from '../../context/InsumoContext';
+import { InsumoContext } from '../../context/Insumo/InsumoContext';
 
 export const InsumosMenuMobile = React.memo(({ toogleShowSearch, toogleShowFilter, openModal }) => {
-    console.log('menu movil');
+    console.log('6 MENU MOVIL');
 
     const { selectingAllInsumos, unSelectingAllInsumos } = useContext( InsumoContext );
     

@@ -1,6 +1,14 @@
 import { round } from 'functionallibrary';
 import fakeData from '../../fakeData/insumos';
-import { onFilter, onSearch, onToogleCheck, selectAllInsumos, unSelectAllInsumos, updateTotal, updatingQuantity } from '../../helper/helperInsumoContext';
+import {
+    onFilter,
+    onSearch,
+    updateItemInArrayById,
+    selectAllInsumos,
+    unSelectAllInsumos,
+    updateTotal,
+    updatingQuantity,
+} from '../../helper/helperInsumoContext';
 
 const twoDecimals = round(2);
 
@@ -48,7 +56,7 @@ describe('pruebas sobre archivo helperInsumoContext.js', () => {
 
     test('Seleccionar un insumo y actualizar arreglo de insumos', () => {
 
-        const updated = onToogleCheck([first, second], { ...second, checked: true });
+        const updated = updateItemInArrayById([first, second], { ...second, checked: true });
         expect( updated[0].checked ).toBe( undefined );
         expect( updated[1].checked ).toBe( true );
     })

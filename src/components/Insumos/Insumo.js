@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { round } from 'functionallibrary';
-import { InsumoContext } from '../../context/InsumoContext';
+import { InsumoContext } from '../../context/Insumo/InsumoContext';
 
 const twoDecimals = round(2);
 
 const InsumoEtiquetas = React.memo( ({ labels, checked }) => {
-    console.log('etiquetas');
+    console.log('10 ETIQUETAS');
     return (
         <ul className="flex flex-wrap">
 
@@ -27,7 +27,7 @@ const InsumoEtiquetas = React.memo( ({ labels, checked }) => {
 })
 
 const InsumoTitle = React.memo( ({ title, checked }) => {
-    console.log('titulo');
+    console.log('8 TITULO', title);
     return (
         <dt
             className={`
@@ -43,7 +43,7 @@ const InsumoTitle = React.memo( ({ title, checked }) => {
 })
 
 const InsumoPrice = React.memo( ({ currency, price }) => {
-    console.log('precio');
+    console.log('13 PRECIO', price);
     return (
         <dt
             className="
@@ -62,7 +62,7 @@ const InsumoPrice = React.memo( ({ currency, price }) => {
 })
 
 const InsumoTotal = React.memo( ({ currency, total }) => {
-    console.log('total');
+    console.log('14 TOTAL', total);
     return (
         <dt
             className="
@@ -78,9 +78,9 @@ const InsumoTotal = React.memo( ({ currency, total }) => {
 })
 
 const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
-    console.log('cantidad', id);
+    console.log('11 CANTIDAD', id);
 
-    const { updateQuantityInSelectedInsumo } = useContext(InsumoContext);
+    const { updateQuantityInSelectedInsumo } = useContext( InsumoContext );
 
     const[q, setQ] = useState(1);
 
@@ -148,9 +148,9 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
 })
 
 const InsumoActions = React.memo( ({ id }) => {
-    console.log('insumoactions', id);
+    console.log('9 ACTIONS', id);
 
-    const { deletingInsumo } = useContext( InsumoContext );
+    const { deletingInsumo, updatingInsumo } = useContext( InsumoContext );
 
     const [toogle, setToogle] = useState(false);
 
@@ -162,8 +162,15 @@ const InsumoActions = React.memo( ({ id }) => {
 
     const handleDeleteInsumo = (ev) => {
         ev.stopPropagation();
-
+        
         deletingInsumo( id );
+    }
+    
+    const handleUpdateInsumo = (ev) => {
+        ev.stopPropagation();
+
+        updatingInsumo( id );
+
     }
 
     return (
@@ -208,6 +215,7 @@ const InsumoActions = React.memo( ({ id }) => {
                         px-2
                         text-2xl text-blue-500
                     "
+                    onClick={ handleUpdateInsumo }
                 ></button>
                 <button
                     type="button"
@@ -224,8 +232,8 @@ const InsumoActions = React.memo( ({ id }) => {
     )
 })
 
-export const Insumo = React.memo(({ id, title, price, currency, labels, checked }) => {
-    console.log('insumo');
+export const Insumo = React.memo( ({ id, title, price, currency, labels, checked }) => {
+    console.log('7 INSUMO', title);
 
     const [total, setTotal] = useState(price);
 
@@ -242,11 +250,16 @@ export const Insumo = React.memo(({ id, title, price, currency, labels, checked 
 
                 <div className="flex flex-auto">
                     
-                    <InsumoTitle title={ title } checked={ checked } />
+                    <InsumoTitle
+                        title={ title }
+                        checked={ checked }
+                    />
 
                 </div>
 
-                <InsumoActions id={ id } />
+                <InsumoActions
+                    id={ id }
+                />
 
             </dl>
 

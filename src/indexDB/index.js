@@ -77,6 +77,36 @@ class IDB {
 			}
 		})
 	}
+
+	update( insumo ) {
+		const tx = this.db.transaction( this.collection, 'readwrite' );
+		// coleccion
+		const objectStore = tx.objectStore( this.collection );
+		// obtengo el insumo de la base de datos
+		const updating = objectStore.get(insumo.id);
+
+		return new Promise( (resolve, reject) => {
+			updating.onerror = (err) => {
+				reject(`Insumo con id: ${insumo.id}, no conseguido: ${err}`);
+			}
+
+			// obtencion exitosa del insumo de la base de datos
+			updating.onsuccess = () => {
+				// actualizar insumo de la base de datos con la nueva informacion
+				const updateInsumo = objectStore.put( insumo );
+
+				// operacion exitosa de actualizacion
+				updateInsumo.onsuccess = (ev) => {
+					resolve( ev.target.result );
+				}
+
+				updateInsumo.onerror = (err) => {
+					reject(`No fue posible actualizar el insumo con id ${insumo.id}: ${err}`);
+				}
+
+			}
+		})
+	}
 }
 
 export default IDB;

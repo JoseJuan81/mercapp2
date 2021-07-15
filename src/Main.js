@@ -5,7 +5,8 @@ import {
     Route,
 } from 'react-router-dom';
 
-import { InsumoStore } from './context/InsumoContext';
+
+import { InsumoStore } from './context/Insumo/insumoWrapperContext';
 
 import { PaginaInsumos } from './Pages/PaginaInsumos';
 import { NavBar } from './components/NavBar/NavBar';
@@ -13,7 +14,7 @@ import { NavBar } from './components/NavBar/NavBar';
 import './indexDB';
 
 export const Main = () => {
-
+console.log('1 MAIN');
     return (
         <div className="font-poppins">
 

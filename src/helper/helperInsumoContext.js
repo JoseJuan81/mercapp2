@@ -36,7 +36,7 @@ export const updatingQuantity = ( id, quantity, selectedInsumos ) => {
     return reduce(updateFn, [], selectedInsumos);
 }
 
-export const initialInsumos = ( dataInsumos ) => {
+export const matchWithSelectedInsumos = ( dataInsumos ) => {
 
     const dataSelected = getFromLocalStorage('selected-insumos');
 

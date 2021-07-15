@@ -1,22 +1,25 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { ListadoInsumos } from '../Insumos/ListadoInsumos';
 import { Searcher } from '../Genericos/form/Searcher';
 import { InsumosMenuMobile } from '../Insumos/InsumosMenuMobile';
 
-import { InsumoContext } from '../../context/InsumoContext';
 import { BottomModal } from '../Genericos/modal/BottomModal';
 import { InsumoForm } from '../Genericos/form/InsumoForm';
+import { InsumoContext } from '../../context/Insumo/InsumoContext';
+import { isEmpty } from 'functionallibrary';
 
 
-export const InsumosContainer = () => {
-    console.log('insumoContainer');
+export const InsumosContainer = React.memo( () => {
+    // console.log('3 INSUMO CONTAINER');
 
     // Contexto de Insumo
     const {
         filteringInsumos,
+        insumoToUpdate,
         searchingInsumos,
-    } = useContext(InsumoContext);
+        setInsumoToUpdate,
+    } = useContext( InsumoContext );
 
     // variables para mostrar u ocultar buscadores
     const [showSearch, setShowSearch] = useState(false);
@@ -42,7 +45,15 @@ export const InsumosContainer = () => {
     }, [setShowSearch, setShowFilter]);
 
     const openModal = useCallback( () => setShowModal( true ), [setShowModal]);
-    const closeModal = useCallback( () => setShowModal( false ), [setShowModal]);
+    const closeModal = useCallback( () => {
+        setShowModal( false );
+        setInsumoToUpdate();
+    }, [setShowModal]);
+
+    useEffect( () => {
+
+        setShowModal( !isEmpty( insumoToUpdate ) );
+    }, [insumoToUpdate]);
 
     return (
         <>
@@ -91,4 +102,4 @@ export const InsumosContainer = () => {
 
         </>
     )
-}
+})

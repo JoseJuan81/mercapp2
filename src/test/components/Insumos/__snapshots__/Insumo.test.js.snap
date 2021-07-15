@@ -58,9 +58,12 @@ exports[`Pruebas sobre archivo Insumo Se debe mostrar correctamente 1`] = `
       >
         <button
           className=" icon-pencil px-2 text-2xl text-blue-500 "
+          type="button"
         />
         <button
           className=" icon-bin2 px-2 text-2xl text-rose-500 "
+          onClick={[Function]}
+          type="button"
         />
       </div>
     </div>
@@ -158,9 +161,12 @@ exports[`Pruebas sobre archivo Insumo Se deben mostrar los componentes de cantid
       >
         <button
           className=" icon-pencil px-2 text-2xl text-blue-500 "
+          type="button"
         />
         <button
           className=" icon-bin2 px-2 text-2xl text-rose-500 "
+          onClick={[Function]}
+          type="button"
         />
       </div>
     </div>

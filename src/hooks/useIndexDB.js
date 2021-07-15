@@ -10,6 +10,7 @@ export const useIndexDB = () => {
     const [loading, setLoading] = useState(true);
     const [dbLoaded, setDbLoaded] = useState( idb.db );
 
+    // Verifica cada segundo que IndexDB se establezca correctamente
     let intervalId = null;
 
     const checkDbLoad = () => {
@@ -32,12 +33,16 @@ export const useIndexDB = () => {
     /**
      * @description CRUD de Insumos
      */
-    const setNewInsumo = async (newInsumo) => {
+    const setNewInsumoInLocalDB = async (newInsumo) => {
         return await idb.post( newInsumo );
     }
 
     const deleteInsumo = async (insumoId) => {
         return await idb.delete( insumoId );
+    }
+
+    const updateInsumoInLocalDB = async (updatedInsumo) => {
+        return await idb.update( updatedInsumo );
     }
 
 
@@ -59,7 +64,7 @@ export const useIndexDB = () => {
                     
                 idb.getAll()
                 .then( (result) => {
-                    
+
                     if (isMounted.current) {
                         
                         setState(result);
@@ -80,6 +85,7 @@ export const useIndexDB = () => {
         deleteInsumo,
         insumos: insumosState,
         loading,
-        setNewInsumo,
+        setNewInsumoInLocalDB,
+        updateInsumoInLocalDB,
     };
 }
