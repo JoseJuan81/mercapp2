@@ -8,22 +8,29 @@ export const LabelsField = ({ labels = [], addLabels }) => {
     const [labelsState, setLabelsState] = useState( labels );
 
     const handleAddLabel = (ev) => {
+
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        setLabelsState( l => [inputValue, ...l] );
+        addLabels({
+            target: {
+                name: 'labels',
+                value: [inputValue, ...labelsState]
+            }
+        });
+
+        labelsRef.current.focus();
+        setInputValue('');
+        
+    }
+
+    const handleAddLabelWithTabKey = (ev) => {
         ev.stopPropagation();
 
         if (ev.code === 'Tab' && inputValue) {
-            
-            setLabelsState( l => [inputValue, ...l] );
-            addLabels({
-                target: {
-                    name: 'labels',
-                    value: [inputValue, ...labelsState]
-                }
-            });
-
-            labelsRef.current.focus();
-            setInputValue('');
+            handleAddLabel()
         }
-        
     }
 
     const handleInputOnChange = ({ target }) => {
@@ -38,9 +45,10 @@ export const LabelsField = ({ labels = [], addLabels }) => {
             className="
                 flex flex-wrap
                 w-full min-h-16
-                pl-2 pt-2 pb-1 mb-4
+                px-2 pt-2 pb-1 mb-4
                 border border-solid border-warmGray-300
                 rounded
+                overflow-hidden
             "
         >
             
@@ -76,21 +84,38 @@ export const LabelsField = ({ labels = [], addLabels }) => {
                 </div>
             }
 
-            <input
-                type="text"
-                className={`
+            <div
+                className="
                     flex-auto
-                    pl-4
-                    min-h-12
-                    ${ labelsState && labelsState.length > 0 && 'ml-3 mt-2' }
-                `}
-                ref={ labelsRef }
-                autoComplete="off"
-                placeholder="Etiquetas con tab..."
-                onKeyDown={ handleAddLabel }
-                onChange={ handleInputOnChange }
-                value={ inputValue }
-            />
+                    flex items-center justify-between
+                "
+            >
+                <input
+                    type="text"
+                    className="
+                        input-form
+                        input-transparent
+                    "
+                    ref={ labelsRef }
+                    autoComplete="off"
+                    placeholder="Etiquetas"
+                    onKeyDown={ handleAddLabelWithTabKey }
+                    onChange={ handleInputOnChange }
+                    value={ inputValue }
+                />
+                {inputValue &&
+                    <button
+                        className="
+                            icon-plus
+                            px-2 py-2
+                            text-lime-500
+                            bg-warmGray-100
+                            rounded
+                        "
+                        onClick={ handleAddLabel }
+                    ></button>
+                }
+            </div>
         </div>
     )
 }

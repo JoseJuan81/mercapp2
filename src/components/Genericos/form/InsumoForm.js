@@ -78,11 +78,11 @@ export const InsumoForm = ({ closeModal }) => {
                 text-2xl font-normal text-warmGray-500
                 pt-2 mb-4
             "
-        >Agregar nuevo insumo</h1>
+        >{ isUpdating ? 'Agregar nuevo insumo' : 'Editar insumo' }</h1>
 
         <form
             className="
-                pt-4 pb-20
+                pb-20
                 flex flex-col
                 relative
                 w-full h-full
@@ -93,12 +93,7 @@ export const InsumoForm = ({ closeModal }) => {
             <input
                 autoComplete="off"
                 ref={ nameInput }
-                className="
-                    w-full h-16
-                    pl-2 mb-4
-                    border border-solid border-warmGray-300
-                    rounded
-                "
+                className="input-form mb-4"
                 placeholder="Nombre"
                 name="title"
                 value={ formState.title }
@@ -107,12 +102,7 @@ export const InsumoForm = ({ closeModal }) => {
 
             <input
                 autoComplete="off"
-                className="
-                    w-full h-16
-                    pl-2 mb-4
-                    border border-solid border-warmGray-300
-                    rounded
-                "
+                className="input-form mb-4"
                 type="number"
                 placeholder="Precio"
                 name="price"

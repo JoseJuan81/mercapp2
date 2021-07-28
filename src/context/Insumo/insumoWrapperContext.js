@@ -42,7 +42,6 @@ export const InsumoStore = ({ children }) => {
             : removeItemFromArrayByProp('id', newInsumo.id, selectedInsumos);
         
         setSelectedInsumos( [...updatedSelectedInsumos] );
-        setInLocalStorage('selected-insumos', updatedSelectedInsumos);
 
     };
 
@@ -61,7 +60,6 @@ export const InsumoStore = ({ children }) => {
 
         const updatedSelectedInsumos = updateItemInArrayById( selectedInsumos, { ...insumo, quantity } );
         setSelectedInsumos( updatedSelectedInsumos );
-        setInLocalStorage( 'selected-insumos', updatedSelectedInsumos );
 
     };
 
@@ -75,7 +73,6 @@ export const InsumoStore = ({ children }) => {
 
         dispatch({ type: 'select-all', payload: allSelected });
         setSelectedInsumos([...allSelected]);
-        setInLocalStorage('selected-insumos', allSelected);
 
     };
     
@@ -87,7 +84,6 @@ export const InsumoStore = ({ children }) => {
 
         dispatch({ type: 'unselect-all' });
         setSelectedInsumos( [] );
-        setInLocalStorage( 'selected-insumos', [] );
 
     };
 
@@ -172,6 +168,13 @@ export const InsumoStore = ({ children }) => {
         setTotal(
             updateTotal( selectedInsumos )
         );
+        
+    }, [selectedInsumos]);
+
+    // actualizar el localstorage con los seleccionados
+    useEffect( () => {
+
+        setInLocalStorage('selected-insumos', selectedInsumos);
         
     }, [selectedInsumos])
 
