@@ -19,37 +19,31 @@ export const InsumosMenuMobile = React.memo(({ toogleShowSearch, toogleShowFilte
         >
             
             <button
-                className="icon-checkmark text-lime-400 text-3xl"
+                className="icon-checkmark text-lime-400 btn-icon"
                 title="Seleccionar todo"
                 onClick={ selectingAllInsumos }
             ></button>
 
             <button
-                className="
-                    icon-checkmark
-                    text-3xl text-warmGray-300
-                "
+                className="icon-checkmark btn-icon text-warmGray-300"
                 title="Deseleccionar todo"
                 onClick={ unSelectingAllInsumos }
                 ></button>
 
             <button
-                className="icon-search text-3xl text-rose-500"
+                className="icon-search text-rose-500 btn-icon"
                 title="Buscar"
                 onClick={ toogleShowSearch }
             ></button>
 
             <button
-                className="icon-filter text-3xl text-blue-400"
+                className="icon-filter text-blue-400 btn-icon"
                 title="Filtrar"
                 onClick={ toogleShowFilter }
             ></button>
 
             <button
-                className="
-                    icon-plus
-                    text-3xl text-lime-600
-                "
+                className="icon-plus btn-icon text-lime-600"
                 title="Agregar"
                 onClick={ openModal }
             ></button>

@@ -2,6 +2,7 @@ const colors = require('tailwindcss/colors');
 const plugin = require('tailwindcss/plugin');
 
 const inputStyles = require('./src/styles/formControl/inputStyles');
+const buttonStyles = require('./src/styles/buttonStyles');
 
 module.exports = {
 	purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
@@ -30,5 +31,6 @@ module.exports = {
 	},
 	plugins: [
 		plugin( inputStyles ),
+		plugin( buttonStyles ),
 	],
 }

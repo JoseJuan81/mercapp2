@@ -20,7 +20,7 @@ const inputStyles = ({ addComponents, theme }) => {
 			'&:focus': {
 				'outline': 'none'
 			}
-		}
+		},
 	}
 
 	addComponents( input );
