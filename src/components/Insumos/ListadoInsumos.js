@@ -1,19 +1,34 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { InsumoContext } from '../../context/Insumo/InsumoContext';
 import { Insumo } from './Insumo';
 
-export const ListadoInsumos = ({ insumosState, handleClickOnInsumo }) => {
+export const ListadoInsumos = () => {
+    // console.log('5 LISTADO INSUMOS');
+
+    const { insumos } = useContext( InsumoContext );
+
+    if ( !insumos || insumos.length === 0 ) {
+        return (
+            <h1
+                className="font-bold text-2xl text-center text-warmGray-500"
+            >
+                Debe agregrar insumos :)
+            </h1>
+        )
+    }
+
     return (
         <ul className="">
             {
-                insumosState.map((i, index) => (
+                insumos.map((i, index) => (
 
                     <li
                         className="mb-3"
-                        onClick={ () => handleClickOnInsumo(i) }
+                        key={ `${i.title}-${index}-${Math.random}`}
                     >
                         <Insumo
-                            key={ `${i.title}-${index}`}
-                            { ...i }
+                            insumo={ i }
                         />
                     </li>
 

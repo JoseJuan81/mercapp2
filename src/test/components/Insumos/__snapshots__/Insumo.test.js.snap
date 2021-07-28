@@ -1,0 +1,264 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pruebas sobre archivo Insumo Se debe mostrar correctamente 1`] = `
+<div
+  className="
+                duration-200
+                rounded-lg false
+                border border-solid border-warmGray-300
+            "
+  onClick={[Function]}
+>
+  <dl
+    className="flex p-2 overflow-hidden relative"
+  >
+    <div
+      className="flex flex-auto"
+    >
+      <dt
+        className="
+                duration-200
+                flex-auto
+                text-2xl font-bold text-warmGray-400
+                pr-6
+            "
+      >
+        Insumo de prueba
+      </dt>
+    </div>
+    <div
+      className="
+                absolute right-0
+                pr-2
+                bg-warmGray-100
+                flex
+                transform translate-x-24
+                border border-solid border-white
+                rounded-l-full
+                duration-300
+            "
+    >
+      <button
+        className="
+                    bg-white
+                    icon-circle-left
+                    flex items-center justify-center
+                    text-warmGray-500
+                    text-2xl
+                    transform rotate-0
+                    w-10
+                    false
+                    border border-solid border-white
+                    duration-300
+                "
+        onClick={[Function]}
+        type="button"
+      />
+      <div
+        className=" grid grid-cols-2 gap-2 "
+      >
+        <button
+          className=" icon-pencil px-2 text-2xl text-blue-500 "
+          onClick={[Function]}
+          type="button"
+        />
+        <button
+          className=" icon-bin2 px-2 text-2xl text-rose-500 "
+          onClick={[Function]}
+          type="button"
+        />
+      </div>
+    </div>
+  </dl>
+  <div
+    className="
+                        rounded-br-lg rounded-bl-lg
+                        bg-warmGray-100
+                        p-1
+                    "
+  >
+    <ul
+      className="flex flex-wrap"
+    >
+      <li
+        className="
+                            bg-white
+                            text-xs text-warmGray-800
+                            m-1 p-1
+                        "
+        key="etiqueta 1-0-function random() { [native code] }"
+      >
+        etiqueta 1
+      </li>
+      <li
+        className="
+                            bg-white
+                            text-xs text-warmGray-800
+                            m-1 p-1
+                        "
+        key="etiqueta 2-1-function random() { [native code] }"
+      >
+        etiqueta 2
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`Pruebas sobre archivo Insumo Se deben mostrar los componentes de cantidad, precio y total 1`] = `
+<div
+  className="
+                duration-200
+                rounded-lg shadow-xl
+                border border-solid border-lime-400
+            "
+  onClick={[Function]}
+>
+  <dl
+    className="flex p-2 overflow-hidden relative"
+  >
+    <div
+      className="flex flex-auto"
+    >
+      <dt
+        className="
+                duration-200
+                flex-auto
+                text-2xl font-bold text-lime-600
+                pr-6
+            "
+      >
+        Insumo de prueba
+      </dt>
+    </div>
+    <div
+      className="
+                absolute right-0
+                pr-2
+                bg-warmGray-100
+                flex
+                transform translate-x-24
+                border border-solid border-white
+                rounded-l-full
+                duration-300
+            "
+    >
+      <button
+        className="
+                    bg-white
+                    icon-circle-left
+                    flex items-center justify-center
+                    text-warmGray-500
+                    text-2xl
+                    transform rotate-0
+                    w-10
+                    false
+                    border border-solid border-white
+                    duration-300
+                "
+        onClick={[Function]}
+        type="button"
+      />
+      <div
+        className=" grid grid-cols-2 gap-2 "
+      >
+        <button
+          className=" icon-pencil px-2 text-2xl text-blue-500 "
+          onClick={[Function]}
+          type="button"
+        />
+        <button
+          className=" icon-bin2 px-2 text-2xl text-rose-500 "
+          onClick={[Function]}
+          type="button"
+        />
+      </div>
+    </div>
+  </dl>
+  <div
+    className="
+                        rounded-br-lg rounded-bl-lg
+                        bg-lime-100
+                        p-1
+                    "
+  >
+    <ul
+      className="flex flex-wrap"
+    >
+      <li
+        className="
+                            bg-white
+                            text-xs text-lime-700
+                            m-1 p-1
+                        "
+        key="etiqueta 1-0-function random() { [native code] }"
+      >
+        etiqueta 1
+      </li>
+      <li
+        className="
+                            bg-white
+                            text-xs text-lime-700
+                            m-1 p-1
+                        "
+        key="etiqueta 2-1-function random() { [native code] }"
+      >
+        etiqueta 2
+      </li>
+    </ul>
+  </div>
+  <div
+    className="flex justify-between items-center py-2 pr-4"
+  >
+    <div
+      className="flex mx-2"
+    >
+      <button
+        className=" icon-minus bg-gray-100 text-gray-500 w-12 h-12 "
+        data-jest="minusQuantity"
+        onClick={[Function]}
+      />
+      <input
+        className=" mx-1 w-10 h-12 text-center text-xl font-medium text-warmGray-500 "
+        onChange={[Function]}
+        type="number"
+        value={1}
+      />
+      <button
+        className=" icon-plus bg-lime-50 text-lime-500 w-12 h-12 "
+        data-jest="addQuantity"
+        onClick={[Function]}
+      />
+    </div>
+    <dt
+      className=" text-lg text-warmGray-400 font-semibold "
+    >
+      <small
+        className="text-xs font-light"
+      >
+        S/.
+      </small>
+      <span>
+        34
+      </span>
+    </dt>
+    <dt
+      className=" text-2xl text-lime-500 font-bold "
+    >
+      <small
+        className="text-xs font-normal mr-1"
+      >
+        total:
+      </small>
+      <small
+        className="text-base font-light"
+      >
+        S/.
+      </small>
+      <span>
+        34
+      </span>
+    </dt>
+  </div>
+</div>
+`;

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`pruebas sobre archivo PageTitle.js se debe renderizar correctamente 1`] = `
+<h1
+  className=" text-4xl font-bold text-warmGray-500 text-center mb-4 "
+>
+  Hola mundo
+</h1>
+`;

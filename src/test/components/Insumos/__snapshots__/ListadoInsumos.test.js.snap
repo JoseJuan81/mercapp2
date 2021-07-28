@@ -1,0 +1,270 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pruebas sobre archivo ListadoInsumos.js Se debe renderizar Insumo cuando insumoState != [] 1`] = `
+<ul
+  className=""
+>
+  <li
+    className="mb-3"
+    key="Aceite de Oliva-0-function random() { [native code] }"
+  >
+    <div
+      className="
+                duration-200
+                rounded-lg undefined
+                border border-solid border-warmGray-300
+            "
+      onClick={[Function]}
+    >
+      <dl
+        className="flex p-2 overflow-hidden relative"
+      >
+        <div
+          className="flex flex-auto"
+        >
+          <dt
+            className="
+                duration-200
+                flex-auto
+                text-2xl font-bold text-warmGray-400
+                pr-6
+            "
+          >
+            Aceite de Oliva
+          </dt>
+        </div>
+        <div
+          className="
+                absolute right-0
+                pr-2
+                bg-warmGray-100
+                flex
+                transform translate-x-24
+                border border-solid border-white
+                rounded-l-full
+                duration-300
+            "
+        >
+          <button
+            className="
+                    bg-white
+                    icon-circle-left
+                    flex items-center justify-center
+                    text-warmGray-500
+                    text-2xl
+                    transform rotate-0
+                    w-10
+                    false
+                    border border-solid border-white
+                    duration-300
+                "
+            onClick={[Function]}
+            type="button"
+          />
+          <div
+            className=" grid grid-cols-2 gap-2 "
+          >
+            <button
+              className=" icon-pencil px-2 text-2xl text-blue-500 "
+              onClick={[Function]}
+              type="button"
+            />
+            <button
+              className=" icon-bin2 px-2 text-2xl text-rose-500 "
+              onClick={[Function]}
+              type="button"
+            />
+          </div>
+        </div>
+      </dl>
+      <div
+        className="
+                        rounded-br-lg rounded-bl-lg
+                        bg-warmGray-100
+                        p-1
+                    "
+      >
+        <ul
+          className="flex flex-wrap"
+        >
+          <li
+            className="
+                            bg-white
+                            text-xs text-warmGray-800
+                            m-1 p-1
+                        "
+            key="500ml-0-function random() { [native code] }"
+          >
+            500ml
+          </li>
+          <li
+            className="
+                            bg-white
+                            text-xs text-warmGray-800
+                            m-1 p-1
+                        "
+            key="Carbonell-1-function random() { [native code] }"
+          >
+            Carbonell
+          </li>
+          <li
+            className="
+                            bg-white
+                            text-xs text-warmGray-800
+                            m-1 p-1
+                        "
+            key="metro-2-function random() { [native code] }"
+          >
+            metro
+          </li>
+          <li
+            className="
+                            bg-white
+                            text-xs text-warmGray-800
+                            m-1 p-1
+                        "
+            key="2 und-3-function random() { [native code] }"
+          >
+            2 und
+          </li>
+        </ul>
+      </div>
+    </div>
+  </li>
+  <li
+    className="mb-3"
+    key="Harina Pan-1-function random() { [native code] }"
+  >
+    <div
+      className="
+                duration-200
+                rounded-lg undefined
+                border border-solid border-warmGray-300
+            "
+      onClick={[Function]}
+    >
+      <dl
+        className="flex p-2 overflow-hidden relative"
+      >
+        <div
+          className="flex flex-auto"
+        >
+          <dt
+            className="
+                duration-200
+                flex-auto
+                text-2xl font-bold text-warmGray-400
+                pr-6
+            "
+          >
+            Harina Pan
+          </dt>
+        </div>
+        <div
+          className="
+                absolute right-0
+                pr-2
+                bg-warmGray-100
+                flex
+                transform translate-x-24
+                border border-solid border-white
+                rounded-l-full
+                duration-300
+            "
+        >
+          <button
+            className="
+                    bg-white
+                    icon-circle-left
+                    flex items-center justify-center
+                    text-warmGray-500
+                    text-2xl
+                    transform rotate-0
+                    w-10
+                    false
+                    border border-solid border-white
+                    duration-300
+                "
+            onClick={[Function]}
+            type="button"
+          />
+          <div
+            className=" grid grid-cols-2 gap-2 "
+          >
+            <button
+              className=" icon-pencil px-2 text-2xl text-blue-500 "
+              onClick={[Function]}
+              type="button"
+            />
+            <button
+              className=" icon-bin2 px-2 text-2xl text-rose-500 "
+              onClick={[Function]}
+              type="button"
+            />
+          </div>
+        </div>
+      </dl>
+      <div
+        className="
+                        rounded-br-lg rounded-bl-lg
+                        bg-warmGray-100
+                        p-1
+                    "
+      >
+        <ul
+          className="flex flex-wrap"
+        >
+          <li
+            className="
+                            bg-white
+                            text-xs text-warmGray-800
+                            m-1 p-1
+                        "
+            key="1 Kg-0-function random() { [native code] }"
+          >
+            1 Kg
+          </li>
+          <li
+            className="
+                            bg-white
+                            text-xs text-warmGray-800
+                            m-1 p-1
+                        "
+            key="PAN-1-function random() { [native code] }"
+          >
+            PAN
+          </li>
+          <li
+            className="
+                            bg-white
+                            text-xs text-warmGray-800
+                            m-1 p-1
+                        "
+            key="San Felipe-2-function random() { [native code] }"
+          >
+            San Felipe
+          </li>
+          <li
+            className="
+                            bg-white
+                            text-xs text-warmGray-800
+                            m-1 p-1
+                        "
+            key="2 und-3-function random() { [native code] }"
+          >
+            2 und
+          </li>
+        </ul>
+      </div>
+    </div>
+  </li>
+</ul>
+`;
+
+exports[`Pruebas sobre archivo ListadoInsumos.js Se debe renderizar correctamente <ListadoInsumos /> 1`] = `
+<h1
+  className="font-bold text-2xl text-center text-warmGray-500"
+>
+  Debe agregrar insumos :)
+</h1>
+`;

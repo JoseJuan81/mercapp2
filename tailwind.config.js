@@ -13,7 +13,13 @@ module.exports = {
 			},
 			fontFamily: {
 				poppins: 'Poppins'
-			}
+			},
+			minHeight: theme => ({
+				...theme('spacing')
+			}),
+			minWidth: theme => ({
+				...theme('spacing')
+			})
 		},
 	},
 	variants: {
