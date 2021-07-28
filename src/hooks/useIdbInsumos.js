@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import Idb from './../indexDB';
+import Idb from '../services/indexDB/insumo';
 
 const idb = new Idb('insumos');
 
-export const useIndexDB = () => {
+export const useIdbInsumos = () => {
 
     const isMounted = useRef(true);
     const [insumosState, setState] = useState([]);

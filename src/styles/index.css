@@ -107,5 +107,11 @@
 	.icon-blocked:before {
 		content: "\ea0e";
 	}
+	.icon-cart:before {
+		content: "\e93a";
+	}
+	.icon-menu:before {
+		content: "\e9bd";
+	}
 
 }

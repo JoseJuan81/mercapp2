@@ -1,12 +1,12 @@
 import React, { useContext, useLayoutEffect, useRef, useState } from 'react';
-import { compose, isEmpty, isNotEmpty, setNewProperty } from 'functionallibrary';
+import { compose, isNotEmpty, setNewProperty } from 'functionallibrary';
 import PropType from 'prop-types';
 
 import { useForm } from '../../../hooks/useForm';
 
 import { InsumoContext } from '../../../context/Insumo/InsumoContext';
 import { LabelsField } from './LabelsField';
-import { useIndexDB } from '../../../hooks/useIndexDB';
+import { useIdbInsumos } from '../../../hooks/useIdbInsumos';
 
 const defaultInsumoForm = {
     labels: [],
@@ -23,7 +23,7 @@ export const InsumoForm = ({ closeModal }) => {
 
     const nameInput = useRef(null);
 
-    const { setNewInsumoInLocalDB, updateInsumoInLocalDB } = useIndexDB();
+    const { setNewInsumoInLocalDB, updateInsumoInLocalDB } = useIdbInsumos();
 
     const { addingNewInsumo, insumoToUpdate, updatingInsumoInContext } = useContext( InsumoContext );
 

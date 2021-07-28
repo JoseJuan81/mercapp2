@@ -10,7 +10,7 @@ import { InsumoContext } from '../../context/Insumo/InsumoContext';
 import { isEmpty } from 'functionallibrary';
 
 
-export const InsumosContainer = React.memo( () => {
+export const InsumosContainer = () => {
     // console.log('3 INSUMO CONTAINER');
 
     // Contexto de Insumo
@@ -46,6 +46,7 @@ export const InsumosContainer = React.memo( () => {
 
     const openModal = useCallback( () => setShowModal( true ), [setShowModal]);
     const closeModal = useCallback( () => {
+
         setShowModal( false );
         setInsumoToUpdate();
     }, [setShowModal]);
@@ -102,4 +103,4 @@ export const InsumosContainer = React.memo( () => {
 
         </>
     )
-})
+}

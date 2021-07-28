@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 
 
-import { useIndexDB } from '../hooks/useIndexDB';
+import { useIdbInsumos } from '../hooks/useIdbInsumos';
 
 import { PageTitle } from '../components/Genericos/PageTitle';
 import { InsumosContainer } from '../components/container/InsumosContainer';
@@ -10,20 +10,19 @@ import { matchWithSelectedInsumos } from '../helper/helperInsumoContext';
 import { InsumoContext } from '../context/Insumo/InsumoContext';
 
 
-export const PaginaInsumos = React.memo( () => {
-    // console.log('2 PAGINA INSUMOS');
+export const PaginaInsumos = () => {
+    console.log('2 PAGINA INSUMOS');
 
-    const { insumos, loading } = useIndexDB();
+    const { insumos, loading } = useIdbInsumos();
 
-    const { setInsumosInContext } = useContext( InsumoContext );
+    const { dispatch } = useContext( InsumoContext );
 
     useEffect(() => {
 
         if (!loading) {
 
-            setInsumosInContext(
-                matchWithSelectedInsumos( insumos )
-            );
+            const matching = matchWithSelectedInsumos( insumos );
+            dispatch({ type: 'update-with-local-storage', payload: matching });
         }
         
     }, [loading])
@@ -42,4 +41,4 @@ export const PaginaInsumos = React.memo( () => {
             
         </div>
     )
-})
+}

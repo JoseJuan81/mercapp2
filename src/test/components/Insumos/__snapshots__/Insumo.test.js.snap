@@ -7,6 +7,7 @@ exports[`Pruebas sobre archivo Insumo Se debe mostrar correctamente 1`] = `
                 rounded-lg false
                 border border-solid border-warmGray-300
             "
+  onClick={[Function]}
 >
   <dl
     className="flex p-2 overflow-hidden relative"
@@ -58,6 +59,7 @@ exports[`Pruebas sobre archivo Insumo Se debe mostrar correctamente 1`] = `
       >
         <button
           className=" icon-pencil px-2 text-2xl text-blue-500 "
+          onClick={[Function]}
           type="button"
         />
         <button
@@ -110,6 +112,7 @@ exports[`Pruebas sobre archivo Insumo Se deben mostrar los componentes de cantid
                 rounded-lg shadow-xl
                 border border-solid border-lime-400
             "
+  onClick={[Function]}
 >
   <dl
     className="flex p-2 overflow-hidden relative"
@@ -161,6 +164,7 @@ exports[`Pruebas sobre archivo Insumo Se deben mostrar los componentes de cantid
       >
         <button
           className=" icon-pencil px-2 text-2xl text-blue-500 "
+          onClick={[Function]}
           type="button"
         />
         <button

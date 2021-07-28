@@ -22,7 +22,18 @@ export const updateTotal = ( selectedInsumos ) => {
 
 }
 
+/**
+ * 
+ * @param {strin} id 
+ * @param {number} quantity 
+ * @param {Array} selectedInsumos 
+ */
 export const updatingQuantity = ( id, quantity, selectedInsumos ) => {
+
+    const ind = findIndex(
+        equality('id', id),
+        selectedInsumos
+    );
 
     const updateFn = (list, item) => {
 
@@ -36,6 +47,10 @@ export const updatingQuantity = ( id, quantity, selectedInsumos ) => {
     return reduce(updateFn, [], selectedInsumos);
 }
 
+/**
+ * 
+ * @param {Array} dataInsumos - insumos por servicio
+ */
 export const matchWithSelectedInsumos = ( dataInsumos ) => {
 
     const dataSelected = getFromLocalStorage('selected-insumos');
@@ -73,6 +88,11 @@ export const unSelectAllInsumos = (state) => {
     return map(unChecked, state);
 }
 
+/**
+ * 
+ * @param {Array} state 
+ * @param {object} insumo 
+ */
 export const updateItemInArrayById = (state, insumo) => {
 
     const indexInState = findIndex(
@@ -85,20 +105,32 @@ export const updateItemInArrayById = (state, insumo) => {
     return [...local];
 }
 
+/**
+ * 
+ * @param {Array} state 
+ * @param {string} searchVal 
+ */
 export const onSearch = (state, searchVal) => {
 
+    const sch = searchVal.toLowerCase();
     return filter(
-        i => i.title.toLowerCase().includes( searchVal.toLowerCase() ),
+        i => i.title.toLowerCase().includes( sch ),
         state
     );
 }
 
+/**
+ * 
+ * @param {Array} state 
+ * @param {string} searchVal 
+ */
 export const onFilter = (state, searchVal) => {
 
     if(searchVal === '' || searchVal === null || searchVal === undefined) {
         return state;
     }
 
+    const sch = searchVal.toLowerCase();
     return state.filter( (i) => {
 
         const { labels } = i;
@@ -107,7 +139,7 @@ export const onFilter = (state, searchVal) => {
             return false;
         }
 
-        const exist = labels.find(l => l.toLowerCase().includes(searchVal.toLowerCase()));
+        const exist = labels.find(l => l.toLowerCase().includes( sch ));
         return !!exist;
     });
 }

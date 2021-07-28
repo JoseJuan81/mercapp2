@@ -1,6 +1,6 @@
 import { mount } from 'enzyme';
 import { Insumo } from '../../../components/Insumos/Insumo';
-import { InsumoContext } from '../../../context/InsumoContext';
+import { InsumoContext } from '../../../context/Insumo/InsumoContext';
 
 describe('Pruebas sobre archivo Insumo', () => {
 
@@ -14,16 +14,18 @@ describe('Pruebas sobre archivo Insumo', () => {
     }
 
     const updateQuantityInSelectedInsumo = jest.fn();
+    const toogleCheck = jest.fn();
 
     const wrapper = mount(
         <InsumoContext.Provider
             value={{
                 updateQuantityInSelectedInsumo,
+                toogleCheck,
             }}
         >
 
             <Insumo
-                { ...INSUMO }
+                insumo={ INSUMO }
             />
 
         </InsumoContext.Provider>
@@ -38,11 +40,12 @@ describe('Pruebas sobre archivo Insumo', () => {
         <InsumoContext.Provider
             value={{
                 updateQuantityInSelectedInsumo,
+                toogleCheck,
             }}
         >
 
             <Insumo
-                { ...INSUMO2 }
+                insumo={ INSUMO2 }
             />
 
         </InsumoContext.Provider>
