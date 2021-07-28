@@ -1,3 +1,4 @@
+import { removeItemFromArrayByIndex } from 'functionallibrary';
 import React, { useRef, useState } from 'react';
 
 export const LabelsField = ({ labels = [], addLabels }) => {
@@ -40,6 +41,15 @@ export const LabelsField = ({ labels = [], addLabels }) => {
         )
     }
 
+    const removeLabel = (e, index) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        setLabelsState(
+            removeItemFromArrayByIndex(index)
+        )
+    }
+
     return (
         <div
             className="
@@ -57,6 +67,7 @@ export const LabelsField = ({ labels = [], addLabels }) => {
                     {
                         labelsState.map( (l, ind) => (
                             <span
+                                key={ `${l}-${ind}` }
                                 className="
                                     relative
                                     flex items-center
@@ -64,19 +75,22 @@ export const LabelsField = ({ labels = [], addLabels }) => {
                                 "
                             >
                                 <span
-                                    key={ `${l}-${ind}` }
                                     className="
                                         rounded
                                         bg-warmGray-200
-                                        m-1 p-1
+                                        m-1 p-1 mr-2
                                     "
                                 >{ l }</span>
                                 <button
+                                    type="button"
                                     className="
                                         icon-cancel-circle
-                                        absolute -top-1 -right-1
+                                        absolute -top-4 -right-2
+                                        p-1
                                         text-rose-300
+                                        text-2xl
                                     "
+                                    onClick={ (ev) => removeLabel( ev, ind ) }
                                 ></button>
                             </span>
                         ) )
