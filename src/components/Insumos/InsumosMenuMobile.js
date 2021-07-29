@@ -4,7 +4,7 @@ import { InsumoContext } from '../../context/Insumo/InsumoContext';
 export const InsumosMenuMobile = React.memo(({ toogleShowSearch, toogleShowFilter, openModal }) => {
     console.log('6 MENU MOVIL');
 
-    const { selectingAllInsumos, unSelectingAllInsumos } = useContext( InsumoContext );
+    const { dispatch } = useContext( InsumoContext );
     
     return (
         <div
@@ -21,13 +21,13 @@ export const InsumosMenuMobile = React.memo(({ toogleShowSearch, toogleShowFilte
             <button
                 className="icon-checkmark text-lime-400 btn-icon"
                 title="Seleccionar todo"
-                onClick={ selectingAllInsumos }
+                onClick={ () => dispatch({ type: 'select-all' }) }
             ></button>
 
             <button
                 className="icon-checkmark btn-icon text-warmGray-300"
                 title="Deseleccionar todo"
-                onClick={ unSelectingAllInsumos }
+                onClick={ () => dispatch({ type: 'unselect-all' }) }
                 ></button>
 
             <button
