@@ -3,7 +3,7 @@ const buttonStyles = ({ addComponents, theme }) => {
 
 	const btn = {
 		'.btn-icon': {
-			fontSize: theme( 'fontSize.2xl' )
+			fontSize: theme( 'fontSize.2xl' ),
 		},
 	}
 

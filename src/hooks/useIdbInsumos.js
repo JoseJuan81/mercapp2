@@ -37,7 +37,7 @@ export const useIdbInsumos = () => {
         return await idb.post( newInsumo );
     }
 
-    const deleteInsumo = async (insumoId) => {
+    const deleteInsumoInLocalDB = async (insumoId) => {
         return await idb.delete( insumoId );
     }
 
@@ -82,7 +82,7 @@ export const useIdbInsumos = () => {
     }, [dbLoaded]);
 
     return {
-        deleteInsumo,
+        deleteInsumoInLocalDB,
         insumos: insumosState,
         loading,
         setNewInsumoInLocalDB,

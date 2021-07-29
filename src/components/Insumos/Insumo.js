@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { round, setNewProperty } from 'functionallibrary';
 import { InsumoContext } from '../../context/Insumo/InsumoContext';
+import { useIdbInsumos } from '../../hooks/useIdbInsumos';
 
 const twoDecimals = round(2);
 
@@ -150,7 +151,8 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
 const InsumoActions = React.memo( ({ id }) => {
     // console.log('9 ACTIONS', id);
 
-    const { deletingInsumo, updatingInsumo } = useContext( InsumoContext );
+    const { deletingInsumoFromContext, updatingInsumo } = useContext( InsumoContext );
+    const { deleteInsumoInLocalDB } = useIdbInsumos();
 
     const [toogle, setToogle] = useState(false);
 
@@ -160,10 +162,16 @@ const InsumoActions = React.memo( ({ id }) => {
         setToogle( s => !s );
     }
 
-    const handleDeleteInsumo = (ev) => {
+    const handleDeleteInsumo = async (ev) => {
         ev.stopPropagation();
         
-        deletingInsumo( id );
+        try {
+
+            deletingInsumoFromContext( id );
+            await deleteInsumoInLocalDB( id );
+        } catch (err) {
+            console.log('Error al eliminar un insumo', err);
+        }
     }
     
     const handleUpdateInsumo = (ev) => {

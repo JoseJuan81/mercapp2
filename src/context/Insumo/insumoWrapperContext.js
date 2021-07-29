@@ -8,6 +8,7 @@ import {
     updateItemInArrayById,
     selectAllInsumos,
     updateTotal,
+    matchWithSelectedInsumos,
 } from '../../helper/helperInsumoContext';
 import { insumoReducer } from './insumoReducer';
 
@@ -51,10 +52,7 @@ export const InsumoStore = ({ children }) => {
      * @param {number} quantity 
      */
     const updateQuantityInSelectedInsumo = ( id, quantity ) => {
-        const insumo = find(
-            equality('id', id),
-            insumos
-        )
+        const insumo = find( equality('id', id), insumos );
 
         dispatch({ type: 'quantity-change', payload: { ...insumo, quantity } });
 
@@ -95,7 +93,8 @@ export const InsumoStore = ({ children }) => {
 
         if(searchVal === '' || searchVal === null || searchVal === undefined) {
 
-            dispatch({ type: 'restore-insumos', payload: insumosCache });
+            const matching = matchWithSelectedInsumos( insumosCache );
+            dispatch({ type: 'restore-insumos', payload: matching });
         } else {
             
             setInsumosCache( insumos );
@@ -112,7 +111,8 @@ export const InsumoStore = ({ children }) => {
         
         if(searchVal === '' || searchVal === null || searchVal === undefined) {
             
-            dispatch({ type: 'restore-insumos', payload: insumosCache });
+            const matching = matchWithSelectedInsumos( insumosCache );
+            dispatch({ type: 'restore-insumos', payload: matching });
         } else {
 
             setInsumosCache( insumos );
@@ -129,7 +129,6 @@ export const InsumoStore = ({ children }) => {
     const addingNewInsumo = (newInsumo) => {
 
         dispatch({ type: 'add', payload: newInsumo });
-        // consumir servicio aqui
     };
     
     /**
@@ -139,7 +138,6 @@ export const InsumoStore = ({ children }) => {
     const deletingInsumo = (insumoId) => {
         
         dispatch({ type: 'remove', payload: insumoId });
-        // consumir servicio aqui
     };
 
     /**
@@ -159,7 +157,6 @@ export const InsumoStore = ({ children }) => {
     const updatingInsumoInContext = (insumo) => {
 
         dispatch({ type: 'update', payload: insumo });
-        // consumir servicios aqui
     }
 
     // Total de insumos seleccionados => price * quantity
@@ -180,7 +177,7 @@ export const InsumoStore = ({ children }) => {
 
     const insumoContextProps = {
         addingNewInsumo,
-        deletingInsumo,
+        deletingInsumoFromContext: deletingInsumo,
         dispatch,
         filteringInsumos,
         insumos,

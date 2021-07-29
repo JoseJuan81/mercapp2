@@ -8,10 +8,7 @@ export const LabelsField = ({ labels = [], addLabels }) => {
     const [inputValue, setInputValue] = useState( '' );
     const [labelsState, setLabelsState] = useState( labels );
 
-    const handleAddLabel = (ev) => {
-
-        ev.preventDefault();
-        ev.stopPropagation();
+    const handleAddLabel = () => {
 
         setLabelsState( l => [inputValue, ...l] );
         addLabels({
@@ -24,6 +21,13 @@ export const LabelsField = ({ labels = [], addLabels }) => {
         labelsRef.current.focus();
         setInputValue('');
         
+    }
+
+    const handleClickToAddLabel = (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        handleAddLabel();
     }
 
     const handleAddLabelWithTabKey = (ev) => {
@@ -126,7 +130,7 @@ export const LabelsField = ({ labels = [], addLabels }) => {
                             bg-warmGray-100
                             rounded
                         "
-                        onClick={ handleAddLabel }
+                        onClick={ handleClickToAddLabel }
                     ></button>
                 }
             </div>
