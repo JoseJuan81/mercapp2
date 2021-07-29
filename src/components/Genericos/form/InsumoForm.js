@@ -25,7 +25,7 @@ export const InsumoForm = ({ closeModal }) => {
 
     const { setNewInsumoInLocalDB, updateInsumoInLocalDB } = useIdbInsumos();
 
-    const { addingNewInsumo, insumoToUpdate, updatingInsumoInContext } = useContext( InsumoContext );
+    const { dispatch, insumoToUpdate } = useContext( InsumoContext );
 
     const [isUpdating] = useState( isNotEmpty( insumoToUpdate ) );
 
@@ -40,15 +40,31 @@ export const InsumoForm = ({ closeModal }) => {
         const setQuantity = setNewProperty( 'quantity', 1 );
         const setPriceInNumber = setNewProperty('price', Number(formState.price));
 
-        const parsedInsumo = compose( setCurrency, setId, setQuantity, setPriceInNumber )(formState);
+        const parsedInsumo = compose(
+            setCurrency,
+            setId,
+            setQuantity,
+            setPriceInNumber
+        )(formState);
 
-        addingNewInsumo( parsedInsumo );
-        await setNewInsumoInLocalDB( parsedInsumo );
+        try {
+
+            await setNewInsumoInLocalDB( parsedInsumo );
+            dispatch({ type: 'add', payload: parsedInsumo });
+        } catch (error) {
+            console.log('error agregando nuevo insumo', error);
+        }
     }
 
     const updateInsumo = async () => {
-        updatingInsumoInContext( formState );
-        await updateInsumoInLocalDB( formState );
+        
+        try {
+            
+            await updateInsumoInLocalDB( formState );
+            dispatch({ type: 'update', payload: formState });
+        } catch (err) {
+            console.log('Error actualizando insumo', err);
+        }
     }
 
     const handleSubmit = async (ev) => {

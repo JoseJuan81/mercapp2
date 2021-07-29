@@ -1,18 +1,38 @@
-import { removeItemFromArrayByProp } from "functionallibrary";
-import { onFilter, onSearch, unSelectAllInsumos, updateItemInArrayById } from "../../helper/helperInsumoContext";
+import { equality, find, removeItemFromArrayByProp } from 'functionallibrary';
+import {
+    onFilter,
+    onSearch,
+    selectAllInsumos,
+    unSelectAllInsumos,
+    updateItemInArrayById
+} from '../../helper/helperInsumoContext';
+
+const handleQuantityChange = ( state, action ) => {
+
+    const { payload: { id, quantity } } = action;
+
+    const insumo = find( equality('id', id), state );
+    return updateItemInArrayById( state, { ...insumo, quantity } );
+}
+
+const handleRemoveInsumo = ( state, action ) => {
+
+    const insumos = removeItemFromArrayByProp( 'id', action.payload, state);
+    return [...insumos];
+}
 
 export const insumoReducer = (state, action) => {
 
     const opts = {
         add: () => [action.payload, ...state],
         toogle: () => updateItemInArrayById(state, action.payload),
-        'quantity-change': () => updateItemInArrayById(state, action.payload),
-        'select-all': () => action.payload,
+        'quantity-change': () => handleQuantityChange( state, action ),
+        'select-all': () => selectAllInsumos( state ),
         'unselect-all': () => unSelectAllInsumos( state ),
         search: () => onSearch( state, action.payload ),
         'restore-insumos': () => action.payload,
         filter: () => onFilter( state, action.payload ),
-        remove: () => removeItemFromArrayByProp( 'id', action.payload, state),
+        remove: () => handleRemoveInsumo( state, action.payload ),
         update: () => updateItemInArrayById(state, action.payload),
         'update-with-local-storage': () => action.payload,
     }

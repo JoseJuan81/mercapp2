@@ -81,7 +81,7 @@ const InsumoTotal = React.memo( ({ currency, total }) => {
 const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
     // console.log('11 CANTIDAD', id);
 
-    const { updateQuantityInSelectedInsumo } = useContext( InsumoContext );
+    const { dispatch } = useContext( InsumoContext );
 
     const[q, setQ] = useState(1);
 
@@ -92,7 +92,7 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
         const quantity = result <= 0 ? 1 : result;
 
         setQ(quantity);
-        updateQuantityInSelectedInsumo(id, quantity);
+        dispatch({ type: 'quantity-change', payload: { id, quantity } });
         
     }
     
@@ -102,7 +102,7 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
         const quantity = q + 1;
 
         setQ(quantity);
-        updateQuantityInSelectedInsumo(id, quantity);
+        dispatch({ type: 'quantity-change', payload: { id, quantity } })
     }
 
     useEffect( () => {
@@ -151,7 +151,7 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
 const InsumoActions = React.memo( ({ id }) => {
     // console.log('9 ACTIONS', id);
 
-    const { deletingInsumoFromContext, updatingInsumo } = useContext( InsumoContext );
+    const { dispatch, updatingInsumo } = useContext( InsumoContext );
     const { deleteInsumoInLocalDB } = useIdbInsumos();
 
     const [toogle, setToogle] = useState(false);
@@ -167,8 +167,8 @@ const InsumoActions = React.memo( ({ id }) => {
         
         try {
 
-            deletingInsumoFromContext( id );
             await deleteInsumoInLocalDB( id );
+            dispatch({ type: 'remove', payload: id });
         } catch (err) {
             console.log('Error al eliminar un insumo', err);
         }
@@ -245,16 +245,17 @@ export const Insumo = React.memo( ({ insumo }) => {
 
     const { checked, currency, labels, id, title, price } = insumo;
 
-    const { toogleCheck } = useContext( InsumoContext );
+    const { dispatch } = useContext( InsumoContext );
 
     const [total, setTotal] = useState(insumo.price);
 
 
     const handleClickOnInsumo = (ins) => {
 
-        toogleCheck(
-            setNewProperty('checked', !ins.checked, ins)
-        );
+        dispatch({
+            type: 'toogle',
+            payload: setNewProperty('checked', !ins.checked, ins)
+        });
     }
 
     return (
