@@ -76,22 +76,24 @@ export const LabelsField = ({ labels = [], addLabels }) => {
                                     relative
                                     flex items-center
                                     text-warmGray-600
+                                    mr-2
                                 "
                             >
                                 <span
                                     className="
-                                        rounded
+                                        rounded-l
                                         bg-warmGray-200
-                                        m-1 p-1 mr-2
+                                        my-1 p-1 pr-2
                                     "
                                 >{ l }</span>
                                 <button
                                     type="button"
                                     className="
                                         icon-cancel-circle
-                                        absolute -top-4 -right-2
-                                        p-1
-                                        text-rose-300
+                                        bg-warmGray-200
+                                        rounded-r-full
+                                        px-1
+                                        text-rose-400
                                         text-2xl
                                     "
                                     onClick={ (ev) => removeLabel( ev, ind ) }

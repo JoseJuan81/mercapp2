@@ -48,12 +48,12 @@ const InsumoPrice = React.memo( ({ currency, price }) => {
     return (
         <dt
             className="
-                text-lg text-warmGray-400
-                font-semibold
+                text-2xl text-warmGray-500
+                font-light
             "
         >
             <small
-                className="text-xs font-light"
+                className="text-xs"
             >
                 { currency }
             </small>
@@ -67,7 +67,7 @@ const InsumoTotal = React.memo( ({ currency, total }) => {
     return (
         <dt
             className="
-                text-2xl text-lime-500
+                text-3xl text-lime-500
                 font-bold
             "
         >
@@ -81,15 +81,16 @@ const InsumoTotal = React.memo( ({ currency, total }) => {
 const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
     // console.log('11 CANTIDAD', id);
 
+    const initialQuantity = 1;
     const { dispatch } = useContext( InsumoContext );
 
-    const[q, setQ] = useState(1);
+    const[q, setQ] = useState( initialQuantity );
 
     const handleMinusQuantity = (ev) => {
         ev.stopPropagation();
 
-        const result = q - 1;
-        const quantity = result <= 0 ? 1 : result;
+        const result = Number( q ) - 1;
+        const quantity = result < 0 ? 1 : result;
 
         setQ(quantity);
         dispatch({ type: 'quantity-change', payload: { id, quantity } });
@@ -99,9 +100,16 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
     const handleAddQuantity = (ev) => {
         ev.stopPropagation();
 
-        const quantity = q + 1;
+        const quantity = Number( q )  + 1;
 
         setQ(quantity);
+        dispatch({ type: 'quantity-change', payload: { id, quantity } })
+    }
+    
+    const handleInputChange = (e) => {
+        
+        const quantity = e.target.value;
+        setQ( quantity );
         dispatch({ type: 'quantity-change', payload: { id, quantity } })
     }
 
@@ -111,6 +119,12 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
         setTotal( total );
 
     }, [q, price])
+
+    useEffect( () => {
+
+        dispatch({ type: 'quantity-change', payload: { id, quantity: initialQuantity } });
+
+    }, [])
 
     return (
         <div className="flex mx-2">
@@ -126,13 +140,15 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
             ></button>
             <input
                 className="
-                    mx-1
-                    w-10 h-12
+                    w-16 h-12
                     text-center text-xl font-medium text-warmGray-500
                 "
                 type="number"
+                step={ 1 }
+                min={ 0 }
                 value={ q }
-                onChange={ () => {} }
+                onChange={ handleInputChange }
+                onClick={ e => e.stopPropagation() }
             />
             <button
                 data-jest="addQuantity"
@@ -285,6 +301,17 @@ export const Insumo = React.memo( ({ insumo }) => {
 
             </dl>
 
+            {
+                price && currency &&
+                <div className="ml-2">
+                    <InsumoPrice
+                        currency={ currency }
+                        price={ price }
+                        checked={ checked }
+                    />
+                </div>
+            }
+
             {labels && labels.length > 0 &&
                 <div
                     className={`
@@ -307,12 +334,6 @@ export const Insumo = React.memo( ({ insumo }) => {
                         setTotal={ setTotal }
                         price={ price }
                         id={ id }
-                    />
-    
-                    <InsumoPrice
-                        currency={ currency }
-                        price={ price }
-                        checked={ checked }
                     />
 
                     <InsumoTotal
