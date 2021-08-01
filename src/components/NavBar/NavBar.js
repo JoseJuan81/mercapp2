@@ -1,7 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { round } from 'functionallibrary';
 import { Link, useLocation } from 'react-router-dom';
+
 import { misInsumosPath } from '../../constant/routes';
 import { InsumoContext } from '../../context/Insumo/InsumoContext';
+
+const twoDecimals = round(2);
 
 export const NavBar = () => {
 
@@ -63,7 +67,7 @@ export const NavBar = () => {
                         "
                     >
                         <small className="text-xs">S/.</small>
-                        <output>{ total }</output>
+                        <output>{ twoDecimals( total ) }</output>
                     </div>
                 }
 
