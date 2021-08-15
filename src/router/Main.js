@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import {
     BrowserRouter as Router,
     Redirect,
@@ -12,13 +13,10 @@ import { PaginaInicioSesion } from '../Pages/PaginaInicioSesion';
 import { PaginaRegistroUsuario } from '../Pages/PaginaRegistroUsuario';
 
 import { inicioSesionPath, registroUsuarioPath } from '../constant/routes';
-import { UserContext } from '../context/User/UserContext';
-import { UserStore } from '../context/User/userWrapper';
 
 export const Main = () => {
-console.log('1 MAIN');
 
-    const { user } = useContext( UserContext );
+    const user = useSelector( state => state.auth );
 
     return (
         <div className="font-poppins">

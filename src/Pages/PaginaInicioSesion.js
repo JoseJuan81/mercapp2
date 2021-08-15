@@ -1,38 +1,57 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
-import { misInsumosPath, registroUsuarioPath } from '../constant/routes';
-import { user } from '../constant/user';
-import { UserContext } from '../context/User/UserContext';
+import { registroUsuarioPath, resumenDeComprasPath } from '../constant/routes';
+import { login, startGoogleLogIn } from '../actions/auth';
 import { useForm } from '../hooks/useForm';
 
 export const PaginaInicioSesion = () => {
 
-    const { dispatch } = useContext( UserContext );
+    const dispatch = useDispatch();
 
     const history = useHistory();
 
     const { formState, handleInputChange, invalidForm } = useForm({
         email: '',
         password: ''
-    }, ['email', 'password']);
+    });
 
     const handleLogIn = (ev) => {
         ev.preventDefault();
+
+        dispatch( login( formState ) );
         
-        dispatch({ type: user.login, payload: formState });
-        history.replace( misInsumosPath );
+        history.replace( resumenDeComprasPath );
+    }
+
+    const handleGoogleSignIn = () => {
+
+        dispatch( startGoogleLogIn() );
     }
 
     return (
         <div
             className="
-                flex items-center justify-center
+                flex flex-col items-center justify-center
                 h-screen
+                px-2 mx-auto
+                max-w-xl
             "
         >
+            <h2
+                className="
+                    font-medium
+                    text-xl text-warmGray-600
+                    mb-4
+                "
+            >
+                Inicio de sesion
+            </h2>
+
             <form
                 className="
+                    animate__animated animate__jello
                     flex flex-col
                     py-6 px-4 mx-4
                     w-full
@@ -83,15 +102,44 @@ export const PaginaInicioSesion = () => {
                 <button
                     disabled={ invalidForm }
                     className={`
-                        w-full h-16
+                        btn
                         bg-lime-200
                         text-lime-700 text-xl
-                        rounded
                         ${invalidForm && 'opacity-30'}
                     `}
                 >
                     Inicia sesion
                 </button>
+
+                <div 
+                    className="
+                        btn
+                        my-4
+                        grid grid-cols-5 items-center
+                        bg-blue-500 text-white
+                        border border-solid border-blue-500
+                    "
+                    onClick={ handleGoogleSignIn }
+                >
+                    <div
+                        className="
+                            bg-white
+                            rounded-l
+                            px-4
+                            h-full
+                            flex justify-center items-center
+                        "
+                    >
+                        <img
+                            className="google-icon"
+                            src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                            alt="google button"
+                        />
+                    </div>
+                    <p className="col-span-4 text-center text-xl font-medium">
+                        Usa tu cuenta google
+                    </p>
+                </div>
 
                 <Link
                     className="

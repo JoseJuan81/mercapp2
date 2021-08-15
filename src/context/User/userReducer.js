@@ -4,7 +4,7 @@ export const userReducer = ( state, action ) => {
 
     const opts = {
         [user.login]: () => ({ ...action.payload, logged: true }),
-        [user.logout]: () => ({ logged: true })
+        [user.logout]: () => ({ logged: false })
     }
 
     const fn = opts[action.type];

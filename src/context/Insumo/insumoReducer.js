@@ -15,9 +15,10 @@ const handleQuantityChange = ( state, action ) => {
     return updateItemInArrayById( state, { ...insumo, quantity } );
 }
 
-const handleRemoveInsumo = ( state, action ) => {
+const handleRemoveInsumo = ( state, id ) => {
 
-    const insumos = removeItemFromArrayByProp( 'id', action.payload, state);
+    const insumos = removeItemFromArrayByProp( 'id', id, state);
+
     return [...insumos];
 }
 

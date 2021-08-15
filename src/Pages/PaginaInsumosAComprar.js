@@ -7,6 +7,7 @@ import { InsumoContext } from '../context/Insumo/InsumoContext';
 export const PaginaInsumosAComprar = () => {
 
     const { selectedInsumos } = useContext( InsumoContext );
+
     return (
         <div>
             <div className="px-2 pb-20 mt-4 relative">
@@ -15,7 +16,7 @@ export const PaginaInsumosAComprar = () => {
 
             <ul className="">
             {
-                selectedInsumos.map((i, index) => (
+                selectedInsumos && selectedInsumos.map((i, index) => (
 
                     <li
                         className="mb-3"
