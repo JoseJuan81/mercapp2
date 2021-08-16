@@ -34,3 +34,45 @@ export const startGoogleLogIn = () => async dispatch => {
         
     }
 }
+
+export const startLoginWithEmailAndPassword = ({ email, password }) => async dispatch => {
+
+    try {
+
+        const { user } = await firebase.auth().signInWithEmailAndPassword( email, password );
+
+        dispatch(
+            login({
+                name: user.displayName,
+                uid: user.uid,
+                email: user.email,
+                avatar: user.photoURL
+            })
+        )
+
+    } catch (error) {
+        console.error('error al iniciar sesion con correo', error);
+    }
+}
+
+export const startRegisterWithNameEmailAndPassword = ({ name, email, password }) => async dispatch => {
+
+    try {
+        
+        const { user } = await firebase.auth().createUserWithEmailAndPassword( email, password );
+        await user.updateProfile({ displayName: name });
+
+        dispatch(
+            login({
+                name: user.displayName,
+                uid: user.uid,
+                email: user.email,
+                avatar: user.photoURL
+            })
+        )
+
+    } catch (error) {
+        
+        console.error( 'error al registrar usuario', error );
+    }
+}

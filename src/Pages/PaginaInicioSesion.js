@@ -1,33 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import validator from 'validator';
 
-import { registroUsuarioPath, resumenDeComprasPath } from '../constant/routes';
-import { login, startGoogleLogIn } from '../actions/auth';
+import { registroUsuarioPath } from '../constant/routes';
+import { startGoogleLogIn, startLoginWithEmailAndPassword } from '../actions/auth';
 import { useForm } from '../hooks/useForm';
+import { InputField } from '../components/Genericos/form/InputField';
+import { isEmpty } from 'functionallibrary';
+
+const formFields = {
+    email: '',
+    password: '',
+}
 
 export const PaginaInicioSesion = () => {
 
     const dispatch = useDispatch();
 
-    const history = useHistory();
+    const { formState, handleInputChange, invalidForm } = useForm({ ...formFields });
+    const [formError, setFormError] = useState({ ...formFields, noErrors: false, });
 
-    const { formState, handleInputChange, invalidForm } = useForm({
-        email: '',
-        password: ''
-    });
+    const { email, password } = formState;
 
     const handleLogIn = (ev) => {
         ev.preventDefault();
 
-        dispatch( login( formState ) );
-        
-        history.replace( resumenDeComprasPath );
+        formChecking();
+
+        if ( formError.noErrors ) {
+            
+            dispatch( startLoginWithEmailAndPassword( formState ) );        
+        }
     }
 
     const handleGoogleSignIn = () => {
 
         dispatch( startGoogleLogIn() );
+    }
+
+    const formChecking = () => {
+        let errors = { ...formFields, noErrors: true };
+        
+        if ( !validator.isEmail( email ) ) {
+            errors = { ...errors, noErrors: false, email: 'El correo es invalido' };
+        }
+
+        if ( isEmpty( email ) ) {
+            errors = { ...errors, noErrors: false, email: 'El correo es requerido' };
+        }
+        
+        if ( !validator.isLength( password, { min: 6, max: 16 } ) ) {
+            errors = { ...errors, noErrors: false, password: 'La contrasena debe tener entre 6 y 16 caracteres' };
+        }
+
+        if ( isEmpty( password ) ) {
+            errors = { ...errors, noErrors: false, password: 'La contrasena es requerida' };
+        }
+
+        setFormError({ ...errors });
+
     }
 
     return (
@@ -69,36 +101,32 @@ export const PaginaInicioSesion = () => {
                     MercApp 2
                 </h1>
 
-                <input
-                    required
-                    className="
-                        w-full h-16
-                        border border-solid border-warmGray-200
-                        rounded
-                        pl-4 pr-2 mb-4
-                    "
-                    placeholder="Introduzca su correo"
-                    type="email"
-                    name="email"
-                    value={ formState.email }
-                    onChange={ handleInputChange }
-                />
-                <input
-                    required
-                    className="
-                        w-full h-16
-                        border border-solid border-warmGray-200
-                        rounded
-                        pl-4 pr-2 mb-4
-                    "
-                    placeholder="Introduzca su contrasena"
-                    type="password"
-                    name="password"
-                    maxLength={ 16 }
-                    minLength={ 6 }
-                    value={ formState.password }
-                    onChange={ handleInputChange }
-                />
+                <fieldset
+                    className="mb-2"
+                >
+                    <InputField
+                        placeholder="Introduzca su correo"
+                        type="text"
+                        name="email"
+                        value={ email }
+                        onChange={ handleInputChange }
+                        onBlur={ formChecking }
+                        error={ formError.email }
+                    />
+                </fieldset>
+                <fieldset
+                    className="mb-2"
+                >
+                    <InputField
+                        placeholder="Introduzca su contrasena"
+                        type="password"
+                        name="password"
+                        value={ password }
+                        onChange={ handleInputChange }
+                        onBlur={ formChecking }
+                        error={ formError.password }
+                    />
+                </fieldset>
                 <button
                     disabled={ invalidForm }
                     className={`

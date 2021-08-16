@@ -1,29 +1,75 @@
-import React, { useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { isEmpty } from 'functionallibrary';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import validator from 'validator';
 
+import { startRegisterWithNameEmailAndPassword } from '../actions/auth';
+import { InputField } from '../components/Genericos/form/InputField';
 import { inicioSesionPath } from '../constant/routes';
-import { user } from '../constant/user';
-import { UserContext } from '../context/User/UserContext';
 import { useForm } from '../hooks/useForm';
+
+const formFields = {
+    email: '',
+    name: '',
+    password: '',
+    password2: '',
+}
 
 export const PaginaRegistroUsuario = () => {
 
-    const { dispatch } = useContext( UserContext );
+    const dispatch = useDispatch();
 
-    const history = useHistory();
+    const { formState, handleInputChange } = useForm({ ...formFields });
+    const [formError, setFormError] = useState({ ...formFields, noErrors: false, });
 
-    const { formState, handleInputChange, invalidForm } = useForm({
-        email: '',
-        lastname: '',
-        name: '',
-        password: ''
-    }, ['email', 'password', 'name', 'lastname']);
+    const { email, name, password, password2 } = formState;
 
     const handleRegister = (ev) => {
         ev.preventDefault();
+
+        formChecking();
+
+        if ( formError.noErrors ) {
+
+            dispatch( startRegisterWithNameEmailAndPassword( formState ) );
+
+        }        
+    }
+
+    const formChecking = () => {
+        let errors = { ...formFields, noErrors: true };
+
+        if ( !validator.isLength( name, { min: 4 }) ) {
+            errors = { ...errors, noErrors: false, name: 'El nombre debe tener mas de 4 caracteres' };
+        }
+
+        if ( isEmpty(name) ) {
+            errors = { ...errors, noErrors: false, name: 'El nombre es requerido' };
+        }
         
-        dispatch({ type: user.login, payload: formState });
-        history.push( inicioSesionPath );
+        if ( !validator.isEmail( email ) ) {
+            errors = { ...errors, noErrors: false, email: 'El correo es invalido' };
+        }
+
+        if ( isEmpty( email ) ) {
+            errors = { ...errors, noErrors: false, email: 'El correo es requerido' };
+        }
+        
+        if ( !validator.isLength( password, { min: 6, max: 16 } ) ) {
+            errors = { ...errors, noErrors: false, password: 'La contrasena debe tener entre 6 y 16 caracteres' };
+        }
+
+        if ( isEmpty( password ) ) {
+            errors = { ...errors, noErrors: false, password: 'La contrasena es requerida' };
+        }
+          
+        if ( password !== password2 ) {
+            errors = { ...errors, noErrors: false, password2: 'Las contrasenas no son iguales' };
+        }
+
+        setFormError({ ...errors });
+
     }
 
     return (
@@ -64,64 +110,68 @@ export const PaginaRegistroUsuario = () => {
                     MercApp 2
                 </h1>
 
-                <input
-                    required
-                    className="
-                        input-form
-                        mb-4
-                    "
-                    placeholder="Nombre"
-                    type="text"
-                    name="name"
-                    value={ formState.name }
-                    onChange={ handleInputChange }
-                />
-                <input
-                    required
-                    className="
-                        input-form
-                        mb-4
-                    "
-                    placeholder="Apellido"
-                    type="text"
-                    name="lastname"
-                    value={ formState.lastname }
-                    onChange={ handleInputChange }
-                />
-                <input
-                    required
-                    className="
-                        input-form
-                        mb-4
-                    "
-                    placeholder="Correo"
-                    type="email"
-                    name="email"
-                    value={ formState.email }
-                    onChange={ handleInputChange }
-                />
-                <input
-                    required
-                    className="
-                        input-form
-                        mb-4
-                    "
-                    placeholder="Contrasena"
-                    type="password"
-                    name="password"
-                    maxLength={ 16 }
-                    minLength={ 6 }
-                    value={ formState.password }
-                    onChange={ handleInputChange }
-                />
+                <fieldset
+                    className="mb-2"
+                >
+                    <InputField
+                        autoComplete="off"
+                        type="text"
+                        name="name"
+                        placeholder="Nombre"
+                        value={ name }
+                        onChange={ handleInputChange }
+                        onBlur={ formChecking }
+                        error={ formError.name }
+                    />
+
+                </fieldset>
+                <fieldset
+                    className="mb-2"
+                >
+                    <InputField
+                        name="email"
+                        placeholder="Correo"
+                        value={ email }
+                        onChange={ handleInputChange }
+                        onBlur={ formChecking }
+                        error={ formError.email }
+                    />
+
+                </fieldset>
+                <fieldset
+                    className="mb-2"
+                >
+                    <InputField
+                        name="password"
+                        placeholder="Contrasena"
+                        type="password"
+                        value={ password }
+                        onChange={ handleInputChange }
+                        onBlur={ formChecking }
+                        error={ formError.password }
+                    />
+
+                </fieldset>
+                <fieldset
+                    className="mb-2"
+                >
+                    <InputField
+                        name="password2"
+                        placeholder="Confirmar contrasena"
+                        type="password"
+                        value={ password2 }
+                        onChange={ handleInputChange }
+                        onBlur={ formChecking }
+                        error={ formError.password2 }
+                    />
+
+                </fieldset>
                 <button
-                    disabled={ invalidForm }
                     className={`
                         w-full h-16
                         bg-lime-200
                         text-lime-700 text-xl
                         rounded
-                        ${invalidForm && 'opacity-30'}
                     `}
                 >
                     Registrar
