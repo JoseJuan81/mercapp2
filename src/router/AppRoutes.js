@@ -1,12 +1,12 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { NavBar } from '../components/navBar/NavBar';
 import { misInsumosPath, nuevaCompraPath, nuevoInsumoPath, resumenDeComprasPath } from '../constant/routes';
 import { MisComprasContainer } from '../components/container/MisComprasContainer';
 import { MisInsumosContainer } from '../components/container/MisInsumosContainer';
 import { NuevaCompraContainer } from '../components/container/NuevaCompraContainer';
 import { NuevoInsumoContainer } from '../components/container/NuevoInsumoContainer';
+import { NavBar } from '../components/navBar/NavBar';
 
 export const AppRoutes = () => {
     return (
