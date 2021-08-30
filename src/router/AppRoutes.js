@@ -6,7 +6,7 @@ import { MisComprasContainer } from '../components/container/MisComprasContainer
 import { MisInsumosContainer } from '../components/container/MisInsumosContainer';
 import { NuevaCompraContainer } from '../components/container/NuevaCompraContainer';
 import { NuevoInsumoContainer } from '../components/container/NuevoInsumoContainer';
-import { NavBar } from '../components/navBar/NavBar';
+import { NavBar } from '../components/NavBar';
 
 export const AppRoutes = () => {
     return (
