@@ -1,11 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { InputField } from '../components/genericos/form/InputField';
-import { LabelsField } from '../components/genericos/form/LabelsField';
-import { NuevoInsumoMenuMobile } from '../components/menu/NuevoInsumoMenuMobile';
+import { InputField } from '../components/Form/InputField';
+import { LabelsField } from '../components/Form/LabelsField';
+import { NuevoInsumoMenuMobile } from '../components/Menu/NuevoInsumoMenuMobile';
 import { fillingForm } from '../actions/newInsumoAction';
-import { InsumoPrice } from '../components/genericos/form/InsumoPrice';
+import { InsumoPrice } from '../components/Form/InsumoPrice';
 import { priceFromObjectToArray } from '../helper/utils';
 
 export const PaginaNuevoInsumo = () => {

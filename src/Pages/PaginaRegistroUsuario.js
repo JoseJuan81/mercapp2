@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import validator from 'validator';
 
 import { startRegisterWithNameEmailAndPassword } from '../actions/auth';
-import { InputField } from '../components/genericos/form/InputField';
+import { InputField } from '../components/Form/InputField';
 import { inicioSesionPath } from '../constant/routes';
 import { useForm } from '../hooks/useForm';
 

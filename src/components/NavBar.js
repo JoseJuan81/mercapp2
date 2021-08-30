@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { round } from 'functionallibrary';
 import { useLocation } from 'react-router-dom';
 
-import { misInsumosPath } from '../../constant/routes';
-import { Menu } from '../menu/Menu';
+import { Menu } from './Menu/Menu';
+import { misInsumosPath } from '../constant/routes';
 
 const twoDecimals = round(2);
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BigAddButton } from '../components/genericos/buttons/BigAddButton';
+import { BigAddButton } from '../components/Buttons/BigAddButton';
 import { nuevaCompraPath } from '../constant/routes';
 
 export const PaginaResumenCompras = () => {

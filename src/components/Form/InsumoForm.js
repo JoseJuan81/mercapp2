@@ -2,11 +2,11 @@ import React, { useContext, useLayoutEffect, useRef, useState } from 'react';
 import { compose, isNotEmpty, setNewProperty } from 'functionallibrary';
 import PropType from 'prop-types';
 
-import { useForm } from '../../../hooks/useForm';
+import { useForm } from '../../hooks/useForm';
 
 import { InsumoContext } from '../../../context/Insumo/InsumoContext';
 import { LabelsField } from './LabelsField';
-import { useIdbInsumos } from '../../../hooks/useIdbInsumos';
+import { useIdbInsumos } from '../../hooks/useIdbInsumos';
 
 const defaultInsumoForm = {
     labels: [],

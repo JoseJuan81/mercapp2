@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageTitle } from '../components/genericos/PageTitle';
+import { PageTitle } from '../components/PageTitle';
 
 import { Insumo } from '../components/insumos/Insumo';
 

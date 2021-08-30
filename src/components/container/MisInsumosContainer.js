@@ -7,8 +7,8 @@ import { nuevoInsumoPath } from '../../constant/routes';
 import { startLoadingInsumos } from '../../actions/insumosAction';
 
 import { PaginaInsumos } from '../../Pages/PaginaInsumos'
-import { BigAddButton } from '../genericos/buttons/BigAddButton';
-import { InsumosMenuMobile } from '../menu/InsumosMenuMobile';
+import { BigAddButton } from '../Buttons/BigAddButton';
+import { InsumosMenuMobile } from '../Menu/InsumosMenuMobile';
 
 export const MisInsumosContainer = () => {
 
