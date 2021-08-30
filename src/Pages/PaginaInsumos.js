@@ -1,7 +1,7 @@
 import React from 'react';
 import { PageTitle } from '../components/PageTitle';
 
-import { Insumo } from '../components/insumos/Insumo';
+import { Insumo } from '../components/Insumos/Insumo';
 
 export const PaginaInsumos = ({ insumos }) => {
 

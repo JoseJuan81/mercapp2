@@ -4,8 +4,9 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import validator from 'validator';
 
-import { startRegisterWithNameEmailAndPassword } from '../actions/auth';
 import { InputField } from '../components/Form/InputField';
+
+import { startRegisterWithNameEmailAndPassword } from '../actions/auth';
 import { inicioSesionPath } from '../constant/routes';
 import { useForm } from '../hooks/useForm';
 

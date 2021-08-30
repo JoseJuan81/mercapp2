@@ -2,10 +2,10 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { misInsumosPath, nuevaCompraPath, nuevoInsumoPath, resumenDeComprasPath } from '../constant/routes';
-import { MisComprasContainer } from '../components/container/MisComprasContainer';
-import { MisInsumosContainer } from '../components/container/MisInsumosContainer';
-import { NuevaCompraContainer } from '../components/container/NuevaCompraContainer';
-import { NuevoInsumoContainer } from '../components/container/NuevoInsumoContainer';
+import { MisComprasContainer } from '../components/Container/MisComprasContainer';
+import { MisInsumosContainer } from '../components/Container/MisInsumosContainer';
+import { NuevaCompraContainer } from '../components/Container/NuevaCompraContainer';
+import { NuevoInsumoContainer } from '../components/Container/NuevoInsumoContainer';
 import { NavBar } from '../components/NavBar';
 
 export const AppRoutes = () => {
