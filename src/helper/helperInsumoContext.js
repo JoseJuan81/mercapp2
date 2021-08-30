@@ -30,11 +30,6 @@ export const updateTotal = ( selectedInsumos ) => {
  */
 export const updatingQuantity = ( id, quantity, selectedInsumos ) => {
 
-    const ind = findIndex(
-        equality('id', id),
-        selectedInsumos
-    );
-
     const updateFn = (list, item) => {
 
         if (id === item.id) {

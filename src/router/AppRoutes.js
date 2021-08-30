@@ -1,38 +1,43 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { NavBar } from '../components/NavBar/NavBar';
-import { InsumoStore } from '../context/Insumo/insumoWrapperContext';
-import { PaginaInsumos } from '../Pages/PaginaInsumos';
-import { PaginaInsumosAComprar } from '../Pages/PaginaInsumosAComprar';
-
-import { listaDeComprasPath, misInsumosPath, resumenDeComprasPath } from '../constant/routes';
-import { PaginaResumenCompras } from '../Pages/PaginaResumenCompras';
+import { NavBar } from '../components/navBar/NavBar';
+import { misInsumosPath, nuevaCompraPath, nuevoInsumoPath, resumenDeComprasPath } from '../constant/routes';
+import { MisComprasContainer } from '../components/container/MisComprasContainer';
+import { MisInsumosContainer } from '../components/container/MisInsumosContainer';
+import { NuevaCompraContainer } from '../components/container/NuevaCompraContainer';
+import { NuevoInsumoContainer } from '../components/container/NuevoInsumoContainer';
 
 export const AppRoutes = () => {
     return (
-        <InsumoStore>
+        <div className="w-screen h-screen">
             <NavBar />
 
-            <div>
+            <div
+                className="layout__container"
+            >
                 <Switch>
 
                     <Route exact path={ resumenDeComprasPath }>
-                        <PaginaResumenCompras />
-                    </Route>
-
-                    <Route exact path={ listaDeComprasPath }>
-                        <PaginaInsumosAComprar />
+                        <MisComprasContainer />
                     </Route>
 
                     <Route exact path={ misInsumosPath }>
-                        <PaginaInsumos />
+                        <MisInsumosContainer />
+                    </Route>
+
+                    <Route exact path={ nuevaCompraPath }>
+                        <NuevaCompraContainer />
+                    </Route>
+
+                    <Route exact path={ nuevoInsumoPath }>
+                        <NuevoInsumoContainer />
                     </Route>
 
                     <Redirect to={ resumenDeComprasPath } />
 
                 </Switch>
             </div>
-        </InsumoStore>
+        </div>
     )
 }

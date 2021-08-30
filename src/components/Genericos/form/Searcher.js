@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { isEmpty } from 'functionallibrary';
 
 export const Searcher = ({ onSearch, placeholder }) => {
-    console.log('4 SEARCHER');
 
     const [formState, setFormState] = useState({
         search: ''

@@ -1,20 +1,27 @@
 import React from 'react';
 
+import PropTypes from 'prop-types';
+
 export const InputField = React.memo(({
     error,
     onBlur,
     onChange,
+    onFocus,
     value,
+    specialClass,
     ...rest
 }) => {
+    const className = specialClass ? `input-form ${specialClass}` : 'input-form';
+
     return (
         <>
             <input
                 { ...rest }
-                className="input-form"
+                className={ className }
                 value={ value }
                 onChange={ onChange }
                 onBlur={ onBlur }
+                onFocus={ onFocus }
             />
 
             { error &&
@@ -29,3 +36,10 @@ export const InputField = React.memo(({
         </>
     )
 })
+
+InputField.propTypes = {
+    error: PropTypes.string,
+    value: PropTypes.any,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+}

@@ -113,5 +113,8 @@
 	.icon-menu:before {
 		content: "\e9bd";
 	}
+	.icon-home:before {
+		content: "\e900";
+	}
 
 }

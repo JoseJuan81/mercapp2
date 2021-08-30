@@ -1,5 +1,7 @@
 import { firebase, googleAuthProvider } from '../firebase/firebase-config';
 import { auth } from '../constant/auth';
+import { removeFromLocalStorage, setInLocalStorage } from '../helper/localStorage';
+import { userKey } from '../constant/user';
 
 /// ============= Acciones sincronas ================= //
 export const login = ( userData ) => ({
@@ -19,18 +21,22 @@ export const startGoogleLogIn = () => async dispatch => {
         
         const { user } = await firebase.auth().signInWithPopup( googleAuthProvider );
 
+        const userData = {
+            name: user.displayName,
+            uid: user.uid,
+            email: user.email,
+            avatar: user.photoURL
+        }
+
         dispatch(
-            login({
-                name: user.displayName,
-                uid: user.uid,
-                email: user.email,
-                avatar: user.photoURL
-            })
+            login( userData )
         )
+
+        setInLocalStorage( userKey, { ...userData, logged: true } );
 
     } catch (error) {
 
-        console.error('error al iniciar sesion', error);
+        console.error('error al iniciar sesion con google', error);
         
     }
 }
@@ -41,14 +47,18 @@ export const startLoginWithEmailAndPassword = ({ email, password }) => async dis
 
         const { user } = await firebase.auth().signInWithEmailAndPassword( email, password );
 
+        const userData = {
+            name: user.displayName,
+            uid: user.uid,
+            email: user.email,
+            avatar: user.photoURL
+        }
+
         dispatch(
-            login({
-                name: user.displayName,
-                uid: user.uid,
-                email: user.email,
-                avatar: user.photoURL
-            })
+            login( userData )
         )
+
+        setInLocalStorage( userKey, { ...userData, logged: true } );
 
     } catch (error) {
         console.error('error al iniciar sesion con correo', error);
@@ -75,4 +85,9 @@ export const startRegisterWithNameEmailAndPassword = ({ name, email, password })
         
         console.error( 'error al registrar usuario', error );
     }
+}
+
+export const appLogout = () => dispatch => {
+    removeFromLocalStorage( userKey );
+    dispatch( logout() );
 }

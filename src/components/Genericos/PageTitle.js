@@ -1,11 +1,10 @@
 import React from 'react';
 
 export const PageTitle = React.memo(({ title }) => {
-    console.log('PageTitle');
     return (
         <h1
             className="
-                text-4xl font-bold text-warmGray-500
+                text-2xl font-light text-warmGray-800
                 text-center
                 mb-4
             "

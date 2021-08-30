@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { round } from 'functionallibrary';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-import { misInsumosPath, listaDeComprasPath } from '../../constant/routes';
-import { logout } from '../../actions/auth';
-import { useDispatch } from 'react-redux';
+import { misInsumosPath } from '../../constant/routes';
+import { Menu } from '../menu/Menu';
 
 const twoDecimals = round(2);
 
 export const NavBar = () => {
-
-    const dispatch = useDispatch();
 
     const { pathname } = useLocation();
 
@@ -27,12 +24,6 @@ export const NavBar = () => {
         }
     }
 
-    const handleLogout = () => {
-
-        dispatch( logout() );
-
-    }
-
     useEffect( () => {
 
         setIsPaginaInsumo( pathname === misInsumosPath );
@@ -42,8 +33,9 @@ export const NavBar = () => {
     return (
         <div
             className="
-                py-3 px-3
-                shadow
+                px-3
+                h-16
+                border-b border-solid border-warmGray-200
                 flex items-center justify-between
                 sticky top-0 z-10
                 w-full
@@ -64,84 +56,23 @@ export const NavBar = () => {
                     flex items-center
                 "
             >
-                {total > 0 && isPaginaInsumo &&
-                    <Link
-                        to="/lista-de-compras"
-                        className="
-                        py-2 px-3
-                        text-base text-lime-500
-                        bg-warmGray-100
-                        rounded
-                        icon-cart
-                        "
-                    ></Link>
-                }
-
-                {total > 0 &&
-                    <div
-                        className="
-                            text-lg font-bold
-                            text-warmGray-600
-                            mx-4
-                        "
-                    >
-                        <small className="text-xs">S/.</small>
-                        <output>{ twoDecimals( total ) }</output>
-                    </div>
-                }
 
                 <button
                     type="button"
                     className="
                         icon-menu
-                        relative
                         py-2 px-3
-                        text-base text-warmGray-500
+                        text-base text-warmGray-800
                         bg-warmGray-100
                     "
                     onClick={ handleShowMenu }
                 >
-                    <ul
-                        className={`
-                            absolute top-full right-0
-                            bg-white
-                            border border-solid border-warmGray-400
-                            mt-1
-                            shadow
-                            duration-200
-                            transform ${ showMenu ? 'translate-x-2' : 'translate-x-44' } 
-                        `}
-                    >
-                        <li
-                            className="
-                                whitespace-nowrap
-                                px-3 py-2
-                            "
-                        >
-                            <Link to={ listaDeComprasPath }>Mis compras</Link>
-                        </li>
-                        <li
-                            className="
-                                whitespace-nowrap
-                                px-3 py-2
-                            "
-                        >
-                            <Link to={ misInsumosPath }>Mis insumos</Link>
-                        </li>
-                        <li
-                            className="
-                                whitespace-nowrap
-                                px-3 py-2
-                            "
-                        >
-                            <buttom
-                                onClick={ handleLogout }
-                            >
-                                Cerrar sesion
-                            </buttom>
-                        </li>
-                    </ul>
                 </button>
+                
+                <Menu
+                    showMenu={ showMenu }
+                    handleShowMenu={ handleShowMenu }
+                />
             </div>
 
         </div>

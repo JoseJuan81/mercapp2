@@ -6,7 +6,7 @@ import validator from 'validator';
 import { registroUsuarioPath } from '../constant/routes';
 import { startGoogleLogIn, startLoginWithEmailAndPassword } from '../actions/auth';
 import { useForm } from '../hooks/useForm';
-import { InputField } from '../components/Genericos/form/InputField';
+import { InputField } from '../components/genericos/form/InputField';
 import { isEmpty } from 'functionallibrary';
 
 const formFields = {

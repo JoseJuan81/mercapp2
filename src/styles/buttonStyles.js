@@ -9,6 +9,7 @@ const buttonStyles = ({ addComponents, theme }) => {
 		},
 
 		'.btn-icon': {
+			color: theme( 'colors.warmGray.800'),
 			fontSize: theme( 'fontSize.2xl' ),
 		},
 	}
