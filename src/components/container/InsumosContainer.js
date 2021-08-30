@@ -57,7 +57,12 @@ export const InsumosContainer = () => {
     }, [insumoToUpdate]);
 
     return (
-        <>
+        <div
+            className="
+                h-full
+                pb-16
+            "
+        >
             <div
                 className={`
                     flex
@@ -101,6 +106,6 @@ export const InsumosContainer = () => {
 
             }
 
-        </>
+        </div>
     )
 }

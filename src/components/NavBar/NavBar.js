@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { round } from 'functionallibrary';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { misInsumosPath } from '../../constant/routes';
-import { InsumoContext } from '../../context/Insumo/InsumoContext';
+import { Menu } from '../menu/Menu';
 
 const twoDecimals = round(2);
 
@@ -11,20 +11,31 @@ export const NavBar = () => {
 
     const { pathname } = useLocation();
 
+    const [showMenu, setShowMenu] = useState( false );
     const [isPaginaInsumo, setIsPaginaInsumo] = useState( pathname === misInsumosPath );
 
-    const { total } = useContext( InsumoContext );
+    const total = 123;
+
+    const handleShowMenu = ({ target }) => {
+
+        if ( target.type === 'button' ) {
+            
+            setShowMenu( sm => !sm );
+        }
+    }
 
     useEffect( () => {
 
         setIsPaginaInsumo( pathname === misInsumosPath );
+
     }, [pathname])
 
     return (
         <div
             className="
-                py-3 px-3
-                shadow
+                px-3
+                h-16
+                border-b border-solid border-warmGray-200
                 flex items-center justify-between
                 sticky top-0 z-10
                 w-full
@@ -45,41 +56,23 @@ export const NavBar = () => {
                     flex items-center
                 "
             >
-                {total > 0 && isPaginaInsumo &&
-                    <Link
-                        to="/lista-de-compras"
-                        className="
-                        py-2 px-3
-                        text-base text-lime-500
-                        bg-warmGray-100
-                        rounded
-                        icon-cart
-                        "
-                    ></Link>
-                }
-
-                {total > 0 &&
-                    <div
-                        className="
-                            text-lg font-bold
-                            text-warmGray-600
-                            mx-4
-                        "
-                    >
-                        <small className="text-xs">S/.</small>
-                        <output>{ twoDecimals( total ) }</output>
-                    </div>
-                }
 
                 <button
                     type="button"
                     className="
                         icon-menu
                         py-2 px-3
-                        text-base text-warmGray-500
+                        text-base text-warmGray-800
                         bg-warmGray-100
                     "
-                ></button>
+                    onClick={ handleShowMenu }
+                >
+                </button>
+                
+                <Menu
+                    showMenu={ showMenu }
+                    handleShowMenu={ handleShowMenu }
+                />
             </div>
 
         </div>

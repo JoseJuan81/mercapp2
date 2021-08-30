@@ -1,13 +1,13 @@
-import React, { useContext } from 'react'
-import { UserContext } from './context/User/UserContext';
-import { UserStore } from './context/User/userWrapper'
+import { Provider } from 'react-redux';
+
 import { Main } from './router/Main';
+import { store } from './store/store';
 
 export const MercApp = () => {
 
     return (
-        <UserStore>
+        <Provider store={ store }>
             <Main />
-        </UserStore>
+        </Provider>
     )
 }

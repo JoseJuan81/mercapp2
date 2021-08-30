@@ -3,6 +3,8 @@ const plugin = require('tailwindcss/plugin');
 
 const inputStyles = require('./src/styles/formControl/inputStyles');
 const buttonStyles = require('./src/styles/buttonStyles');
+const menuMobileStyles = require('./src/styles/menuMobileStyles');
+const layoutStyles = require('./src/styles/layout');
 
 module.exports = {
 	purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
@@ -18,6 +20,9 @@ module.exports = {
 			fontFamily: {
 				poppins: 'Poppins'
 			},
+			maxHeight: theme => ({
+				...theme('spacing')
+			}),
 			minHeight: theme => ({
 				...theme('spacing')
 			}),
@@ -30,7 +35,9 @@ module.exports = {
 		extend: {},
 	},
 	plugins: [
-		plugin( inputStyles ),
 		plugin( buttonStyles ),
+		plugin( inputStyles ),
+		plugin( layoutStyles ),
+		plugin( menuMobileStyles ),
 	],
 }

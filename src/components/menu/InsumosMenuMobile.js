@@ -1,25 +1,22 @@
 import React, { useContext } from 'react';
-import { InsumoContext } from '../../context/Insumo/InsumoContext';
+import { NavLink } from 'react-router-dom';
+import { nuevoInsumoPath } from '../../constant/routes';
 
 export const InsumosMenuMobile = React.memo(({ toogleShowSearch, toogleShowFilter, openModal }) => {
     console.log('6 MENU MOVIL');
 
-    const { dispatch } = useContext( InsumoContext );
+    const dispatch = () => {};
     
     return (
         <div
             className="
-                grid grid-cols-5
-                fixed bottom-0 left-0
-                w-full h-16
-                bg-white
-                border-t border-solid border-warmGray-300
-                shadow-inner
+                menu_mobile__container
+                grid-cols-5
             "
         >
             
             <button
-                className="icon-checkmark text-lime-400 btn-icon"
+                className="icon-checkmark btn-icon"
                 title="Seleccionar todo"
                 onClick={ () => dispatch({ type: 'select-all' }) }
             ></button>
@@ -31,22 +28,25 @@ export const InsumosMenuMobile = React.memo(({ toogleShowSearch, toogleShowFilte
                 ></button>
 
             <button
-                className="icon-search text-rose-500 btn-icon"
+                className="icon-search btn-icon"
                 title="Buscar"
                 onClick={ toogleShowSearch }
             ></button>
 
             <button
-                className="icon-filter text-blue-400 btn-icon"
+                className="icon-filter btn-icon"
                 title="Filtrar"
                 onClick={ toogleShowFilter }
             ></button>
 
-            <button
-                className="icon-plus btn-icon text-lime-600"
-                title="Agregar"
-                onClick={ openModal }
-            ></button>
+            <NavLink
+                to={ nuevoInsumoPath }
+                className="
+                    icon-plus
+                    btn-icon
+                    flex items-center justify-center
+                "
+            ></NavLink>
 
         </div>
     )

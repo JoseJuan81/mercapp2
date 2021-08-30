@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { round, setNewProperty } from 'functionallibrary';
-import { InsumoContext } from '../../context/Insumo/InsumoContext';
 import { useIdbInsumos } from '../../hooks/useIdbInsumos';
+import { useDispatch } from 'react-redux';
 
 const twoDecimals = round(2);
 
@@ -82,7 +82,7 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
     // console.log('11 CANTIDAD', id);
 
     const initialQuantity = 1;
-    const { dispatch } = useContext( InsumoContext );
+    const dispatch = useDispatch();
 
     const[q, setQ] = useState( initialQuantity );
 
@@ -167,7 +167,8 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
 const InsumoActions = React.memo( ({ id }) => {
     // console.log('9 ACTIONS', id);
 
-    const { dispatch, updatingInsumo } = useContext( InsumoContext );
+    const dispatch = useDispatch();
+    const updatingInsumo = () => {};
     const { deleteInsumoInLocalDB } = useIdbInsumos();
 
     const [toogle, setToogle] = useState(false);
@@ -259,9 +260,9 @@ const InsumoActions = React.memo( ({ id }) => {
 export const Insumo = React.memo( ({ insumo }) => {
     // console.log('7 INSUMO', insumo.title);
 
-    const { checked, currency, labels, id, title, price } = insumo;
+    const { checked, currency, labels, id, name: title, price } = insumo;
 
-    const { dispatch } = useContext( InsumoContext );
+    const dispatch = useDispatch();
 
     const [total, setTotal] = useState(insumo.price);
 
@@ -277,6 +278,7 @@ export const Insumo = React.memo( ({ insumo }) => {
     return (
         <div
             className={`
+                w-full
                 duration-200
                 rounded-lg ${checked && 'shadow-xl'}
                 border border-solid ${checked ? 'border-lime-400' : 'border-warmGray-300'}

@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     BrowserRouter as Router,
     Redirect,
@@ -12,13 +13,26 @@ import { PaginaInicioSesion } from '../Pages/PaginaInicioSesion';
 import { PaginaRegistroUsuario } from '../Pages/PaginaRegistroUsuario';
 
 import { inicioSesionPath, registroUsuarioPath } from '../constant/routes';
-import { UserContext } from '../context/User/UserContext';
-import { UserStore } from '../context/User/userWrapper';
+import { getFromLocalStorage } from '../helper/localStorage';
+import { userKey } from '../constant/user';
+import { login } from '../actions/auth';
 
 export const Main = () => {
-console.log('1 MAIN');
 
-    const { user } = useContext( UserContext );
+    const userFromLocalStore = getFromLocalStorage( userKey );
+    const userFromStore = useSelector( state => state.auth );
+    const user =  userFromLocalStore || userFromStore;
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+    
+        if ( userFromLocalStore ) {
+
+            dispatch( login( userFromLocalStore ) );
+        }
+        
+    }, [])
 
     return (
         <div className="font-poppins">

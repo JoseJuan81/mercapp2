@@ -1,7 +1,14 @@
-import { removeItemFromArrayByIndex } from 'functionallibrary';
-import React, { useRef, useState } from 'react';
+import { isEmpty, removeItemFromArrayByIndex } from 'functionallibrary';
+import React, { useEffect, useRef, useState } from 'react';
 
-export const LabelsField = ({ labels = [], addLabels }) => {
+import PropTypes from 'prop-types';
+
+export const LabelsField = ({
+    labels = [],
+    addLabels,
+    placeholder = 'etiquetas...',
+    name=''
+}) => {
 
     const labelsRef = useRef();
 
@@ -13,7 +20,7 @@ export const LabelsField = ({ labels = [], addLabels }) => {
         setLabelsState( l => [inputValue, ...l] );
         addLabels({
             target: {
-                name: 'labels',
+                name,
                 value: [inputValue, ...labelsState]
             }
         });
@@ -49,50 +56,73 @@ export const LabelsField = ({ labels = [], addLabels }) => {
         e.preventDefault();
         e.stopPropagation();
 
-        setLabelsState(
-            removeItemFromArrayByIndex(index)
-        )
+        const labelsUpdated = removeItemFromArrayByIndex(index, labelsState);
+
+        setLabelsState( labelsUpdated );
+
+        addLabels({
+            target: {
+                name,
+                value: labelsUpdated
+            }
+        });
+
+        labelsRef.current.focus();
     }
+
+    useEffect( () => {
+
+        if ( isEmpty( labels ) ) {
+            setLabelsState( labels );
+        }
+
+    }, [labels])
 
     return (
         <div
-            className="
+            className={`
                 flex flex-wrap
-                w-full min-h-16
-                px-2 pt-2 pb-1 mb-4
+                w-full min-h-12
+                mb-4 ${ labelsState && labelsState.length > 0 && 'p-1' }
                 border border-solid border-warmGray-300
                 rounded
                 overflow-hidden
-            "
+            `}
         >
             
             { labelsState && labelsState.length > 0 && 
-                <div className="flex flex-wrap">
+                <div
+                    className="
+                        flex flex-wrap
+                        max-h-48
+                        overflow-auto
+                    "
+                >
                     {
                         labelsState.map( (l, ind) => (
                             <span
                                 key={ `${l}-${ind}` }
-                                className="
+                                className={`
                                     relative
                                     flex items-center
-                                    text-warmGray-600
-                                    mr-2
-                                "
+                                    text-warmGray-800
+                                    ${ labelsState.length > 1 && 'mr-2 my-1' }
+                                `}
                             >
                                 <span
                                     className="
                                         rounded-l
-                                        bg-warmGray-200
-                                        my-1 p-1 pr-2
+                                        bg-warmGray-100
+                                        p-2
                                     "
                                 >{ l }</span>
                                 <button
                                     type="button"
                                     className="
                                         icon-cancel-circle
-                                        bg-warmGray-200
+                                        bg-warmGray-100
                                         rounded-r-full
-                                        px-1
+                                        p-1
                                         text-rose-400
                                         text-2xl
                                     "
@@ -115,10 +145,12 @@ export const LabelsField = ({ labels = [], addLabels }) => {
                     className="
                         input-form
                         input-transparent
+                        pl-4
                     "
+                    name={ name }
                     ref={ labelsRef }
                     autoComplete="off"
-                    placeholder="Etiquetas"
+                    placeholder={ placeholder }
                     onKeyDown={ handleAddLabelWithTabKey }
                     onChange={ handleInputOnChange }
                     value={ inputValue }
@@ -127,7 +159,7 @@ export const LabelsField = ({ labels = [], addLabels }) => {
                     <button
                         className="
                             icon-plus
-                            px-2 py-2
+                            px-2 py-2 mr-2
                             text-lime-500
                             bg-warmGray-100
                             rounded
@@ -138,4 +170,11 @@ export const LabelsField = ({ labels = [], addLabels }) => {
             </div>
         </div>
     )
+}
+
+LabelsField.propTypes = {
+    addLabels: PropTypes.func.isRequired,
+    labels: PropTypes.array.isRequired,
+    placeholder: PropTypes.string,
+    name: PropTypes.string
 }

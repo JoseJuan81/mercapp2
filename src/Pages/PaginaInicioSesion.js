@@ -1,38 +1,89 @@
-import React, { useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import validator from 'validator';
 
-import { misInsumosPath, registroUsuarioPath } from '../constant/routes';
-import { user } from '../constant/user';
-import { UserContext } from '../context/User/UserContext';
+import { registroUsuarioPath } from '../constant/routes';
+import { startGoogleLogIn, startLoginWithEmailAndPassword } from '../actions/auth';
 import { useForm } from '../hooks/useForm';
+import { InputField } from '../components/genericos/form/InputField';
+import { isEmpty } from 'functionallibrary';
+
+const formFields = {
+    email: '',
+    password: '',
+}
 
 export const PaginaInicioSesion = () => {
 
-    const { dispatch } = useContext( UserContext );
+    const dispatch = useDispatch();
 
-    const history = useHistory();
+    const { formState, handleInputChange, invalidForm } = useForm({ ...formFields });
+    const [formError, setFormError] = useState({ ...formFields, noErrors: false, });
 
-    const { formState, handleInputChange, invalidForm } = useForm({
-        email: '',
-        password: ''
-    }, ['email', 'password']);
+    const { email, password } = formState;
 
     const handleLogIn = (ev) => {
         ev.preventDefault();
+
+        formChecking();
+
+        if ( formError.noErrors ) {
+            
+            dispatch( startLoginWithEmailAndPassword( formState ) );        
+        }
+    }
+
+    const handleGoogleSignIn = () => {
+
+        dispatch( startGoogleLogIn() );
+    }
+
+    const formChecking = () => {
+        let errors = { ...formFields, noErrors: true };
         
-        dispatch({ type: user.login, payload: formState });
-        history.replace( misInsumosPath );
+        if ( !validator.isEmail( email ) ) {
+            errors = { ...errors, noErrors: false, email: 'El correo es invalido' };
+        }
+
+        if ( isEmpty( email ) ) {
+            errors = { ...errors, noErrors: false, email: 'El correo es requerido' };
+        }
+        
+        if ( !validator.isLength( password, { min: 6, max: 16 } ) ) {
+            errors = { ...errors, noErrors: false, password: 'La contrasena debe tener entre 6 y 16 caracteres' };
+        }
+
+        if ( isEmpty( password ) ) {
+            errors = { ...errors, noErrors: false, password: 'La contrasena es requerida' };
+        }
+
+        setFormError({ ...errors });
+
     }
 
     return (
         <div
             className="
-                flex items-center justify-center
+                flex flex-col items-center justify-center
                 h-screen
+                px-2 mx-auto
+                max-w-xl
             "
         >
+            <h2
+                className="
+                    font-medium
+                    text-xl text-warmGray-600
+                    mb-4
+                "
+            >
+                Inicio de sesion
+            </h2>
+
             <form
                 className="
+                    animate__animated animate__jello
                     flex flex-col
                     py-6 px-4 mx-4
                     w-full
@@ -50,48 +101,73 @@ export const PaginaInicioSesion = () => {
                     MercApp 2
                 </h1>
 
-                <input
-                    required
-                    className="
-                        w-full h-16
-                        border border-solid border-warmGray-200
-                        rounded
-                        pl-4 pr-2 mb-4
-                    "
-                    placeholder="Introduzca su correo"
-                    type="email"
-                    name="email"
-                    value={ formState.email }
-                    onChange={ handleInputChange }
-                />
-                <input
-                    required
-                    className="
-                        w-full h-16
-                        border border-solid border-warmGray-200
-                        rounded
-                        pl-4 pr-2 mb-4
-                    "
-                    placeholder="Introduzca su contrasena"
-                    type="password"
-                    name="password"
-                    maxLength={ 16 }
-                    minLength={ 6 }
-                    value={ formState.password }
-                    onChange={ handleInputChange }
-                />
+                <fieldset
+                    className="mb-2"
+                >
+                    <InputField
+                        placeholder="Introduzca su correo"
+                        type="text"
+                        name="email"
+                        value={ email }
+                        onChange={ handleInputChange }
+                        onBlur={ formChecking }
+                        error={ formError.email }
+                    />
+                </fieldset>
+                <fieldset
+                    className="mb-2"
+                >
+                    <InputField
+                        placeholder="Introduzca su contrasena"
+                        type="password"
+                        name="password"
+                        value={ password }
+                        onChange={ handleInputChange }
+                        onBlur={ formChecking }
+                        error={ formError.password }
+                    />
+                </fieldset>
                 <button
                     disabled={ invalidForm }
                     className={`
-                        w-full h-16
+                        btn
                         bg-lime-200
                         text-lime-700 text-xl
-                        rounded
                         ${invalidForm && 'opacity-30'}
                     `}
                 >
                     Inicia sesion
                 </button>
+
+                <div 
+                    className="
+                        btn
+                        my-4
+                        grid grid-cols-5 items-center
+                        bg-blue-500 text-white
+                        border border-solid border-blue-500
+                    "
+                    onClick={ handleGoogleSignIn }
+                >
+                    <div
+                        className="
+                            bg-white
+                            rounded-l
+                            px-4
+                            h-full
+                            flex justify-center items-center
+                        "
+                    >
+                        <img
+                            className="google-icon"
+                            src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                            alt="google button"
+                        />
+                    </div>
+                    <p className="col-span-4 text-center text-xl font-medium">
+                        Usa tu cuenta google
+                    </p>
+                </div>
 
                 <Link
                     className="
