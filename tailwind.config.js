@@ -18,7 +18,7 @@ module.exports = {
 				warmGray: colors.warmGray
 			},
 			fontFamily: {
-				poppins: 'Poppins'
+				mercapp: 'Nunito'
 			},
 			maxHeight: theme => ({
 				...theme('spacing')

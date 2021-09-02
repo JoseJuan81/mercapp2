@@ -52,6 +52,53 @@
 	}
 
 	@font-face {
+		font-family: 'Nunito';
+		font-weight: 100;
+		src: url('../assets/fonts/Nunito/Nunito-ExtraLight.ttf');
+	}
+
+	@font-face {
+		font-family: 'Nunito';
+		font-weight: 200;
+		src: url('../assets/fonts/Nunito/Nunito-ExtraLight.ttf');
+	}
+
+	@font-face {
+		font-family: 'Nunito';
+		font-weight: 300;
+		src: url('../assets/fonts/Nunito/Nunito-Light.ttf');
+	}
+
+	@font-face {
+		font-family: 'Nunito';
+		font-weight: 400;
+		src: url('../assets/fonts/Nunito/Nunito-Regular.ttf');
+	}
+
+	@font-face {
+		font-family: 'Nunito';
+		font-weight: 500;
+		src: url('../assets/fonts/Nunito/Nunito-SemiBold.ttf');
+	}
+	@font-face {
+		font-family: 'Nunito';
+		font-weight: 600;
+		src: url('../assets/fonts/Nunito/Nunito-Bold.ttf');
+	}
+
+	@font-face {
+		font-family: 'Nunito';
+		font-weight: 700;
+		src: url('../assets/fonts/Nunito/Nunito-ExtraBold.ttf');
+	}
+
+	@font-face {
+		font-family: 'Nunito';
+		font-weight: 900;
+		src: url('../assets/fonts/Nunito/Nunito-Black.ttf');
+	}
+
+	@font-face {
 		font-family: 'IcoMoon';
 		src: url('../assets/fonts/icons/icomoon.ttf') format('truetype');
 		font-weight: normal;

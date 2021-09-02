@@ -35,7 +35,7 @@ export const Main = () => {
     }, [])
 
     return (
-        <div className="font-poppins">
+        <div className="font-mercapp">
 
             <Router>
                     <Switch>
