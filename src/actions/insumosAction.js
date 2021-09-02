@@ -17,6 +17,11 @@ export const getInsumos = () => ({
     type: insumosType.getAll,
 });
 
+export const deleteInsumo = (id) => ({
+    type: insumosType.deleteInsumoById,
+    payload: id
+});
+
 /// ============= Acciones asincronas ================= //
 export const startLoadingInsumos = () => async ( dispatch, rootState ) => {
 
@@ -27,4 +32,19 @@ export const startLoadingInsumos = () => async ( dispatch, rootState ) => {
     const insumos = extractInsumosFromFirestoreResponse( response );
 
     dispatch( setInsumos( insumos ) );
+}
+
+export const startDeletingInsumos = ( id ) => async ( dispatch, rootState ) => {
+
+    const { uid } = rootState().auth;
+
+    try {
+        
+        await db.doc( `${ uid }/app/insumos/${ id }` ).delete();
+
+        dispatch( deleteInsumo( id ) );
+
+    } catch (error) {
+        console.log( 'No fue posible eliminar el insumo', error );
+    }
 }

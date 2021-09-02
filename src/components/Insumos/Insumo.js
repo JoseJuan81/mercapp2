@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { round, setNewProperty } from 'functionallibrary';
 import { useIdbInsumos } from '../../hooks/useIdbInsumos';
 import { useDispatch } from 'react-redux';
+import { startDeletingInsumos } from '../../actions/insumosAction';
 
 const twoDecimals = round(2);
 
 const InsumoEtiquetas = React.memo( ({ labels, checked }) => {
-    // console.log('10 ETIQUETAS');
+
     return (
         <ul className="flex flex-wrap">
 
@@ -28,7 +29,7 @@ const InsumoEtiquetas = React.memo( ({ labels, checked }) => {
 })
 
 const InsumoTitle = React.memo( ({ title, checked }) => {
-    // console.log('8 TITULO', title);
+
     return (
         <dt
             className={`
@@ -44,7 +45,7 @@ const InsumoTitle = React.memo( ({ title, checked }) => {
 })
 
 const InsumoPrice = React.memo( ({ currency, price }) => {
-    // console.log('13 PRECIO', price);
+
     return (
         <dt
             className="
@@ -63,7 +64,7 @@ const InsumoPrice = React.memo( ({ currency, price }) => {
 })
 
 const InsumoTotal = React.memo( ({ currency, total }) => {
-    // console.log('14 TOTAL', total);
+
     return (
         <dt
             className="
@@ -79,7 +80,7 @@ const InsumoTotal = React.memo( ({ currency, total }) => {
 })
 
 const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
-    // console.log('11 CANTIDAD', id);
+
 
     const initialQuantity = 1;
     const dispatch = useDispatch();
@@ -165,11 +166,10 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
 })
 
 const InsumoActions = React.memo( ({ id }) => {
-    // console.log('9 ACTIONS', id);
-
+    
     const dispatch = useDispatch();
+
     const updatingInsumo = () => {};
-    const { deleteInsumoInLocalDB } = useIdbInsumos();
 
     const [toogle, setToogle] = useState(false);
 
@@ -179,16 +179,10 @@ const InsumoActions = React.memo( ({ id }) => {
         setToogle( s => !s );
     }
 
-    const handleDeleteInsumo = async (ev) => {
+    const handleDeleteInsumo = (ev) => {
         ev.stopPropagation();
-        
-        try {
 
-            await deleteInsumoInLocalDB( id );
-            dispatch({ type: 'remove', payload: id });
-        } catch (err) {
-            console.log('Error al eliminar un insumo', err);
-        }
+        dispatch( startDeletingInsumos( id ) );
     }
     
     const handleUpdateInsumo = (ev) => {
