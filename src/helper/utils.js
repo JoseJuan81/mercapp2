@@ -1,4 +1,6 @@
-import { equality, findIndex, isEmpty } from 'functionallibrary';
+import { compose, equality, find, findIndex, isEmpty, reduce, round, setNewProperty } from 'functionallibrary';
+
+const twoDecimals = round(2);
 
 export const updateItemInArrayByProp = (prop, item, arr) => {
     const index = findIndex(
@@ -12,17 +14,30 @@ export const updateItemInArrayByProp = (prop, item, arr) => {
     return local;
 }
 
+export const defaultObjectPrice = { name: '', value: 0 };
+
 export const priceFromObjectToArray = ( price ) => {
 
     if ( isEmpty(price) ) {
 
-        return [{ name: '', value: 0 }];
+        return [defaultObjectPrice];
 
     } else {
 
         return Object.keys( price ).map(p => ({ name: p, value: price[p] }));
 
     }
+}
+
+export const priceFromArrayToObject = ( arr ) => {
+
+    return arr.reduce( (acc, { name, value } ) => {
+
+        const localAcc = { ...acc };
+        localAcc[name.toLowerCase().trim()] = value;
+
+        return localAcc;        
+    }, {} )
 }
 
 export const extractInsumosFromFirestoreResponse = ( response ) => {
@@ -34,4 +49,17 @@ export const extractInsumosFromFirestoreResponse = ( response ) => {
     })
 
     return insumos;
+}
+
+export const updateAnItemInArray = ( item, state ) => {
+
+    const index = find(
+        equality( 'id', item.id ),
+        state
+    );
+
+    const localState = [...state];
+    localState.splice( index, 1, item );
+
+    return [...localState];
 }

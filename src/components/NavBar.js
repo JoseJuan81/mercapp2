@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { round } from 'functionallibrary';
 import { useLocation } from 'react-router-dom';
 
 import { Menu } from './Menu/Menu';
-import { misInsumosPath } from '../constant/routes';
+import { pageTitles } from '../constant/pageTitles';
 
-const twoDecimals = round(2);
 
 export const NavBar = () => {
 
     const { pathname } = useLocation();
 
+    const [titlePage, setTitlePage] = useState( '' );
     const [showMenu, setShowMenu] = useState( false );
-    const [isPaginaInsumo, setIsPaginaInsumo] = useState( pathname === misInsumosPath );
-
-    const total = 123;
 
     const handleShowMenu = ({ target }) => {
 
@@ -25,10 +21,9 @@ export const NavBar = () => {
     }
 
     useEffect( () => {
-
-        setIsPaginaInsumo( pathname === misInsumosPath );
-
-    }, [pathname])
+ 
+        setTitlePage( pageTitles[pathname] || null );
+    }, [pathname]);
 
     return (
         <div
@@ -44,12 +39,19 @@ export const NavBar = () => {
         >
             <h1
                 className="
-                    flex-auto
                     font-medium
                     text-lime-500 text-base
                 ">
                     MercApp2
             </h1>
+
+            {titlePage && <h1
+                className="
+                    animate__animated animate__fadeInUp animate__delay-2s
+                    text-xl font-light
+                "
+            >{ titlePage }</h1>
+            }
 
             <div
                 className="

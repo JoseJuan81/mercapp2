@@ -1,16 +1,14 @@
 import React from 'react';
-import { PageTitle } from '../Components/PageTitle';
 
-import { Insumo } from '../Components/Insumos/Insumo';
+import { Insumo } from '../components/Insumos/Insumo';
 
 export const PaginaInsumos = ({ insumos }) => {
 
     return (
         <>
-            <PageTitle title="Mis Insumos" />
             <div
                 className="
-                    grid gap-4
+                    grid gap-2
                     self-start
                     w-full
                     px-2 pb-2

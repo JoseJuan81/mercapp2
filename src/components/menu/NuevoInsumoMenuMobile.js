@@ -1,18 +1,29 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useHistory } from 'react-router-dom';
 
-import { resetForm, startCreateInsumo } from '../../actions/newInsumoAction';
+import { resetForm, startCreateInsumo, startUpdateInsumo } from '../../actions/newInsumoAction';
 
 import { misInsumosPath } from '../../constant/routes';
 
 export const NuevoInsumoMenuMobile = () => {
 
+    const history = useHistory();
+
+    const { isEditing } = useSelector( state => state.newInsumo );
+
     const dispatch = useDispatch();
 
-    const handleAddInsumo = () => {
+    const handleOnClick = () => {
+        
+        if ( isEditing ) {
 
-        dispatch( startCreateInsumo() );
+            dispatch( startUpdateInsumo() );
+            history.push( misInsumosPath );
+        } else {
+        
+            dispatch( startCreateInsumo() );
+        }
     }
     
     const handleResetInsumoForm = () => {
@@ -52,7 +63,7 @@ export const NuevoInsumoMenuMobile = () => {
                 type="button"
                 className="icon-checkmark btn-icon"
                 title="Agregar"
-                onClick={ handleAddInsumo }
+                onClick={ handleOnClick }
             ></button>
 
         </div>

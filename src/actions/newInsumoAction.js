@@ -1,14 +1,15 @@
-import { round } from "functionallibrary";
 
-import { newInsumoForm } from "../constant/newInsumoTypeForm";
+import { equality, find } from "functionallibrary";
+
 import { db } from "../firebase/firebase-config";
-import { addInsumoToState } from "./insumosAction";
+import { newInsumoForm } from "../constant/newInsumoTypeForm";
+import { priceFromArrayToObject } from "../helper/utils";
+import { addInsumoToState, updateInsumoInState } from "./insumosAction";
 // import { createInsumoInLocal } from "../helper/indexDB";
 // import IDB from "../services/indexDB/insumo";
 
 // const idb = new IDB('insumos');
 
-const twoDecimals = round(2);
 
 /// ============= Acciones sincronas ================= //
 export const fillingForm = ( { name, value } ) => {
@@ -20,9 +21,7 @@ export const fillingForm = ( { name, value } ) => {
         return {
             type: newInsumoForm.fill,
             payload: {
-                [name]: {
-                    [value.name.toLowerCase()]: twoDecimals( Number( value.value ) )
-                }
+                [name]: priceFromArrayToObject( value )
             }
         }
 
@@ -38,15 +37,44 @@ export const resetForm = () => ({
     type: newInsumoForm.reset
 })
 
+export const updatingInsumo = ( insumo ) => ({
+    type: newInsumoForm.update,
+    payload: insumo
+});
+
+export const setInsumoToUpdate = ( insumoId ) => ( dispatch, rootState ) => {
+
+    const insumoToUpdate = find(
+        equality( 'id', insumoId ),
+        rootState().insumos
+    );
+
+    dispatch( updatingInsumo( insumoToUpdate ) );
+}
+
 /// ============= Acciones asincronas ================= //
 export const startCreateInsumo = () => async ( dispatch, rootState ) => {
 
-    const { auth: { uid }, newInsumo } = rootState();
+    const { auth: { uid }, newInsumo: { data } } = rootState();
 
-    const insumoCreated = await db.collection( `${ uid }/app/insumos` ).add( newInsumo );
+    const insumoCreated = await db.collection( `${ uid }/app/insumos` ).add( data );
     
-    dispatch( addInsumoToState( { ...newInsumo, id: insumoCreated.id } ) );
+    dispatch( addInsumoToState( { ...data, id: insumoCreated.id } ) );
     // createInsumoInLocal( { ...newInsumo, id: insumoCreated.id });
+    dispatch ( resetForm() );
+
+}
+
+export const startUpdateInsumo = () => async ( dispatch, rootState ) => {
+
+    const { auth: { uid }, newInsumo: { data } } = rootState();
+
+    const { id, ...rest } = data;
+
+    await db.doc( `${ uid }/app/insumos/${ id }` ).update( rest );
+    
+    dispatch( updateInsumoInState( data ) );
+    // updateInsumoInLocal
     dispatch ( resetForm() );
 
 }

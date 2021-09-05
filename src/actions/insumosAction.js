@@ -1,6 +1,7 @@
 import { insumosType } from "../constant/insumosType";
 import { db } from "../firebase/firebase-config";
 import { extractInsumosFromFirestoreResponse } from "../helper/utils";
+import { endLoading, startLoading } from "./loadingAction";
 
 /// ============= Acciones sincronas ================= //
 export const addInsumoToState = ( newInsumo ) => ({
@@ -22,8 +23,15 @@ export const deleteInsumo = (id) => ({
     payload: id
 });
 
+export const updateInsumoInState = ( insumoUpdated ) => ({
+    type: insumosType.updateInsumos,
+    payload: insumoUpdated
+});
+
 /// ============= Acciones asincronas ================= //
 export const startLoadingInsumos = () => async ( dispatch, rootState ) => {
+
+    dispatch( startLoading() );
 
     const { uid } = rootState().auth;
 
@@ -32,6 +40,8 @@ export const startLoadingInsumos = () => async ( dispatch, rootState ) => {
     const insumos = extractInsumosFromFirestoreResponse( response );
 
     dispatch( setInsumos( insumos ) );
+
+    dispatch( endLoading() );
 }
 
 export const startDeletingInsumos = ( id ) => async ( dispatch, rootState ) => {

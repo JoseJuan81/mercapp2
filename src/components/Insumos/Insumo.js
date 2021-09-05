@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { round, setNewProperty } from 'functionallibrary';
-import { useIdbInsumos } from '../../hooks/useIdbInsumos';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
+// import { useIdbInsumos } from '../../hooks/useIdbInsumos';
 import { startDeletingInsumos } from '../../actions/insumosAction';
+import { setInsumoToUpdate } from '../../actions/newInsumoAction';
+import { nuevoInsumoPath } from '../../constant/routes';
 
 const twoDecimals = round(2);
 
@@ -35,7 +39,7 @@ const InsumoTitle = React.memo( ({ title, checked }) => {
             className={`
                 duration-200
                 flex-auto
-                text-2xl font-bold ${checked ? 'text-lime-600' : 'text-warmGray-400'}
+                text-2xl font-medium ${checked ? 'text-lime-600' : 'text-warmGray-800'}
                 pr-6
             `}
         >
@@ -168,8 +172,7 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
 const InsumoActions = React.memo( ({ id }) => {
     
     const dispatch = useDispatch();
-
-    const updatingInsumo = () => {};
+    const history = useHistory();
 
     const [toogle, setToogle] = useState(false);
 
@@ -188,8 +191,9 @@ const InsumoActions = React.memo( ({ id }) => {
     const handleUpdateInsumo = (ev) => {
         ev.stopPropagation();
 
-        updatingInsumo( id );
+        dispatch( setInsumoToUpdate( id ) );
 
+        history.push( nuevoInsumoPath );
     }
 
     return (
@@ -215,8 +219,8 @@ const InsumoActions = React.memo( ({ id }) => {
                     text-2xl
                     transform ${toogle ? 'rotate-180' : 'rotate-0'}
                     w-10
-                    ${ toogle && 'rounded-full' }
-                    border border-solid ${ toogle ? 'border-warmGray-200' : 'border-white' }
+                    ${ toogle ? 'rounded-full' : 'rounded-l-full' }
+                    border border-solid border-warmGray-200
                     duration-300
                 `}
                 onClick= { handleClick }
@@ -232,7 +236,7 @@ const InsumoActions = React.memo( ({ id }) => {
                     className="
                         icon-pencil
                         px-2
-                        text-2xl text-blue-500
+                        text-xl text-warmGray-800
                     "
                     onClick={ handleUpdateInsumo }
                 ></button>
@@ -241,7 +245,7 @@ const InsumoActions = React.memo( ({ id }) => {
                     className="
                         icon-bin2
                         px-2
-                        text-2xl text-rose-500
+                        text-xl text-warmGray-800
                     "
                     onClick={ handleDeleteInsumo }
                 ></button>

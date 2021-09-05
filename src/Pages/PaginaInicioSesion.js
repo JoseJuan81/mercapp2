@@ -7,7 +7,7 @@ import { isEmpty } from 'functionallibrary';
 import { registroUsuarioPath } from '../constant/routes';
 import { startGoogleLogIn, startLoginWithEmailAndPassword } from '../actions/auth';
 import { useForm } from '../hooks/useForm';
-import { InputField } from '../Components/Form/InputField';
+import { InputField } from '../components/Form/InputField';
 
 const formFields = {
     email: '',

@@ -21,7 +21,7 @@ module.exports = {
 				mercapp: 'Nunito'
 			},
 			maxHeight: theme => ({
-				...theme('spacing')
+				...theme('height')
 			}),
 			minHeight: theme => ({
 				...theme('spacing')

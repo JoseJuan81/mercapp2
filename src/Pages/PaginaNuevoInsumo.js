@@ -1,25 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { removeItemFromArrayByIndex } from 'functionallibrary';
 
-import { InputField } from '../Components/Form/InputField';
-import { LabelsField } from '../Components/Form/LabelsField';
-import { NuevoInsumoMenuMobile } from '../Components/Menu/NuevoInsumoMenuMobile';
+import { InputField } from '../components/Form/InputField';
+import { LabelsField } from '../components/Form/LabelsField';
+import { NuevoInsumoMenuMobile } from '../components/Menu/NuevoInsumoMenuMobile';
 import { fillingForm } from '../actions/newInsumoAction';
-import { InsumoPrice } from '../Components/Form/InsumoPrice';
-import { priceFromObjectToArray } from '../helper/utils';
+import { InsumoPrice } from '../components/Form/InsumoPrice';
+import { defaultObjectPrice, priceFromObjectToArray } from '../helper/utils';
 
 export const PaginaNuevoInsumo = () => {
 
-    const { name, labels, price } = useSelector( state => state.newInsumo );
+    const { data: { name, labels, price }, isEditing } = useSelector( state => state.newInsumo );
 
     const localPrice = priceFromObjectToArray(price);
+    const [prices, setPrices] = useState( localPrice );
 
     const dispatch = useDispatch();
 
     const handleOnChangeForm = ({ target }) => {
 
         dispatch( fillingForm( target ) );
+    }
 
+    const handleOnChangePrice = ( target, index) => {
+
+        const localPrices = [...prices];
+        localPrices.splice( index, 1, target.value );
+
+        handleOnChangeForm({
+            target: {
+                name: 'price',
+                value: localPrices
+            }
+        })
+        setPrices( [...localPrices] );
+
+    }
+
+    const addNewPrice = () => {
+
+        setPrices( prs => [...prs, defaultObjectPrice] );
+    }
+
+    const removePrice = ( index ) => {
+
+        setPrices( prs => [...removeItemFromArrayByIndex(index, [...prs])] );
     }
 
     return (
@@ -34,19 +60,22 @@ export const PaginaNuevoInsumo = () => {
         >
             <form
                 className="
-                    mx-1 px-2 pt-4
+                    mx-1 px-3
                     bg-white
                     rounded-t-2xl
-                    w-full
+                    w-full max-h-5/6
+                    overflow-auto
                 "
             >
                 <h1
                     className="
                         font-light text-3xl
-                        ml-2 mb-6 mt-4
+                        pl-2 py-6
+                        sticky top-0 z-30
+                        bg-white
                     "
                 >
-                    Nuevo Insumo
+                    { isEditing ? 'Actualizar Insumo' : 'Nuevo Insumo' }
                 </h1>
 
                 <fieldset className="mb-4">
@@ -67,36 +96,40 @@ export const PaginaNuevoInsumo = () => {
                         />
                     </label>
                 </fieldset>
- 
-                {
-                    localPrice.map( (p, ind) => (
 
-                        <label 
-                            key={ `${p}-${ind}` }
+                <fieldset>
+                    <label>
+                        <small
+                            className="
+                                text-warmGray-500
+                                ml-2
+                            "
+                            
                         >
-                            <small
-                                className="
-                                    text-warmGray-500
-                                    ml-2
-                                "
-                            >Precio</small>
-                            <fieldset
-                                className="
-                                    animate__animated animate__faster animate__slideInLeft
-                                    mb-4
-                                "
-                            >
-                                <InsumoPrice
-                                    price={ p.value }
-                                    name={ p.name }
-                                    onChange={ handleOnChangeForm }
-                                />
-                            </fieldset>
+                            Precio
+                        </small>
+                        {
+                            prices.map( (p, ind) => (
+                                <fieldset
+                                    key={ `${p}-${ind}` }
+                                    className="
+                                        animate__animated animate__faster animate__slideInLeft
+                                        mb-4
+                                    "
+                                >
+                                    <InsumoPrice
+                                        price={ p.value }
+                                        name={ p.name }
+                                        onChange={ ({ target }) => handleOnChangePrice( target, ind ) }
+                                        addNewPrice={ addNewPrice }
+                                        removePrice={ () => removePrice( ind ) }
+                                        showAddPrice={ prices.length - 1 === ind }
+                                    />
+                                </fieldset>
+                            ))
+                        }
                         </label>
-
-                    ))
-                }
-                
+                </fieldset>
 
                 <fieldset className="mb-4">
                     <label>

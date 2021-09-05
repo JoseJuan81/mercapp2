@@ -9,12 +9,30 @@ import { startLoadingInsumos } from '../../actions/insumosAction';
 import { PaginaInsumos } from '../../Pages/PaginaInsumos'
 import { BigAddButton } from '../Buttons/BigAddButton';
 import { InsumosMenuMobile } from '../Menu/InsumosMenuMobile';
+import { PageLoading } from '../../Pages/PageLoading';
+
+const AddButton = ({ path }) => {
+    return (
+        <div
+            className="
+                flex items-center justify-center
+                h-full w-full
+                overflow-scroll
+            "
+        >
+            <BigAddButton
+                to={ path }
+                title="Nuevo insumo"
+            />
+        </div>
+    )
+}
 
 export const MisInsumosContainer = () => {
 
     const dispatch = useDispatch();
 
-    const { insumos } = useSelector( state => state );
+    const { insumos, loading: { loading } } = useSelector( state => state );
 
     useEffect( () => {
 
@@ -23,35 +41,31 @@ export const MisInsumosContainer = () => {
     }, []);
 
     return (
-        <div
-            className="layout__page"
-        >
-            {isEmpty( insumos ) ? (
-
+        <>
+            {loading ? <PageLoading />
+                :
                 <div
-                    className="
-                        flex items-center justify-center
-                        h-full w-full
-                        overflow-scroll
-                    "
+                    className="layout__page"
                 >
-                    <BigAddButton
-                        to={ nuevoInsumoPath }
-                        title="Nuevo insumo"
+                    {isEmpty( insumos ) ? (
+
+                        <AddButton
+                            path={ nuevoInsumoPath }    
+                        />
+
+                    ) : (
+                        <PaginaInsumos
+                            insumos={ insumos }
+                        />
+                    )}
+
+                    <InsumosMenuMobile
+                        toogleShowSearch={ () => {} }
+                        toogleShowFilter={ () => {} }
+                        openModal={ () => {} }
                     />
                 </div>
-
-            ) : (
-                <PaginaInsumos
-                    insumos={ insumos }
-                />
-            )}
-
-            <InsumosMenuMobile
-                toogleShowSearch={ () => {} }
-                toogleShowFilter={ () => {} }
-                openModal={ () => {} }
-            />
-        </div>
+            }
+        </>
     )
 }
