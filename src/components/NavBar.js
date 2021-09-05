@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { Menu } from './Menu/Menu';
+import { Menu } from './Menu/Menu.js';
 import { pageTitles } from '../constant/pageTitles';
 
 
@@ -45,13 +45,14 @@ export const NavBar = () => {
                     MercApp2
             </h1>
 
-            {titlePage && <h1
-                className="
-                    animate__animated animate__fadeInUp animate__delay-2s
-                    text-xl font-light
-                "
-            >{ titlePage }</h1>
-            }
+            {titlePage && (
+                <h1
+                    className="
+                        animate__animated animate__fadeInUp animate__delay-2s
+                        text-xl font-light
+                    "
+                >{ titlePage }</h1>
+            )}
 
             <div
                 className="
