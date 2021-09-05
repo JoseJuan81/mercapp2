@@ -6,10 +6,10 @@ import { nuevoInsumoPath } from '../../constant/routes';
 
 import { startLoadingInsumos } from '../../actions/insumosAction';
 
-import { PaginaInsumos } from '../../Pages/PaginaInsumos'
-import { BigAddButton } from '../Buttons/BigAddButton';
-import { InsumosMenuMobile } from '../Menu/InsumosMenuMobile';
-import { PageLoading } from '../../Pages/PageLoading';
+import { PaginaInsumos } from '../../Pages/PaginaInsumos.js'
+import { BigAddButton } from '../Buttons/BigAddButton.js';
+import { InsumosMenuMobile } from '../Menu/InsumosMenuMobile.js';
+import { PageLoading } from '../../Pages/PageLoading.js';
 
 const AddButton = ({ path }) => {
     return (
