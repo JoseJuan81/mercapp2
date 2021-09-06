@@ -1,5 +1,5 @@
 
-import { equality, find, isEmpty } from "functionallibrary";
+import { equality, find } from "functionallibrary";
 
 import { db } from "../firebase/firebase-config";
 import { newInsumoForm } from "../constant/newInsumoTypeForm";

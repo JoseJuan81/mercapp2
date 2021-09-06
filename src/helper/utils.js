@@ -1,4 +1,4 @@
-import { compose, equality, find, findIndex, isEmpty, reduce, round, setNewProperty } from 'functionallibrary';
+import { equality, find, findIndex, isEmpty, round } from 'functionallibrary';
 
 const twoDecimals = round(2);
 
@@ -24,7 +24,7 @@ export const priceFromObjectToArray = ( price ) => {
 
     } else {
 
-        return Object.keys( price ).map(p => ({ name: p, value: price[p] }));
+        return Object.keys( price ).map(p => ({ name: p, value: twoDecimals( price[p] ) }));
 
     }
 }
