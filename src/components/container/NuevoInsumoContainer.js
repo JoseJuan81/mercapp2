@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PaginaNuevoInsumo } from '../../Pages/PaginaNuevoInsumo';
+import { PaginaNuevoInsumo } from '../../pages/PaginaNuevoInsumo';
 
 export const NuevoInsumoContainer = () => {
     return (

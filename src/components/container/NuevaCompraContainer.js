@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { PaginaNuevaCompra } from '../../Pages/PaginaNuevaCompra';
-import { NuevaCompraMenuMobile } from '../Menu/NuevaCompraMenuMobile';
+import { PaginaNuevaCompra } from '../../pages/PaginaNuevaCompra';
+import { NuevaCompraMenuMobile } from '../Menus/NuevaCompraMenuMobile';
 
 export const NuevaCompraContainer = () => {
     return (

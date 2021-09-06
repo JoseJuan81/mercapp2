@@ -5,7 +5,7 @@ import { isEmpty, removeItemFromArrayByIndex } from 'functionallibrary';
 
 import { InputField } from './InputField';
 import { LabelsField } from './LabelsField';
-import { NuevoInsumoMenuMobile } from '../Menu/NuevoInsumoMenuMobile';
+import { NuevoInsumoMenuMobile } from '../Menus/NuevoInsumoMenuMobile';
 import { fillingForm, startLoadingInsumoData } from '../../actions/newInsumoAction';
 import { InsumoPrice } from './InsumoPrice';
 import { editarInsumoPath } from '../../constant/routes';

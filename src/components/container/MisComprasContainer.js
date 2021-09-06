@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { PaginaResumenCompras } from '../../Pages/PaginaResumenCompras.js';
-import { ResumenMenuMobile } from '../Menu/ResumenMenuMobile.js';
+import { PaginaResumenCompras } from '../../pages/PaginaResumenCompras.js';
+import { ResumenMenuMobile } from '../Menus/ResumenMenuMobile.js';
 
 export const MisComprasContainer = () => {
     return (
