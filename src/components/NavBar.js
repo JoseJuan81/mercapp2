@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { Menu } from './menu/Menu.js';
+import { Menu } from './Menu/Menu.js';
 import { pageTitles } from '../constant/pageTitles';
 
 

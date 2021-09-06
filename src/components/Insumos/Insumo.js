@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 // import { useIdbInsumos } from '../../hooks/useIdbInsumos';
 import { startDeletingInsumos } from '../../actions/insumosAction';
 import { setInsumoToUpdate } from '../../actions/newInsumoAction';
-import { nuevoInsumoPath } from '../../constant/routes';
+import { editarInsumoPath, nuevoInsumoPath } from '../../constant/routes';
 
 const twoDecimals = round(2);
 
@@ -193,7 +193,7 @@ const InsumoActions = React.memo( ({ id }) => {
 
         dispatch( setInsumoToUpdate( id ) );
 
-        history.push( nuevoInsumoPath );
+        history.push( `${ editarInsumoPath }/${ id }` );
     }
 
     return (

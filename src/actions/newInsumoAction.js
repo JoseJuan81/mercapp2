@@ -1,10 +1,11 @@
 
-import { equality, find } from "functionallibrary";
+import { equality, find, isEmpty } from "functionallibrary";
 
 import { db } from "../firebase/firebase-config";
 import { newInsumoForm } from "../constant/newInsumoTypeForm";
 import { priceFromArrayToObject } from "../helper/utils";
 import { addInsumoToState, updateInsumoInState } from "./insumosAction";
+import { endLoading, startLoading } from "./loadingAction";
 // import { createInsumoInLocal } from "../helper/indexDB";
 // import IDB from "../services/indexDB/insumo";
 
@@ -62,6 +63,28 @@ export const startCreateInsumo = () => async ( dispatch, rootState ) => {
     dispatch( addInsumoToState( { ...data, id: insumoCreated.id } ) );
     // createInsumoInLocal( { ...newInsumo, id: insumoCreated.id });
     dispatch ( resetForm() );
+
+}
+
+export const startLoadingInsumoData = ( id ) => async ( dispatch, rootState ) => {
+
+    dispatch( startLoading() );
+
+    const { auth: { uid } } = rootState();
+
+    try {
+        const response = await db.doc( `${ uid }/app/insumos/${ id }` ).get();
+        const data = response.data();
+
+        dispatch( updatingInsumo( { id: response.id, ...data } ) );
+    
+    } catch(err) {
+
+        console.log('Error al obtener data del insumo', err)
+    } finally {
+
+        dispatch( endLoading() );
+    }
 
 }
 

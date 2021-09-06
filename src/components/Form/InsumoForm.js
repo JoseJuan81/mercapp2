@@ -1,172 +1,169 @@
-import React, { useContext, useLayoutEffect, useRef, useState } from 'react';
-import { compose, isNotEmpty, setNewProperty } from 'functionallibrary';
-import PropType from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { isEmpty, removeItemFromArrayByIndex } from 'functionallibrary';
 
-import { useForm } from '../../hooks/useForm';
-
-import { InsumoContext } from '../../../context/Insumo/InsumoContext';
+import { InputField } from './InputField';
 import { LabelsField } from './LabelsField';
-import { useIdbInsumos } from '../../hooks/useIdbInsumos';
+import { NuevoInsumoMenuMobile } from '../Menu/NuevoInsumoMenuMobile';
+import { fillingForm, startLoadingInsumoData } from '../../actions/newInsumoAction';
+import { InsumoPrice } from './InsumoPrice';
+import { editarInsumoPath } from '../../constant/routes';
+import { extractIdFromPathName } from '../../helper/route';
+import { defaultObjectPrice, priceFromObjectToArray } from '../../helper/utils';
 
-const defaultInsumoForm = {
-    labels: [],
-    title: '',
-    price: 0
-}
+export const InsumoForm = () => {
 
-/**
- * 
- * @param {function} closeModal - funcion para cerrar modal
- * @param {function} saveData - funcion para guardar nuevo insumo
- */
-export const InsumoForm = ({ closeModal }) => {
+    const query = new URLSearchParams( useLocation() );
+    const [isEditing, setIsEditing] = useState( false );
 
-    const nameInput = useRef(null);
+    const {
+        newInsumo: { data: { name, labels, price } },
+    } = useSelector( state => state );
 
-    const { setNewInsumoInLocalDB, updateInsumoInLocalDB } = useIdbInsumos();
+    const localPrice = priceFromObjectToArray( price );
+    const [prices, setPrices] = useState( localPrice );
 
-    const { dispatch, insumoToUpdate } = useContext( InsumoContext );
+    const dispatch = useDispatch();
 
-    const [isUpdating] = useState( isNotEmpty( insumoToUpdate ) );
+    const handleOnChangeForm = ({ target }) => {
 
-    const initInsumo = isUpdating ? insumoToUpdate : defaultInsumoForm;
-
-    const { formState, handleInputChange, invalidForm } = useForm(initInsumo, ['title']);
-
-
-    const createInsumo = async () => {
-        const setCurrency = setNewProperty( 'currency', 'S/.' );
-        const setId = setNewProperty( 'id', Math.random().toString(16).slice(2) );
-        const setQuantity = setNewProperty( 'quantity', 1 );
-        const setPriceInNumber = setNewProperty('price', Number(formState.price));
-
-        const parsedInsumo = compose(
-            setCurrency,
-            setId,
-            setQuantity,
-            setPriceInNumber
-        )(formState);
-
-        try {
-
-            await setNewInsumoInLocalDB( parsedInsumo );
-            dispatch({ type: 'add', payload: parsedInsumo });
-        } catch (error) {
-            console.log('error agregando nuevo insumo', error);
-        }
+        dispatch( fillingForm( target ) );
     }
 
-    const updateInsumo = async () => {
+    const handleOnChangePrice = ( target, index) => {
+
+        const localPrices = [...prices];
+        localPrices.splice( index, 1, target.value );
+
+        handleOnChangeForm({
+            target: {
+                name: 'price',
+                value: localPrices
+            }
+        })
+        setPrices( [...localPrices] );
+
+    }
+
+    const addNewPrice = () => {
+
+        setPrices( prs => [...prs, defaultObjectPrice] );
+    }
+
+    const removePrice = ( index ) => {
+
+        setPrices( prs => [...removeItemFromArrayByIndex(index, [...prs])] );
+    }
+
+    useEffect( () => {
+
+        const pathname = query.get( 'pathname' );
+        const insumoId = extractIdFromPathName( pathname, editarInsumoPath );
         
-        try {
-            
-            await updateInsumoInLocalDB( formState );
-            dispatch({ type: 'update', payload: formState });
-        } catch (err) {
-            console.log('Error actualizando insumo', err);
-        }
-    }
+        setIsEditing( !!insumoId );
 
-    const handleSubmit = async (ev) => {
-        ev.preventDefault();
+        if ( !!insumoId && isEmpty( name ) ) {
 
-        if ( isUpdating ) {
-
-            updateInsumo();
-        } else {
-
-            createInsumo();
+            dispatch( startLoadingInsumoData( insumoId ) );
         }
 
-        closeModal();
-    };
-
-    useLayoutEffect( () => {
-
-        nameInput.current.focus();
-
-    }, []);
+    }, [])
 
     return (
-        <>
-        <h1
-            className="
-                text-2xl font-normal text-warmGray-500
-                pt-2 mb-4
-            "
-        >{ isUpdating ? 'Agregar nuevo insumo' : 'Editar insumo' }</h1>
-
         <form
             className="
-                pb-20
-                flex flex-col
-                relative
-                w-full h-full
+                mx-1 px-3
+                bg-white
+                rounded-t-2xl
+                w-full max-h-5/6
+                overflow-auto
             "
-            onSubmit={ handleSubmit }
         >
-
-            <input
-                autoComplete="off"
-                ref={ nameInput }
-                className="input-form mb-4"
-                placeholder="Nombre"
-                name="title"
-                value={ formState.title }
-                onChange={ handleInputChange }
-            />
-
-            <input
-                autoComplete="off"
-                className="input-form mb-4"
-                type="number"
-                placeholder="Precio"
-                name="price"
-                value={ formState.price }
-                onChange={ handleInputChange }
-            />
-
-            <LabelsField
-                labels={ formState.labels }
-                addLabels={ handleInputChange }
-            />
-
-            <div
+            <h1
                 className="
-                    absolute bottom-0 left-0
-                    w-full
-                    py-2
-                    flex items-center justify-center
+                    font-light text-3xl
+                    pl-2 py-6
+                    sticky top-0 z-30
+                    bg-white
                 "
             >
-                <button
-                    className="
-                        flex-auto
-                        py-4 px-2 mr-2
-                        bg-rose-300
-                        text-rose-800 font-bold
-                    "
-                    type="button"
-                    onClick={ closeModal }
-                >Cancelar</button>
-                <button
-                    disabled={ invalidForm }
-                    className={`
-                        flex-auto
-                        py-4 px-2 ml-2
-                        bg-lime-400
-                        text-lime-800 font-bold
-                        ${invalidForm && 'opacity-30'}
-                    `}
-                >Guardar</button>
-            </div>
+                { isEditing ? 'Actualizar Insumo' : 'Nuevo Insumo' }
+            </h1>
+
+            <fieldset className="mb-4">
+                <label>
+                    <small
+                        className="
+                            text-warmGray-500
+                            ml-2
+                        "
+                    >Nombre insumo</small>
+                    <InputField
+                        autoComplete="off"
+                        type="text"
+                        placeholder="nombre"
+                        name="name"
+                        value={ name }
+                        onChange={ handleOnChangeForm }
+                    />
+                </label>
+            </fieldset>
+
+            <fieldset>
+                <label>
+                    <small
+                        className="
+                            text-warmGray-500
+                            ml-2
+                        "
+                        
+                    >
+                        Precio
+                    </small>
+                    {
+                        prices.map( (p, ind) => (
+                            <fieldset
+                                key={ `${p}-${ind}` }
+                                className="
+                                    animate__animated animate__faster animate__slideInLeft
+                                    mb-4
+                                "
+                            >
+                                <InsumoPrice
+                                    price={ p.value }
+                                    name={ p.name }
+                                    onChange={ ({ target }) => handleOnChangePrice( target, ind ) }
+                                    addNewPrice={ addNewPrice }
+                                    removePrice={ () => removePrice( ind ) }
+                                    showAddPrice={ prices.length - 1 === ind }
+                                />
+                            </fieldset>
+                        ))
+                    }
+                    </label>
+            </fieldset>
+
+            <fieldset className="mb-4">
+                <label>
+                    <small
+                        className="
+                            text-warmGray-500
+                            ml-2
+                        "
+                    >Etiquetas</small>
+                    <LabelsField
+                        labels={ labels }
+                        name="labels"
+                        addLabels={ handleOnChangeForm }
+                    />
+                </label>
+            </fieldset>
+
+            <fieldset>
+                <NuevoInsumoMenuMobile />
+            </fieldset>
 
         </form>
-        </>
     )
-}
-
-InsumoForm.propType = {
-    closeModal: PropType.func.isRequired,
-    saveData: PropType.func.isRequired,
 }

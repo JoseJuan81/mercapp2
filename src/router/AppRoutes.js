@@ -1,7 +1,14 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { misInsumosPath, nuevaCompraPath, nuevoInsumoPath, resumenDeComprasPath } from '../constant/routes';
+import {
+    misInsumosPath,
+    nuevaCompraPath,
+    nuevoInsumoPath,
+    resumenDeComprasPath,
+    editarInsumoPath,
+} from '../constant/routes';
+
 import { MisComprasContainer } from '../components/container/MisComprasContainer';
 import { MisInsumosContainer } from '../components/container/MisInsumosContainer';
 import { NuevaCompraContainer } from '../components/container/NuevaCompraContainer';
@@ -31,6 +38,10 @@ export const AppRoutes = () => {
                     </Route>
 
                     <Route exact path={ nuevoInsumoPath }>
+                        <NuevoInsumoContainer />
+                    </Route>
+                    
+                    <Route exact path={ `${ editarInsumoPath }/:id` }>
                         <NuevoInsumoContainer />
                     </Route>
 
