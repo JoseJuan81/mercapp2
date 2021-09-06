@@ -9,10 +9,10 @@ import {
     editarInsumoPath,
 } from '../constant/routes';
 
-import { MisComprasContainer } from '../components/Container/MisComprasContainer';
-import { MisInsumosContainer } from '../components/Container/MisInsumosContainer';
-import { NuevaCompraContainer } from '../components/Container/NuevaCompraContainer';
-import { NuevoInsumoContainer } from '../components/Container/NuevoInsumoContainer';
+import { MisComprasContainer } from '../components/Container/MisComprasContainer.js';
+import { MisInsumosContainer } from '../components/Container/MisInsumosContainer.js';
+import { NuevaCompraContainer } from '../components/Container/NuevaCompraContainer.js';
+import { NuevoInsumoContainer } from '../components/Container/NuevoInsumoContainer.js';
 import { NavBar } from '../components/NavBar.js';
 
 export const AppRoutes = () => {
