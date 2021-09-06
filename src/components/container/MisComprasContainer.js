@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PaginaResumenCompras } from '../../pages/PaginaResumenCompras.js';
+import { PaginaResumenCompras } from '../../Pages/PaginaResumenCompras.js';
 import { ResumenMenuMobile } from '../Menus/ResumenMenuMobile.js';
 
 export const MisComprasContainer = () => {

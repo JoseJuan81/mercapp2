@@ -9,8 +9,9 @@ import {
 
 import { PrivateRoutes } from './PrivateRoutes';
 import { AppRoutes } from './AppRoutes';
-import { PaginaInicioSesion } from '../pages/PaginaInicioSesion';
-import { PaginaRegistroUsuario } from '../pages/PaginaRegistroUsuario';
+
+import { PaginaRegistroUsuario } from '../Pages/PaginaRegistroUsuario';
+import { PaginaInicioSesion } from '../Pages/PaginaInicioSesion';
 
 import { inicioSesionPath, registroUsuarioPath } from '../constant/routes';
 import { getFromLocalStorage } from '../helper/localStorage';
