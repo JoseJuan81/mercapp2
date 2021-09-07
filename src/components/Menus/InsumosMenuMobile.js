@@ -1,12 +1,38 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+
+
+import { showSearchField, hideSearchAndFilterField, showFilterField } from '../../actions/searchAction';
 import { nuevoInsumoPath } from '../../constant/routes';
 
-export const InsumosMenuMobile = React.memo(({ toogleShowSearch, toogleShowFilter, openModal }) => {
-    console.log('6 MENU MOVIL');
+export const InsumosMenuMobile = React.memo(() => {
 
-    const dispatch = () => {};
-    
+    const { showField, isSearching, isFiltering } = useSelector( state => state.search );
+
+    const dispatch = useDispatch();
+
+    const toogleShowSearch = () => {
+        
+        if ( ( showField && isFiltering ) || !showField ) {
+            
+            dispatch( showSearchField() );
+        } else {
+            
+            dispatch( hideSearchAndFilterField() );
+        }
+    }
+
+    const toogleShowFilter = () => {
+
+        if ( ( showField && isSearching ) || !showField ) {
+            
+            dispatch( showFilterField() );
+        } else {
+            
+            dispatch( hideSearchAndFilterField() );
+        }
+    }
     return (
         <div
             className="
