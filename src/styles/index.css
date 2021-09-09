@@ -99,7 +99,7 @@
 	}
 
 	@font-face {
-		font-family: 'IcoMoon';
+		font-family: 'icomoon';
 		src:  url('../assets/fonts/icons/icomoon.eot?ocliwx');
 		src:  url('../assets/fonts/icons/icomoon.eot?ocliwx#iefix') format('embedded-opentype'),
 		  url('../assets/fonts/icons/icomoon.ttf?ocliwx') format('truetype'),
@@ -112,60 +112,60 @@
 			
 	[class^="icon-"], [class*=" icon-"] {
 		/* use !important to prevent issues with browser extensions that change fonts */
-		font-family: 'IcoMoon' !important;
+		font-family: 'icomoon' !important;
 		speak: never;
 		font-style: normal;
 		font-weight: normal;
 		font-variant: normal;
 		text-transform: none;
 		line-height: 1;
-	
+	  
 		/* Better Font Rendering =========== */
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
-	}
+	}	  
 	
-	.icon-search:before {
-		content: "\e986";
-	}
-	.icon-plus:before {
-		content: "\ea0a";
-	}
-	.icon-checkmark:before {
-		content: "\ea10";
-	}
-	.icon-filter:before {
-		content: "\ea5b";
-	}
-	.icon-minus:before {
-		content: "\ea0b";
-	}
-	.icon-circle-left:before {
-		content: "\ea44";
+	.icon-home:before {
+		content: "\e900";
 	}
 	.icon-pencil:before {
 		content: "\e905";
 	}
-	.icon-bin2:before {
-		content: "\e9ad";
-	}
-	.icon-cancel-circle:before {
-		content: "\ea0d";
-	}
-	.icon-cross:before {
-		content: "\ea05";
-	}
-	.icon-blocked:before {
-		content: "\ea0e";
-	}
 	.icon-cart:before {
 		content: "\e93a";
+	}
+	.icon-search:before {
+		content: "\e986";
+	}
+	.icon-bin2:before {
+		content: "\e9ad";
 	}
 	.icon-menu:before {
 		content: "\e9bd";
 	}
-	.icon-home:before {
-		content: "\e900";
+	.icon-plus:before {
+		content: "\ea0a";
 	}
+	.icon-minus:before {
+		content: "\ea0b";
+	}
+	.icon-cancel-circle:before {
+		content: "\ea0d";
+	}
+	.icon-blocked:before {
+		content: "\ea0e";
+	}
+	.icon-cross:before {
+		content: "\ea05";
+	}
+	.icon-checkmark:before {
+		content: "\ea10";
+	}
+	.icon-circle-left:before {
+		content: "\ea44";
+	}
+	.icon-filter:before {
+		content: "\ea5b";
+	}	  
 
 }
