@@ -32,7 +32,11 @@ export const MisInsumosContainer = () => {
 
     const dispatch = useDispatch();
 
-    const { insumos, loading: { loading } } = useSelector( state => state );
+    const {
+        insumos,
+        loading: { loading },
+        search: { isSearching, isFiltering }
+    } = useSelector( state => state );
 
     useEffect( () => {
 
@@ -48,17 +52,14 @@ export const MisInsumosContainer = () => {
                 <div
                     className="layout__page"
                 >
-                    {isEmpty( insumos ) ? (
 
-                        <AddButton
-                            path={ nuevoInsumoPath }    
-                        />
+                    { isEmpty( insumos ) && !( isFiltering || isSearching )
 
-                    ) : (
-                        <PaginaInsumos
-                            insumos={ insumos }
-                        />
-                    )}
+                        ? <AddButton path={ nuevoInsumoPath } />
+
+                        : <PaginaInsumos insumos={ insumos } />
+
+                    }
 
                     <InsumosMenuMobile />
                 </div>

@@ -36,8 +36,8 @@ const onFilter = ( filterValue ) => {
     const lowerCaseValue = filterValue.toLowerCase();
     
     const getLabels = getPropertysValue( 'labels' );
-    const someLabelHasThisValue = some( l => l.toLowerCase().includes( lowerCaseValue ) );
-    const findLabelWithThisValue = compose( someLabelHasThisValue, getLabels );
+    const someLabelHasThisValue = value => some( l => l.toLowerCase().includes( value ) );
+    const findLabelWithThisValue = compose( someLabelHasThisValue( lowerCaseValue ), getLabels );
     const filtered = filter( findLabelWithThisValue, insumosCache );
 
     return filtered;
