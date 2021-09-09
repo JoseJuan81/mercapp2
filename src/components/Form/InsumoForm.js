@@ -60,11 +60,10 @@ export const InsumoForm = () => {
 
         const pathname = query.get( 'pathname' );
         const insumoId = extractIdFromPathName( pathname, editarInsumoPath );
-        
         setIsEditing( !!insumoId );
-
+        
         if ( !!insumoId && isEmpty( name ) ) {
-
+            
             dispatch( startLoadingInsumoData( insumoId ) );
         }
 

@@ -1,10 +1,24 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { Searcher } from '../Form/Searcher'
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { filteringInsumo, searchingInsumo } from '../../actions/insumosAction';
+import { Searcher } from '../Form/Searcher';
 
 export const SearchAndFilterComponent = () => {
 
     const { showField, isSearching, isFiltering } = useSelector( state => state.search );
+
+    const dispatch = useDispatch();
+
+    const handleOnSearch = ( searchValue ) => {
+
+        dispatch( searchingInsumo( searchValue ) );
+    }
+
+    const handleOnFilter = ( filterValue ) => {
+
+        dispatch( filteringInsumo( filterValue ) );
+    }
 
     return (
         <div
@@ -24,19 +38,21 @@ export const SearchAndFilterComponent = () => {
                 >
                     <Searcher
                         placeholder="Buscar insumo"
-                    />
+                        onSearch={ handleOnSearch }
+                        />
                 </div>
 
-            }
+}
 
             {isFiltering &&
                 <div
-                    className="
-                        animate__animated animate__slideInDown
-                    "
+                className="
+                animate__animated animate__slideInDown
+                "
                 >
                     <Searcher
                         placeholder="Filtrar insumos"
+                        onSearch={ handleOnFilter }
                     />
                 </div>
 

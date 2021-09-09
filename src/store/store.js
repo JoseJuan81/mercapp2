@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
 import { authReducer } from '../reducers/authReducer';
+// import { errorsReducer } from '../reducers/errorsReducer';
 import { insumosReducer } from '../reducers/insumosReducer';
 import { loadingReducer } from '../reducers/loadingReducer';
 import { newInsumoReducer } from '../reducers/newInsumoReducer';
@@ -14,7 +15,8 @@ const reducers = combineReducers({
     loading: loadingReducer,
     insumos: insumosReducer,
     newInsumo: newInsumoReducer,
-    search: searchInsumosReducer
+    search: searchInsumosReducer,
+    // error: errorsReducer
 })
 
 export const store = createStore(

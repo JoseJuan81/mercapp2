@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 
@@ -30,6 +30,15 @@ export const NuevoInsumoMenuMobile = () => {
         
         dispatch( resetForm() );
     }
+
+    useEffect( () => {
+
+        // limpiar el formulario al salir de la pantalla
+        return () => {
+            handleResetInsumoForm();
+        }
+
+    }, []);
     
     return (
         <div

@@ -26,8 +26,10 @@ export const Searcher = ({ onSearch, placeholder }) => {
 
         if (isEmpty(target.value)) {
 
-            onSearch(target.value);
+            onSearch( target.value );
 
+        } else {
+            onSearch( target.value.trim() );
         }
     }
 

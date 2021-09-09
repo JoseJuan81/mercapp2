@@ -28,6 +28,16 @@ export const updateInsumoInState = ( insumoUpdated ) => ({
     payload: insumoUpdated
 });
 
+export const searchingInsumo = ( searchValue ) => ({
+    type: insumosType.search,
+    payload: searchValue
+})
+
+export const filteringInsumo = ( filterValue ) => ({
+    type: insumosType.filter,
+    payload: filterValue
+})
+
 /// ============= Acciones asincronas ================= //
 export const startLoadingInsumos = () => async ( dispatch, rootState ) => {
 

@@ -3,5 +3,7 @@ export const insumosType = {
     getAll: '[insumos] get all insumos',
     set: '[insumos] set insumos from API',
     deleteInsumoById: '[insumos] delete insumo by id',
-    updateInsumos: '[insumos] update an insumo in insumos'
+    updateInsumos: '[insumos] update an insumo in insumos',
+    search: '[insumos] searching insumos',
+    filter: '[insumos] filtering insumos'
 }
