@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
 import { round, setNewProperty } from 'functionallibrary';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 // import { useIdbInsumos } from '../../hooks/useIdbInsumos';
-import { startDeletingInsumos } from '../../actions/insumosAction';
+import { startDeletingInsumos, selectInsumoToBuy } from '../../actions/insumosAction';
 import { setInsumoToUpdate } from '../../actions/newInsumoAction';
 import { editarInsumoPath } from '../../constant/routes';
 
@@ -39,7 +39,7 @@ const InsumoTitle = React.memo( ({ title, checked }) => {
             className={`
                 duration-200
                 flex-auto
-                text-2xl font-medium ${checked ? 'text-lime-600' : 'text-warmGray-800'}
+                text-2xl font-medium ${checked ? 'text-lime-500' : 'text-warmGray-800'}
                 pr-6
             `}
         >
@@ -344,6 +344,76 @@ export const Insumo = React.memo( ({ insumo }) => {
                 </div>
             }
             
+        </div>
+    )
+})
+export const InsumoBase = React.memo( ({ insumo }) => {
+    // console.log('7 INSUMO', insumo.title);
+    const dispatch = useDispatch();
+
+    const { selected, labels, id, name: title } = insumo;
+
+    const handleSelecting = () => {
+
+        const selectedInsumo = setNewProperty( 'selected', !selected, insumo );
+        dispatch( selectInsumoToBuy( selectedInsumo ) );
+    }
+
+    return (
+        <div
+            className={`
+                w-full
+                relative
+                duration-200
+                rounded-lg ${selected && 'shadow-xl'}
+                border border-solid ${selected ? 'border-lime-400' : 'border-warmGray-300'}
+            `}
+            onClick={ () => {} }
+        >
+
+            <dl className="flex items-center p-2 pr-10 overflow-hidden relative">
+
+                <div className="flex flex-auto items-center">
+                    
+                    <InsumoTitle
+                        title={ title }
+                        checked={ selected }
+                    />
+
+                </div>
+
+                <button
+                    className={`
+                        icon-cart
+                        rounded-full
+                        py-2 px-3
+                        text-base ${ selected ? 'text-lime-500' : 'text-warmGray-800' }
+                        ${ selected? 'bg-lime-50' : 'bg-warmGray-100' }
+                    `}
+                    onClick={ handleSelecting }
+                ></button>
+
+                <InsumoActions
+                    id={ id }
+                />
+
+            </dl>
+
+            {labels && labels.length > 0 &&
+                <div
+                    className={`
+                        rounded-br-lg rounded-bl-lg
+                        ${ selected ? 'bg-lime-100' : 'bg-warmGray-100' }
+                        p-1
+                    `}
+                >
+                    <InsumoEtiquetas
+                        labels={ labels }
+                        checked={ selected }
+                    />
+                </div>
+            }
+
         </div>
     )
 })

@@ -2,7 +2,7 @@ import { isEmpty } from 'functionallibrary';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { Insumo } from '../components/Insumos/Insumo';
+import { InsumoBase } from '../components/Insumos/Insumo';
 import { SearchAndFilterComponent } from '../components/Insumos/SearchAndFilterComponent';
 
 const NotFoundInsumos = () => {
@@ -38,7 +38,7 @@ export const PaginaInsumos = ({ insumos }) => {
                 }
 
                 {insumos.map( (insumo, index ) => (
-                    <Insumo
+                    <InsumoBase
                         key={ `${insumo}-${index}` }
                         insumo={ insumo }
                     />

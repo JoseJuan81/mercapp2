@@ -1,4 +1,4 @@
-import { equality, find, findIndex, isEmpty, round } from 'functionallibrary';
+import { equality, findIndex, isEmpty, round } from 'functionallibrary';
 
 const twoDecimals = round(2);
 
@@ -51,10 +51,16 @@ export const extractInsumosFromFirestoreResponse = ( response ) => {
     return insumos;
 }
 
-export const updateAnItemInArray = ( item, state ) => {
+/**
+ * 
+ * @param {object} item - elemento a actualizar dentro del arreglo
+ * @param {string} prop - propiedad a usar para buscar el item en el arreglo
+ * @param {array} state - arreglo de items
+ */
+export const updateAnItemInArray = ( item, prop, state ) => {
 
-    const index = find(
-        equality( 'id', item.id ),
+    const index = findIndex(
+        equality( prop, item.id ),
         state
     );
 

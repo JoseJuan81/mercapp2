@@ -5,5 +5,8 @@ export const insumosType = {
     deleteInsumoById: '[insumos] delete insumo by id',
     updateInsumos: '[insumos] update an insumo in insumos',
     search: '[insumos] searching insumos',
-    filter: '[insumos] filtering insumos'
+    filter: '[insumos] filtering insumos',
+    select: '[insumos] select insumo',
+    selectAll: '[insumos] select all insumos',
+    unSelectAll: '[insumos] unselect all insumos',
 }

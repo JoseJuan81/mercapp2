@@ -38,6 +38,19 @@ export const filteringInsumo = ( filterValue ) => ({
     payload: filterValue
 })
 
+export const selectInsumoToBuy = ( insumoId ) => ({
+    type: insumosType.select,
+    payload: insumoId
+})
+
+export const selectAllInsumosToBuy = () => ({
+    type: insumosType.selectAll,
+})
+
+export const unSelectAllInsumosToBuy = () => ({
+    type: insumosType.unSelectAll
+})
+
 /// ============= Acciones asincronas ================= //
 export const startLoadingInsumos = () => async ( dispatch, rootState ) => {
 

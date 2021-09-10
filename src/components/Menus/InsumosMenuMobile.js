@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { selectAllInsumosToBuy, unSelectAllInsumosToBuy } from '../../actions/insumosAction';
 
 
 import { showSearchField, hideSearchAndFilterField, showFilterField } from '../../actions/searchAction';
@@ -44,13 +45,13 @@ export const InsumosMenuMobile = React.memo(() => {
             <button
                 className="icon-checkmark btn-icon"
                 title="Seleccionar todo"
-                onClick={ () => dispatch({ type: 'select-all' }) }
+                onClick={ () => dispatch( selectAllInsumosToBuy() ) }
             ></button>
 
             <button
                 className="icon-checkmark btn-icon text-warmGray-300"
                 title="Deseleccionar todo"
-                onClick={ () => dispatch({ type: 'unselect-all' }) }
+                onClick={ () => dispatch( unSelectAllInsumosToBuy() ) }
                 ></button>
 
             <button
