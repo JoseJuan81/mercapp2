@@ -1,7 +1,7 @@
 import { firebase, googleAuthProvider } from '../firebase/firebase-config';
 import { auth } from '../constant/auth';
 import { removeFromLocalStorage, setInLocalStorage } from '../helper/localStorage';
-import { userKey } from '../constant/user';
+import { typeLocal } from '../constant/localStorage';
 
 /// ============= Acciones sincronas ================= //
 export const login = ( userData ) => ({
@@ -32,7 +32,7 @@ export const startGoogleLogIn = () => async dispatch => {
             login( userData )
         )
 
-        setInLocalStorage( userKey, { ...userData, logged: true } );
+        setInLocalStorage( typeLocal.user, { ...userData, logged: true } );
 
     } catch (error) {
 
@@ -58,7 +58,7 @@ export const startLoginWithEmailAndPassword = ({ email, password }) => async dis
             login( userData )
         )
 
-        setInLocalStorage( userKey, { ...userData, logged: true } );
+        setInLocalStorage( typeLocal.user, { ...userData, logged: true } );
 
     } catch (error) {
         console.error('error al iniciar sesion con correo', error);
@@ -88,6 +88,6 @@ export const startRegisterWithNameEmailAndPassword = ({ name, email, password })
 }
 
 export const appLogout = () => dispatch => {
-    removeFromLocalStorage( userKey );
+    removeFromLocalStorage( typeLocal.user );
     dispatch( logout() );
 }

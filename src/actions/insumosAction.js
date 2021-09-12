@@ -1,5 +1,8 @@
+import { isEmpty } from "functionallibrary";
 import { insumosType } from "../constant/insumosType";
+import { typeLocal } from "../constant/localStorage";
 import { db } from "../firebase/firebase-config";
+import { getFromLocalStorage } from "../helper/localStorage";
 import { extractInsumosFromFirestoreResponse } from "../helper/utils";
 import { endLoading, startLoading } from "./loadingAction";
 
@@ -56,13 +59,29 @@ export const startLoadingInsumos = () => async ( dispatch, rootState ) => {
 
     dispatch( startLoading() );
 
-    const { uid } = rootState().auth;
+    const localInsumos = getFromLocalStorage( typeLocal.insumos );
 
-    const response = await db.collection( `${ uid }/app/insumos` ).get();
+    if ( isEmpty( localInsumos ) ) {
 
-    const insumos = extractInsumosFromFirestoreResponse( response );
+        const { uid } = rootState().auth;
+    
+        try {
 
-    dispatch( setInsumos( insumos ) );
+            const response = await db.collection( `${ uid }/app/insumos` ).get();
+        
+            const insumos = extractInsumosFromFirestoreResponse( response );
+            dispatch( setInsumos( insumos ) );
+
+        } catch(err) {
+
+            console.warn( 'Error al cargar insumos de la BD', err );
+        }
+
+    } else {
+        
+        dispatch( setInsumos( localInsumos ) );
+    }
+
 
     dispatch( endLoading() );
 }

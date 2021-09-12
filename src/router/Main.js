@@ -15,12 +15,12 @@ import { PaginaInicioSesion } from '../Pages/PaginaInicioSesion';
 
 import { inicioSesionPath, registroUsuarioPath } from '../constant/routes';
 import { getFromLocalStorage } from '../helper/localStorage';
-import { userKey } from '../constant/user';
 import { login } from '../actions/auth';
+import { typeLocal } from '../constant/localStorage';
 
 export const Main = () => {
 
-    const userFromLocalStore = getFromLocalStorage( userKey );
+    const userFromLocalStore = getFromLocalStorage( typeLocal.user );
     const userFromStore = useSelector( state => state.auth );
     const user =  userFromLocalStore || userFromStore;
 
