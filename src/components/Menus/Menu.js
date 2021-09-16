@@ -60,23 +60,37 @@ export const Menu = ({ showMenu, handleShowMenu }) => {
                         flex items-center justify-between
                     "
                 >
-                    <img
-                        className="
-                            rounded-full
-                            w-16 h-16
-                        "
-                        src={ user.avatar }
-                        alt="imagen del usuario"
-                    />
+                    {user.avatar
+                        ?   <img
+                                className="
+                                    rounded-full
+                                    w-16 h-16
+                                "
+                                src={ user.avatar }
+                                alt="imagen del usuario"
+                            />
+                        :   <div
+                                className="
+                                    w-16 h-16
+                                    text-5xl
+                                    flex items-center justify-center
+                                "
+                            >
+                                <i className="far fa-user"></i>
+                            </div>
+
+                    }
+                    
 
                     <button
                         className="
-                            icon-cancel-circle
                             text-5xl text-warmGray-700
                         "
                         type="button"
                         onClick={ handleShowMenu }
-                    ></button>
+                    >
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
 
                 <span
@@ -90,7 +104,6 @@ export const Menu = ({ showMenu, handleShowMenu }) => {
             <li
                 className="
                     border-t border-solid border-warmGray-300
-                    pl-4
                 "
             >
                 <NavLink
@@ -104,14 +117,16 @@ export const Menu = ({ showMenu, handleShowMenu }) => {
                     "
                     to={ resumenDeComprasPath }
                 >
-                    <span className="icon-home"></span>
                     <p
                         className="
                             flex-auto
                             whitespace-nowrap
                             px-4 py-4
                         "
-                    >Mis compras</p>
+                    >
+                        <i className="fas fa-store mr-2"></i>
+                        Mis compras
+                    </p>
                 </NavLink>
             </li>
             <li>
@@ -130,7 +145,10 @@ export const Menu = ({ showMenu, handleShowMenu }) => {
                             px-4 py-4
                             border-t border-b border-solid border-warmGray-300
                         "
-                    >Mis insumos</p>
+                    >
+                        <i className="fas fa-pepper-hot mr-2"></i>
+                         Mis insumos
+                    </p>
                 </NavLink>
             </li>
             <li
@@ -149,6 +167,7 @@ export const Menu = ({ showMenu, handleShowMenu }) => {
                     "
                     onClick={ handleLogout }
                 >
+                    <i className="fas fa-sign-out-alt mr-2"></i>
                     Cerrar sesion
                 </button>
             </li>

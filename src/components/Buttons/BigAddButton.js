@@ -7,13 +7,13 @@ export const BigAddButton = ({ to, title }) => {
         <NavLink
             className="
                 flex flex-col items-center
-                icon-plus
                 text-6xl text-warmGray-600
                 p-6 pb-3
                 border border-solid border-warmGray-600 rounded
             "
             to={ to }
         >
+            <i className="fas fa-plus"></i>
             <p
                 className="
                     text-base

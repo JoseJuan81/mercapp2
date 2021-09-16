@@ -1,9 +1,11 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-import { resumenDeComprasPath } from '../../constant/routes';
 
 export const NuevaCompraMenuMobile = () => {
+
+    const history = useHistory();
+
     return (
         <div
             className="
@@ -12,30 +14,34 @@ export const NuevaCompraMenuMobile = () => {
             "
         >
 
-            <NavLink
-                to={ resumenDeComprasPath }
+            <button
+                type='button'
                 className="
-                    icon-circle-left
                     btn-icon
                     flex items-center justify-center
                 "
-                title="atras"
-            ></NavLink>
+                onClick={ () => history.goBack() }
+            >
+                <i className="fas fa-chevron-left"></i>
+            </button>
 
             <button
                 type="button"
                 className="
-                    icon-cancel-circle
                     btn-icon
                     flex items-center justify-center
                 "
-            ></button>
+            >
+                <i className="far fa-times-circle"></i>
+            </button>
 
             <button
                 type="button"
-                className="icon-checkmark btn-icon"
+                className="btn-icon"
                 title="Agregar"
-            ></button>
+            >
+                <i className="fas fa-plus-circle"></i>
+            </button>
 
         </div>
     )

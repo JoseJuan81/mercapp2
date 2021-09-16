@@ -5,7 +5,7 @@ import { selectAllInsumosToBuy, unSelectAllInsumosToBuy } from '../../actions/in
 
 
 import { showSearchField, hideSearchAndFilterField, showFilterField } from '../../actions/searchAction';
-import { nuevoInsumoPath } from '../../constant/routes';
+import { nuevaCompraPath, nuevoInsumoPath } from '../../constant/routes';
 
 export const InsumosMenuMobile = React.memo(() => {
 
@@ -38,42 +38,61 @@ export const InsumosMenuMobile = React.memo(() => {
         <div
             className="
                 menu_mobile__container
-                grid-cols-5
+                grid-cols-6
             "
         >
             
             <button
-                className="icon-checkmark btn-icon"
+                className="btn-icon"
                 title="Seleccionar todo"
                 onClick={ () => dispatch( selectAllInsumosToBuy() ) }
-            ></button>
+            >
+                <i className="fas fa-check-circle"></i>
+            </button>
 
             <button
-                className="icon-checkmark btn-icon text-warmGray-300"
+                className="btn-icon"
                 title="Deseleccionar todo"
                 onClick={ () => dispatch( unSelectAllInsumosToBuy() ) }
-                ></button>
+            >
+                <i className="far fa-check-circle"></i>
+            </button>
 
             <button
-                className="icon-search btn-icon"
+                className="btn-icon"
                 title="Buscar"
                 onClick={ toogleShowSearch }
-            ></button>
+            >
+                <i className="fas fa-search"></i>
+            </button>
 
             <button
-                className="icon-filter btn-icon"
+                className="btn-icon"
                 title="Filtrar"
                 onClick={ toogleShowFilter }
-            ></button>
+            >
+                <i className="fas fa-filter"></i>
+            </button>
+
+            <NavLink
+                to={ nuevaCompraPath }
+                className="
+                    btn-icon
+                    flex items-center justify-center
+                "
+            >
+                <i className="fas fa-shopping-cart"></i>
+            </NavLink>
 
             <NavLink
                 to={ nuevoInsumoPath }
                 className="
-                    icon-plus
                     btn-icon
                     flex items-center justify-center
                 "
-            ></NavLink>
+            >
+                <i className="fas fa-plus-circle"></i>
+            </NavLink>
 
         </div>
     )

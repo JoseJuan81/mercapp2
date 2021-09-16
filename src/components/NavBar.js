@@ -14,7 +14,7 @@ export const NavBar = () => {
 
     const handleShowMenu = ({ target }) => {
 
-        if ( target.type === 'button' ) {
+        if ( target.type === 'button' || target.className.includes( 'fa' ) ) {
             
             setShowMenu( sm => !sm );
         }
@@ -63,13 +63,13 @@ export const NavBar = () => {
                 <button
                     type="button"
                     className="
-                        icon-menu
                         py-2 px-3
                         text-base text-warmGray-800
                         bg-warmGray-100
                     "
                     onClick={ handleShowMenu }
                 >
+                    <i className="fas fa-bars"></i>
                 </button>
                 
                 <Menu
