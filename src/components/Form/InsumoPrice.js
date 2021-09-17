@@ -60,28 +60,32 @@ export const InsumoPrice = ({
                 onChange={ handleOnChange }
             />
 
-            {showAddPrice ?
-                <button
-                    type="button"
-                    className="
-                        icon-plus
-                        py-2 px-3 ml-4
-                        text-warmGray-800 text-2xl
-                        bg-warmGray-100
-                    "
-                    onClick={ addNewPrice }
-                ></button>
+            {showAddPrice
+                ?
+                    <button
+                        type="button"
+                        className="
+                            py-2 px-3 ml-4
+                            text-warmGray-800 text-2xl
+                            bg-warmGray-100
+                        "
+                        onClick={ addNewPrice }
+                    >
+                        <i className="fas fa-plus"></i>
+                    </button>
                 :
-                <button
-                    type="button"
-                    className="
-                        icon-minus
-                        py-2 px-3 ml-4
-                        text-warmGray-800 text-2xl
-                        bg-warmGray-100
-                    "
-                    onClick={ removePrice }
-                ></button>
+                    <button
+                        type="button"
+                        className="
+                            icon-minus
+                            py-2 px-3 ml-4
+                            text-warmGray-800 text-2xl
+                            bg-warmGray-100
+                        "
+                        onClick={ removePrice }
+                    >
+                        <i className="fas fa-minus"></i>
+                    </button>
             }
         </div>
     )

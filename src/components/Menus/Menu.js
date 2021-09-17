@@ -89,7 +89,7 @@ export const Menu = ({ showMenu, handleShowMenu }) => {
                         type="button"
                         onClick={ handleShowMenu }
                     >
-                        <i class="fas fa-times"></i>
+                        <i className="fas fa-times"></i>
                     </button>
                 </div>
 

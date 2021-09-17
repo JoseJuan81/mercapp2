@@ -51,12 +51,13 @@ export const NuevoInsumoMenuMobile = () => {
             <NavLink
                 to={ misInsumosPath }
                 className="
-                    icon-circle-left
                     btn-icon
                     flex items-center justify-center
                 "
                 title="atras"
-            ></NavLink>
+            >
+                <i className="fas fa-chevron-left"></i>
+            </NavLink>
 
             <button
                 type="button"
@@ -66,14 +67,18 @@ export const NuevoInsumoMenuMobile = () => {
                     flex items-center justify-center
                 "
                 onClick={ handleResetInsumoForm }
-            ></button>
+            >
+                <i className="far fa-times-circle"></i>
+            </button>
 
             <button
                 type="button"
-                className="icon-checkmark btn-icon"
+                className="btn-icon"
                 title="Agregar"
                 onClick={ handleOnClick }
-            ></button>
+            >
+                <i className="fas fa-check"></i>
+            </button>
 
         </div>
     )

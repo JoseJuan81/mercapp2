@@ -1,3 +1,5 @@
+import { removeItemFromArrayByProp } from "functionallibrary";
+import { typeLocal } from "../constant/localStorage";
 
 export const getFromLocalStorage = (key) => {
     const ls = localStorage.getItem(key);
@@ -15,4 +17,12 @@ export const removeFromLocalStorage = (key) => {
 
 export const clearLocalStorage = () => {
     localStorage.clear();
+}
+
+export const removeInsumoFromLocalStorage = ( id ) => {
+
+    const localInsumos = getFromLocalStorage( typeLocal.insumos );
+    const localInsumosUpdated = removeItemFromArrayByProp( 'id', id, localInsumos );
+
+    setInLocalStorage( typeLocal.insumos, localInsumosUpdated );
 }

@@ -2,7 +2,7 @@ import { isEmpty } from "functionallibrary";
 import { insumosType } from "../constant/insumosType";
 import { typeLocal } from "../constant/localStorage";
 import { db } from "../firebase/firebase-config";
-import { getFromLocalStorage } from "../helper/localStorage";
+import { getFromLocalStorage, removeInsumoFromLocalStorage } from "../helper/localStorage";
 import { extractInsumosFromFirestoreResponse } from "../helper/utils";
 import { endLoading, startLoading } from "./loadingAction";
 
@@ -95,6 +95,7 @@ export const startDeletingInsumos = ( id ) => async ( dispatch, rootState ) => {
         await db.doc( `${ uid }/app/insumos/${ id }` ).delete();
 
         dispatch( deleteInsumo( id ) );
+        removeInsumoFromLocalStorage( id );
 
     } catch (error) {
         console.log( 'No fue posible eliminar el insumo', error );

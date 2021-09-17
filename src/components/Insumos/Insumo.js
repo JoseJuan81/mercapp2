@@ -149,13 +149,14 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
             <button
                 data-jest="minusQuantity"
                 className="
-                    icon-minus
                     bg-gray-100
-                    text-gray-500
+                    text-gray-500 text-2xl
                     w-12 h-12
                 "
                 onClick={ handleMinusQuantity }
-            ></button>
+            >
+                <i className="fas fa-minus"></i>
+            </button>
             <input
                 className="
                     w-16 h-12
@@ -171,13 +172,14 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
             <button
                 data-jest="addQuantity"
                 className="
-                    icon-plus
                     bg-lime-50
-                    text-lime-500
+                    text-lime-500 text-2xl
                     w-12 h-12
                 "
                 onClick={ handleAddQuantity }
-            ></button>
+            >
+                <i className="fas fa-plus"></i>
+            </button>
         </div>
     )
 })
@@ -276,7 +278,7 @@ export const Insumo = React.memo( ({ insumo, establishment }) => {
     // console.log('7 INSUMO', insumo.title);
 
     const { currency, labels, id, name: title, price: priceObject } = insumo;
-    const price = priceObject[establishment] || 0;
+    const price = priceObject[establishment.toLowerCase()] || 0;
 
     const dispatch = useDispatch();
 

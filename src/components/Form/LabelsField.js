@@ -119,7 +119,6 @@ export const LabelsField = ({
                                 <button
                                     type="button"
                                     className="
-                                        icon-cancel-circle
                                         bg-warmGray-100
                                         rounded-r-full
                                         p-1
@@ -127,7 +126,9 @@ export const LabelsField = ({
                                         text-2xl
                                     "
                                     onClick={ (ev) => removeLabel( ev, ind ) }
-                                ></button>
+                                >
+                                    <i className="far fa-times-circle"></i>
+                                </button>
                             </span>
                         ) )
                     }
@@ -158,14 +159,16 @@ export const LabelsField = ({
                 {inputValue &&
                     <button
                         className="
-                            icon-plus
+                            h-10 w-10
                             px-2 py-2 mr-2
-                            text-lime-500
+                            text-lime-500 text-xl
                             bg-warmGray-100
                             rounded
                         "
                         onClick={ handleClickToAddLabel }
-                    ></button>
+                    >
+                        <i className="fas fa-plus"></i>
+                    </button>
                 }
             </div>
         </div>

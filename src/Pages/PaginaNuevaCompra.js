@@ -1,13 +1,20 @@
-import { isEmpty } from 'functionallibrary';
-import React, { useEffect, useState } from 'react';
+import { getPropertysValue, isEmpty } from 'functionallibrary';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 
 import { loadSelectedInsumos, setEstablishmentInBuy } from '../actions/buyAction';
 import { BigAddButton } from '../components/Buttons/BigAddButton';
 import { InputField } from '../components/Form/InputField';
 import { Insumo } from '../components/Insumos/Insumo';
 import { misInsumosPath } from '../constant/routes';
+
+import CreatableSelect from 'react-select/creatable';
+const establishmentOptions = [
+    { value: 'wong', label: 'Wong' },
+    { value: 'mass', label: 'Mass' },
+    { value: 'bodega frente', label: 'Bodega frente' },
+    { value: 'metro', label: 'Metro' },
+]
 
 export const PaginaNuevaCompra = () => {
 
@@ -20,6 +27,13 @@ export const PaginaNuevaCompra = () => {
         dispatch( loadSelectedInsumos() );
     }, [])
 
+    const handleChange = ( inputValue, actionMeta ) => {
+
+        const value = getPropertysValue( 'value', inputValue ) || '';
+
+        dispatch( setEstablishmentInBuy( value ) );
+    }
+
     return (
         <div
             className="
@@ -31,11 +45,18 @@ export const PaginaNuevaCompra = () => {
         >
             <form>
                 <fieldset>
-                    <InputField
+                    <CreatableSelect
+                        isClearable
+                        autoFocus
+                        createOptionPosition="first"
+                        onChange={handleChange}
+                        options={establishmentOptions}
+                    />
+                    {/* <InputField
                         placeholder="establecimiento"
                         onChange={ ({ target }) => dispatch( setEstablishmentInBuy( target.value ) ) }
                         value={ establishmentName }
-                    />
+                    /> */}
                 </fieldset>
             </form>
             {isEmpty( selectedInsumos ) &&
