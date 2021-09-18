@@ -216,10 +216,9 @@ const InsumoActions = React.memo( ({ id }) => {
             className={`
                 absolute right-1
                 h-10
-                pr-2
                 bg-warmGray-100
                 flex
-                transform ${ toogle ? 'translate-x-0' : 'translate-x-28' }
+                transform ${ toogle ? 'translate-x-1' : 'translate-x-28' }
                 border border-solid ${ toogle ? 'border-warmGray-200' : 'border-white' }
                 rounded-l-full
                 duration-300
@@ -245,7 +244,7 @@ const InsumoActions = React.memo( ({ id }) => {
             <div
                 className="
                     grid grid-cols-2 gap-2
-                    pl-2
+                    px-2
                 "
             >
                 <button

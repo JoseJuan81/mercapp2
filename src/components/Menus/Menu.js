@@ -3,13 +3,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { appLogout } from '../../actions/auth';
+import { startLoadingInsumos } from '../../actions/insumosAction';
+import { typeLocal } from '../../constant/localStorage';
 import { misInsumosPath, resumenDeComprasPath } from '../../constant/routes';
+import { removeFromLocalStorage } from '../../helper/localStorage';
+import { UserAvatar } from '../UserAvatar';
 
 export const Menu = ({ showMenu, handleShowMenu }) => {
 
     const user = useSelector( state => state.auth );
     
     const dispatch = useDispatch();
+
+    const handleLogout = () => {
+
+        dispatch( appLogout() );
+
+    }
+
+    const handleRefresh = () => {
+
+        removeFromLocalStorage( typeLocal.insumos );
+        dispatch( startLoadingInsumos() );
+    }
 
     useEffect( () => {
 
@@ -29,12 +45,6 @@ export const Menu = ({ showMenu, handleShowMenu }) => {
         }
 
     }, [showMenu]);
-
-    const handleLogout = () => {
-
-        dispatch( appLogout() );
-
-    }
 
     return (
         <ul
@@ -60,26 +70,17 @@ export const Menu = ({ showMenu, handleShowMenu }) => {
                         flex items-center justify-between
                     "
                 >
-                    {user.avatar
-                        ?   <img
-                                className="
-                                    rounded-full
-                                    w-16 h-16
-                                "
-                                src={ user.avatar }
-                                alt="imagen del usuario"
-                            />
-                        :   <div
-                                className="
-                                    w-16 h-16
-                                    text-5xl
-                                    flex items-center justify-center
-                                "
-                            >
-                                <i className="far fa-user"></i>
-                            </div>
+                    <UserAvatar user={ user } />
 
-                    }
+                    <button
+                        className="
+                            text-3xl text-warmGray-500
+                        "
+                        type="button"
+                        onClick={ handleRefresh }
+                    >
+                        <i class="fas fa-sync"></i>
+                    </button>
                     
 
                     <button
@@ -95,7 +96,7 @@ export const Menu = ({ showMenu, handleShowMenu }) => {
 
                 <span
                     className="
-                        text-center text-warmGray-500
+                        text-left text-warmGray-500
                         mt-4
                     "
                 >{ user.name }</span>
