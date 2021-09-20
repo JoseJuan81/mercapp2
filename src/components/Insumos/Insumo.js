@@ -2,6 +2,7 @@ import { round, setNewProperty } from 'functionallibrary';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { startUpdatingQuantity } from '../../actions/buyAction';
 
 // import { useIdbInsumos } from '../../hooks/useIdbInsumos';
 import { startDeletingInsumos, selectInsumoToBuy } from '../../actions/insumosAction';
@@ -84,22 +85,22 @@ const InsumoTotal = React.memo( ({ currency = 'PEN', total }) => {
     return (
         <dt
             className="
-                text-3xl text-warmGray-800
-                font-bold
+                text-2xl text-warmGray-500
+                font-medium
                 flex items-baseline
             "
         >
             <small className="text-xs font-light">total:</small>
-            <small className="text-base font-light mx-2">{ currency }</small>
+            <small className="text-xs font-light mx-2">{ currency }</small>
             <span>{ total }</span>
         </dt>
     )
 })
 
-const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
+const InsumoQuantity = React.memo( ({ setTotal, price, id, quantity: insumoQuantity }) => {
 
 
-    const initialQuantity = 1;
+    const initialQuantity = insumoQuantity || 1;
     const dispatch = useDispatch();
 
     const[q, setQ] = useState( initialQuantity );
@@ -111,7 +112,7 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
         const quantity = result < 0 ? 1 : result;
 
         setQ(quantity);
-        dispatch({ type: 'quantity-change', payload: { id, quantity } });
+        dispatch( startUpdatingQuantity({ id, quantity }) );
         
     }
     
@@ -121,7 +122,7 @@ const InsumoQuantity = React.memo( ({ setTotal, price, id }) => {
         const quantity = Number( q )  + 1;
 
         setQ(quantity);
-        dispatch({ type: 'quantity-change', payload: { id, quantity } })
+        dispatch( startUpdatingQuantity({ id, quantity }) );
     }
     
     const handleInputChange = (e) => {
@@ -276,7 +277,7 @@ const InsumoActions = React.memo( ({ id }) => {
 export const Insumo = React.memo( ({ insumo, establishment }) => {
     // console.log('7 INSUMO', insumo.title);
 
-    const { currency, labels, id, name: title, price: priceObject } = insumo;
+    const { currency, labels, id, name: title, price: priceObject, quantity } = insumo;
     const price = priceObject[establishment.toLowerCase()] || 0;
 
     const dispatch = useDispatch();
@@ -343,6 +344,7 @@ export const Insumo = React.memo( ({ insumo, establishment }) => {
                     setTotal={ setTotal }
                     price={ price }
                     id={ id }
+                    quantity={ quantity }
                 />
 
                 <InsumoTotal

@@ -3,6 +3,7 @@ import { equality, filter } from "functionallibrary";
 import { typeBuy } from "../constant/buy";
 import { typeLocal } from "../constant/localStorage";
 import { getFromLocalStorage } from "../helper/localStorage";
+import { updateItemInArrayByProp } from "../helper/utils";
 
 const initialState = {
     selectedInsumos: [],
@@ -24,7 +25,11 @@ export const buyReducer = ( state = initialState, action ) => {
     
     const opts = {
         [typeBuy.selected]: () => getSelectedInsumos( state ),
-        [typeBuy.establishment]: () => ({ ...state, establishmentName: action.payload })
+        [typeBuy.establishment]: () => ({ ...state, establishmentName: action.payload }),
+        [typeBuy.updateQuantity]: () => ({
+            ...state,
+            selectedInsumos: updateItemInArrayByProp( 'id', action.payload, state.selectedInsumos )
+        })
     }
 
     const fn = opts[action.type];

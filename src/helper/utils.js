@@ -2,16 +2,14 @@ import { equality, findIndex, isEmpty, round } from 'functionallibrary';
 
 const twoDecimals = round(2);
 
-export const updateItemInArrayByProp = (prop, item, arr) => {
-    const index = findIndex(
-        equality(prop, item[prop]),
-        arr
-    )
+export const updateItemInArrayByProp = ( prop, item, arr ) => {
+
+    const index = findIndex( equality(prop, item[prop]), arr );
 
     const local = [...arr];
     local.splice( index, 1, item );
 
-    return local;
+    return [...local];
 }
 
 export const defaultObjectPrice = { name: '', value: 0 };

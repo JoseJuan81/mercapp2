@@ -1,10 +1,9 @@
-import { getPropertysValue, isEmpty } from 'functionallibrary';
-import React, { useEffect } from 'react';
+import { getPropertysValue, isEmpty, round } from 'functionallibrary';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { loadSelectedInsumos, setEstablishmentInBuy } from '../actions/buyAction';
 import { BigAddButton } from '../components/Buttons/BigAddButton';
-import { InputField } from '../components/Form/InputField';
 import { Insumo } from '../components/Insumos/Insumo';
 import { misInsumosPath } from '../constant/routes';
 
@@ -16,16 +15,15 @@ const establishmentOptions = [
     { value: 'metro', label: 'Metro' },
 ]
 
+const twoDecimals = round(2);
+
 export const PaginaNuevaCompra = () => {
 
     const dispatch = useDispatch();
 
     const { selectedInsumos, establishmentName } = useSelector( state => state.buy );
 
-    useEffect( () => {
-
-        dispatch( loadSelectedInsumos() );
-    }, [])
+    const [total, setTotal] = useState(0);
 
     const handleChange = ( inputValue, actionMeta ) => {
 
@@ -33,6 +31,28 @@ export const PaginaNuevaCompra = () => {
 
         dispatch( setEstablishmentInBuy( value ) );
     }
+
+    useEffect( () => {
+
+        dispatch( loadSelectedInsumos() );
+
+    }, [])
+
+    useEffect( () => {
+
+        const total = selectedInsumos.reduce((acc, item) => {
+
+            const price = item.price[establishmentName];
+            const quantity = item.quantity || 1;
+
+            const priceTotal = ( price * quantity ) || 0;
+            return twoDecimals( acc +  priceTotal );
+
+        }, 0);
+
+        setTotal( total );
+
+    }, [selectedInsumos, establishmentName])
 
     return (
         <div
@@ -44,19 +64,29 @@ export const PaginaNuevaCompra = () => {
             "
         >
             <form>
-                <fieldset>
+                <fieldset className="flex items-center justify-between">
                     <CreatableSelect
                         isClearable
                         autoFocus
+                        className="flex-1"
                         createOptionPosition="first"
                         onChange={handleChange}
                         options={establishmentOptions}
                     />
-                    {/* <InputField
-                        placeholder="establecimiento"
-                        onChange={ ({ target }) => dispatch( setEstablishmentInBuy( target.value ) ) }
-                        value={ establishmentName }
-                    /> */}
+                    <h1
+                        className="
+                            text-2xl font-bold
+                            mr-3 ml-6
+                        "
+                    >
+                        <span
+                            className="
+                                text-xs font-light
+                                mx-1
+                            "
+                        >PEN</span>
+                        { total }
+                    </h1>
                 </fieldset>
             </form>
             {isEmpty( selectedInsumos ) &&

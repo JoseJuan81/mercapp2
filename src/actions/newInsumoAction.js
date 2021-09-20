@@ -1,11 +1,13 @@
 
-import { equality, find } from "functionallibrary";
+import { equality, find, isEmpty } from "functionallibrary";
 
 import { db } from "../firebase/firebase-config";
 import { newInsumoForm } from "../constant/newInsumoTypeForm";
 import { priceFromArrayToObject } from "../helper/utils";
 import { addInsumoToState, updateInsumoInState } from "./insumosAction";
 import { endLoading, startLoading } from "./loadingAction";
+import { getFromLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
+import { typeLocal } from "../constant/localStorage";
 // import { createInsumoInLocal } from "../helper/indexDB";
 // import IDB from "../services/indexDB/insumo";
 
@@ -45,9 +47,13 @@ export const updatingInsumo = ( insumo ) => ({
 
 export const setInsumoToUpdate = ( insumoId ) => ( dispatch, rootState ) => {
 
+    const insumos = isEmpty( rootState().insumos )
+        ? getFromLocalStorage( typeLocal.insumos )
+        : rootState().insumos;
+
     const insumoToUpdate = find(
         equality( 'id', insumoId ),
-        rootState().insumos
+        insumos
     );
 
     dispatch( updatingInsumo( insumoToUpdate ) );
@@ -56,6 +62,7 @@ export const setInsumoToUpdate = ( insumoId ) => ( dispatch, rootState ) => {
 /// ============= Acciones asincronas ================= //
 export const startCreateInsumo = () => async ( dispatch, rootState ) => {
 
+    dispatch( startLoading() );
     const { auth: { uid }, newInsumo: { data } } = rootState();
 
     const insumoCreated = await db.collection( `${ uid }/app/insumos` ).add( data );
@@ -63,6 +70,7 @@ export const startCreateInsumo = () => async ( dispatch, rootState ) => {
     dispatch( addInsumoToState( { ...data, id: insumoCreated.id } ) );
     // createInsumoInLocal( { ...newInsumo, id: insumoCreated.id });
     dispatch ( resetForm() );
+    dispatch( endLoading() );
 
 }
 
@@ -90,14 +98,17 @@ export const startLoadingInsumoData = ( id ) => async ( dispatch, rootState ) =>
 
 export const startUpdateInsumo = () => async ( dispatch, rootState ) => {
 
+    dispatch( startLoading() );
+
     const { auth: { uid }, newInsumo: { data } } = rootState();
 
-    const { id, ...rest } = data;
+    const { id, selected, ...rest } = data;
 
     await db.doc( `${ uid }/app/insumos/${ id }` ).update( rest );
     
     dispatch( updateInsumoInState( data ) );
-    // updateInsumoInLocal
     dispatch ( resetForm() );
-
+    dispatch( endLoading() );
+    
+    updateInsumoInLocalStorage( { ...data, selected } );
 }

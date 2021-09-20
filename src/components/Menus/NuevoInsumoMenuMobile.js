@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { resetForm, startCreateInsumo, startUpdateInsumo } from '../../actions/newInsumoAction';
 
-import { misInsumosPath } from '../../constant/routes';
 
 export const NuevoInsumoMenuMobile = () => {
 
@@ -19,7 +18,7 @@ export const NuevoInsumoMenuMobile = () => {
         if ( isEditing ) {
 
             dispatch( startUpdateInsumo() );
-            history.push( misInsumosPath );
+            history.goBack()
         } else {
         
             dispatch( startCreateInsumo() );
@@ -48,16 +47,16 @@ export const NuevoInsumoMenuMobile = () => {
             "
         >
 
-            <NavLink
-                to={ misInsumosPath }
+            <button
+                type="button"
                 className="
                     btn-icon
                     flex items-center justify-center
                 "
-                title="atras"
+                onClick={ () => history.goBack() }
             >
                 <i className="fas fa-chevron-left"></i>
-            </NavLink>
+            </button>
 
             <button
                 type="button"

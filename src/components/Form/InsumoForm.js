@@ -59,6 +59,7 @@ export const InsumoForm = () => {
     useEffect( () => {
 
         const pathname = query.get( 'pathname' );
+
         const insumoId = extractIdFromPathName( pathname, editarInsumoPath );
         setIsEditing( !!insumoId );
         

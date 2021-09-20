@@ -79,7 +79,7 @@ export const Menu = ({ showMenu, handleShowMenu }) => {
                         type="button"
                         onClick={ handleRefresh }
                     >
-                        <i class="fas fa-sync"></i>
+                        <i className="fas fa-sync"></i>
                     </button>
                     
 
