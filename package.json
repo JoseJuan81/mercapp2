@@ -24,7 +24,7 @@
 	},
 	"scripts": {
 		"start": "PORT=3333 craco start",
-		"build": "craco build",
+		"build": "CI=false craco build",
 		"test": "craco test",
 		"cy": "npx cypress open",
 		"eject": "react-scripts eject"
