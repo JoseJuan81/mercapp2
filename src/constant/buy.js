@@ -4,4 +4,5 @@ export const typeBuy = {
     remove: '[buy] insumos to remove',
     establishment: '[buy] set establisment name',
     updateQuantity: '[buy] update quantity in insumo',
+    total: '[buy] calculate insumos total'
 }

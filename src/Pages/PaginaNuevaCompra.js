@@ -1,5 +1,5 @@
-import { getPropertysValue, isEmpty, round } from 'functionallibrary';
-import React, { useEffect, useState } from 'react';
+import { getPropertysValue, isEmpty } from 'functionallibrary';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { loadSelectedInsumos, setEstablishmentInBuy } from '../actions/buyAction';
@@ -15,15 +15,11 @@ const establishmentOptions = [
     { value: 'metro', label: 'Metro' },
 ]
 
-const twoDecimals = round(2);
-
 export const PaginaNuevaCompra = () => {
 
     const dispatch = useDispatch();
 
-    const { selectedInsumos, establishmentName } = useSelector( state => state.buy );
-
-    const [total, setTotal] = useState(0);
+    const { selectedInsumos, establishmentName, total } = useSelector( state => state.buy );
 
     const handleChange = ( inputValue, actionMeta ) => {
 
@@ -37,22 +33,6 @@ export const PaginaNuevaCompra = () => {
         dispatch( loadSelectedInsumos() );
 
     }, [])
-
-    useEffect( () => {
-
-        const total = selectedInsumos.reduce((acc, item) => {
-
-            const price = item.price[establishmentName];
-            const quantity = item.quantity || 1;
-
-            const priceTotal = ( price * quantity ) || 0;
-            return twoDecimals( acc +  priceTotal );
-
-        }, 0);
-
-        setTotal( total );
-
-    }, [selectedInsumos, establishmentName])
 
     return (
         <div
@@ -72,6 +52,7 @@ export const PaginaNuevaCompra = () => {
                         createOptionPosition="first"
                         onChange={handleChange}
                         options={establishmentOptions}
+                        value={ establishmentName }
                     />
                     <h1
                         className="

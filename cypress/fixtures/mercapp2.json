@@ -1,0 +1,10 @@
+{
+  "email": "josejuan.dominguez@int-elle.com",
+  "password": "123456",
+  "url": {
+    "insumos": "http://localhost:3333/mis-insumos",
+    "misCompras": "http://localhost:3333/mis-compras",
+    "login": "http://localhost:3333/inicio-sesion",
+    "signUp": "http://localhost:3333/registro-usuario"
+  }
+}

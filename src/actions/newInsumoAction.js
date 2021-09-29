@@ -3,16 +3,11 @@ import { equality, find, isEmpty } from "functionallibrary";
 
 import { db } from "../firebase/firebase-config";
 import { newInsumoForm } from "../constant/newInsumoTypeForm";
-import { priceFromArrayToObject } from "../helper/utils";
 import { addInsumoToState, updateInsumoInState } from "./insumosAction";
 import { endLoading, startLoading } from "./loadingAction";
-import { getFromLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
+import { getFromLocalStorage, setInLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
 import { typeLocal } from "../constant/localStorage";
-// import { createInsumoInLocal } from "../helper/indexDB";
-// import IDB from "../services/indexDB/insumo";
-
-// const idb = new IDB('insumos');
-
+import { priceFromArrayToObject } from "../helper/priceHandling";
 
 /// ============= Acciones sincronas ================= //
 export const fillingForm = ( { name, value } ) => {
@@ -63,12 +58,12 @@ export const setInsumoToUpdate = ( insumoId ) => ( dispatch, rootState ) => {
 export const startCreateInsumo = () => async ( dispatch, rootState ) => {
 
     dispatch( startLoading() );
-    const { auth: { uid }, newInsumo: { data } } = rootState();
+    const { auth: { uid }, newInsumo: { data }, insumos } = rootState();
 
     const insumoCreated = await db.collection( `${ uid }/app/insumos` ).add( data );
     
     dispatch( addInsumoToState( { ...data, id: insumoCreated.id } ) );
-    // createInsumoInLocal( { ...newInsumo, id: insumoCreated.id });
+    setInLocalStorage( typeLocal.insumos, [{ ...data, id: insumoCreated.id }, ...insumos] );
     dispatch ( resetForm() );
     dispatch( endLoading() );
 

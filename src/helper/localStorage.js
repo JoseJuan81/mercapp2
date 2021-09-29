@@ -1,6 +1,6 @@
 import { removeItemFromArrayByProp } from "functionallibrary";
 import { typeLocal } from "../constant/localStorage";
-import { updateItemInArrayByProp } from "./utils";
+import { updateItemInArrayByProp } from "./updateItemInArrayByProp";
 
 export const getFromLocalStorage = (key) => {
     const ls = localStorage.getItem(key);

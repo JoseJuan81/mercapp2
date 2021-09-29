@@ -82,6 +82,7 @@ export const PaginaInicioSesion = () => {
             </h2>
 
             <form
+                data-cy="login-form"
                 className="
                     animate__animated animate__jello
                     flex flex-col
@@ -105,6 +106,7 @@ export const PaginaInicioSesion = () => {
                     className="mb-2"
                 >
                     <InputField
+                        data-cy="login-email"
                         placeholder="Introduzca su correo"
                         type="text"
                         name="email"
@@ -118,6 +120,7 @@ export const PaginaInicioSesion = () => {
                     className="mb-2"
                 >
                     <InputField
+                        data-cy="login-password"
                         placeholder="Introduzca su contrasena"
                         type="password"
                         name="password"
@@ -128,6 +131,7 @@ export const PaginaInicioSesion = () => {
                     />
                 </fieldset>
                 <button
+                    data-cy="login-button"
                     disabled={ invalidForm }
                     className={`
                         btn

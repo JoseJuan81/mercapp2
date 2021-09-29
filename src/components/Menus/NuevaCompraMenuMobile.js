@@ -1,5 +1,6 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
+import { misInsumosPath } from '../../constant/routes';
 
 
 export const NuevaCompraMenuMobile = () => {
@@ -35,13 +36,13 @@ export const NuevaCompraMenuMobile = () => {
                 <i className="far fa-times-circle"></i>
             </button>
 
-            <button
-                type="button"
-                className="btn-icon"
+            <NavLink
+                to={ misInsumosPath }
+                className="btn-icon flex items-center justify-center"
                 title="Agregar"
             >
                 <i className="fas fa-plus-circle"></i>
-            </button>
+            </NavLink>
 
         </div>
     )

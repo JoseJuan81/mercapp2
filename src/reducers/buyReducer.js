@@ -1,34 +1,30 @@
 import { equality, filter } from "functionallibrary";
 
 import { typeBuy } from "../constant/buy";
-import { typeLocal } from "../constant/localStorage";
-import { getFromLocalStorage } from "../helper/localStorage";
-import { updateItemInArrayByProp } from "../helper/utils";
+import { calculateTotal } from "../helper/calculateTotal";
+import { updateItemInArrayByProp } from "../helper/updateItemInArrayByProp";
 
-const initialState = {
+export const initialState = {
     selectedInsumos: [],
-    establishmentName: ''
-}
-
-const getSelectedInsumos = ( state ) => {
-
-    const allInsumos = getFromLocalStorage( typeLocal.insumos ) || [];
-    const selectedInsumos = filter( equality( 'selected', true ), allInsumos );
-
-    return {
-        ...state,
-        selectedInsumos,
-    }
+    establishmentName: '',
+    total: 0
 }
 
 export const buyReducer = ( state = initialState, action ) => {
     
     const opts = {
-        [typeBuy.selected]: () => getSelectedInsumos( state ),
         [typeBuy.establishment]: () => ({ ...state, establishmentName: action.payload }),
+        [typeBuy.selected]: () => ({
+            ...state,
+            selectedInsumos: filter( equality( 'selected', true ), action.payload )
+        }),
         [typeBuy.updateQuantity]: () => ({
             ...state,
             selectedInsumos: updateItemInArrayByProp( 'id', action.payload, state.selectedInsumos )
+        }),
+        [typeBuy.total]: () => ({
+            ...state,
+            total: calculateTotal( state.selectedInsumos, state.establishmentName )
         })
     }
 

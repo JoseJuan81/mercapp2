@@ -92,6 +92,7 @@ export const PaginaRegistroUsuario = () => {
                 Registro de usuario
             </h2>
             <form
+                data-cy="signup-form"
                 className="
                     animate__animated animate__rollIn
                     flex flex-col

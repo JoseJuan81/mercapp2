@@ -9,8 +9,9 @@ describe('Pruebas sobre funcion alphabeticSorting.js', () => {
 
     test('debe ordernar por ordern alfabetico', () => {
 
-        const sorted = alphabeticSorting(data);
+        const sorted = alphabeticSorting( data, 'title' );
 
-        expect( sorted[0].title ).toBe('Arbol')
+        expect( sorted[0].title ).toBe('Arbol');
+        expect( sorted[1].title ).toBe('zafiro');
     })
 })

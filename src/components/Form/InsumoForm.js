@@ -10,7 +10,7 @@ import { fillingForm, startLoadingInsumoData } from '../../actions/newInsumoActi
 import { InsumoPrice } from './InsumoPrice';
 import { editarInsumoPath } from '../../constant/routes';
 import { extractIdFromPathName } from '../../helper/route';
-import { defaultObjectPrice, priceFromObjectToArray } from '../../helper/utils';
+import { defaultObjectPrice, priceFromObjectToArray } from '../../helper/priceHandling';
 
 export const InsumoForm = () => {
 

@@ -1,9 +1,11 @@
-import { isEmpty } from "functionallibrary";
+import { isEmpty, map, setNewProperty } from "functionallibrary";
 import { insumosType } from "../constant/insumosType";
 import { typeLocal } from "../constant/localStorage";
 import { db } from "../firebase/firebase-config";
-import { getFromLocalStorage, removeInsumoFromLocalStorage } from "../helper/localStorage";
-import { extractInsumosFromFirestoreResponse } from "../helper/utils";
+import { extractInsumosFromFirestoreResponse } from "../helper/firestore";
+import { getFromLocalStorage, removeInsumoFromLocalStorage, setInLocalStorage } from "../helper/localStorage";
+import { updateArrayWithArray } from "../helper/updateArrayWithArray";
+import { updateItemInArrayByProp } from "../helper/updateItemInArrayByProp";
 import { endLoading, startLoading } from "./loadingAction";
 
 /// ============= Acciones sincronas ================= //
@@ -17,8 +19,9 @@ export const setInsumos = ( insumos ) => ({
     payload: insumos
 });
 
-export const getInsumos = () => ({
+export const getInsumos = ( prop = 'name' ) => ({
     type: insumosType.getAll,
+    payload: prop
 });
 
 export const deleteInsumo = (id) => ({
@@ -31,28 +34,65 @@ export const updateInsumoInState = ( insumoUpdated ) => ({
     payload: insumoUpdated
 });
 
-export const searchingInsumo = ( searchValue ) => ({
+export const searchInsumo = ( insumos, searchValue ) => ({
     type: insumosType.search,
-    payload: searchValue
+    payload: { insumos, searchValue }
 })
 
-export const filteringInsumo = ( filterValue ) => ({
+export const filterInsumo = ( insumos, filterValue ) => ({
     type: insumosType.filter,
-    payload: filterValue
+    payload: { insumos, filterValue }
 })
 
-export const selectInsumoToBuy = ( insumoId ) => ({
+export const selectInsumo = ( insumo ) => ({
     type: insumosType.select,
-    payload: insumoId
+    payload: insumo
 })
 
-export const selectAllInsumosToBuy = () => ({
+export const selectAllInsumos = ( newState ) => ({
     type: insumosType.selectAll,
+    payload: newState
 })
 
-export const unSelectAllInsumosToBuy = () => ({
-    type: insumosType.unSelectAll
-})
+export const searchingInsumo = ( val ) => dispatch => {
+
+    const localInsumos = getFromLocalStorage( typeLocal.insumos ) || [];
+
+    dispatch( searchInsumo( localInsumos, val ) );
+}
+
+export const filteringInsumo = ( val ) => dispatch => {
+
+    const localInsumos = getFromLocalStorage( typeLocal.insumos ) || [];
+
+    dispatch( filterInsumo( localInsumos, val ) );
+}
+
+export const selectInsumoToBuy = ( insumo ) => dispatch => {
+
+    const localInsumos = getFromLocalStorage( typeLocal.insumos );
+    setInLocalStorage( typeLocal.insumos, [...updateItemInArrayByProp( 'id', insumo, localInsumos )] );
+
+    dispatch( selectInsumo( insumo ) );
+}
+
+export const selectAllInsumosToBuy = ( flag ) => ( dispatch, rootState ) => {
+
+    const state = rootState().insumos;
+    const newState = map( setNewProperty( 'selected', flag ), state );
+    const localInsumos = getFromLocalStorage( typeLocal.insumos ) || [];
+
+    if ( localInsumos.length === newState.length ) {
+
+        setInLocalStorage( typeLocal.insumos, [...newState] );
+    } else {
+
+        const localUpdated = updateArrayWithArray( localInsumos, newState, 'id' );
+        setInLocalStorage( typeLocal.insumos, [...localUpdated]);
+    }
+    
+    dispatch( selectAllInsumos( newState ) );
+}
 
 /// ============= Acciones asincronas ================= //
 export const startLoadingInsumos = () => async ( dispatch, rootState ) => {
@@ -71,6 +111,8 @@ export const startLoadingInsumos = () => async ( dispatch, rootState ) => {
         
             const insumos = extractInsumosFromFirestoreResponse( response );
             dispatch( setInsumos( insumos ) );
+
+            setInLocalStorage( typeLocal.insumos, [...insumos] );
 
         } catch(err) {
 

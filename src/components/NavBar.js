@@ -9,7 +9,7 @@ export const NavBar = () => {
 
     const { pathname } = useLocation();
 
-    const [titlePage, setTitlePage] = useState( '' );
+    const [pageTitle, setPageTitle] = useState( '' );
     const [showMenu, setShowMenu] = useState( false );
 
     const handleShowMenu = ({ target }) => {
@@ -22,7 +22,7 @@ export const NavBar = () => {
 
     useEffect( () => {
  
-        setTitlePage( pageTitles[pathname] || null );
+        setPageTitle( pageTitles[pathname] || null );
     }, [pathname]);
 
     return (
@@ -45,13 +45,14 @@ export const NavBar = () => {
                     MercApp2
             </h1>
 
-            {titlePage && (
+            {pageTitle && (
                 <h1
+                    data-cy="page-title"
                     className="
                         animate__animated animate__fadeInUp animate__delay-2s
                         text-xl font-light
                     "
-                >{ titlePage }</h1>
+                >{ pageTitle }</h1>
             )}
 
             <div
