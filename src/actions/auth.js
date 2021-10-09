@@ -2,6 +2,8 @@ import { firebase, googleAuthProvider } from '../firebase/firebase-config';
 import { auth } from '../constant/auth';
 import { removeFromLocalStorage, setInLocalStorage } from '../helper/localStorage';
 import { typeLocal } from '../constant/localStorage';
+import { fetchLogin } from '../helper/fetch';
+import { endLoading, startLoading } from './loadingAction';
 
 /// ============= Acciones sincronas ================= //
 export const login = ( userData ) => ({
@@ -42,26 +44,38 @@ export const startGoogleLogIn = () => async dispatch => {
 }
 
 export const startLoginWithEmailAndPassword = ({ email, password }) => async dispatch => {
+    
+    dispatch( startLoading() );
 
     try {
 
-        const { user } = await firebase.auth().signInWithEmailAndPassword( email, password );
+        // const { user } = await firebase.auth().signInWithEmailAndPassword( email, password );
+        const response = await fetchLogin( email, password );
 
-        const userData = {
-            name: user.displayName,
-            uid: user.uid,
-            email: user.email,
-            avatar: user.photoURL
+        if ( response.ok ) {
+
+            const { data:user } = response;
+            const userData = {
+                name: user.name,
+                uid: user.uid,
+                email: user.email,
+                avatar: user.photoURL
+            }
+    
+            dispatch( login( userData ) );
+    
+            setInLocalStorage( typeLocal.user, { ...userData, logged: true } );
+
+        } else {
+            console.error('error al iniciar sesion con correo', response.msg);
         }
 
-        dispatch(
-            login( userData )
-        )
-
-        setInLocalStorage( typeLocal.user, { ...userData, logged: true } );
-
     } catch (error) {
+
         console.error('error al iniciar sesion con correo', error);
+
+    } finally {
+        dispatch( endLoading() );
     }
 }
 
