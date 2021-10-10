@@ -8,6 +8,7 @@ import { endLoading, startLoading } from "./loadingAction";
 import { getFromLocalStorage, setInLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
 import { typeLocal } from "../constant/localStorage";
 import { priceFromArrayToObject } from "../helper/priceHandling";
+import { fetchCreateInsumo, fetchUpdateInsumo } from "../helper/fetch";
 
 /// ============= Acciones sincronas ================= //
 export const fillingForm = ( { name, value } ) => {
@@ -58,14 +59,28 @@ export const setInsumoToUpdate = ( insumoId ) => ( dispatch, rootState ) => {
 export const startCreateInsumo = () => async ( dispatch, rootState ) => {
 
     dispatch( startLoading() );
-    const { auth: { uid }, newInsumo: { data }, insumos } = rootState();
 
-    const insumoCreated = await db.collection( `${ uid }/app/insumos` ).add( data );
+    const { newInsumo: { data }, insumos } = rootState();
+
+    try {
+        
+        const response = await fetchCreateInsumo( data );
+        const insumoCreated = response.data;
+
+        dispatch( addInsumoToState( insumoCreated ) );
+        setInLocalStorage( typeLocal.insumos, [insumoCreated, ...insumos] );
     
-    dispatch( addInsumoToState( { ...data, id: insumoCreated.id } ) );
-    setInLocalStorage( typeLocal.insumos, [{ ...data, id: insumoCreated.id }, ...insumos] );
-    dispatch ( resetForm() );
-    dispatch( endLoading() );
+        dispatch ( resetForm() );
+
+    } catch (error) {
+
+        console.error( 'Error al crear insumo ', error);
+
+    } finally {
+
+        dispatch( endLoading() );
+    }
+
 
 }
 
@@ -95,15 +110,25 @@ export const startUpdateInsumo = () => async ( dispatch, rootState ) => {
 
     dispatch( startLoading() );
 
-    const { auth: { uid }, newInsumo: { data } } = rootState();
+    const { newInsumo: { data } } = rootState();
 
-    const { id, selected, ...rest } = data;
+    const { selected } = data;
 
-    await db.doc( `${ uid }/app/insumos/${ id }` ).update( rest );
+    try {
+        
+        const response = await fetchUpdateInsumo( data );
+        const insumoUpdated = response.data;
     
-    dispatch( updateInsumoInState( data ) );
-    dispatch ( resetForm() );
-    dispatch( endLoading() );
+        dispatch( updateInsumoInState( { ...insumoUpdated, selected } ) );
+        dispatch ( resetForm() );
+        
+        updateInsumoInLocalStorage( { ...insumoUpdated, selected } );
+    } catch (error) {
+
+        console.log( 'Error al actualizar insumo: ', data.name, error );
+    } finally {
+
+        dispatch( endLoading() );
+    }
     
-    updateInsumoInLocalStorage( { ...data, selected } );
 }

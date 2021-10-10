@@ -5,7 +5,11 @@ const urlBase = process.env.REACT_APP_URLBASE;
 
 /// ====================================== Utilidades para servicios WEB
 
-const buildGetFetch = ( url,  ) => {
+/**
+ * 
+ * @param {string} url 
+ */
+const buildGetFetch = ( url ) => {
 
     const token = getFromLocalStorage( typeLocal.token );
 
@@ -21,8 +25,38 @@ const buildGetFetch = ( url,  ) => {
     )
 }
 
+/**
+ * 
+ * @param {string} url 
+ * @param {object} data 
+ * @param {string} method - POST / PUT
+ */
+const buildPostOrPutFetch = ( url, data, method  ) => {
+
+    const token = getFromLocalStorage( typeLocal.token );
+    
+    const body = JSON.stringify( data );
+
+    return fetch(
+        url,
+        {
+            headers: {
+                'Content-type': 'application/json',
+                'x-token': token
+            },
+            method,
+            body,
+        }
+    )
+}
+
 /// ====================================== Servicios WEB
 
+/**
+ * 
+ * @param {string} email 
+ * @param {string} password 
+ */
 export const fetchLogin = ( email, password ) => {
 
     const url = `${ urlBase }/auth`;
@@ -60,4 +94,25 @@ export const fetchInsumos = () => {
 
     const url = `${ urlBase }/insumos`;
     return buildGetFetch( url ).then( (res) => res.json() );
+}
+
+/**
+ * 
+ * @param {object} body 
+ */
+export const fetchCreateInsumo = ( body ) => {
+    
+    const url = `${ urlBase }/insumos`;
+    return buildPostOrPutFetch( url, body, 'POST' ).then( (res) => res.json() );
+}
+
+/**
+ * 
+ * @param {string} id 
+ * @param {object} body 
+ */
+export const fetchUpdateInsumo = ( body ) => {
+    
+    const url = `${ urlBase }/insumos/${ body.id }`;
+    return buildPostOrPutFetch( url, body, 'PUT' ).then( (res) => res.json() );
 }

@@ -1,12 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
-import { PageLoading } from './PageLoading';
 import { InsumoForm } from '../components/Form/InsumoForm';
 
 export const PaginaNuevoInsumo = () => {
-
-    const { loading: { loading } } = useSelector( state => state );
 
     return (
         <div
@@ -18,10 +14,7 @@ export const PaginaNuevoInsumo = () => {
                 flex items-end justify-center
             "
         >
-            { loading
-                ? <PageLoading />
-                : <InsumoForm />
-            }      
+            <InsumoForm />   
         </div>
     )
 }

@@ -20,7 +20,6 @@ import { PageLoading } from '../Pages/PageLoading';
 export const AppRoutes = () => {
 
     const {loading} = useSelector( state => state.loading );
-    console.log(loading)
 
     return (
         <div className="w-screen h-screen">

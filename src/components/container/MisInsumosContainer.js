@@ -9,9 +9,6 @@ import { startLoadingInsumos } from '../../actions/insumosAction';
 import { PaginaInsumos } from '../../Pages/PaginaInsumos.js'
 import { BigAddButton } from '../Buttons/BigAddButton.js';
 import { InsumosMenuMobile } from '../Menus/InsumosMenuMobile.js';
-import { PageLoading } from '../../Pages/PageLoading.js';
-import { setInLocalStorage } from '../../helper/localStorage';
-import { typeLocal } from '../../constant/localStorage';
 
 const AddButton = ({ path }) => {
     return (
