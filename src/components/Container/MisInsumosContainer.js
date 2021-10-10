@@ -36,7 +36,6 @@ export const MisInsumosContainer = () => {
 
     const {
         insumos,
-        loading: { loading },
         search: { isSearching, isFiltering }
     } = useSelector( state => state );
 
@@ -47,25 +46,19 @@ export const MisInsumosContainer = () => {
     }, []);
 
     return (
-        <>
-            {loading
-                ? <PageLoading />
-                :
-                <div
-                    className="layout__page"
-                >
+        <div
+            className="layout__page"
+        >
 
-                    { isEmpty( insumos ) && !( isFiltering || isSearching )
+            { isEmpty( insumos ) && !( isFiltering || isSearching )
 
-                        ? <AddButton path={ nuevoInsumoPath } />
+                ? <AddButton path={ nuevoInsumoPath } />
 
-                        : <PaginaInsumos insumos={ insumos } />
+                : <PaginaInsumos insumos={ insumos } />
 
-                    }
-
-                    <InsumosMenuMobile />
-                </div>
             }
-        </>
+
+            <InsumosMenuMobile />
+        </div>
     )
 }

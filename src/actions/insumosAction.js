@@ -1,12 +1,16 @@
 import { isEmpty, map, setNewProperty } from "functionallibrary";
+
 import { insumosType } from "../constant/insumosType";
 import { typeLocal } from "../constant/localStorage";
+
 import { db } from "../firebase/firebase-config";
-import { extractInsumosFromFirestoreResponse } from "../helper/firestore";
+
+import { endLoading, startLoading } from "./loadingAction";
+
+import { fetchInsumos } from "../helper/fetch";
 import { getFromLocalStorage, removeInsumoFromLocalStorage, setInLocalStorage } from "../helper/localStorage";
 import { updateArrayWithArray } from "../helper/updateArrayWithArray";
 import { updateItemInArrayByProp } from "../helper/updateItemInArrayByProp";
-import { endLoading, startLoading } from "./loadingAction";
 
 /// ============= Acciones sincronas ================= //
 export const addInsumoToState = ( newInsumo ) => ({
@@ -96,27 +100,23 @@ export const selectAllInsumosToBuy = ( flag ) => ( dispatch, rootState ) => {
 
 /// ============= Acciones asincronas ================= //
 export const startLoadingInsumos = () => async ( dispatch, rootState ) => {
-
     dispatch( startLoading() );
 
     const localInsumos = getFromLocalStorage( typeLocal.insumos );
 
     if ( isEmpty( localInsumos ) ) {
 
-        const { uid } = rootState().auth;
-    
         try {
 
-            const response = await db.collection( `${ uid }/app/insumos` ).get();
-        
-            const insumos = extractInsumosFromFirestoreResponse( response );
-            dispatch( setInsumos( insumos ) );
+            const response = await fetchInsumos();
 
-            setInLocalStorage( typeLocal.insumos, [...insumos] );
+            dispatch( setInsumos( response.data ) );
+
+            setInLocalStorage( typeLocal.insumos, [...response.data] );
 
         } catch(err) {
 
-            console.warn( 'Error al cargar insumos de la BD', err );
+            console.error( 'Error al cargar insumos de la BD', err );
         }
 
     } else {

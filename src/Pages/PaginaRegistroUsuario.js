@@ -1,5 +1,5 @@
 import { isEmpty } from 'functionallibrary';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import validator from 'validator';
@@ -72,6 +72,12 @@ export const PaginaRegistroUsuario = () => {
         setFormError({ ...errors });
 
     }
+
+    useEffect(() => {
+        
+        document.querySelector('input').focus();
+        
+    }, [])
 
     return (
         <div

@@ -1,8 +1,8 @@
 import { firebase, googleAuthProvider } from '../firebase/firebase-config';
 import { auth } from '../constant/auth';
-import { removeFromLocalStorage, setInLocalStorage } from '../helper/localStorage';
+import { clearLocalStorage, setInLocalStorage } from '../helper/localStorage';
 import { typeLocal } from '../constant/localStorage';
-import { fetchLogin } from '../helper/fetch';
+import { fetchLogin, fetchSignUp } from '../helper/fetch';
 import { endLoading, startLoading } from './loadingAction';
 
 /// ============= Acciones sincronas ================= //
@@ -49,7 +49,6 @@ export const startLoginWithEmailAndPassword = ({ email, password }) => async dis
 
     try {
 
-        // const { user } = await firebase.auth().signInWithEmailAndPassword( email, password );
         const response = await fetchLogin( email, password );
 
         if ( response.ok ) {
@@ -65,6 +64,7 @@ export const startLoginWithEmailAndPassword = ({ email, password }) => async dis
             dispatch( login( userData ) );
     
             setInLocalStorage( typeLocal.user, { ...userData, logged: true } );
+            setInLocalStorage( typeLocal.token, user.token );
 
         } else {
             console.error('error al iniciar sesion con correo', response.msg);
@@ -81,27 +81,41 @@ export const startLoginWithEmailAndPassword = ({ email, password }) => async dis
 
 export const startRegisterWithNameEmailAndPassword = ({ name, email, password }) => async dispatch => {
 
+    dispatch( startLoading() );
     try {
-        
-        const { user } = await firebase.auth().createUserWithEmailAndPassword( email, password );
-        await user.updateProfile({ displayName: name });
 
-        dispatch(
-            login({
-                name: user.displayName,
-                uid: user.uid,
-                email: user.email,
-                avatar: user.photoURL
-            })
-        )
+        const response = await fetchSignUp( name, email, password );
+
+        if ( response.ok ) {
+
+            const { data:user } = response;
+
+            dispatch(
+                login({
+                    avatar: user.photoURL,
+                    email: user.email,
+                    name: user.name,
+                    uid: user.uid,
+                })
+            )
+
+            setInLocalStorage( typeLocal.user, { ...user, logged: true } );
+            setInLocalStorage( typeLocal.token, user.token );
+
+        } else {
+            console.log( 'mostrar error del servicio', response.msg );
+        }
+
 
     } catch (error) {
         
         console.error( 'error al registrar usuario', error );
+    } finally {
+        dispatch( endLoading() );
     }
 }
 
 export const appLogout = () => dispatch => {
-    removeFromLocalStorage( typeLocal.user );
+    clearLocalStorage();
     dispatch( logout() );
 }
