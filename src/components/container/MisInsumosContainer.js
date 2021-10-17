@@ -9,9 +9,7 @@ import { startLoadingInsumos } from '../../actions/insumosAction';
 import { PaginaInsumos } from '../../Pages/PaginaInsumos.js'
 import { BigAddButton } from '../Buttons/BigAddButton.js';
 import { InsumosMenuMobile } from '../Menus/InsumosMenuMobile.js';
-import { PageLoading } from '../../Pages/PageLoading.js';
-import { setInLocalStorage } from '../../helper/localStorage';
-import { typeLocal } from '../../constant/localStorage';
+import { PageLoading } from '../../Pages/PageLoading';
 
 const AddButton = ({ path }) => {
     return (
@@ -36,9 +34,10 @@ export const MisInsumosContainer = () => {
 
     const {
         insumos,
-        loading: { loading },
         search: { isSearching, isFiltering }
     } = useSelector( state => state );
+
+    const { loading } = useSelector( state => state.loading );
 
     useEffect( () => {
 
@@ -46,26 +45,25 @@ export const MisInsumosContainer = () => {
 
     }, []);
 
+    if ( loading ) {
+        return <PageLoading />
+    }
+
     return (
-        <>
-            {loading
-                ? <PageLoading />
-                :
-                <div
-                    className="layout__page"
-                >
+        <div
+            data-cy="MisInsumosContainer"
+            className="layout__page"
+        >
 
-                    { isEmpty( insumos ) && !( isFiltering || isSearching )
+            { isEmpty( insumos ) && !( isFiltering || isSearching )
 
-                        ? <AddButton path={ nuevoInsumoPath } />
+                ? <AddButton path={ nuevoInsumoPath } />
 
-                        : <PaginaInsumos insumos={ insumos } />
+                : <PaginaInsumos insumos={ insumos } />
 
-                    }
-
-                    <InsumosMenuMobile />
-                </div>
             }
-        </>
+
+            <InsumosMenuMobile />
+        </div>
     )
 }

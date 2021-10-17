@@ -1,11 +1,3 @@
-export const newInsumoTypeForm = {
-    data: {
-        name: '',
-        price: {},
-        labels: []
-    },
-    isEditing: false
-};
 
 export const newInsumoForm = {
     fill: '[new Insumo] filling form',

@@ -1,13 +1,14 @@
 
 import { equality, find, isEmpty } from "functionallibrary";
 
-import { db } from "../firebase/firebase-config";
 import { newInsumoForm } from "../constant/newInsumoTypeForm";
 import { addInsumoToState, updateInsumoInState } from "./insumosAction";
 import { endLoading, startLoading } from "./loadingAction";
 import { getFromLocalStorage, setInLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
 import { typeLocal } from "../constant/localStorage";
 import { priceFromArrayToObject } from "../helper/priceHandling";
+import { fetchCreateInsumo, fetchInsumo, fetchUpdateInsumo } from "../helper/fetch";
+import { newInsmoInitialState } from "../reducers/newInsumoReducer";
 
 /// ============= Acciones sincronas ================= //
 export const fillingForm = ( { name, value } ) => {
@@ -58,35 +59,49 @@ export const setInsumoToUpdate = ( insumoId ) => ( dispatch, rootState ) => {
 export const startCreateInsumo = () => async ( dispatch, rootState ) => {
 
     dispatch( startLoading() );
-    const { auth: { uid }, newInsumo: { data }, insumos } = rootState();
 
-    const insumoCreated = await db.collection( `${ uid }/app/insumos` ).add( data );
-    
-    dispatch( addInsumoToState( { ...data, id: insumoCreated.id } ) );
-    setInLocalStorage( typeLocal.insumos, [{ ...data, id: insumoCreated.id }, ...insumos] );
-    dispatch ( resetForm() );
-    dispatch( endLoading() );
-
-}
-
-export const startLoadingInsumoData = ( id ) => async ( dispatch, rootState ) => {
-
-    dispatch( startLoading() );
-
-    const { auth: { uid } } = rootState();
+    const { newInsumo: { data }, insumos } = rootState();
 
     try {
-        const response = await db.doc( `${ uid }/app/insumos/${ id }` ).get();
-        const data = response.data();
+        
+        const response = await fetchCreateInsumo( data );
+        const insumoCreated = response.data;
 
-        dispatch( updatingInsumo( { id: response.id, ...data } ) );
+        dispatch( addInsumoToState( insumoCreated ) );
+        setInLocalStorage( typeLocal.insumos, [insumoCreated, ...insumos] );
     
-    } catch(err) {
+        dispatch ( resetForm() );
 
-        console.log('Error al obtener data del insumo', err)
+    } catch (error) {
+
+        console.error( 'Error al crear insumo ', error);
+
     } finally {
 
         dispatch( endLoading() );
+    }
+
+
+}
+
+export const startLoadingInsumoData = ( id ) => async ( dispatch ) => {
+
+    dispatch( startLoading() );
+
+    try {
+
+        const { data } = await fetchInsumo( id );
+        dispatch( updatingInsumo( { ...data } ) );
+        
+    } catch(err) {
+
+        dispatch( updatingInsumo({}) );
+        console.log('Error al obtener data del insumo', err);
+
+    } finally {
+
+        dispatch( endLoading() );
+
     }
 
 }
@@ -95,15 +110,25 @@ export const startUpdateInsumo = () => async ( dispatch, rootState ) => {
 
     dispatch( startLoading() );
 
-    const { auth: { uid }, newInsumo: { data } } = rootState();
+    const { newInsumo: { data } } = rootState();
 
-    const { id, selected, ...rest } = data;
+    const { selected } = data;
 
-    await db.doc( `${ uid }/app/insumos/${ id }` ).update( rest );
+    try {
+        
+        const response = await fetchUpdateInsumo( data );
+        const insumoUpdated = response.data;
     
-    dispatch( updateInsumoInState( data ) );
-    dispatch ( resetForm() );
-    dispatch( endLoading() );
+        dispatch( updateInsumoInState( { ...insumoUpdated, selected } ) );
+        dispatch ( resetForm() );
+        
+        updateInsumoInLocalStorage( { ...insumoUpdated, selected } );
+    } catch (error) {
+
+        console.log( 'Error al actualizar insumo: ', data.name, error );
+    } finally {
+
+        dispatch( endLoading() );
+    }
     
-    updateInsumoInLocalStorage( { ...data, selected } );
 }

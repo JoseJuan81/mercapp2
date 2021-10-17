@@ -1,11 +1,20 @@
-import { newInsumoForm, newInsumoTypeForm } from "../constant/newInsumoTypeForm";
+import { newInsumoForm } from "../constant/newInsumoTypeForm";
 
-export const newInsumoReducer = ( state = newInsumoTypeForm, action ) => {
+export const newInsmoInitialState = {
+    data: {
+        name: '',
+        price: {},
+        labels: []
+    },
+    isEditing: false
+};
+
+export const newInsumoReducer = ( state = newInsmoInitialState, action ) => {
 
     const opts = {
         [newInsumoForm.fill]: () => ({ ...state, data: { ...state.data, ...action.payload } }),
-        [newInsumoForm.reset]: () => ({ ...newInsumoTypeForm }),
-        [newInsumoForm.update]: () => ({ data: action.payload, isEditing: true })
+        [newInsumoForm.reset]: () => ({ ...newInsmoInitialState }),
+        [newInsumoForm.update]: () => ({ ...state, data: action.payload, isEditing: true })
     }
 
     const fn = opts[action.type];

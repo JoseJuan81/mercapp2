@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import {
@@ -14,8 +15,12 @@ import { MisInsumosContainer } from '../components/Container/MisInsumosContainer
 import { NuevaCompraContainer } from '../components/Container/NuevaCompraContainer.js';
 import { NuevoInsumoContainer } from '../components/Container/NuevoInsumoContainer.js';
 import { NavBar } from '../components/NavBar.js';
+import { PageLoading } from '../Pages/PageLoading';
 
 export const AppRoutes = () => {
+
+    const { loading } = useSelector( state => state.loading );
+
     return (
         <div className="w-screen h-screen">
             <NavBar />
@@ -26,23 +31,33 @@ export const AppRoutes = () => {
                 <Switch>
 
                     <Route exact path={ resumenDeComprasPath }>
-                        <MisComprasContainer />
+
+                        { loading ? <PageLoading /> : <MisComprasContainer /> }
+
                     </Route>
 
                     <Route exact path={ misInsumosPath }>
+
                         <MisInsumosContainer />
+
                     </Route>
 
                     <Route exact path={ nuevaCompraPath }>
-                        <NuevaCompraContainer />
+
+                        { loading ? <PageLoading /> : <NuevaCompraContainer /> }
+                        
                     </Route>
 
                     <Route exact path={ nuevoInsumoPath }>
-                        <NuevoInsumoContainer />
+
+                        { loading ? <PageLoading /> : <NuevoInsumoContainer /> }
+
                     </Route>
                     
                     <Route exact path={ `${ editarInsumoPath }/:id` }>
-                        <NuevoInsumoContainer />
+
+                        { loading ? <PageLoading /> : <NuevoInsumoContainer /> }
+
                     </Route>
 
                     <Redirect to={ resumenDeComprasPath } />
