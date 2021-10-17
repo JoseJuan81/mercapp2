@@ -41,6 +41,7 @@ context('Pruebas sobre PaginaInicioSesion.js', () => {
     it('Iniciar sesion y ver pantalla Mis Compras', () => {
 
         cy.fillLoginForm();
+        cy.wait(1000)
         cy.fixture('mercapp2').then( ({ url }) => {
 
             cy.location().should(($location) => {
