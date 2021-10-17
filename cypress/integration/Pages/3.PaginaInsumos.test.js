@@ -15,22 +15,25 @@ context('Pruebas sobre archivo PaginaInsumos.js', () => {
         cy.fillLoginForm();
         cy.insumosPage();
 
-        cy.get('[data-cy="MisInsumosContainer"')
+        cy.get('[data-cy="MisInsumosContainer"]')
             .should('exist')
             .children().should('have.length', 3)
     })
 
-    // it.only('Interceptar request', () => {
+    it.only('Interceptar request', () => {
         
-    //     cy.intercept('GET', '**/insumos', []).as('fake-insumos')
+        cy.intercept('GET', '**/insumos', { ok: true, data: [] }).as('fake-insumos')
 
-    //     cy.loginPage();
-    //     cy.fillLoginForm();
-    //     cy.insumosPage();
+        cy.loginPage();
+        cy.fillLoginForm();
+        cy.insumosPage();
 
-    //     cy.wait('@fake-insumos')
-    //         .its('response.body')
-    //         .should('exist')
-    // })
+        cy.wait('@fake-insumos')
+            .its('response.body')
+            .should('exist');
+
+        cy.get('[data-cy="MisInsumosContainer"]')
+            .should('exist')
+    })
 
 })
