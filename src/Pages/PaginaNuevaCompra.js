@@ -8,6 +8,8 @@ import { Insumo } from '../components/Insumos/Insumo';
 import { misInsumosPath } from '../constant/routes';
 
 import CreatableSelect from 'react-select/creatable';
+import { PageLoading } from './PageLoading';
+
 const establishmentOptions = [
     { value: 'wong', label: 'Wong' },
     { value: 'mass', label: 'Mass' },
@@ -20,6 +22,7 @@ export const PaginaNuevaCompra = () => {
     const dispatch = useDispatch();
 
     const { selectedInsumos, establishmentName, total } = useSelector( state => state.buy );
+    const { loading } = useSelector( state => state.loading );
 
     const handleChange = ( inputValue, actionMeta ) => {
 
@@ -32,7 +35,11 @@ export const PaginaNuevaCompra = () => {
 
         dispatch( loadSelectedInsumos() );
 
-    }, [])
+    }, []);
+
+    if ( loading ) {
+        return <PageLoading />
+    }
 
     return (
         <div

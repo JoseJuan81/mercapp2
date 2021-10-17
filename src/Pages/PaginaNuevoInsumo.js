@@ -1,5 +1,5 @@
 import { getPropertysValue, isEmpty } from 'functionallibrary';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
@@ -8,11 +8,14 @@ import { startLoadingInsumoData } from '../actions/newInsumoAction';
 import { InsumoForm } from '../components/Form/InsumoForm';
 import { editarInsumoPath } from '../constant/routes';
 import { extractIdFromPathName } from '../helper/route';
+import { PageLoading } from './PageLoading';
+import { PageNotAuthorized } from './PageNotAuthorized';
 
 export const PaginaNuevoInsumo = () => {
 
     const dispatch = useDispatch();
     const { data, isEditing } = useSelector( state => state.newInsumo );
+    const { loading } = useSelector( state => state.loading );
     const name = getPropertysValue( 'name', data );
 
     const query = new URLSearchParams( useLocation() );
@@ -29,10 +32,14 @@ export const PaginaNuevoInsumo = () => {
 
     }, []);
 
+    if ( loading ) {
+        return <PageLoading />
+    }
+
     return (
         <>
             {isEditing && isEmpty( getPropertysValue( 'name', data ) )
-                ? <h1>No tiene permisos para acceder a este insumo</h1>
+                ? <PageNotAuthorized />
                 : (
                     <div
                         className="

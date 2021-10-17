@@ -41,7 +41,7 @@ export const NuevaCompraMenuMobile = () => {
                 className="btn-icon flex items-center justify-center"
                 title="Agregar"
             >
-                <i className="fas fa-plus-circle"></i>
+                <i className="fas fa-check"></i>
             </NavLink>
 
         </div>

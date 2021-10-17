@@ -3,17 +3,12 @@ import {
     filter,
     getPropertysValue,
     isEmpty,
-    map,
     removeItemFromArrayByProp,
-    setNewProperty,
     some,
 } from "functionallibrary";
 
 import { insumosType } from "../constant/insumosType";
-import { typeLocal } from "../constant/localStorage";
 import { alphabeticSorting } from "../helper/alphabeticSorting";
-import { getFromLocalStorage, setInLocalStorage } from "../helper/localStorage";
-import { updateArrayWithArray } from "../helper/updateArrayWithArray";
 import { updateItemInArrayByProp } from "../helper/updateItemInArrayByProp";
 
 /**

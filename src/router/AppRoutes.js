@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import {
@@ -15,11 +14,8 @@ import { MisInsumosContainer } from '../components/Container/MisInsumosContainer
 import { NuevaCompraContainer } from '../components/Container/NuevaCompraContainer.js';
 import { NuevoInsumoContainer } from '../components/Container/NuevoInsumoContainer.js';
 import { NavBar } from '../components/NavBar.js';
-import { PageLoading } from '../Pages/PageLoading';
 
 export const AppRoutes = () => {
-
-    const { loading } = useSelector( state => state.loading );
 
     return (
         <div className="w-screen h-screen">
@@ -32,7 +28,7 @@ export const AppRoutes = () => {
 
                     <Route exact path={ resumenDeComprasPath }>
 
-                        { loading ? <PageLoading /> : <MisComprasContainer /> }
+                        <MisComprasContainer />
 
                     </Route>
 
@@ -44,19 +40,19 @@ export const AppRoutes = () => {
 
                     <Route exact path={ nuevaCompraPath }>
 
-                        { loading ? <PageLoading /> : <NuevaCompraContainer /> }
+                        <NuevaCompraContainer />
                         
                     </Route>
 
                     <Route exact path={ nuevoInsumoPath }>
 
-                        { loading ? <PageLoading /> : <NuevoInsumoContainer /> }
+                        <NuevoInsumoContainer />
 
                     </Route>
                     
                     <Route exact path={ `${ editarInsumoPath }/:id` }>
 
-                        { loading ? <PageLoading /> : <NuevoInsumoContainer /> }
+                        <NuevoInsumoContainer />
 
                     </Route>
 

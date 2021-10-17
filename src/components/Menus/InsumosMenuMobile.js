@@ -94,6 +94,7 @@ export const InsumosMenuMobile = React.memo(() => {
                             bg-white
                             w-5 h-5 rounded-full
                             flex items-center justify-center
+                            border-2 border-solid border-lime-500
                         "
                     >{ selectedInsumos.length }</div>
                 }

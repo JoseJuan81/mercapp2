@@ -8,7 +8,6 @@ import { getFromLocalStorage, setInLocalStorage, updateInsumoInLocalStorage } fr
 import { typeLocal } from "../constant/localStorage";
 import { priceFromArrayToObject } from "../helper/priceHandling";
 import { fetchCreateInsumo, fetchInsumo, fetchUpdateInsumo } from "../helper/fetch";
-import { newInsmoInitialState } from "../reducers/newInsumoReducer";
 
 /// ============= Acciones sincronas ================= //
 export const fillingForm = ( { name, value } ) => {
