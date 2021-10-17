@@ -44,6 +44,7 @@ export const MisInsumosContainer = () => {
 
     return (
         <div
+            data-cy="MisInsumosContainer"
             className="layout__page"
         >
 
