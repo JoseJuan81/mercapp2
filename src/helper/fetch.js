@@ -96,8 +96,24 @@ export const fetchInsumos = () => {
     return buildGetFetch( url ).then( (res) => res.json() );
 }
 
+export const fetchInsumo = async ( id ) => {
+
+    const url = `${ urlBase }/insumos/${ id }`;
+
+    const res = await buildGetFetch( url );
+    const data = await res.json();
+    
+    return new Promise( ( resolve, reject ) => {
+        if ( data.ok ) {
+            resolve( data )
+        }
+
+        reject( data );
+    })
+}
+
 /**
- * 
+ * @description Crear un insumo
  * @param {object} body 
  */
 export const fetchCreateInsumo = ( body ) => {
@@ -107,7 +123,7 @@ export const fetchCreateInsumo = ( body ) => {
 }
 
 /**
- * 
+ * @description Editar un insumo
  * @param {string} id 
  * @param {object} body 
  */

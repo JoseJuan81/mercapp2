@@ -1,36 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { isEmpty, removeItemFromArrayByIndex } from 'functionallibrary';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { removeItemFromArrayByIndex } from 'functionallibrary';
 
 import { InputField } from './InputField';
 import { LabelsField } from './LabelsField';
 import { NuevoInsumoMenuMobile } from '../Menus/NuevoInsumoMenuMobile';
-import { fillingForm, startLoadingInsumoData } from '../../actions/newInsumoAction';
+import { fillingForm } from '../../actions/newInsumoAction';
 import { InsumoPrice } from './InsumoPrice';
-import { editarInsumoPath } from '../../constant/routes';
-import { extractIdFromPathName } from '../../helper/route';
 import { defaultObjectPrice, priceFromObjectToArray } from '../../helper/priceHandling';
 
-export const InsumoForm = () => {
+export const InsumoForm = ({ insumoData, isEditing }) => {
 
-    const query = new URLSearchParams( useLocation() );
-    const [isEditing, setIsEditing] = useState( false );
+    const { name, labels, price } = insumoData;
 
-    const {
-        newInsumo: { data: { name, labels, price } },
-    } = useSelector( state => state );
-
+    // transformar el objeto Price a arreglo
     const localPrice = priceFromObjectToArray( price );
     const [prices, setPrices] = useState( localPrice );
 
     const dispatch = useDispatch();
 
+    // handler para cambios del formulario
     const handleOnChangeForm = ({ target }) => {
 
         dispatch( fillingForm( target ) );
     }
 
+    // handler para cambios de precios
     const handleOnChangePrice = ( target, index) => {
 
         const localPrices = [...prices];
@@ -46,29 +41,17 @@ export const InsumoForm = () => {
 
     }
 
+    // agregar un nuevo precio
     const addNewPrice = () => {
 
         setPrices( prs => [...prs, defaultObjectPrice] );
     }
 
+    // eliminar un precio
     const removePrice = ( index ) => {
 
         setPrices( prs => [...removeItemFromArrayByIndex(index, [...prs])] );
     }
-
-    useEffect( () => {
-
-        const pathname = query.get( 'pathname' );
-
-        const insumoId = extractIdFromPathName( pathname, editarInsumoPath );
-        setIsEditing( !!insumoId );
-        
-        if ( !!insumoId && isEmpty( name ) ) {
-            
-            dispatch( startLoadingInsumoData( insumoId ) );
-        }
-
-    }, [])
 
     return (
         <form

@@ -1,14 +1,14 @@
 
 import { equality, find, isEmpty } from "functionallibrary";
 
-import { db } from "../firebase/firebase-config";
 import { newInsumoForm } from "../constant/newInsumoTypeForm";
 import { addInsumoToState, updateInsumoInState } from "./insumosAction";
 import { endLoading, startLoading } from "./loadingAction";
 import { getFromLocalStorage, setInLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
 import { typeLocal } from "../constant/localStorage";
 import { priceFromArrayToObject } from "../helper/priceHandling";
-import { fetchCreateInsumo, fetchUpdateInsumo } from "../helper/fetch";
+import { fetchCreateInsumo, fetchInsumo, fetchUpdateInsumo } from "../helper/fetch";
+import { newInsmoInitialState } from "../reducers/newInsumoReducer";
 
 /// ============= Acciones sincronas ================= //
 export const fillingForm = ( { name, value } ) => {
@@ -84,24 +84,24 @@ export const startCreateInsumo = () => async ( dispatch, rootState ) => {
 
 }
 
-export const startLoadingInsumoData = ( id ) => async ( dispatch, rootState ) => {
+export const startLoadingInsumoData = ( id ) => async ( dispatch ) => {
 
     dispatch( startLoading() );
 
-    const { auth: { uid } } = rootState();
-
     try {
-        const response = await db.doc( `${ uid }/app/insumos/${ id }` ).get();
-        const data = response.data();
 
-        dispatch( updatingInsumo( { id: response.id, ...data } ) );
-    
+        const { data } = await fetchInsumo( id );
+        dispatch( updatingInsumo( { ...data } ) );
+        
     } catch(err) {
 
-        console.log('Error al obtener data del insumo', err)
+        dispatch( updatingInsumo({}) );
+        console.log('Error al obtener data del insumo', err);
+
     } finally {
 
         dispatch( endLoading() );
+
     }
 
 }
