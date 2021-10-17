@@ -26,6 +26,7 @@ export const PaginaInsumos = ({ insumos }) => {
             <SearchAndFilterComponent />
 
             <div
+                data-cy="PaginaInsumos"
                 className="
                     grid gap-2
                     self-start

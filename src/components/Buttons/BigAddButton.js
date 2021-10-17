@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 export const BigAddButton = ({ to, title }) => {
     return (
         <NavLink
+            data-cy="BigAddButton"
             className="
                 flex flex-col items-center
                 text-6xl text-warmGray-600

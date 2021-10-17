@@ -9,31 +9,42 @@ context('Pruebas sobre archivo PaginaInsumos.js', () => {
 
     })
 
-    it('Verificar exista MisInsumosContainer', () => {
+    it('Sin insumos: Se debe mostrar boton para crear insumos', () => {
 
-        cy.loginPage();
-        cy.fillLoginForm();
-        cy.insumosPage();
+        cy.fixture('mercapp2.json').then( ({ insumos }) => {
 
-        cy.get('[data-cy="MisInsumosContainer"]')
-            .should('exist')
-            .children().should('have.length', 3)
+            cy.intercept('GET', '**/insumos', insumos.noData ).as('fake-insumos')
+
+            cy.loginPage();
+            cy.fillLoginForm();
+            cy.insumosPage();
+
+            cy.wait('@fake-insumos')
+                .its('response.body')
+                .should('exist');
+
+            cy.get('[data-cy="BigAddButton"]')
+                .should('exist')
+        })
     })
 
-    it.only('Interceptar request', () => {
+    it('Con insumos: Se deben mostrar los insumos', () => {
         
-        cy.intercept('GET', '**/insumos', { ok: true, data: [] }).as('fake-insumos')
+        cy.fixture('mercapp2.json').then( ({ insumos }) => {
 
-        cy.loginPage();
-        cy.fillLoginForm();
-        cy.insumosPage();
-
-        cy.wait('@fake-insumos')
-            .its('response.body')
-            .should('exist');
-
-        cy.get('[data-cy="MisInsumosContainer"]')
-            .should('exist')
+            cy.intercept('GET', '**/insumos', insumos.data).as('fake-insumos')
+    
+            cy.loginPage();
+            cy.fillLoginForm();
+            cy.insumosPage();
+    
+            cy.wait('@fake-insumos')
+                .its('response.body')
+                .should('exist');
+    
+            cy.get('[data-cy="PaginaInsumos"]')
+                .should('exist')
+        })
     })
 
 })

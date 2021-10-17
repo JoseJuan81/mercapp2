@@ -6,5 +6,9 @@
     "misCompras": "http://localhost:3333/mis-compras",
     "login": "http://localhost:3333/inicio-sesion",
     "signUp": "http://localhost:3333/registro-usuario"
+  },
+  "insumos": {
+    "data": {"ok":true,"msg":"obtener todos los insumos","data":[{"labels":["nestle","chocolate","wong"],"name":"Chocapic","price":{"wong":17},"user":{"_id":"6162ef3fdd1908fe718d821c","name":"Andres","email":"andose@mail.com"},"createdAt":"2021-10-10T23:42:32.011Z","updatedAt":"2021-10-10T23:42:32.011Z","id":"61637a678ea8b4d1e1bf4043"},{"labels":["900 g","nestle","wong"],"name":"Corn Flakes","price":{"wong":20},"user":{"_id":"6162ef3fdd1908fe718d821c","name":"Andres","email":"andose@mail.com"},"createdAt":"2021-10-10T23:45:41.696Z","updatedAt":"2021-10-10T23:45:41.696Z","id":"61637b258ea8b4d1e1bf4049"}]},
+    "noData": {"ok":true,"msg":"obtener todos los insumos","data":[]}
   }
 }

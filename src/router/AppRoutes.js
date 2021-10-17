@@ -38,7 +38,7 @@ export const AppRoutes = () => {
 
                     <Route exact path={ misInsumosPath }>
 
-                        { loading ? <PageLoading /> : <MisInsumosContainer /> }
+                        <MisInsumosContainer />
 
                     </Route>
 

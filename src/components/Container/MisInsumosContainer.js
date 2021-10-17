@@ -9,6 +9,7 @@ import { startLoadingInsumos } from '../../actions/insumosAction';
 import { PaginaInsumos } from '../../Pages/PaginaInsumos.js'
 import { BigAddButton } from '../Buttons/BigAddButton.js';
 import { InsumosMenuMobile } from '../Menus/InsumosMenuMobile.js';
+import { PageLoading } from '../../Pages/PageLoading';
 
 const AddButton = ({ path }) => {
     return (
@@ -36,11 +37,17 @@ export const MisInsumosContainer = () => {
         search: { isSearching, isFiltering }
     } = useSelector( state => state );
 
+    const { loading } = useSelector( state => state.loading );
+
     useEffect( () => {
 
         dispatch( startLoadingInsumos() );
 
     }, []);
+
+    if ( loading ) {
+        return <PageLoading />
+    }
 
     return (
         <div
