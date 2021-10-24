@@ -39,9 +39,10 @@ export const LabelsField = ({
 
     const handleAddLabelWithTabKey = (ev) => {
         ev.stopPropagation();
-
+        
         if (ev.code === 'Tab' && inputValue) {
-            handleAddLabel()
+            handleAddLabel();
+            ev.preventDefault();
         }
     }
 

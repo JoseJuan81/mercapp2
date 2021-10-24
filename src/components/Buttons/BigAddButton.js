@@ -2,7 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-export const BigAddButton = ({ to, title }) => {
+export const BigAddButton = React.memo( ({ to, title }) => {
+    console.log('BigAddButton')
     return (
         <NavLink
             data-cy="BigAddButton"
@@ -25,7 +26,7 @@ export const BigAddButton = ({ to, title }) => {
             </p>
         </NavLink>
     )
-}
+})
 
 BigAddButton.propTypes = {
     to: PropTypes.string.isRequired,

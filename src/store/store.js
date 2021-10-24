@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 
 import { authReducer } from '../reducers/authReducer';
 import { buyReducer } from '../reducers/buyReducer';
+import { establishmentReducer } from '../reducers/establishmentReducer';
 // import { errorsReducer } from '../reducers/errorsReducer';
 import { insumosReducer } from '../reducers/insumosReducer';
 import { loadingReducer } from '../reducers/loadingReducer';
@@ -18,6 +19,7 @@ const reducers = combineReducers({
     newInsumo: newInsumoReducer,
     search: searchInsumosReducer,
     buy: buyReducer,
+    establishments: establishmentReducer
     // error: errorsReducer
 })
 

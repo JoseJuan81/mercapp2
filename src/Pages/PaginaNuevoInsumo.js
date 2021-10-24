@@ -53,7 +53,8 @@ export const PaginaNuevoInsumo = () => {
                         <InsumoForm
                             insumoData={ data }
                             isEditing={ isEditing }
-                        />   
+                        />
+
                     </div>
                 )
             }

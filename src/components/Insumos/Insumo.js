@@ -75,6 +75,7 @@ const InsumoPrice = React.memo( ({ currency = 'PEN', price }) => {
             <InputField
                 specialClass="input-transparent pl-10"
                 value={ price }
+                onChange={ () => {} }
             />
         </dt>
     )

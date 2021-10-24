@@ -1,17 +1,22 @@
 import { equality, filter, isEmpty } from 'functionallibrary';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+
 import { selectAllInsumosToBuy } from '../../actions/insumosAction';
-
-
 import { showSearchField, hideSearchAndFilterField, showFilterField } from '../../actions/searchAction';
+
 import { nuevaCompraPath, nuevoInsumoPath } from '../../constant/routes';
+import { AddCircleButton } from '../Buttons/AddCircleButton';
 
 export const InsumosMenuMobile = React.memo(() => {
 
+    const url = new URL( window.location );
+
     const { showField, isSearching, isFiltering } = useSelector( state => state.search );
     const selectedInsumos = useSelector( state => filter( equality( 'selected', true ), state.insumos ));
+
+    const [newInsumoRouteModificated, setNewInsumoRouteModificated] = useState( nuevoInsumoPath )
 
     const dispatch = useDispatch();
 
@@ -36,6 +41,19 @@ export const InsumosMenuMobile = React.memo(() => {
             dispatch( hideSearchAndFilterField() );
         }
     }
+
+    useEffect( () => {
+        
+        let newRoute = nuevoInsumoPath;
+
+        if ( url.searchParams.get('activeBuy') && url.searchParams.get('establishment') ) {
+                newRoute += url.search;
+        }
+
+        setNewInsumoRouteModificated( newRoute );
+        
+    }, [])
+
     return (
         <div
             className="
@@ -100,15 +118,9 @@ export const InsumosMenuMobile = React.memo(() => {
                 }
             </NavLink>
 
-            <NavLink
-                to={ nuevoInsumoPath }
-                className="
-                    btn-icon
-                    flex items-center justify-center
-                "
-            >
-                <i className="fas fa-plus-circle"></i>
-            </NavLink>
+            <AddCircleButton
+                to={ newInsumoRouteModificated }
+            />
 
         </div>
     )

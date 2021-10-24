@@ -1,5 +1,5 @@
 
-import { equality, find, isEmpty } from "functionallibrary";
+import { equality, find, isEmpty, setNewProperty } from "functionallibrary";
 
 import { newInsumoForm } from "../constant/newInsumoTypeForm";
 import { addInsumoToState, updateInsumoInState } from "./insumosAction";
@@ -55,19 +55,22 @@ export const setInsumoToUpdate = ( insumoId ) => ( dispatch, rootState ) => {
 }
 
 /// ============= Acciones asincronas ================= //
-export const startCreateInsumo = () => async ( dispatch, rootState ) => {
+export const startCreateInsumo = ( isSelected ) => async ( dispatch, rootState ) => {
 
     dispatch( startLoading() );
 
+    const localInsumos = getFromLocalStorage( typeLocal.insumos ) || [];
+
     const { newInsumo: { data }, insumos } = rootState();
+    const allInsumos = isEmpty( insumos ) ? localInsumos : insumos;
 
     try {
         
         const response = await fetchCreateInsumo( data );
-        const insumoCreated = response.data;
 
+        const insumoCreated = setNewProperty('selected', isSelected, response.data );
         dispatch( addInsumoToState( insumoCreated ) );
-        setInLocalStorage( typeLocal.insumos, [insumoCreated, ...insumos] );
+        setInLocalStorage( typeLocal.insumos, [insumoCreated, ...allInsumos] );
     
         dispatch ( resetForm() );
 

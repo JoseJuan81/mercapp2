@@ -25,7 +25,8 @@ export const buyReducer = ( state = initialState, action ) => {
         [typeBuy.total]: () => ({
             ...state,
             total: calculateTotal( state.selectedInsumos, state.establishmentName )
-        })
+        }),
+        [typeBuy.clear]: () => ({ ...state, selectedInsumos: [] })
     }
 
     const fn = opts[action.type];

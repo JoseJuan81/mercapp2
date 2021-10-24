@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -9,19 +9,36 @@ export const InputField = React.memo(({
     onFocus,
     value,
     specialClass,
+    autoSelectOnFocus,
     ...rest
 }) => {
     const className = specialClass ? `input-form ${specialClass}` : 'input-form';
+
+    const ref = useRef();
+
+    const localFocus = ( e ) => {
+
+        if ( autoSelectOnFocus ) {
+            ref.current.select();
+        }
+
+        if ( typeof onFocus === 'function' ) {
+
+            onFocus( e );
+        }
+
+    }
 
     return (
         <>
             <input
                 { ...rest }
+                ref={ ref }
                 className={ className }
                 value={ value }
                 onChange={ onChange }
                 onBlur={ onBlur }
-                onFocus={ onFocus }
+                onFocus={ localFocus }
             />
 
             { error &&

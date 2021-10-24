@@ -132,3 +132,13 @@ export const fetchUpdateInsumo = ( body ) => {
     const url = `${ urlBase }/insumos/${ body.id }`;
     return buildPostOrPutFetch( url, body, 'PUT' ).then( (res) => res.json() );
 }
+
+/**
+ * @description Listar establecimientos
+
+ */
+export const fetchEstablishments = () => {
+
+    const url = `${ urlBase }/establishments`;
+    return buildGetFetch( url ).then( (res) => res.json() );
+}

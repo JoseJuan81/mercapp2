@@ -1,5 +1,11 @@
-import React from 'react';
+import { equality, find, isEmpty } from 'functionallibrary';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { loadEstablishments } from '../../actions/establishment';
+import { defaultEstablishment } from '../../constant/defaults';
+
+import { DataList } from './DataList';
 import { InputField } from './InputField';
 
 export const InsumoPrice = ({
@@ -11,7 +17,13 @@ export const InsumoPrice = ({
     showAddPrice,
 }) => {
 
-    const handleOnChange = ({ target }) => {
+    const dispatch = useDispatch();
+
+    const establishments = useSelector( state => state.establishments );
+    
+    const [selectedEstablisment, setSelectedEstablishment] = useState( defaultEstablishment );
+
+    const handleOnChangeInput = ({ target }) => {
 
         const isName = target.name === 'name';
         const isValue = target.name === 'value';
@@ -35,29 +47,67 @@ export const InsumoPrice = ({
 
     }
 
+    // cargar los establecimientos
+    useEffect( () => {
+
+        if ( isEmpty( establishments ) ) {
+
+            dispatch( loadEstablishments() );
+        }
+
+    }, []);
+
+    // actualizar valor de campo establecimiento cuando el usuario interactua con el campo
+    useEffect( () => {
+
+        const selected = find( equality( 'value', name.toLowerCase() ), establishments ) || { label: name, value: '' };
+        setSelectedEstablishment( selected );
+
+    }, [name]);
+
+    // obtener el objeto establecimiento a partir del nombre del establecimiento
+    // el nombre del establecimiento esta en la url o no
+    useEffect( () => {
+        
+        const url = new URL( window.location );
+        const establishmentName = url.searchParams.get('establishment');
+
+        if ( establishmentName ) {
+            const selected = find( equality( 'value', establishmentName ), establishments ) || {};
+            setSelectedEstablishment( selected )
+            handleOnChangeInput({
+                target: {
+                    name: 'name',
+                    value: establishmentName
+                }
+            })
+        }
+
+    }, []);
+
     return (
         <div
             className="
                 flex items-center
             "
         >
-            <InputField
-                autoComplete="off"
-                type="text"
+            <DataList
                 placeholder="establecimiento"
                 name="name"
-                specialClass="flex-auto mr-4"
-                value={ name }
-                onChange={ handleOnChange }
+                options={ establishments }
+                onChange={ handleOnChangeInput }
+                value={ selectedEstablisment }
             />
+
             <InputField
+                autoSelectOnFocus
                 autoComplete="off"
                 type="number"
                 placeholder="precio"
                 name="value"
-                specialClass="w-20"
+                specialClass="w-20 ml-4"
                 value={ price }
-                onChange={ handleOnChange }
+                onChange={ handleOnChangeInput }
             />
 
             {showAddPrice

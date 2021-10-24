@@ -9,7 +9,7 @@ import { misInsumosPath, resumenDeComprasPath } from '../../constant/routes';
 import { removeFromLocalStorage } from '../../helper/localStorage';
 import { UserAvatar } from '../UserAvatar';
 
-export const Menu = ({ showMenu, handleShowMenu }) => {
+export const Menu = React.memo( ({ showMenu, handleShowMenu }) => {
 
     const user = useSelector( state => state.auth );
     
@@ -174,4 +174,4 @@ export const Menu = ({ showMenu, handleShowMenu }) => {
             </li>
         </ul>
     )
-}
+})

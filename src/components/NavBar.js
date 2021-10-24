@@ -1,28 +1,98 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import { Menu } from './Menus/Menu.js';
 import { pageTitles } from '../constant/pageTitles';
+import { nuevaCompraPath } from '../constant/routes.js';
 
+const AppName = React.memo( () => {
+    return (
+        <h1
+            className="
+                font-medium
+                text-lime-500 text-base
+            "
+        >MercApp2</h1>
+    )
+})
+
+const MenuButton = React.memo(({ handleShowMenu }) => {
+    return (
+        <button
+            type="button"
+            className="
+                py-2 px-3
+                text-base text-warmGray-800
+                bg-warmGray-100
+            "
+            onClick={ handleShowMenu }
+        >
+            <i className="fas fa-bars"></i>
+        </button>
+    )
+})
+
+const PageTitle = React.memo( ({ pageTitle }) => {
+    return (
+        <h1
+            data-cy="page-title"
+            className="
+                animate__animated animate__fadeInUp animate__delay-2s
+                text-xl font-light
+            "
+        >{ pageTitle }</h1>
+    )
+})
+
+const BuyPageButton = React.memo( () => {
+    return (
+        <NavLink
+            className="
+                btn-icon
+                flex items-center justify-center
+            "
+            title="ir a pagina de compra"
+            to={ nuevaCompraPath }
+        >
+            <i className="fas fa-chevron-left"></i>
+        </NavLink>
+    )
+})
 
 export const NavBar = () => {
 
+    // ===== NAVIGATION =====
+    const url = new URL( window.location );
     const { pathname } = useLocation();
 
+    // ====== STATE =====
     const [pageTitle, setPageTitle] = useState( '' );
     const [showMenu, setShowMenu] = useState( false );
+    const [isBuyActive, setIsBuyActive] = useState( false );
 
-    const handleShowMenu = ({ target }) => {
+    // ===== FUNCIONES PROPIAS =====
+    const handleShowMenu = useCallback( ({ target }) => {
 
         if ( target.type === 'button' || target.className.includes( 'fa' ) ) {
             
             setShowMenu( sm => !sm );
         }
-    }
+    },[])
 
+    // VERIFICAR SI HAY UNA COMPRA ACTIVA
+    useEffect(() => {
+
+        if ( url.searchParams.get('activeBuy') ) {
+            setIsBuyActive( true );
+        }
+
+    },[])
+
+    // ESTABLECER EL TITULO DE LA PAGINA
     useEffect( () => {
  
         setPageTitle( pageTitles[pathname] || null );
+
     }, [pathname]);
 
     return (
@@ -37,23 +107,11 @@ export const NavBar = () => {
                 bg-white
             "
         >
-            <h1
-                className="
-                    font-medium
-                    text-lime-500 text-base
-                ">
-                    MercApp2
-            </h1>
+            {isBuyActive && <BuyPageButton />}
 
-            {pageTitle && (
-                <h1
-                    data-cy="page-title"
-                    className="
-                        animate__animated animate__fadeInUp animate__delay-2s
-                        text-xl font-light
-                    "
-                >{ pageTitle }</h1>
-            )}
+            <AppName />
+
+            {pageTitle && <PageTitle pageTitle={ pageTitle } /> }
 
             <div
                 className="
@@ -61,17 +119,9 @@ export const NavBar = () => {
                 "
             >
 
-                <button
-                    type="button"
-                    className="
-                        py-2 px-3
-                        text-base text-warmGray-800
-                        bg-warmGray-100
-                    "
-                    onClick={ handleShowMenu }
-                >
-                    <i className="fas fa-bars"></i>
-                </button>
+                <MenuButton
+                    handleShowMenu={ handleShowMenu }
+                />
                 
                 <Menu
                     showMenu={ showMenu }
