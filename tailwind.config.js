@@ -1,10 +1,10 @@
 const colors = require('tailwindcss/colors');
 const plugin = require('tailwindcss/plugin');
 
-const inputStyles = require('./src/styles/formControl/inputStyles');
 const buttonStyles = require('./src/styles/buttonStyles');
-const menuMobileStyles = require('./src/styles/menuMobileStyles');
+const inputStyles = require('./src/styles/formControl/inputStyles');
 const layoutStyles = require('./src/styles/layout');
+const menuMobileStyles = require('./src/styles/menuMobileStyles');
 
 module.exports = {
 	purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
