@@ -1,9 +1,10 @@
-import { typeLocal } from "../constant/localStorage";
+import { type } from "../constant/type";
+
 import { getFromLocalStorage } from "./localStorage";
 
 const urlBase = process.env.REACT_APP_URLBASE;
 
-/// ====================================== Utilidades para servicios WEB
+/// ===== UTILIDADES PARA SERVICIOS WEB =====
 
 /**
  * 
@@ -11,7 +12,7 @@ const urlBase = process.env.REACT_APP_URLBASE;
  */
 const buildGetFetch = ( url ) => {
 
-    const token = getFromLocalStorage( typeLocal.token );
+    const token = getFromLocalStorage( type.localStorage.token );
 
     return fetch(
         url,
@@ -33,7 +34,7 @@ const buildGetFetch = ( url ) => {
  */
 const buildPostOrPutFetch = ( url, data, method  ) => {
 
-    const token = getFromLocalStorage( typeLocal.token );
+    const token = getFromLocalStorage( type.localStorage.token );
     
     const body = JSON.stringify( data );
 
@@ -50,7 +51,7 @@ const buildPostOrPutFetch = ( url, data, method  ) => {
     )
 }
 
-/// ====================================== Servicios WEB
+/// ===== SERVICIOS WEB =====
 
 /**
  * 
@@ -131,4 +132,34 @@ export const fetchUpdateInsumo = ( body ) => {
     
     const url = `${ urlBase }/insumos/${ body.id }`;
     return buildPostOrPutFetch( url, body, 'PUT' ).then( (res) => res.json() );
+}
+
+/**
+ * @description Listar establecimientos
+
+ */
+export const fetchEstablishments = () => {
+
+    const url = `${ urlBase }/establishments`;
+    return buildGetFetch( url ).then( (res) => res.json() );
+}
+
+/**
+ * @description Crear nueva compra o mercado
+
+ */
+export const fetchCreatePurchase = ( body ) => {
+
+    const url = `${ urlBase }/purchases/new`;
+    return buildPostOrPutFetch( url, body, 'POST' ).then( (res) => res.json() );
+}
+
+/**
+ * @description Obtener listado de compras
+
+ */
+export const fetchAllPurchases = () => {
+
+    const url = `${ urlBase }/purchases`;
+    return buildGetFetch( url ).then( (res) => res.json() );
 }

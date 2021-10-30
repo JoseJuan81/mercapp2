@@ -3,17 +3,13 @@ import {
     filter,
     getPropertysValue,
     isEmpty,
-    map,
     removeItemFromArrayByProp,
-    setNewProperty,
     some,
 } from "functionallibrary";
 
-import { insumosType } from "../constant/insumosType";
-import { typeLocal } from "../constant/localStorage";
+import { type } from "../constant/type";
+
 import { alphabeticSorting } from "../helper/alphabeticSorting";
-import { getFromLocalStorage, setInLocalStorage } from "../helper/localStorage";
-import { updateArrayWithArray } from "../helper/updateArrayWithArray";
 import { updateItemInArrayByProp } from "../helper/updateItemInArrayByProp";
 
 /**
@@ -59,15 +55,15 @@ const onFilter = ( localInsumos, filterValue ) => {
 export const insumosReducer = ( state = [], action ) => {
 
     const opts = {
-        [insumosType.add]: () => ([action.payload, ...state]),
-        [insumosType.getAll]: () => alphabeticSorting( [...state], action.payload ),
-        [insumosType.set]: () => [...action.payload],
-        [insumosType.deleteInsumoById]: () => [...removeItemFromArrayByProp( 'id', action.payload, state)],
-        [insumosType.updateInsumos]: () => updateItemInArrayByProp( 'id', action.payload, state ),
-        [insumosType.search]: () => onSearch( action.payload.insumos, action.payload.searchValue ),
-        [insumosType.filter]: () => onFilter( action.payload.insumos, action.payload.filterValue ),
-        [insumosType.select]: () => updateItemInArrayByProp( 'id', action.payload, state ),
-        [insumosType.selectAll]: () => [...action.payload],
+        [type.insumos.add]: () => ([action.payload, ...state]),
+        [type.insumos.getAll]: () => alphabeticSorting( [...state], action.payload ),
+        [type.insumos.set]: () => [...action.payload],
+        [type.insumos.deleteInsumoById]: () => [...removeItemFromArrayByProp( 'id', action.payload, state)],
+        [type.insumos.updateInsumos]: () => updateItemInArrayByProp( 'id', action.payload, state ),
+        [type.insumos.search]: () => onSearch( action.payload.insumos, action.payload.searchValue ),
+        [type.insumos.filter]: () => onFilter( action.payload.insumos, action.payload.filterValue ),
+        [type.insumos.select]: () => updateItemInArrayByProp( 'id', action.payload, state ),
+        [type.insumos.selectAll]: () => [...action.payload],
     }
 
     const fn = opts[action.type];

@@ -1,18 +1,20 @@
 import { firebase, googleAuthProvider } from '../firebase/firebase-config';
-import { auth } from '../constant/auth';
+
 import { clearLocalStorage, setInLocalStorage } from '../helper/localStorage';
-import { typeLocal } from '../constant/localStorage';
 import { fetchLogin, fetchSignUp } from '../helper/fetch';
+
+import { type } from '../constant/type';
+
 import { endLoading, startLoading } from './loadingAction';
 
 /// ============= Acciones sincronas ================= //
 export const login = ( userData ) => ({
-    type: auth.login,
+    type: type.auth.login,
     payload: userData
 });
 
 export const logout = () => ({
-    type: auth.logout
+    type: type.auth.logout
 });
 
 
@@ -34,7 +36,7 @@ export const startGoogleLogIn = () => async dispatch => {
             login( userData )
         )
 
-        setInLocalStorage( typeLocal.user, { ...userData, logged: true } );
+        setInLocalStorage( type.localStorage.user, { ...userData, logged: true } );
 
     } catch (error) {
 
@@ -63,8 +65,8 @@ export const startLoginWithEmailAndPassword = ({ email, password }) => async dis
     
             dispatch( login( userData ) );
     
-            setInLocalStorage( typeLocal.user, { ...userData, logged: true } );
-            setInLocalStorage( typeLocal.token, user.token );
+            setInLocalStorage( type.localStorage.user, { ...userData, logged: true } );
+            setInLocalStorage( type.localStorage.token, user.token );
 
         } else {
             console.error('error al iniciar sesion con correo', response.msg);
@@ -99,8 +101,8 @@ export const startRegisterWithNameEmailAndPassword = ({ name, email, password })
                 })
             )
 
-            setInLocalStorage( typeLocal.user, { ...user, logged: true } );
-            setInLocalStorage( typeLocal.token, user.token );
+            setInLocalStorage( type.localStorage.user, { ...user, logged: true } );
+            setInLocalStorage( type.localStorage.token, user.token );
 
         } else {
             console.log( 'mostrar error del servicio', response.msg );

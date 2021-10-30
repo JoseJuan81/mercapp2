@@ -1,9 +1,9 @@
-import { loadingType } from "../constant/loading";
+import { type } from "../constant/type";
 
 export const startLoading = () => ({
-    type: loadingType.start
+    type: type.loading.start
 });
 
 export const endLoading = () => ({
-    type: loadingType.end
+    type: type.loading.end
 })

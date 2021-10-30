@@ -6,8 +6,10 @@ import validator from 'validator';
 
 import { InputField } from '../components/Form/InputField';
 
-import { startRegisterWithNameEmailAndPassword } from '../actions/auth';
+import { startRegisterWithNameEmailAndPassword } from '../actions/authAction';
+
 import { inicioSesionPath } from '../constant/routes';
+
 import { useForm } from '../hooks/useForm';
 
 const formFields = {

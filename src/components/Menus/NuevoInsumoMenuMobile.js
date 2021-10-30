@@ -3,9 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { resetForm, startCreateInsumo, startUpdateInsumo } from '../../actions/newInsumoAction';
+import { nuevaCompraPath } from '../../constant/routes';
 
 
 export const NuevoInsumoMenuMobile = () => {
+
+    const url = new URL( window.location );
+    const isBuyActive = url.searchParams.get('activeBuy');
+    const establishmentName = url.searchParams.get('establishment');
 
     const history = useHistory();
 
@@ -21,13 +26,24 @@ export const NuevoInsumoMenuMobile = () => {
             history.goBack()
         } else {
         
-            dispatch( startCreateInsumo() );
+            dispatch( startCreateInsumo( isBuyActive ) );
         }
     }
     
     const handleResetInsumoForm = () => {
         
         dispatch( resetForm() );
+    }
+
+    const handleClickOnBack = () => {
+
+        if ( isBuyActive ) {
+
+            history.push( `${ nuevaCompraPath }?establishment=${ establishmentName }` );
+        } else {
+
+            history.goBack();
+        }
     }
 
     useEffect( () => {
@@ -42,8 +58,11 @@ export const NuevoInsumoMenuMobile = () => {
     return (
         <div
             className="
+                fixed bottom-0
+                w-full
                 grid grid-cols-3
                 h-16
+                z-30
             "
         >
 
@@ -53,7 +72,7 @@ export const NuevoInsumoMenuMobile = () => {
                     btn-icon
                     flex items-center justify-center
                 "
-                onClick={ () => history.goBack() }
+                onClick={ handleClickOnBack }
             >
                 <i className="fas fa-chevron-left"></i>
             </button>

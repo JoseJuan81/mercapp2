@@ -1,14 +1,14 @@
 
-import { equality, find, isEmpty } from "functionallibrary";
+import { equality, find, isEmpty, setNewProperty } from "functionallibrary";
 
-import { newInsumoForm } from "../constant/newInsumoTypeForm";
 import { addInsumoToState, updateInsumoInState } from "./insumosAction";
 import { endLoading, startLoading } from "./loadingAction";
+
 import { getFromLocalStorage, setInLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
-import { typeLocal } from "../constant/localStorage";
 import { priceFromArrayToObject } from "../helper/priceHandling";
 import { fetchCreateInsumo, fetchInsumo, fetchUpdateInsumo } from "../helper/fetch";
-import { newInsmoInitialState } from "../reducers/newInsumoReducer";
+
+import { type } from "../constant/type";
 
 /// ============= Acciones sincronas ================= //
 export const fillingForm = ( { name, value } ) => {
@@ -18,7 +18,7 @@ export const fillingForm = ( { name, value } ) => {
     if ( isPrice ) {
 
         return {
-            type: newInsumoForm.fill,
+            type: type.newInsumo.fill,
             payload: {
                 [name]: priceFromArrayToObject( value )
             }
@@ -27,24 +27,24 @@ export const fillingForm = ( { name, value } ) => {
     }
 
     return {
-        type: newInsumoForm.fill,
+        type: type.newInsumo.fill,
         payload: { [name]: value }
     }
 }
 
 export const resetForm = () => ({
-    type: newInsumoForm.reset
+    type: type.newInsumo.reset
 })
 
 export const updatingInsumo = ( insumo ) => ({
-    type: newInsumoForm.update,
+    type: type.newInsumo.update,
     payload: insumo
 });
 
 export const setInsumoToUpdate = ( insumoId ) => ( dispatch, rootState ) => {
 
     const insumos = isEmpty( rootState().insumos )
-        ? getFromLocalStorage( typeLocal.insumos )
+        ? getFromLocalStorage( type.localStorage.insumos )
         : rootState().insumos;
 
     const insumoToUpdate = find(
@@ -56,19 +56,22 @@ export const setInsumoToUpdate = ( insumoId ) => ( dispatch, rootState ) => {
 }
 
 /// ============= Acciones asincronas ================= //
-export const startCreateInsumo = () => async ( dispatch, rootState ) => {
+export const startCreateInsumo = ( isSelected ) => async ( dispatch, rootState ) => {
 
     dispatch( startLoading() );
 
+    const localInsumos = getFromLocalStorage( type.localStorage.insumos ) || [];
+
     const { newInsumo: { data }, insumos } = rootState();
+    const allInsumos = isEmpty( insumos ) ? localInsumos : insumos;
 
     try {
         
         const response = await fetchCreateInsumo( data );
-        const insumoCreated = response.data;
 
+        const insumoCreated = setNewProperty('selected', isSelected, response.data );
         dispatch( addInsumoToState( insumoCreated ) );
-        setInLocalStorage( typeLocal.insumos, [insumoCreated, ...insumos] );
+        setInLocalStorage( type.localStorage.insumos, [insumoCreated, ...allInsumos] );
     
         dispatch ( resetForm() );
 

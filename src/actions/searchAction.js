@@ -1,13 +1,13 @@
-import { type } from "../constant/search";
+import { type } from "../constant/type";
 
 export const showSearchField = () => ({
-    type: type.showSearch
+    type: type.search.showSearch
 });
 
 export const hideSearchAndFilterField = () => ({
-    type: type.hide
+    type: type.search.hide
 });
 
 export const showFilterField = () => ({
-    type: type.showFilter
+    type: type.search.showFilter
 });
