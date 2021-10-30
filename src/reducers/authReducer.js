@@ -1,12 +1,12 @@
-import { auth } from '../constant/auth';
+import { type } from '../constant/type';
 
 export const initialState = { logged: false };
 
 export const authReducer = ( state = initialState, action ) => {
 
     const opts = {
-        [auth.login]: () => ({ ...action.payload, logged: true }),
-        [auth.logout]: () => ({ ...initialState })
+        [type.auth.login]: () => ({ ...action.payload, logged: true }),
+        [type.auth.logout]: () => ({ ...initialState })
     }
 
     const fn = opts[action.type];

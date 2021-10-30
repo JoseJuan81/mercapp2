@@ -14,13 +14,15 @@ import { PaginaRegistroUsuario } from '../Pages/PaginaRegistroUsuario';
 import { PaginaInicioSesion } from '../Pages/PaginaInicioSesion';
 
 import { inicioSesionPath, registroUsuarioPath } from '../constant/routes';
+import { type } from '../constant/type';
+
 import { getFromLocalStorage } from '../helper/localStorage';
-import { login } from '../actions/auth';
-import { typeLocal } from '../constant/localStorage';
+
+import { login } from '../actions/authAction';
 
 export const Main = () => {
 
-    const userFromLocalStore = getFromLocalStorage( typeLocal.user );
+    const userFromLocalStore = getFromLocalStorage( type.localStorage.user );
     const userFromStore = useSelector( state => state.auth );
     const user =  userFromLocalStore || userFromStore;
 

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useHistory } from 'react-router-dom';
-import { clearInsumosToBuy } from '../../actions/buyAction';
+import { useHistory } from 'react-router-dom';
+
+import { clearInsumosToBuy, startCreatingPurchase } from '../../actions/newPurchaseAction';
 import { misInsumosPath } from '../../constant/routes';
-import { AddCircleButton } from '../Buttons/AddCircleButton';
+import { AddCircleButton, CheckButton, CloseCircleButton, BackButton } from '../Buttons/AppButtons';
+
 
 // ===== VARIABLES CONSTANTES =====
 const activeBuyRoute = `${ misInsumosPath }?activeBuy=true`;
@@ -15,7 +17,7 @@ export const NuevaCompraMenuMobile = React.memo( () => {
 
     // ===== STORE =====
     const dispatch = useDispatch();
-    const { establishmentName } = useSelector( state => state.buy );
+    const { establishmentName } = useSelector( state => state.newPurchase );
 
     // ===== STATE =====
     const [insumosRouteModificated, setInsumosRouteModificated] = useState( activeBuyRoute );
@@ -24,6 +26,11 @@ export const NuevaCompraMenuMobile = React.memo( () => {
     const handleClickOnClearInsumos = () => {
 
         dispatch( clearInsumosToBuy() );
+    }
+
+    const handleClickOnCheckButton = () => {
+
+        dispatch( startCreatingPurchase() );
     }
 
     // modificar la url en funcion del establecimiento seleccionado
@@ -47,39 +54,24 @@ export const NuevaCompraMenuMobile = React.memo( () => {
             "
         >
 
-            <button
-                type='button'
-                className="
-                    btn-icon
-                    flex items-center justify-center
-                "
+            <BackButton
+                isButton
                 onClick={ () => history.goBack() }
-            >
-                <i className="fas fa-chevron-left"></i>
-            </button>
+            />
 
-            <button
-                type="button"
-                className="
-                    btn-icon
-                    flex items-center justify-center
-                "
+            <CloseCircleButton
+                isButton
                 onClick={ handleClickOnClearInsumos }
-            >
-                <i className="far fa-times-circle"></i>
-            </button>
+            />
 
             <AddCircleButton
                 to={ insumosRouteModificated }
             />
 
-            <NavLink
-                to={ misInsumosPath }
-                className="btn-icon flex items-center justify-center"
-                title="Agregar"
-            >
-                <i className="fas fa-check"></i>
-            </NavLink>
+            <CheckButton
+                isButton
+                onClick={ handleClickOnCheckButton }
+            />
 
         </div>
     )

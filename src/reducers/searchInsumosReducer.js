@@ -1,4 +1,4 @@
-import { type } from "../constant/search"
+import { type } from "../constant/type"
 
 const initialState = {
     isFiltering: false,
@@ -9,9 +9,9 @@ const initialState = {
 export const searchInsumosReducer = ( state = initialState, action ) => {
 
     const opts = {
-        [type.showSearch]: () => ({ showField: true, isSearching: true, isFiltering: false }),
-        [type.showFilter]: () => ({ showField: true, isFiltering: true, isSearching: false }),
-        [type.hide]: () => ({ showField: false, isFiltering: false, isSearching: false })
+        [type.search.showSearch]: () => ({ showField: true, isSearching: true, isFiltering: false }),
+        [type.search.showFilter]: () => ({ showField: true, isFiltering: true, isSearching: false }),
+        [type.search.hide]: () => ({ showField: false, isFiltering: false, isSearching: false })
     }
 
     const fn = opts[action.type];

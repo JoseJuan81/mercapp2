@@ -1,9 +1,9 @@
-import { establishmentType } from "../constant/establishments"
+import { type } from "../constant/type";
 
 export const establishmentReducer = ( state = [], action ) => {
 
     const opts = {
-        [establishmentType.set]: () => [...action.payload]
+        [type.establishment.set]: () => [...action.payload]
     }
 
     const fn = opts[action.type];

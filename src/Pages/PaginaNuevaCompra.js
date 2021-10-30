@@ -2,16 +2,18 @@ import { equality, find, getPropertysValue } from 'functionallibrary';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { loadSelectedInsumos, setEstablishmentInBuy } from '../actions/buyAction';
+import { loadSelectedInsumos, setEstablishmentInBuy } from '../actions/newPurchaseAction';
+import { loadEstablishments } from '../actions/establishmentAction';
+
 import { BigAddButton } from '../components/Buttons/BigAddButton';
 import { Insumo } from '../components/Insumos/Insumo';
+import { DataList } from '../components/Form/DataList';
+
 import { misInsumosPath } from '../constant/routes';
+import { defaultEstablishment } from '../constant/defaults';
 
 import { PageLoading } from './PageLoading';
 
-import { loadEstablishments } from '../actions/establishment';
-import { DataList } from '../components/Form/DataList';
-import { defaultEstablishment } from '../constant/defaults';
 
 // ===== VARIABLES CONSTANTES =====
 const activeBuyRoute = `${ misInsumosPath }?activeBuy=true`;
@@ -42,7 +44,7 @@ export const PaginaNuevaCompra = () => {
     // ===== STORE =====
     const dispatch = useDispatch();
     const { loading } = useSelector( state => state.loading );
-    const { selectedInsumos, establishmentName, total } = useSelector( state => state.buy );
+    const { insumos, establishmentName, total } = useSelector( state => state.newPurchase );
     const establishments = useSelector( state => state.establishments );
 
     // ===== STATE =====
@@ -114,7 +116,7 @@ export const PaginaNuevaCompra = () => {
                 </fieldset>
             </form>
 
-            {selectedInsumos.map(( insumo, ind ) => (
+            {insumos.map(( insumo, ind ) => (
                 <Insumo
                     key={ `${ insumo.id } - ${ ind }` }
                     insumo={ insumo }

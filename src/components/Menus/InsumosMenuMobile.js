@@ -7,7 +7,7 @@ import { selectAllInsumosToBuy } from '../../actions/insumosAction';
 import { showSearchField, hideSearchAndFilterField, showFilterField } from '../../actions/searchAction';
 
 import { nuevaCompraPath, nuevoInsumoPath } from '../../constant/routes';
-import { AddCircleButton } from '../Buttons/AddCircleButton';
+import { AddCircleButton } from '../Buttons/AppButtons';
 
 export const InsumosMenuMobile = React.memo(() => {
 

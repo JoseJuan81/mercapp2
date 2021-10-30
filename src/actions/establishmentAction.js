@@ -1,11 +1,11 @@
-import { establishmentType } from "../constant/establishments";
+import { type } from "../constant/type";
 import { buildEstablishmentOptionsArray } from "../helper/buildEstablishmentOptionsArray";
 import { fetchEstablishments } from "../helper/fetch";
 import { endLoading, startLoading } from "./loadingAction";
 
 /// ============= Acciones sincronas ================= //
 export const setEstablishments = ( establishmentsList ) => ({
-    type: establishmentType.set,
+    type:  type.establishment.set,
     payload: establishmentsList
 })
 

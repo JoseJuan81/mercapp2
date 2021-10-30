@@ -58,8 +58,11 @@ export const NuevoInsumoMenuMobile = () => {
     return (
         <div
             className="
+                fixed bottom-0
+                w-full
                 grid grid-cols-3
                 h-16
+                z-30
             "
         >
 

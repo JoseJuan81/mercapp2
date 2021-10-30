@@ -4,10 +4,13 @@ import { Link } from 'react-router-dom';
 import validator from 'validator';
 import { isEmpty } from 'functionallibrary';
 
-import { registroUsuarioPath } from '../constant/routes';
-import { startGoogleLogIn, startLoginWithEmailAndPassword } from '../actions/auth';
-import { useForm } from '../hooks/useForm';
+import { startGoogleLogIn, startLoginWithEmailAndPassword } from '../actions/authAction';
+
 import { InputField } from '../components/Form/InputField';
+
+import { registroUsuarioPath } from '../constant/routes';
+
+import { useForm } from '../hooks/useForm';
 
 const formFields = {
     email: '',

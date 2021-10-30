@@ -1,14 +1,13 @@
-import { equality, find, isEmpty } from 'functionallibrary';
+import { equality, find } from 'functionallibrary';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { loadEstablishments } from '../../actions/establishment';
 import { defaultEstablishment } from '../../constant/defaults';
 
 import { DataList } from './DataList';
 import { InputField } from './InputField';
 
-export const InsumoPrice = ({
+export const InsumoPrice = React.memo(({
+    establishments,
     name,
     price,
     onChange,
@@ -16,13 +15,11 @@ export const InsumoPrice = ({
     removePrice,
     showAddPrice,
 }) => {
-
-    const dispatch = useDispatch();
-
-    const establishments = useSelector( state => state.establishments );
     
+    // ===== STATE =====
     const [selectedEstablisment, setSelectedEstablishment] = useState( defaultEstablishment );
 
+    // ===== FUNCIONES PROPIAS =====
     const handleOnChangeInput = ({ target }) => {
 
         const isName = target.name === 'name';
@@ -46,16 +43,6 @@ export const InsumoPrice = ({
         })
 
     }
-
-    // cargar los establecimientos
-    useEffect( () => {
-
-        if ( isEmpty( establishments ) ) {
-
-            dispatch( loadEstablishments() );
-        }
-
-    }, []);
 
     // actualizar valor de campo establecimiento cuando el usuario interactua con el campo
     useEffect( () => {
@@ -139,4 +126,4 @@ export const InsumoPrice = ({
             }
         </div>
     )
-}
+})

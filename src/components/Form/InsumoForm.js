@@ -1,31 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { removeItemFromArrayByIndex } from 'functionallibrary';
 
 import { InputField } from './InputField';
 import { LabelsField } from './LabelsField';
-import { NuevoInsumoMenuMobile } from '../Menus/NuevoInsumoMenuMobile';
-import { fillingForm } from '../../actions/newInsumoAction';
 import { InsumoPrice } from './InsumoPrice';
+
+import { fillingForm } from '../../actions/newInsumoAction';
+
 import { defaultObjectPrice, priceFromObjectToArray } from '../../helper/priceHandling';
 
-export const InsumoForm = ({ insumoData, isEditing }) => {
+export const InsumoForm = ({ insumoData, isEditing, establishments }) => {
 
     const { name, labels, price } = insumoData;
 
-    // transformar el objeto Price a arreglo
-    const localPrice = priceFromObjectToArray( price );
-    const [prices, setPrices] = useState( localPrice );
-
+    // ===== STORE =====
     const dispatch = useDispatch();
 
-    // handler para cambios del formulario
+    // transformar el objeto Price a arreglo
+    const localPrice = priceFromObjectToArray( price );
+
+    // ===== STATE =====
+    const [prices, setPrices] = useState( localPrice );
+
+    // ===== FUNCIONES PROPIAS =====
     const handleOnChangeForm = ({ target }) => {
 
         dispatch( fillingForm( target ) );
     }
 
-    // handler para cambios de precios
     const handleOnChangePrice = ( target, index) => {
 
         const localPrices = [...prices];
@@ -41,25 +44,29 @@ export const InsumoForm = ({ insumoData, isEditing }) => {
 
     }
 
-    // agregar un nuevo precio
     const addNewPrice = () => {
 
         setPrices( prs => [...prs, defaultObjectPrice] );
     }
 
-    // eliminar un precio
     const removePrice = ( index ) => {
 
         setPrices( prs => [...removeItemFromArrayByIndex(index, [...prs])] );
     }
 
+    useEffect( () => {
+
+        document.querySelector('input').focus();
+        
+    },[])
+
     return (
         <form
             className="
-                mx-1 px-3
+                mx-2 px-3 pb-16
                 bg-white
                 rounded-t-2xl
-                w-full max-h-5/6
+                w-full max-h-full
                 overflow-auto
             "
         >
@@ -114,6 +121,7 @@ export const InsumoForm = ({ insumoData, isEditing }) => {
                                 "
                             >
                                 <InsumoPrice
+                                    establishments={ establishments }
                                     price={ p.value }
                                     name={ p.name }
                                     onChange={ ({ target }) => handleOnChangePrice( target, ind ) }
@@ -127,7 +135,7 @@ export const InsumoForm = ({ insumoData, isEditing }) => {
                     </label>
             </fieldset>
 
-            <fieldset className="mb-4">
+            <fieldset className="">
                 <label>
                     <small
                         className="
@@ -144,7 +152,7 @@ export const InsumoForm = ({ insumoData, isEditing }) => {
             </fieldset>
 
             <fieldset>
-                <NuevoInsumoMenuMobile />
+                {/* <NuevoInsumoMenuMobile /> */}
             </fieldset>
 
         </form>

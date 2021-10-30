@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import { appLogout } from '../../actions/auth';
+import { appLogout } from '../../actions/authAction';
 import { startLoadingInsumos } from '../../actions/insumosAction';
-import { typeLocal } from '../../constant/localStorage';
 import { misInsumosPath, resumenDeComprasPath } from '../../constant/routes';
+import { type } from '../../constant/type';
 import { removeFromLocalStorage } from '../../helper/localStorage';
 import { UserAvatar } from '../UserAvatar';
 
@@ -23,7 +23,7 @@ export const Menu = React.memo( ({ showMenu, handleShowMenu }) => {
 
     const handleRefresh = () => {
 
-        removeFromLocalStorage( typeLocal.insumos );
+        removeFromLocalStorage( type.localStorage.insumos );
         dispatch( startLoadingInsumos() );
     }
 
