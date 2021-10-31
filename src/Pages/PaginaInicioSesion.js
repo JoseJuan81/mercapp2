@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import validator from 'validator';
 import { isEmpty } from 'functionallibrary';
@@ -11,6 +11,7 @@ import { InputField } from '../components/Form/InputField';
 import { registroUsuarioPath } from '../constant/routes';
 
 import { useForm } from '../hooks/useForm';
+import { PageLoading } from './PageLoading';
 
 const formFields = {
     email: '',
@@ -19,7 +20,9 @@ const formFields = {
 
 export const PaginaInicioSesion = () => {
 
+    // ===== STORE =====
     const dispatch = useDispatch();
+    const { loading } = useSelector( state => state.loading );
 
     const { formState, handleInputChange, invalidForm } = useForm({ ...formFields });
     const [formError, setFormError] = useState({ ...formFields, noErrors: false, });
@@ -63,6 +66,10 @@ export const PaginaInicioSesion = () => {
 
         setFormError({ ...errors });
 
+    }
+
+    if ( loading ) {
+        return <PageLoading />
     }
 
     return (

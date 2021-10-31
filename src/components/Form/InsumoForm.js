@@ -18,7 +18,7 @@ export const InsumoForm = ({ insumoData, isEditing, establishments }) => {
     // ===== STORE =====
     const dispatch = useDispatch();
 
-    // transformar el objeto Price a arreglo
+    // ===== TRANSFORMACION DE DATOS =====
     const localPrice = priceFromObjectToArray( price );
 
     // ===== STATE =====
@@ -78,7 +78,7 @@ export const InsumoForm = ({ insumoData, isEditing, establishments }) => {
     return (
         <form
             className="
-                mx-2 px-3 pb-16
+                px-3 pb-16
                 bg-white
                 rounded-t-2xl
                 w-full max-h-full

@@ -39,7 +39,7 @@ export const Main = () => {
 
     return (
         <div className="font-mercapp">
-
+            
             <Router>
                     <Switch>
 
@@ -74,7 +74,6 @@ export const Main = () => {
                         />
 
                     </Switch>
-
             </Router>
 
         </div>

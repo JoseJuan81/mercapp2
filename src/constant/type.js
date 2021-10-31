@@ -19,9 +19,16 @@ export const type = {
         end: '[loading] end',
     },
     localStorage: {
-        user: '[local storage] user-data',
-        insumos: '[local storage] insumos',
-        token: '[local storage] token',
+        user: '[mercapp2] user-data',
+        insumos: '[mercapp2] insumos',
+        token: '[mercapp2] token',
+        purchases: '[mercapp2] compras',
+    },
+    notificationMessages: {
+        bye: '👋 Vuelve pronto ✌🏽',
+        logout: '🥺 Cerrando sesion...',
+        login: '🕙 Iniciando sesion',
+        welcome: '🎉 Bienvenido !!!'
     },
     newInsumo: {
         fill: '[new Insumo] filling form',
