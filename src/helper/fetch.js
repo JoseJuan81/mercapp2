@@ -10,6 +10,25 @@ const urlBase = process.env.REACT_APP_URLBASE;
  * 
  * @param {string} url 
  */
+const buildDeleteFetch = ( url ) => {
+
+    const token = getFromLocalStorage( type.localStorage.token );
+
+    return fetch(
+        url,
+        {
+            headers: {
+                'Content-type': 'application/json',
+                'x-token': token
+            },
+            method: 'DELETE',
+        },
+    )
+}
+/**
+ * 
+ * @param {string} url 
+ */
 const buildGetFetch = ( url ) => {
 
     const token = getFromLocalStorage( type.localStorage.token );
@@ -162,4 +181,14 @@ export const fetchAllPurchases = () => {
 
     const url = `${ urlBase }/purchases`;
     return buildGetFetch( url ).then( (res) => res.json() );
+}
+
+/**
+ * @description Eliminar insumo
+
+ */
+export const fetchDeleteInsumo = ( id ) => {
+
+    const url = `${ urlBase }/insumos/${ id }`;
+    return buildDeleteFetch( url ).then( (res) => res.json() );
 }

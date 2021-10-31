@@ -1,28 +1,40 @@
-import React from 'react'
+import React from 'react';
 
-export const UserAvatar = ({ user }) => {
+export const DefaultAvatar = React.memo(() => {
+    return (
+        <div
+            className="
+                w-16 h-16
+                text-4xl text-warmGray-800
+                flex items-center justify-center
+            "
+        >
+            <i className="far fa-user"></i>
+        </div>
+    )
+})
+
+const Avatar = React.memo(({ avatar }) => {
+    return (
+        <img
+            className="
+                rounded-full
+                w-16 h-16
+            "
+            src={ avatar }
+            alt="imagen del usuario"
+        />        
+    )
+})
+
+export const UserAvatar = React.memo(({ user }) => {
     return (
         <>
             {user.avatar
-                ?   <img
-                        className="
-                            rounded-full
-                            w-16 h-16
-                        "
-                        src={ user.avatar }
-                        alt="imagen del usuario"
-                    />
-                :   <div
-                        className="
-                            w-16 h-16
-                            text-5xl
-                            flex items-center justify-center
-                        "
-                    >
-                        <i className="far fa-user"></i>
-                    </div>
+                ?   <Avatar avatar={ user.avatar } />
+                :   <DefaultAvatar />
 
             }
         </>
     )
-}
+})

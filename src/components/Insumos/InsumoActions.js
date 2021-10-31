@@ -6,7 +6,7 @@ import { startDeletingInsumos } from '../../actions/insumosAction';
 import { setInsumoToUpdate } from '../../actions/newInsumoAction';
 import { removeInsumoFromPurchase } from '../../actions/newPurchaseAction';
 
-import { editarInsumoPath, nuevaCompraPath } from '../../constant/routes';
+import { editarInsumoPath } from '../../constant/routes';
 import { EditButton, LeftCircleButton, TrashButton } from '../Buttons/AppButtons';
 
 export const InsumoBaseActions = React.memo( ({ id }) => {
@@ -31,6 +31,7 @@ export const InsumoBaseActions = React.memo( ({ id }) => {
         ev.stopPropagation();
 
         dispatch( startDeletingInsumos( id ) );
+        setToogle( false );
     },[])
     
     const handleUpdateInsumo = useCallback(( ev ) => {

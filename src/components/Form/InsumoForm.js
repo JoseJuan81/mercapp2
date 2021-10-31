@@ -8,7 +8,8 @@ import { InsumoPrice } from './InsumoPrice';
 
 import { fillingForm } from '../../actions/newInsumoAction';
 
-import { defaultObjectPrice, priceFromObjectToArray } from '../../helper/priceHandling';
+import { priceFromObjectToArray } from '../../helper/priceHandling';
+import { DEFAULT_OBJECT_PRICE } from '../../constant/defaults';
 
 export const InsumoForm = ({ insumoData, isEditing, establishments }) => {
 
@@ -46,7 +47,8 @@ export const InsumoForm = ({ insumoData, isEditing, establishments }) => {
 
     const addNewPrice = () => {
 
-        setPrices( prs => [...prs, defaultObjectPrice] );
+        const newPriceState = [...prices, DEFAULT_OBJECT_PRICE];
+        setPrices( newPriceState );
     }
 
     const removePrice = ( index ) => {
@@ -54,9 +56,22 @@ export const InsumoForm = ({ insumoData, isEditing, establishments }) => {
         setPrices( prs => [...removeItemFromArrayByIndex(index, [...prs])] );
     }
 
+    // HACER FOCO EN CAMPO DE NOMBRE
     useEffect( () => {
 
         document.querySelector('input').focus();
+        
+    },[])
+
+    // VERIFICAR SI EN LA URL EXISTE EL NOMBRE DEL ESTABLECIMIENTO
+    useEffect( () => {
+
+        const url = new URL(window.location);
+        const establishment = url.searchParams.get('establishment');
+
+        if( establishment ) {
+            setPrices( p => ([{ ...DEFAULT_OBJECT_PRICE, name: establishment }]) );
+        }
         
     },[])
 
@@ -121,6 +136,7 @@ export const InsumoForm = ({ insumoData, isEditing, establishments }) => {
                                 "
                             >
                                 <InsumoPrice
+                                    index={ ind }
                                     establishments={ establishments }
                                     price={ p.value }
                                     name={ p.name }

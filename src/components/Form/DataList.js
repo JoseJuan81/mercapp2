@@ -6,10 +6,11 @@ import React, { useEffect, useRef } from 'react';
  * @property {string} value.label
  */
 export const DataList = React.memo(({ options, onChange, onBlur, value, autoFocus, ...rest }) => {
-console.log('Datalist')
+
     const ref = useRef();
 
     const randomId = Math.random().toString( 32 ).split('.')[1];
+    const inputValue = typeof value.label === 'string' ? value.label : '';
 
     useEffect( () => {
 
@@ -34,7 +35,7 @@ console.log('Datalist')
                 list={ randomId }
                 onChange={ onChange }
                 onBlur={ onBlur }
-                value={ value.label }
+                value={ inputValue }
             />
             <datalist id={ randomId }>
 

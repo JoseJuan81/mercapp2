@@ -46,13 +46,13 @@ export const InsumosMenuMobile = React.memo(() => {
         
         let newRoute = nuevoInsumoPath;
 
-        if ( url.searchParams.get('activeBuy') && url.searchParams.get('establishment') ) {
+        if ( url.searchParams.get('activeBuy') ) {
                 newRoute += url.search;
         }
 
         setNewInsumoRouteModificated( newRoute );
         
-    }, [])
+    }, [url.searchParams, url.search])
 
     return (
         <div
