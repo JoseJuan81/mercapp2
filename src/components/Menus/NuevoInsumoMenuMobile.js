@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -13,15 +13,16 @@ export const NuevoInsumoMenuMobile = () => {
 
     const url = new URL( window.location );
     const isBuyActive = url.searchParams.get('activeBuy');
-    const establishmentName = url.searchParams.get('establishment');
 
+    // ===== NAVEGACION =====
     const history = useHistory();
 
+    // ===== STORE =====
     const { isEditing } = useSelector( state => state.newInsumo );
-
     const dispatch = useDispatch();
 
-    const handleOnClick = async () => {
+    // ===== FUNCIONES PROPIAS =====
+    const handleOnClick = useCallback(async () => {
         
         if ( isEditing ) {
 
@@ -32,14 +33,14 @@ export const NuevoInsumoMenuMobile = () => {
             dispatch( startCreateInsumo( isBuyActive ) );
 
         }
-    }
+    },[])
     
-    const handleResetInsumoForm = () => {
+    const handleResetInsumoForm = useCallback(() => {
         
         dispatch( resetForm() );
-    }
+    },[])
 
-    const handleClickOnBack = () => {
+    const handleClickOnBack = useCallback(() => {
 
         if ( isBuyActive ) {
 
@@ -48,7 +49,7 @@ export const NuevoInsumoMenuMobile = () => {
 
             history.goBack();
         }
-    }
+    },[])
 
     useEffect( () => {
 
@@ -62,11 +63,11 @@ export const NuevoInsumoMenuMobile = () => {
     return (
         <div
             className="
-                fixed bottom-0
-                w-full
+                fixed bottom-0 left-0
+                w-full h-16
                 grid grid-cols-3
-                h-16
                 z-30
+                bg-white
             "
         >
 

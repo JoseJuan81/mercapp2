@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { getDayInWord, getFormatDate } from '../../helper/dates';
 
+import { CheckBox, CheckBoxSelected } from '../Buttons/AppButtons';
+
+
+// ===== COMPONENTES =====
 const LockedBuyIcon = React.memo(({ closed }) => {
     return (
         <div
@@ -27,11 +31,11 @@ const BuyTotal = React.memo(({ total }) => {
     )
 })
 
-const BuyEstablishmentName = React.memo(({ closed, name }) => {
+const BuyEstablishmentName = React.memo(({ selected, name }) => {
     return (
         <h3
             className={`
-                ${ closed ? 'bg-warmGray-200' : 'bg-lime-100' }
+                ${ selected ? 'bg-lime-100' : 'bg-warmGray-200' }
                 px-2
                 text-warmGray-500 text-sm font-bold
             `}
@@ -83,19 +87,61 @@ const BuyDate = React.memo(({ date }) => {
     )
 })
 
+const CheckedCard = React.memo(({ selected }) => {
+    return (
+        <div
+            className="
+                absolute -top-1 left-0
+                w-full
+                flex justify-end items-start
+                px-1 pt-1
+            "
+        >
+            {selected
+                ? (<CheckBoxSelected
+                    isButton
+                    className="
+                        text-lime-400 text-base
+                    "
+                />)
+                : (<CheckBox
+                    isButton
+                    className="
+                        text-warmGray-300 text-base
+                    "
+                />)
+            }
+
+        </div>
+    )
+})
+
 export const PurchaseCard = ({ purchase }) => {
 
     const { closed, createdAt, establishmentName, insumos, total } = purchase;
 
+    // ===== STATE =====
+    const [selected, setSelected] = useState(false);
+
+    // ===== FUNCIONES PROPIAS =====
+    const handleOnClick = () => {
+        setSelected( s => !s );
+    }
+
     return (
         <div
             className={`
-                border-solid ${ closed ? 'border border-warmGray-200' : 'border-2 border-lime-200' }
+                border-solid ${ selected ? 'border-2 border-lime-200' : 'border border-warmGray-200' }
                 rounded-xl
-                shadow-lg
+                ${ selected && 'shadow-lg' }
                 flex-initial
+                transition-200
+                relative
             `}
+            onClick={ handleOnClick }
         >
+            <CheckedCard selected={ selected } />
+            
             <div
                 className="
                     p-4
@@ -106,7 +152,7 @@ export const PurchaseCard = ({ purchase }) => {
                 <BuyTotal total={ total } />
             </div>
 
-            <BuyEstablishmentName name={ establishmentName } closed={ closed } />
+            <BuyEstablishmentName name={ establishmentName } selected={ selected } />
 
             <div
                 className="

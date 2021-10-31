@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 const ByButton = React.memo( ({ children, onClick, className }) => {
 
-    const localClass = className ? `${ className } btn-icon` : 'btn-icon';
+    const localClass = className ? `btn-icon ${ className }` : 'btn-icon';
 
     return (
         <button
@@ -87,6 +87,30 @@ export const MinusButton = React.memo(({ isButton, to, onClick, className }) => 
     )
 })
 
+export const CheckBoxSelected = React.memo(({ isButton, to, onClick, className }) => {
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className="fas fa-check-square"></i>
+        </BaseButton>
+    )
+})
+export const CheckBox = React.memo(({ isButton, to, onClick, className }) => {
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className="far fa-square"></i>
+        </BaseButton>
+    )
+})
 export const CheckButton = React.memo(({ isButton, to, onClick, className }) => {
     return (
         <BaseButton

@@ -2,10 +2,12 @@ import { firebase, googleAuthProvider } from '../firebase/firebase-config';
 
 import { clearLocalStorage, setInLocalStorage } from '../helper/localStorage';
 import { fetchLogin, fetchSignUp } from '../helper/fetch';
+import toast from '../helper/toast';
 
 import { type } from '../constant/type';
 
 import { endLoading, startLoading } from './loadingAction';
+import { GoodbyeNotification, LoginNotification, LogoutNotification, WelcomeNotification } from '../components/Toast';
 
 /// ============= Acciones sincronas ================= //
 export const login = ( userData ) => ({
@@ -46,7 +48,8 @@ export const startGoogleLogIn = () => async dispatch => {
 }
 
 export const startLoginWithEmailAndPassword = ({ email, password }) => async dispatch => {
-    
+
+    const toastLoginId = toast.info( type.notificationMessages.login );
     dispatch( startLoading() );
 
     try {
@@ -67,17 +70,26 @@ export const startLoginWithEmailAndPassword = ({ email, password }) => async dis
     
             setInLocalStorage( type.localStorage.user, { ...userData, logged: true } );
             setInLocalStorage( type.localStorage.token, user.token );
+            
+            toast.dismiss( toastLoginId );
+            toast.success( type.notificationMessages.welcome, { autoClose: 3000, delay: 500 });
 
         } else {
             console.error('error al iniciar sesion con correo', response.msg);
+            toast.error('Error: ' + response.msg, { autoClose: false } );
+            // enviar a pagina de error
         }
-
+        
     } catch (error) {
-
+        
         console.error('error al iniciar sesion con correo', error);
+        toast.error('Error: ' + error, { autoClose: false } );
+        // enviar a pagina de error
 
     } finally {
-        dispatch( endLoading() );
+        setTimeout(() => {
+            dispatch( endLoading() );
+        }, 1000)
     }
 }
 
@@ -118,6 +130,25 @@ export const startRegisterWithNameEmailAndPassword = ({ name, email, password })
 }
 
 export const appLogout = () => dispatch => {
-    clearLocalStorage();
-    dispatch( logout() );
+
+    const toastLogoutId = toast.warning( type.notificationMessages.logout );
+
+    dispatch( startLoading() );
+
+    setTimeout(() => {
+
+        clearLocalStorage();
+        dispatch( logout() );
+
+        dispatch( endLoading() );
+
+    }, 2000);
+
+    setTimeout(() => {
+        toast.dismiss( toastLogoutId );
+        toast.success( type.notificationMessages.bye );
+    }, 2000)
+    setTimeout(() => {
+        toast.dismiss();
+    }, 2000)
 }

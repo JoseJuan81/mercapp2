@@ -3,7 +3,7 @@ import { equality, find, removeItemFromArrayByProp } from "functionallibrary";
 import { type } from "../constant/type";
 
 import { fetchCreatePurchase } from "../helper/fetch";
-import { getFromLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
+import { getFromLocalStorage, removeFromLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
 
 import { selectAllInsumosToBuy } from "./insumosAction";
 import { endLoading, startLoading } from "./loadingAction";
@@ -89,7 +89,9 @@ export const startCreatingPurchase = () => async ( dispatch, rootState ) => {
         const response = await fetchCreatePurchase( newPurchase );
 
         dispatch( createPurchase( response.data ) );
-        dispatch( selectAllInsumosToBuy( false ) )
+        dispatch( selectAllInsumosToBuy( false ) );
+
+        removeFromLocalStorage( type.localStorage.purchases );
 
     } catch (error) {
         console.log('Error: creando nueva compra')

@@ -1,10 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
+import { PageLoading } from '../Pages/PageLoading.js';
 import { Menu } from './Menus/Menu.js';
+import { BackButton } from './Buttons/AppButtons.js';
+
 import { pageTitles } from '../constant/pageTitles';
 import { nuevaCompraPath } from '../constant/routes.js';
-import { BackButton } from './Buttons/AppButtons.js';
 
 const AppName = React.memo( () => {
     return (
@@ -63,6 +66,9 @@ export const NavBar = () => {
     const url = new URL( window.location );
     const { pathname } = useLocation();
 
+    // ===== STORE =====
+    const { loading } = useSelector( state => state.loading );
+
     // ====== STATE =====
     const [pageTitle, setPageTitle] = useState( '' );
     const [showMenu, setShowMenu] = useState( false );
@@ -92,6 +98,10 @@ export const NavBar = () => {
         setPageTitle( pageTitles[pathname] || null );
 
     }, [pathname]);
+
+    if ( loading ) {
+        return <PageLoading />
+    }
 
     return (
         <div
