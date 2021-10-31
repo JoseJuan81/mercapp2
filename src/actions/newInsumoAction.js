@@ -56,7 +56,7 @@ export const setInsumoToUpdate = ( insumoId ) => ( dispatch, rootState ) => {
 }
 
 /// ============= Acciones asincronas ================= //
-export const startCreateInsumo = ( isSelected ) => async ( dispatch, rootState ) => {
+export const startCreateInsumo = ( isSelected, redirect ) => async ( dispatch, rootState ) => {
 
     dispatch( startLoading() );
 
@@ -69,7 +69,7 @@ export const startCreateInsumo = ( isSelected ) => async ( dispatch, rootState )
         
         const response = await fetchCreateInsumo( data );
 
-        const insumoCreated = setNewProperty('selected', isSelected, response.data );
+        const insumoCreated = setNewProperty('selected', !!isSelected, response.data );
         dispatch( addInsumoToState( insumoCreated ) );
         setInLocalStorage( type.localStorage.insumos, [insumoCreated, ...allInsumos] );
     

@@ -4,6 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Menu } from './Menus/Menu.js';
 import { pageTitles } from '../constant/pageTitles';
 import { nuevaCompraPath } from '../constant/routes.js';
+import { BackButton } from './Buttons/AppButtons.js';
 
 const AppName = React.memo( () => {
     return (
@@ -46,16 +47,13 @@ const PageTitle = React.memo( ({ pageTitle }) => {
 
 const BuyPageButton = React.memo( () => {
     return (
-        <NavLink
+        <BackButton
             className="
                 btn-icon
                 flex items-center justify-center
             "
-            title="ir a pagina de compra"
             to={ nuevaCompraPath }
-        >
-            <i className="fas fa-chevron-left"></i>
-        </NavLink>
+        />
     )
 })
 

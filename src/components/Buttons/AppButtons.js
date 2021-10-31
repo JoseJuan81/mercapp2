@@ -48,9 +48,10 @@ export const BaseButton = React.memo(({ children, isButton = false, onClick, to,
     )
 })
 
-export const AddCircleButton = React.memo(({ isButton, to, onClick }) => {
+export const AddCircleButton = React.memo(({ isButton, to, onClick, className }) => {
     return (
         <BaseButton
+            className={ className }
             to={ to }
             isButton={ isButton }
             onClick={ onClick }
@@ -60,9 +61,36 @@ export const AddCircleButton = React.memo(({ isButton, to, onClick }) => {
     )
 })
 
-export const CheckButton = React.memo(({ isButton, to, onClick }) => {
+export const AddButton = React.memo(({ isButton, to, onClick, className }) => {
     return (
         <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className="fas fa-plus"></i>
+        </BaseButton>
+    )
+})
+
+export const MinusButton = React.memo(({ isButton, to, onClick, className }) => {
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className="fas fa-minus"></i>
+        </BaseButton>
+    )
+})
+
+export const CheckButton = React.memo(({ isButton, to, onClick, className }) => {
+    return (
+        <BaseButton
+            className={ className }
             to={ to }
             isButton={ isButton }
             onClick={ onClick }
@@ -72,9 +100,10 @@ export const CheckButton = React.memo(({ isButton, to, onClick }) => {
     )
 })
 
-export const CloseCircleButton = React.memo(({ isButton, to, onClick }) => {
+export const CloseCircleButton = React.memo(({ isButton, to, onClick, className }) => {
     return (
         <BaseButton
+            className={ className }
             to={ to }
             isButton={ isButton }
             onClick={ onClick }
@@ -84,9 +113,10 @@ export const CloseCircleButton = React.memo(({ isButton, to, onClick }) => {
     )
 })
 
-export const BackButton = React.memo(({ isButton, to, onClick }) => {
+export const BackButton = React.memo(({ isButton, to, onClick, className }) => {
     return (
         <BaseButton
+            className={ className }
             to={ to }
             isButton={ isButton }
             onClick={ onClick }
@@ -144,6 +174,50 @@ export const TrashButton = React.memo(({ isButton, to, onClick, className }) => 
             onClick={ onClick }
         >
             <i className="far fa-trash-alt"></i>
+        </BaseButton>
+    )
+})
+
+export const RefreshButton = React.memo(({ isButton, to, onClick, className }) => {
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className="fas fa-sync"></i>
+        </BaseButton>
+    )
+})
+
+export const CloseButton = React.memo(({ isButton, to, onClick, className }) => {
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className="fas fa-times"></i>
+        </BaseButton>
+    )
+});
+
+export const LogoutButton = React.memo(({ isButton, to, onClick, className, text }) => {
+
+    const icon = 'fas fa-sign-out-alt'
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
         </BaseButton>
     )
 })

@@ -1,31 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { appLogout } from '../../actions/authAction';
 import { startLoadingInsumos } from '../../actions/insumosAction';
-import { misInsumosPath, resumenDeComprasPath } from '../../constant/routes';
+
+import { MENU_ROUTES } from '../../constant/defaults';
 import { type } from '../../constant/type';
+
 import { removeFromLocalStorage } from '../../helper/localStorage';
+
+import { CloseButton, LogoutButton, RefreshButton } from '../Buttons/AppButtons';
 import { UserAvatar } from '../UserAvatar';
 
-export const Menu = React.memo( ({ showMenu, handleShowMenu }) => {
+export const Menu = ({ showMenu, handleShowMenu }) => {
 
+    // ===== STORE =====
     const user = useSelector( state => state.auth );
-    
     const dispatch = useDispatch();
 
-    const handleLogout = () => {
+    // ===== FUNCIONES PROPIAS =====
+    const handleLogout = useCallback(() => {
 
         dispatch( appLogout() );
 
-    }
+    },[])
 
-    const handleRefresh = () => {
+    const handleRefresh = useCallback(() => {
 
         removeFromLocalStorage( type.localStorage.insumos );
         dispatch( startLoadingInsumos() );
-    }
+
+    },[])
 
     useEffect( () => {
 
@@ -59,119 +65,126 @@ export const Menu = React.memo( ({ showMenu, handleShowMenu }) => {
                 animate__animated
             `}
         >
-            <li
-                className="
-                    flex flex-col
-                    pl-4 pr-6 py-4 mb-3
+            <MenuHeader
+                user={ user }
+                handleShowMenu={ handleShowMenu }
+                handleRefresh={ handleRefresh }
+            />
+
+            {MENU_ROUTES.map(( route, ind ) => (
+                
+                <RouteButton route={ route } index={ ind } />
+
+            ))}
+
+            <LogOut onClick={ handleLogout } />
+
+        </ul>
+    )
+}
+
+const RouteButton = React.memo(({ route, index }) => {
+    return (
+        <li
+            key={`${ route.name } - ${ index } `}
+            className={`
+                ${ index === 0 && 'border-t' }
+                border-b border-solid border-warmGray-300
+            `}
+        >
+            <NavLink
+                activeClassName="
+                    bg-warmGray-100 font-bold
                 "
-            >
-                <div
-                    className="
-                        flex items-center justify-between
-                    "
-                >
-                    <UserAvatar user={ user } />
-
-                    <button
-                        className="
-                            text-3xl text-warmGray-500
-                        "
-                        type="button"
-                        onClick={ handleRefresh }
-                    >
-                        <i className="fas fa-sync"></i>
-                    </button>
-                    
-
-                    <button
-                        className="
-                            text-5xl text-warmGray-700
-                        "
-                        type="button"
-                        onClick={ handleShowMenu }
-                    >
-                        <i className="fas fa-times"></i>
-                    </button>
-                </div>
-
-                <span
-                    className="
-                        text-left text-warmGray-500
-                        mt-4
-                    "
-                >{ user.name }</span>
-
-            </li>
-            <li
                 className="
-                    border-t border-solid border-warmGray-300
-                "
-            >
-                <NavLink
-                    className="
-                        text-base text-warmGray-400
-                        flex items-center
-                        w-full
-                    "
-                    activeClassName="
-                        text-warmGray-800 font-regular
-                    "
-                    to={ resumenDeComprasPath }
-                >
-                    <p
-                        className="
-                            flex-auto
-                            whitespace-nowrap
-                            px-4 py-4
-                        "
-                    >
-                        <i className="fas fa-store mr-2"></i>
-                        Mis compras
-                    </p>
-                </NavLink>
-            </li>
-            <li>
-                <NavLink
-                    className="
-                        font-light text-base text-warmGray-400
-                    "
-                    activeClassName="
-                        text-warmGray-800 font-regular
-                    "
-                    to={ misInsumosPath }
-                >
-                    <p
-                        className="
-                            whitespace-nowrap
-                            px-4 py-4
-                            border-t border-b border-solid border-warmGray-300
-                        "
-                    >
-                        <i className="fas fa-pepper-hot mr-2"></i>
-                         Mis insumos
-                    </p>
-                </NavLink>
-            </li>
-            <li
-                className="
-                    whitespace-nowrap
-                    fixed bottom-0
+                    text-base text-warmGray-800
+                    flex items-center
                     w-full
                 "
+                to={ route.to }
             >
-                <button
+                <p
                     className="
+                        flex-auto
+                        whitespace-nowrap
                         px-4 py-4
-                        w-full
-                        bg-warmGray-100
-                        text-warmGray-800 font-regular text-xl
                     "
-                    onClick={ handleLogout }
                 >
-                    <i className="fas fa-sign-out-alt mr-2"></i>
-                    Cerrar sesion
-                </button>
-            </li>
-        </ul>
+                    <i className={ route.icon }></i>
+                    { route.name }
+                </p>
+            </NavLink>
+        </li>
+    )
+})
+
+const MenuHeader = React.memo(({ user, handleRefresh, handleShowMenu }) => {
+    return (
+        <li
+            key="primer"
+            className="
+                flex flex-col
+                pl-4 pr-6 py-4 mb-3
+            "
+        >
+            <div
+                className="
+                    flex items-center justify-between
+                "
+            >
+                <UserAvatar user={ user } />
+
+                <RefreshButton
+                    isButton
+                    className="
+                        text-xl text-warmGray-300
+                    "
+                    onClick={ handleRefresh }
+                />
+                
+
+                <CloseButton
+                    isButton
+                    className="
+                        text-4xl text-warmGray-800
+                    "
+                    type="button"
+                    onClick={ handleShowMenu }
+                />
+            </div>
+
+            <span
+                className="
+                    text-left text-warmGray-500
+                    mt-4
+                "
+            >{ user.name }</span>
+
+        </li>
+    )
+})
+
+const LogOut = React.memo(({ onClick }) => {
+    return (
+        <li
+            key="ultimo"
+            className="
+                whitespace-nowrap
+                fixed bottom-0
+                w-full
+            "
+        >
+            <LogoutButton
+                isButton
+                text="Cerrar sesion"
+                className="
+                    px-4 py-4
+                    w-full
+                    bg-warmGray-100
+                    text-warmGray-600 font-regular text-xl
+                "
+                onClick={ onClick }
+            />
+        </li>
     )
 })

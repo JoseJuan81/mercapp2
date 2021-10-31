@@ -6,7 +6,7 @@ import { db } from "../firebase/firebase-config";
 
 import { endLoading, startLoading } from "./loadingAction";
 
-import { fetchInsumos } from "../helper/fetch";
+import { fetchDeleteInsumo, fetchInsumos } from "../helper/fetch";
 import { getFromLocalStorage, removeInsumoFromLocalStorage, setInLocalStorage } from "../helper/localStorage";
 import { updateArrayWithArray } from "../helper/updateArrayWithArray";
 import { updateItemInArrayByProp } from "../helper/updateItemInArrayByProp";
@@ -132,16 +132,18 @@ export const startLoadingInsumos = () => async ( dispatch, rootState ) => {
 
 export const startDeletingInsumos = ( id ) => async ( dispatch, rootState ) => {
 
-    const { uid } = rootState().auth;
+    dispatch( startLoading() );
 
     try {
-        
-        await db.doc( `${ uid }/app/insumos/${ id }` ).delete();
+
+        await fetchDeleteInsumo( id );
 
         dispatch( deleteInsumo( id ) );
         removeInsumoFromLocalStorage( id );
 
     } catch (error) {
         console.log( 'No fue posible eliminar el insumo', error );
+    } finally {
+        dispatch( endLoading() );
     }
 }

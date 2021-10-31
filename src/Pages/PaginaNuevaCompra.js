@@ -1,4 +1,4 @@
-import { equality, find, getPropertysValue } from 'functionallibrary';
+import { equality, find, getPropertysValue, isEmpty } from 'functionallibrary';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,7 +10,7 @@ import { Insumo } from '../components/Insumos/Insumo';
 import { DataList } from '../components/Form/DataList';
 
 import { misInsumosPath } from '../constant/routes';
-import { defaultEstablishment } from '../constant/defaults';
+import { DEFAULT_ESTABLISHMENT } from '../constant/defaults';
 
 import { PageLoading } from './PageLoading';
 
@@ -48,9 +48,10 @@ export const PaginaNuevaCompra = () => {
     const establishments = useSelector( state => state.establishments );
 
     // ===== STATE =====
-    const [selectedEstablisment, setSelectedEstablishment] = useState( { ...defaultEstablishment } );
+    const [selectedEstablisment, setSelectedEstablishment] = useState( DEFAULT_ESTABLISHMENT );
     const [insumosRouteModificated, setInsumosRouteModificated] = useState( activeBuyRoute );
     
+    // ===== FUNCIONES PROPIAS =====
     const handleChange = useCallback( ( e ) => {
 
         const value = getPropertysValue( 'value', e.target ) || '';
@@ -88,6 +89,16 @@ export const PaginaNuevaCompra = () => {
         setInsumosRouteModificated( newRoute );
 
     },[establishmentName])
+
+    useEffect(() => {
+
+        if ( isEmpty( selectedEstablisment ) ) {
+
+            setSelectedEstablishment( DEFAULT_ESTABLISHMENT );
+
+        }
+
+    },[selectedEstablisment])
 
     if ( loading ) {
         return <PageLoading />

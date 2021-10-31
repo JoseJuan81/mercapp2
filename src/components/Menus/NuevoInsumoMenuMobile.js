@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { resetForm, startCreateInsumo, startUpdateInsumo } from '../../actions/newInsumoAction';
+
 import { nuevaCompraPath } from '../../constant/routes';
+
+import { BackButton, CheckButton, CloseCircleButton } from '../Buttons/AppButtons';
 
 
 export const NuevoInsumoMenuMobile = () => {
@@ -18,7 +21,7 @@ export const NuevoInsumoMenuMobile = () => {
 
     const dispatch = useDispatch();
 
-    const handleOnClick = () => {
+    const handleOnClick = async () => {
         
         if ( isEditing ) {
 
@@ -27,6 +30,7 @@ export const NuevoInsumoMenuMobile = () => {
         } else {
         
             dispatch( startCreateInsumo( isBuyActive ) );
+
         }
     }
     
@@ -39,7 +43,7 @@ export const NuevoInsumoMenuMobile = () => {
 
         if ( isBuyActive ) {
 
-            history.push( `${ nuevaCompraPath }?establishment=${ establishmentName }` );
+            history.push( nuevaCompraPath );
         } else {
 
             history.goBack();
@@ -66,37 +70,26 @@ export const NuevoInsumoMenuMobile = () => {
             "
         >
 
-            <button
-                type="button"
+            <BackButton
+                isButton
                 className="
-                    btn-icon
                     flex items-center justify-center
                 "
                 onClick={ handleClickOnBack }
-            >
-                <i className="fas fa-chevron-left"></i>
-            </button>
+            />
 
-            <button
-                type="button"
+            <CloseCircleButton
+                isButton
                 className="
-                    icon-cancel-circle
-                    btn-icon
                     flex items-center justify-center
                 "
                 onClick={ handleResetInsumoForm }
-            >
-                <i className="far fa-times-circle"></i>
-            </button>
+            />
 
-            <button
-                type="button"
-                className="btn-icon"
-                title="Agregar"
+            <CheckButton
+                isButton
                 onClick={ handleOnClick }
-            >
-                <i className="fas fa-check"></i>
-            </button>
+            />
 
         </div>
     )

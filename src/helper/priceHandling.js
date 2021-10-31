@@ -1,14 +1,14 @@
 import { isEmpty, round } from 'functionallibrary';
 
-const twoDecimals = round(2);
+import { DEFAULT_OBJECT_PRICE } from '../constant/defaults';
 
-export const defaultObjectPrice = { name: '', value: 0 };
+const twoDecimals = round(2);
 
 export const priceFromObjectToArray = ( price ) => {
 
     if ( isEmpty(price) ) {
 
-        return [defaultObjectPrice];
+        return [DEFAULT_OBJECT_PRICE];
 
     } else {
 

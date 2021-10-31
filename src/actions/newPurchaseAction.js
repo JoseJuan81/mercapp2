@@ -51,6 +51,7 @@ export const setEstablishmentInBuy = ( name ) => dispatch => {
 export const loadSelectedInsumos = () => dispatch => {
 
     const allInsumos = getFromLocalStorage( type.localStorage.insumos ) || [];
+
     dispatch( selectedInsumos( allInsumos ) );
     dispatch( totalBuy() );
 }

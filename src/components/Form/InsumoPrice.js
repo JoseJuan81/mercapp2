@@ -1,12 +1,14 @@
 import { equality, find } from 'functionallibrary';
 import React, { useEffect, useState } from 'react';
 
-import { defaultEstablishment } from '../../constant/defaults';
+import { DEFAULT_ESTABLISHMENT } from '../../constant/defaults';
 
+import { AddButton, MinusButton } from '../Buttons/AppButtons';
 import { DataList } from './DataList';
 import { InputField } from './InputField';
 
 export const InsumoPrice = React.memo(({
+    index,
     establishments,
     name,
     price,
@@ -15,9 +17,9 @@ export const InsumoPrice = React.memo(({
     removePrice,
     showAddPrice,
 }) => {
-    
+
     // ===== STATE =====
-    const [selectedEstablisment, setSelectedEstablishment] = useState( defaultEstablishment );
+    const [selectedEstablisment, setSelectedEstablishment] = useState( DEFAULT_ESTABLISHMENT );
 
     // ===== FUNCIONES PROPIAS =====
     const handleOnChangeInput = ({ target }) => {
@@ -99,20 +101,18 @@ export const InsumoPrice = React.memo(({
 
             {showAddPrice
                 ?
-                    <button
-                        type="button"
+                    <AddButton
+                        isButton
                         className="
                             py-2 px-3 ml-4
                             text-warmGray-800 text-2xl
                             bg-warmGray-100
                         "
                         onClick={ addNewPrice }
-                    >
-                        <i className="fas fa-plus"></i>
-                    </button>
+                    />
                 :
-                    <button
-                        type="button"
+                    <MinusButton
+                        isButton
                         className="
                             icon-minus
                             py-2 px-3 ml-4
@@ -120,9 +120,7 @@ export const InsumoPrice = React.memo(({
                             bg-warmGray-100
                         "
                         onClick={ removePrice }
-                    >
-                        <i className="fas fa-minus"></i>
-                    </button>
+                    />
             }
         </div>
     )
