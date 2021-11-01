@@ -1,35 +1,47 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import { nuevaCompraPath } from '../../constant/routes';
+import { AddCircleButton, FilterButton, MergeButton, SeeDetailsButton } from '../Buttons/AppButtons';
 
 export const ResumenMenuMobile = () => {
+
+    // ===== STORE =====
+    const { selected } = useSelector( state => state.purchases );
+
+    // ===== VARIABLES LOCALES =====
+    const len = selected.length;
+    const isNotMergeable = len < 2;
+    const isDetails = len !== 1;
+
     return (
         <div
             className="
                 menu_mobile__container
-                grid-cols-3
+                grid-cols-4
             "
         >
 
-            <button
-                className="icon-search btn-icon"
-                title="Buscar"
-            ></button>
+            <FilterButton
+                isButton
+            />
 
-            <button
-                className="icon-filter btn-icon"
-                title="Filtrar"
-            ></button>
+            <MergeButton
+                isButton
+                disabled={ isNotMergeable }
+            />
 
-            <NavLink
+            <SeeDetailsButton
+                isButton
+                disabled={ isDetails }
+            />
+
+            <AddCircleButton
                 to={ nuevaCompraPath }
                 className="
-                    icon-plus
-                    btn-icon
                     flex items-center justify-center
                 "
-                title="Agregar"
-            ></NavLink>
+            />
 
         </div>
     )

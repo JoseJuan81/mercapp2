@@ -47,7 +47,9 @@ export const type = {
         updateQuantity: '[newPurchase] update quantity in insumo',
     },
     purchases: {
-        getAll: '[purchases] get all purchases'
+        getAll: '[purchases] get all purchases',
+        select: '[purchases] select a purchase',
+        unselect: '[purchases] unselect a purchase',
     },
     search: {
         showSearch: '[search] show search insumos field',

@@ -7,7 +7,7 @@ import { selectAllInsumosToBuy } from '../../actions/insumosAction';
 import { showSearchField, hideSearchAndFilterField, showFilterField } from '../../actions/searchAction';
 
 import { nuevaCompraPath, nuevoInsumoPath } from '../../constant/routes';
-import { AddCircleButton } from '../Buttons/AppButtons';
+import { AddCircleButton, CheckCircleButton, CheckFullFilledCircleButton, FilterButton, SearchButton, ShoppingCarButton } from '../Buttons/AppButtons';
 
 export const InsumosMenuMobile = React.memo(() => {
 
@@ -62,48 +62,32 @@ export const InsumosMenuMobile = React.memo(() => {
             "
         >
             
-            <button
-                className="btn-icon"
-                title="Seleccionar todo"
+            <CheckFullFilledCircleButton
+                isButton
                 onClick={ () => dispatch( selectAllInsumosToBuy( true ) ) }
-            >
-                <i className="fas fa-check-circle"></i>
-            </button>
+            />
 
-            <button
-                className="btn-icon"
-                title="Deseleccionar todo"
+            <CheckCircleButton
+                isButton
                 onClick={ () => dispatch( selectAllInsumosToBuy( false ) ) }
-            >
-                <i className="far fa-check-circle"></i>
-            </button>
+            />
 
-            <button
-                className="btn-icon"
-                title="Buscar"
+            <SearchButton
+                isButton
                 onClick={ toogleShowSearch }
-            >
-                <i className="fas fa-search"></i>
-            </button>
+            />
 
-            <button
-                className="btn-icon"
-                title="Filtrar"
-                onClick={ toogleShowFilter }
-            >
-                <i className="fas fa-filter"></i>
-            </button>
+            <FilterButton
+                isButton
+x                onClick={ toogleShowFilter }
+            />
 
-            <NavLink
+            <ShoppingCarButton
                 to={ nuevaCompraPath }
                 className="
-                    btn-icon
-                    flex items-center justify-center
                     relative
                 "
             >
-                <i className="fas fa-shopping-cart"></i>
-
                 { !isEmpty( selectedInsumos ) &&
                     <div
                         className="
@@ -116,7 +100,7 @@ export const InsumosMenuMobile = React.memo(() => {
                         "
                     >{ selectedInsumos.length }</div>
                 }
-            </NavLink>
+            </ShoppingCarButton>
 
             <AddCircleButton
                 to={ newInsumoRouteModificated }

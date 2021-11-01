@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { selectPurchase, unSelectPurchase } from '../../actions/purchasesAction';
 
 import { getDayInWord, getFormatDate } from '../../helper/dates';
 
@@ -120,6 +122,9 @@ export const PurchaseCard = ({ purchase }) => {
 
     const { closed, createdAt, establishmentName, insumos, total } = purchase;
 
+    // ===== STORE =====
+    const dispatch = useDispatch();
+
     // ===== STATE =====
     const [selected, setSelected] = useState(false);
 
@@ -127,6 +132,19 @@ export const PurchaseCard = ({ purchase }) => {
     const handleOnClick = () => {
         setSelected( s => !s );
     }
+
+    // ===== ACTUALIZAR EL STORE CADA VEZ QUE CAMBIE SELECTED =====
+    useEffect(() => {
+        
+        if ( selected ) {
+
+            dispatch( selectPurchase({ ...purchase, selected }) );
+        } else {
+            
+            dispatch( unSelectPurchase({ ...purchase, selected }) );
+        }
+
+    }, [selected, dispatch])
 
     return (
         <div

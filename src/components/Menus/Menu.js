@@ -58,10 +58,9 @@ export const Menu = ({ showMenu, handleShowMenu }) => {
                 hidden
                 fixed top-0 -right-3 z-50
                 bg-white
-                border-2 border-solid border-warmGray-300 rounded
-                w-full h-screen
+                border border-solid border-warmGray-300 rounded-xl
+                w-3/4 max-w-lg h-screen
                 mt-1
-                shadow
                 animate__animated
             `}
         >
@@ -155,7 +154,7 @@ const MenuHeader = React.memo(({ user, handleRefresh, handleShowMenu }) => {
 
             <span
                 className="
-                    text-left text-warmGray-500
+                    text-left text-warmGray-800
                     mt-4
                 "
             >{ user.name }</span>

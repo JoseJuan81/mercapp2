@@ -5,7 +5,7 @@ export const DefaultAvatar = React.memo(() => {
         <div
             className="
                 w-16 h-16
-                text-4xl text-warmGray-800
+                text-4xl text-warmGray-500
                 flex items-center justify-center
             "
         >
