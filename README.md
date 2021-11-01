@@ -1,3 +1,11 @@
+# MercApp2
+
+Esta es una aplicacion para facilitarnos el proceso de hacer compras de alimentos.
+La idea principal es saber que necesitamos comprar y cuanto nos costaria. En lugar de hacer una lista de cosas a comprar, solo necesitaras seleccionar lo que quieres y automaticamente conoceremos un precio referencial de la compra\
+
+En la medida que creas alimentos puedes definir el precio por establecimiento comercial, por ejemplo,
+si creaste el insumo `tomate` puedes decir que cuesta 1 en la `bodega a` y 1.15 en el `mercado b`. De esta manera, al crear una compra, defines el lugar al que compraras y automaticamente se establece el precio del insumo y se suma. Al final tendras un estimado del gasto.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
