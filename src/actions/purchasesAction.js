@@ -9,6 +9,16 @@ export const getAllPurchases = ( purchases ) => ({
     payload: purchases
 })
 
+export const selectPurchase = ( purchase ) => ({
+    type: type.purchases.select,
+    payload: purchase
+})
+
+export const unSelectPurchase = ( purchase ) => ({
+    type: type.purchases.unselect,
+    payload: purchase
+})
+
 /// ============= Acciones Asincronas ================= //
 export const startGettingPurchases = () => async ( dispatch ) => {
 

@@ -1,12 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const ByButton = React.memo( ({ children, onClick, className }) => {
+const ByButton = React.memo( ({ children, onClick, className, disabled }) => {
 
-    const localClass = className ? `btn-icon ${ className }` : 'btn-icon';
+    let localClass = className ? `btn-icon ${ className }` : 'btn-icon';
+    localClass = disabled ? `${ localClass } opacity-25 cursor-not-allowed` : localClass;
+
 
     return (
         <button
+            disabled={ disabled }
             className={ localClass }
             title="Deseleccionar todo"
             onClick={ onClick }
@@ -16,12 +19,14 @@ const ByButton = React.memo( ({ children, onClick, className }) => {
     )
 })
 
-const ByLink = React.memo( ({ children, to, className }) => {
+const ByLink = React.memo( ({ children, to, className, disabled }) => {
 
-    const localClass = className ? `${ className } btn-icon` : 'btn-icon';
+    let localClass = className ? `btn-icon ${ className }` : 'btn-icon';
+    localClass = disabled ? `${ localClass } opacity-25 cursor-not-allowed` : localClass;
 
     return (
         <NavLink
+            disabled={ disabled }
             to={ to }
             className={`
                 ${ localClass }
@@ -33,14 +38,14 @@ const ByLink = React.memo( ({ children, to, className }) => {
     )
 })
 
-export const BaseButton = React.memo(({ children, isButton = false, onClick, to, className }) => {
+export const BaseButton = React.memo(({ children, isButton = false, onClick, to, className, disabled = false }) => {
     return (
         <>
             {isButton
-                ? <ByButton onClick={ onClick } className={ className }>
+                ? <ByButton onClick={ onClick } className={ className } disabled={ disabled }>
                     { children }
                 </ByButton>
-                : <ByLink to={ to } className={ className }>
+                : <ByLink to={ to } className={ className } disabled={ disabled }>
                     { children }
                 </ByLink>
             }
@@ -99,6 +104,7 @@ export const CheckBoxSelected = React.memo(({ isButton, to, onClick, className }
         </BaseButton>
     )
 })
+
 export const CheckBox = React.memo(({ isButton, to, onClick, className }) => {
     return (
         <BaseButton
@@ -111,7 +117,12 @@ export const CheckBox = React.memo(({ isButton, to, onClick, className }) => {
         </BaseButton>
     )
 })
-export const CheckButton = React.memo(({ isButton, to, onClick, className }) => {
+
+export const CheckButton = React.memo(({ isButton, to, onClick, className, text }) => {
+    
+    const icon = 'fas fa-check';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
     return (
         <BaseButton
             className={ className }
@@ -119,7 +130,44 @@ export const CheckButton = React.memo(({ isButton, to, onClick, className }) => 
             isButton={ isButton }
             onClick={ onClick }
         >
-            <i className="fas fa-check"></i>
+            <i className={ buildClasses }></i>
+            { text }
+        </BaseButton>
+    )
+})
+
+export const CheckCircleButton = React.memo(({ isButton, to, onClick, className, text }) => {
+
+    const icon = 'far fa-check-circle';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+        </BaseButton>
+    )
+})
+
+export const CheckFullFilledCircleButton = React.memo(({ isButton, to, onClick, className, text }) => {
+
+    const icon = 'fas fa-check-circle';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
         </BaseButton>
     )
 })
@@ -242,6 +290,99 @@ export const LogoutButton = React.memo(({ isButton, to, onClick, className, text
         >
             <i className={ buildClasses }></i>
             { text }
+        </BaseButton>
+    )
+})
+
+export const FilterButton = React.memo(({ isButton, to, onClick, className, text }) => {
+
+    const icon = 'fas fa-filter';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+        </BaseButton>
+    )
+})
+
+export const SearchButton = React.memo(({ isButton, to, onClick, className, text }) => {
+
+    const icon = 'fas fa-search';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+        </BaseButton>
+    )
+})
+
+export const SeeDetailsButton = React.memo(({ isButton, to, onClick, className, text, disabled }) => {
+
+    const icon = 'far fa-eye';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            disabled={ disabled }
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+        </BaseButton>
+    )
+})
+
+export const MergeButton = React.memo(({ isButton, to, onClick, className, text, disabled }) => {
+
+    const icon = 'fas fa-code-branch';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            disabled={ disabled }
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+        </BaseButton>
+    )
+})
+
+export const ShoppingCarButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+
+    const icon = 'fas fa-shopping-cart';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+            { children }
         </BaseButton>
     )
 })

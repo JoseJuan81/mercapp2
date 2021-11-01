@@ -145,10 +145,14 @@ export const appLogout = () => dispatch => {
     }, 2000);
 
     setTimeout(() => {
+
         toast.dismiss( toastLogoutId );
         toast.success( type.notificationMessages.bye );
-    }, 2000)
-    setTimeout(() => {
-        toast.dismiss();
+
+        const toastScoped = toast;
+        setTimeout(() => {
+            toastScoped.dismiss();
+        }, 2000)
+
     }, 2000)
 }
