@@ -7,7 +7,7 @@ import { Menu } from './Menus/Menu.js';
 import { BackButton } from './Buttons/AppButtons.js';
 
 import { pageTitles } from '../constant/pageTitles';
-import { nuevaCompraPath } from '../constant/routes.js';
+import { detalleComprasPath, mezclarComprasPath, nuevaCompraPath, resumenDeComprasPath } from '../constant/routes.js';
 
 const AppName = React.memo( () => {
     return (
@@ -58,6 +58,18 @@ const BuyPageButton = React.memo( () => {
             to={ nuevaCompraPath }
         />
     )
+});
+
+const BackToPurchases = React.memo( () => {
+    return (
+        <BackButton
+            className="
+                btn-icon
+                flex items-center justify-center
+            "
+            to={ resumenDeComprasPath }
+        />
+    )
 })
 
 export const NavBar = () => {
@@ -73,6 +85,8 @@ export const NavBar = () => {
     const [pageTitle, setPageTitle] = useState( '' );
     const [showMenu, setShowMenu] = useState( false );
     const [isBuyActive, setIsBuyActive] = useState( false );
+    const [isMergingPurchases, setIsMergingPurchases] = useState( false );
+    const [isPurchaseDetail, setIsPurchaseDetail] = useState( false );
 
     // ===== FUNCIONES PROPIAS =====
     const handleShowMenu = useCallback( ({ target }) => {
@@ -92,10 +106,12 @@ export const NavBar = () => {
 
     },[])
 
-    // ESTABLECER EL TITULO DE LA PAGINA
+    // ESTABLECER VALORES EN FUNCION DE LA URL
     useEffect( () => {
  
         setPageTitle( pageTitles[pathname] || null );
+        setIsMergingPurchases( pathname.includes( mezclarComprasPath ) );
+        setIsPurchaseDetail( pathname.includes( detalleComprasPath ) );
 
     }, [pathname]);
 
@@ -116,6 +132,8 @@ export const NavBar = () => {
             "
         >
             {isBuyActive && <BuyPageButton />}
+            {isMergingPurchases && <BackToPurchases />}
+            {isPurchaseDetail && <BackToPurchases />}
 
             <AppName />
 

@@ -4,6 +4,7 @@ import { type } from "../constant/type";
 
 import { fetchCreatePurchase } from "../helper/fetch";
 import { getFromLocalStorage, removeFromLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
+import { NotificationError, NotificationSuccess } from "../helper/toast";
 
 import { selectAllInsumosToBuy } from "./insumosAction";
 import { endLoading, startLoading } from "./loadingAction";
@@ -93,7 +94,10 @@ export const startCreatingPurchase = () => async ( dispatch, rootState ) => {
 
         removeFromLocalStorage( type.localStorage.purchases );
 
+        NotificationSuccess( type.notificationMessages.newPurchaseCreated );
+        
     } catch (error) {
+        NotificationError( type.notificationMessages.newPurchaseCreatedError );
         console.log('Error: creando nueva compra')
     } finally {
 
@@ -118,6 +122,8 @@ export const removeInsumoFromPurchase = ( insumoId ) => async ( dispatch, rooSta
     const insumos = getFromLocalStorage( type.localStorage.insumos );
     const thisInsumo = find( equality( 'id', insumoId ), insumos );
     updateInsumoInLocalStorage({ ...thisInsumo, quantity: 0, selected: false });
+
+    NotificationSuccess( type.notificationMessages.newPurchaseInsumoRemoved );
 
     dispatch( endLoading() );
 

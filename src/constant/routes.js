@@ -5,3 +5,6 @@ export const misInsumosPath = '/mis-insumos';
 export const nuevoInsumoPath = '/nuevo-insumo';
 export const editarInsumoPath = '/actualizar-insumo';
 export const resumenDeComprasPath = '/mis-compras';
+export const detalleComprasPath = '/mi-compra';
+export const mezclarComprasPath = '/mezclar-compras';
+export const detalleInsumoPath = '/mi-insumo/detalle';

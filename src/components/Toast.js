@@ -111,7 +111,7 @@ export const Toast = () => {
             pauseOnFocusLoss
             pauseOnHover
             position="top-right"
-            autoClose={2000}
+            autoClose={3500}
             hideProgressBar={false}
             newestOnTop={false}
             rtl={false}
