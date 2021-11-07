@@ -28,7 +28,17 @@ export const type = {
         bye: '👋 Vuelve pronto ✌🏽',
         logout: '🥺 Cerrando sesion...',
         login: '🕙 Iniciando sesion',
-        welcome: '🎉 Bienvenido !!!'
+        insumosLoaded: '✅ Insumos cargados',
+        insumoUpdated: '😉 Insumo actualizado con exito 👍🏽',
+        insumoUpdatedError: '😱 Error al actualizar insumo 😳',
+        newInsumoCreated: '🎉 Insumo creado con exito 🎉',
+        newInsumoCreatedError: '😱 Error al crear insumo 😳',
+        newPurchaseCreated: '🎉 Compra creada con exito 🎉',
+        newPurchaseInsumoRemoved: '✅ Insumo removido de la compra con exito 👍🏽',
+        newPurchaseCreatedError: '😱 Error al crear compra 😳',
+        purchasesLoaded: '✅ Compras cargadas',
+        purchasesLoadedError: '😱 Error cargar las compras 😳',
+        welcome: '🎉 Bienvenido !!!',
     },
     newInsumo: {
         fill: '[new Insumo] filling form',

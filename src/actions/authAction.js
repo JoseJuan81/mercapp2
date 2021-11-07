@@ -7,7 +7,6 @@ import toast from '../helper/toast';
 import { type } from '../constant/type';
 
 import { endLoading, startLoading } from './loadingAction';
-import { GoodbyeNotification, LoginNotification, LogoutNotification, WelcomeNotification } from '../components/Toast';
 
 /// ============= Acciones sincronas ================= //
 export const login = ( userData ) => ({

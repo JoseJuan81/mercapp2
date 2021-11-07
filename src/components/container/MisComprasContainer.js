@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { PaginaResumenCompras } from '../../Pages/PaginaResumenCompras.js';
-import { ResumenMenuMobile } from '../Menus/ResumenMenuMobile.js';
+import { MisComprasMenuMobile } from '../Menus/MisComprasMenuMobile.js';
 
 export const MisComprasContainer = () => {
     return (
@@ -10,7 +10,7 @@ export const MisComprasContainer = () => {
         >
             <PaginaResumenCompras />
 
-            <ResumenMenuMobile />
+            <MisComprasMenuMobile />
         </div>
     )
 }

@@ -7,10 +7,10 @@ import { setInsumoToUpdate } from '../../actions/newInsumoAction';
 import { removeInsumoFromPurchase } from '../../actions/newPurchaseAction';
 
 import { editarInsumoPath } from '../../constant/routes';
-import { EditButton, LeftCircleButton, TrashButton } from '../Buttons/AppButtons';
+import { EditButton, LeftCircleButton, SeeDetailsButton, TrashButton } from '../Buttons/AppButtons';
 
 export const InsumoBaseActions = React.memo( ({ id }) => {
-    
+
     // ===== NAVIGATION =====
     const history = useHistory();
 
@@ -34,13 +34,13 @@ export const InsumoBaseActions = React.memo( ({ id }) => {
         setToogle( false );
     },[])
     
-    const handleUpdateInsumo = useCallback(( ev ) => {
+    const handleUpdateInsumo = ( ev ) => {
         ev.stopPropagation();
 
         dispatch( setInsumoToUpdate( id ) );
 
         history.push( `${ editarInsumoPath }/${ id }` );
-    },[])
+    }
 
     return (
         <div
@@ -49,7 +49,7 @@ export const InsumoBaseActions = React.memo( ({ id }) => {
                 h-10
                 bg-warmGray-100
                 flex
-                transform ${ toogle ? 'translate-x-1' : 'translate-x-28' }
+                transform ${ toogle ? 'translate-x-1' : 'translate-x-40' }
                 border border-solid ${ toogle ? 'border-warmGray-200' : 'border-white' }
                 rounded-l-full
                 duration-300
@@ -72,10 +72,18 @@ export const InsumoBaseActions = React.memo( ({ id }) => {
 
             <div
                 className="
-                    grid grid-cols-2 gap-2
+                    grid grid-cols-3 gap-2
                     px-2
                 "
             >
+                <SeeDetailsButton
+                    className="
+                        px-2
+                        text-xl text-warmGray-800
+                    "
+                    to=""
+                />
+
                 <EditButton
                     isButton
                     className="

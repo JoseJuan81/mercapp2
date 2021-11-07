@@ -2,11 +2,14 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import {
+    detalleComprasPath,
+    detalleInsumoPath,
+    editarInsumoPath,
+    mezclarComprasPath,
     misInsumosPath,
     nuevaCompraPath,
     nuevoInsumoPath,
     resumenDeComprasPath,
-    editarInsumoPath,
 } from '../constant/routes';
 
 import { MisComprasContainer } from '../components/Container/MisComprasContainer.js';
@@ -14,6 +17,9 @@ import { MisInsumosContainer } from '../components/Container/MisInsumosContainer
 import { NuevaCompraContainer } from '../components/Container/NuevaCompraContainer.js';
 import { NuevoInsumoContainer } from '../components/Container/NuevoInsumoContainer.js';
 import { NavBar } from '../components/NavBar.js';
+import { DetalleCompraContainer } from '../components/Container/DetalleCompraContainer';
+import { MezclarComprasContainer } from '../components/Container/MezclarComprasContainer';
+import { DetalleInsumoContainer } from '../components/Container/DetalleInsumoContainer';
 
 export const AppRoutes = () => {
 
@@ -49,10 +55,28 @@ export const AppRoutes = () => {
                         <NuevoInsumoContainer />
 
                     </Route>
+
+                    <Route exact path={ `${ detalleInsumoPath }/:id` }>
+
+                        <DetalleInsumoContainer />
+
+                    </Route>
+
+                    <Route exact path={ mezclarComprasPath }>
+
+                        <MezclarComprasContainer />
+
+                    </Route>
                     
                     <Route exact path={ `${ editarInsumoPath }/:id` }>
 
                         <NuevoInsumoContainer />
+
+                    </Route>
+
+                    <Route exact path={ `${ detalleComprasPath }/:id` }>
+
+                        <DetalleCompraContainer />
 
                     </Route>
 

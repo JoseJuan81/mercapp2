@@ -1,6 +1,7 @@
 import { type } from "../constant/type"
 import { fetchAllPurchases } from "../helper/fetch";
 import { getFromLocalStorage, setInLocalStorage } from "../helper/localStorage";
+import { NotificationError, NotificationSuccess } from "../helper/toast";
 import { endLoading, startLoading } from "./loadingAction";
 
 /// ============= Acciones sincronas ================= //
@@ -39,7 +40,10 @@ export const startGettingPurchases = () => async ( dispatch ) => {
             setInLocalStorage( type.localStorage.purchases, response.data );
         }
 
+        // NotificationSuccess( type.notificationMessages.purchasesLoaded );
+
     } catch (error) {
+        NotificationError( type.notificationMessages.purchasesLoadedError );
         console.log('Error: no se pudieron obtener las compras');
     } finally {
         dispatch( endLoading() );

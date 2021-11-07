@@ -7,6 +7,7 @@ import { endLoading, startLoading } from "./loadingAction";
 import { getFromLocalStorage, setInLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
 import { priceFromArrayToObject } from "../helper/priceHandling";
 import { fetchCreateInsumo, fetchInsumo, fetchUpdateInsumo } from "../helper/fetch";
+import toast, { NotificationError, NotificationSuccess } from "../helper/toast";
 
 import { type } from "../constant/type";
 
@@ -72,11 +73,14 @@ export const startCreateInsumo = ( isSelected, redirect ) => async ( dispatch, r
         const insumoCreated = setNewProperty('selected', !!isSelected, response.data );
         dispatch( addInsumoToState( insumoCreated ) );
         setInLocalStorage( type.localStorage.insumos, [insumoCreated, ...allInsumos] );
-    
+
+        toast.success( type.notificationMessages.newInsumoCreated );
+
         dispatch ( resetForm() );
 
     } catch (error) {
 
+        toast.success( type.notificationMessages.newInsumoCreated );
         console.error( 'Error al crear insumo ', error);
 
     } finally {
@@ -95,10 +99,13 @@ export const startLoadingInsumoData = ( id ) => async ( dispatch ) => {
 
         const { data } = await fetchInsumo( id );
         dispatch( updatingInsumo( { ...data } ) );
+
+        NotificationSuccess( type.notificationMessages.insumosLoaded );
         
     } catch(err) {
 
         dispatch( updatingInsumo({}) );
+        NotificationError( err );
         console.log('Error al obtener data del insumo', err);
 
     } finally {
@@ -123,11 +130,15 @@ export const startUpdateInsumo = () => async ( dispatch, rootState ) => {
         const insumoUpdated = response.data;
     
         dispatch( updateInsumoInState( { ...insumoUpdated, selected } ) );
-        dispatch ( resetForm() );
-        
-        updateInsumoInLocalStorage( { ...insumoUpdated, selected } );
-    } catch (error) {
 
+        dispatch ( resetForm() );
+        updateInsumoInLocalStorage( { ...insumoUpdated, selected } );
+
+        NotificationSuccess( type.notificationMessages.insumoUpdated );
+        
+    } catch (error) {
+        
+        NotificationError( type.notificationMessages.insumoUpdatedError );
         console.log( 'Error al actualizar insumo: ', data.name, error );
     } finally {
 

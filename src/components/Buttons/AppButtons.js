@@ -53,9 +53,10 @@ export const BaseButton = React.memo(({ children, isButton = false, onClick, to,
     )
 })
 
-export const AddCircleButton = React.memo(({ isButton, to, onClick, className }) => {
+export const AddCircleButton = React.memo(({ isButton, to, onClick, className, disabled }) => {
     return (
         <BaseButton
+            disabled={ disabled }
             className={ className }
             to={ to }
             isButton={ isButton }
