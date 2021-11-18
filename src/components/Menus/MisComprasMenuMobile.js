@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { isEmpty } from 'functionallibrary';
 
 import { detalleComprasPath, mezclarComprasPath, nuevaCompraPath } from '../../constant/routes';
 import { AddCircleButton, FilterButton, MergeButton, SeeDetailsButton } from '../Buttons/AppButtons';
@@ -16,7 +15,7 @@ export const MisComprasMenuMobile = () => {
 
     // ===== VARIABLES LOCALES =====
     const len = selected.length;
-    const isAddable = len !== 0;
+    const isAddable = len === 0;
     const isMergeable = len > 1;
     const isDetails = len === 1;
 

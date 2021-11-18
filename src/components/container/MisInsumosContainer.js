@@ -9,7 +9,7 @@ import { startLoadingInsumos } from '../../actions/insumosAction';
 import { PaginaInsumos } from '../../Pages/PaginaInsumos.js'
 import { BigAddButton } from '../Buttons/BigAddButton.js';
 import { InsumosMenuMobile } from '../Menus/InsumosMenuMobile.js';
-import { PageLoading } from '../../Pages/PageLoading';
+import { PaginaLoading } from '../../Pages/PaginaLoading';
 
 const AddButton = ({ path }) => {
     return (
@@ -46,7 +46,7 @@ export const MisInsumosContainer = () => {
     }, []);
 
     if ( loading ) {
-        return <PageLoading />
+        return <PaginaLoading />
     }
 
     return (

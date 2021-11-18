@@ -56,12 +56,6 @@ export const AppRoutes = () => {
 
                     </Route>
 
-                    <Route exact path={ `${ detalleInsumoPath }/:id` }>
-
-                        <DetalleInsumoContainer />
-
-                    </Route>
-
                     <Route exact path={ mezclarComprasPath }>
 
                         <MezclarComprasContainer />
@@ -77,6 +71,12 @@ export const AppRoutes = () => {
                     <Route exact path={ `${ detalleComprasPath }/:id` }>
 
                         <DetalleCompraContainer />
+
+                    </Route>
+
+                    <Route path={ detalleInsumoPath }>
+
+                        <DetalleInsumoContainer />
 
                     </Route>
 

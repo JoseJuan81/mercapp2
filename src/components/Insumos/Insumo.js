@@ -1,10 +1,12 @@
 import { setNewProperty } from 'functionallibrary';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { selectInsumoToBuy } from '../../actions/insumosAction';
+import { updateInsumoPriceOnBuying } from '../../actions/newPurchaseAction';
 
-import { BasketButton } from '../Buttons/AppButtons';
+import { SeeDetailsButton } from '../Buttons/AppButtons';
 import { InsumoEtiquetas } from './InsumoEtiquetas';
 import { InsumoTitle } from './InsumoTitle';
 import { InsumoPrice } from './InsumoPrice';
@@ -12,22 +14,25 @@ import { InsumoTotal } from './InsumoTotal';
 import { InsumoQuantity } from './InsumoQuantity';
 import { InsumoBaseActions, InsumoActions } from './InsumoActions';
 
-export const Insumo = React.memo( ({ insumo, establishment }) => {
+import { detalleInsumoPath } from '../../constant/routes';
 
+export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
+
+    // ===== STORE =====
+    const dispatch = useDispatch();
+
+    // ===== VARIABLES LOCALES =====
     const { currency, labels, id, name: title, price: priceObject, quantity } = insumo;
     const price = priceObject[establishment.toLowerCase()] || 0;
 
-    const dispatch = useDispatch();
-
+    // ===== STATE =====
     const [total, setTotal] = useState( price );
 
+    // ===== FUNCIONES LOCALES =====
+    const onChangePrice = ( e ) => {
+        const { value } = e.target;
 
-    const handleClickOnInsumo = (ins) => {
-
-        dispatch({
-            type: 'toogle',
-            payload: setNewProperty('checked', !ins.checked, ins)
-        });
+        dispatch( updateInsumoPriceOnBuying({ id: insumo.id, newPrice: value }) );
     }
 
     return (
@@ -38,7 +43,6 @@ export const Insumo = React.memo( ({ insumo, establishment }) => {
                 rounded-lg
                 border border-solid border-warmGray-300
             `}
-            onClick={ () => handleClickOnInsumo(insumo) }
         >
 
             <div className="flex p-2 overflow-hidden relative">
@@ -54,6 +58,8 @@ export const Insumo = React.memo( ({ insumo, establishment }) => {
             <InsumoPrice
                 currency={ currency }
                 price={ price }
+                onChange={ onChangePrice }
+                id={ id }
             />
 
             {labels && labels.length > 0 &&
@@ -89,15 +95,39 @@ export const Insumo = React.memo( ({ insumo, establishment }) => {
 
 export const InsumoBase = React.memo( ({ insumo }) => {
 
+    // ===== NAVIGATION =====
+    const history = useHistory();
+
+    // ===== STORE =====
     const dispatch = useDispatch();
 
+    // ===== VARIABLES LOCALES =====
     const { selected, labels, id, name: title } = insumo;
 
-    const handleSelecting = () => {
+    // ===== STATE =====
+    const [insumoDetailsPage, setInsumoDetailsPage] = useState('');
+
+    const handleSelecting = (ev) => {
 
         const selectedInsumo = setNewProperty( 'selected', !selected, insumo );
         dispatch( selectInsumoToBuy( selectedInsumo ) );
     }
+
+    const handleClickOninsumoDetails = ( ev ) => {
+        ev.stopPropagation();
+        
+        history.push( insumoDetailsPage );
+    }
+
+    // construir ruta para detalle de insumo
+    useEffect(() => {
+
+        const insumoId = '?insumoId=' + id;
+        const insumoData = '&prices=true';
+        const query = insumoId + insumoData;
+        setInsumoDetailsPage( detalleInsumoPath + query );
+
+    }, [id])
 
     return (
         <div
@@ -108,7 +138,7 @@ export const InsumoBase = React.memo( ({ insumo }) => {
                 rounded-lg ${selected && 'shadow-xl'}
                 border border-solid ${selected ? 'border-lime-400' : 'border-warmGray-300'}
             `}
-            onClick={ () => {} }
+            onClick={ handleSelecting }
         >
 
             <div className="flex items-center p-2 pr-10 overflow-hidden relative">
@@ -122,17 +152,19 @@ export const InsumoBase = React.memo( ({ insumo }) => {
 
                 </div>
 
-                <BasketButton
-                    isButton
-                    className={`
-                        rounded-full
-                        w-10 h-10
-                        mr-2
-                        text-base ${ selected ? 'text-lime-500' : 'text-warmGray-800' }
-                        ${ selected? 'bg-lime-50' : 'bg-warmGray-100' }
-                    `}
-                    onClick={ handleSelecting }
-                />
+                {id &&
+                    <SeeDetailsButton
+                        isButton
+                        className={`
+                            rounded-full
+                            w-10 h-10
+                            mr-2
+                            text-base ${ selected ? 'text-lime-500' : 'text-warmGray-800' }
+                            ${ selected? 'bg-lime-50' : 'bg-warmGray-100' }
+                        `}
+                        onClick={ handleClickOninsumoDetails }
+                    />
+                }
 
                 <InsumoBaseActions id={ id } />
 

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export const BigAddButton = React.memo( ({ to, title }) => {
-    console.log('BigAddButton')
+
     return (
         <NavLink
             data-cy="BigAddButton"

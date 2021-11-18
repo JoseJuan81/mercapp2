@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const PageDetalleCompra = () => {
+export const PaginaDetalleCompra = () => {
     return (
         <div>
             Detalle de compra

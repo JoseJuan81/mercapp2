@@ -6,13 +6,13 @@ import { loadSelectedInsumos, setEstablishmentInBuy } from '../actions/newPurcha
 import { loadEstablishments } from '../actions/establishmentAction';
 
 import { BigAddButton } from '../components/Buttons/BigAddButton';
-import { Insumo } from '../components/Insumos/Insumo';
+import { InsumoToBuy } from '../components/Insumos/Insumo';
 import { DataList } from '../components/Form/DataList';
 
 import { misInsumosPath } from '../constant/routes';
 import { DEFAULT_ESTABLISHMENT } from '../constant/defaults';
 
-import { PageLoading } from './PageLoading';
+import { PaginaLoading } from './PaginaLoading';
 
 
 // ===== VARIABLES CONSTANTES =====
@@ -55,7 +55,6 @@ export const PaginaNuevaCompra = () => {
     const handleChange = useCallback( ( e ) => {
 
         const value = getPropertysValue( 'value', e.target ) || '';
-
         dispatch( setEstablishmentInBuy( value ) );
 
     },[])
@@ -66,16 +65,23 @@ export const PaginaNuevaCompra = () => {
         dispatch( loadEstablishments() );
         dispatch( loadSelectedInsumos() );
 
-    }, []);
+    }, [dispatch]);
 
     // obtener el objeto establecimiento a partir del nombre del establecimiento
     useEffect( () => {
 
-        const selected = find( equality( 'value', establishmentName.toLowerCase() ), establishments ) || {};
+        if ( establishmentName ) {
 
-        setSelectedEstablishment( selected )
+            const name = establishmentName.toLowerCase();
+            const selected = find( equality( 'value', name ), establishments ) || { value: name, label: name };
+    
+            setSelectedEstablishment( selected );
+        } else if ( !establishmentName && selectedEstablisment.value ) {
 
-    }, [establishmentName, establishments])
+            setSelectedEstablishment( DEFAULT_ESTABLISHMENT );
+        }
+
+    }, [establishmentName, establishments, selectedEstablisment.value])
 
     // modificar la url en funcion del establecimiento seleccionado
     useEffect( () => {
@@ -90,6 +96,7 @@ export const PaginaNuevaCompra = () => {
 
     },[establishmentName])
 
+    // etablecer el objeto establecimiento por defecto cuando el usuario borra datos del campo
     useEffect(() => {
 
         if ( isEmpty( selectedEstablisment ) ) {
@@ -101,7 +108,7 @@ export const PaginaNuevaCompra = () => {
     },[selectedEstablisment])
 
     if ( loading ) {
-        return <PageLoading />
+        return <PaginaLoading />
     }
 
     return (
@@ -110,11 +117,25 @@ export const PaginaNuevaCompra = () => {
                 grid gap-3
                 self-start
                 w-full
-                px-2 pb-2
+                px-2 pb-2 pt-20
             "
         >
-            <form>
-                <fieldset className="flex items-center justify-between">
+            <form
+                className="
+                    fixed top-16 left-0 z-10
+                    bg-white
+                    w-full
+                    px-2 pb-3 pt-5
+                    flex items-center
+                "
+                onSubmit={ (e) => e.preventDefault() }
+            >
+                <fieldset
+                    className="
+                        flex items-center justify-between
+                        w-full
+                    "
+                >
                     <DataList
                         autoFocus
                         placeholder="seleccione..."
@@ -128,7 +149,7 @@ export const PaginaNuevaCompra = () => {
             </form>
 
             {insumos.map(( insumo, ind ) => (
-                <Insumo
+                <InsumoToBuy
                     key={ `${ insumo.id } - ${ ind }` }
                     insumo={ insumo }
                     establishment={ establishmentName }

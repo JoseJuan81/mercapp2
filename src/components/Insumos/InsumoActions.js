@@ -6,7 +6,7 @@ import { startDeletingInsumos } from '../../actions/insumosAction';
 import { setInsumoToUpdate } from '../../actions/newInsumoAction';
 import { removeInsumoFromPurchase } from '../../actions/newPurchaseAction';
 
-import { editarInsumoPath } from '../../constant/routes';
+import { detalleInsumoPath, editarInsumoPath } from '../../constant/routes';
 import { EditButton, LeftCircleButton, SeeDetailsButton, TrashButton } from '../Buttons/AppButtons';
 
 export const InsumoBaseActions = React.memo( ({ id }) => {
@@ -19,12 +19,15 @@ export const InsumoBaseActions = React.memo( ({ id }) => {
 
     // ===== STATE =====
     const [toogle, setToogle] = useState(false);
+    // const [insumoDetailsPage, setInsumoDetailsPage] = useState('');
 
     // ===== FUNCIONES PROPIEAS =====
-    const handleClick = useCallback(( ev ) => {
+    const handleClickOnActionMenu = useCallback(( ev ) => {
         ev.stopPropagation();
 
         setToogle( s => !s );
+        // setInsumoDetailsPage( `${ detalleInsumoPath }/${ id }` );
+
     },[])
 
     const handleDeleteInsumo = useCallback(( ev ) => {
@@ -49,7 +52,7 @@ export const InsumoBaseActions = React.memo( ({ id }) => {
                 h-10
                 bg-warmGray-100
                 flex
-                transform ${ toogle ? 'translate-x-1' : 'translate-x-40' }
+                transform ${ toogle ? 'translate-x-1' : 'translate-x-28' }
                 border border-solid ${ toogle ? 'border-warmGray-200' : 'border-white' }
                 rounded-l-full
                 duration-300
@@ -67,22 +70,15 @@ export const InsumoBaseActions = React.memo( ({ id }) => {
                     border border-solid border-warmGray-200
                     duration-300
                 `}
-                onClick= { handleClick }
+                onClick= { handleClickOnActionMenu }
             />
 
             <div
                 className="
-                    grid grid-cols-3 gap-2
+                    grid grid-cols-2 gap-2
                     px-2
                 "
             >
-                <SeeDetailsButton
-                    className="
-                        px-2
-                        text-xl text-warmGray-800
-                    "
-                    to=""
-                />
 
                 <EditButton
                     isButton
@@ -120,7 +116,7 @@ export const InsumoActions = React.memo( ({ id }) => {
     const [toogle, setToogle] = useState(false);
 
     // ===== FUNCIONES PROPIEAS =====
-    const handleClick = useCallback(( ev ) => {
+    const handleClickOnActionMenu = useCallback(( ev ) => {
         ev.stopPropagation();
 
         setToogle( s => !s );
@@ -165,7 +161,7 @@ export const InsumoActions = React.memo( ({ id }) => {
                     border border-solid border-warmGray-200
                     duration-300
                 `}
-                onClick= { handleClick }
+                onClick= { handleClickOnActionMenu }
             />
 
             <div

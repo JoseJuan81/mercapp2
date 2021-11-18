@@ -1,12 +1,14 @@
 import React from 'react';
 
 import { PaginaDetalleInsumo } from '../../Pages/PaginaDetalleInsumo';
+import { DetalleInsumoMenuMobile } from '../Menus/DetalleInsumoMenuMobile';
 
 export const DetalleInsumoContainer = () => {
     return (
         <div>
-            Container 
             <PaginaDetalleInsumo />
+
+            <DetalleInsumoMenuMobile />
         </div>
     )
 }

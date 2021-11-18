@@ -7,4 +7,4 @@ export const editarInsumoPath = '/actualizar-insumo';
 export const resumenDeComprasPath = '/mis-compras';
 export const detalleComprasPath = '/mi-compra';
 export const mezclarComprasPath = '/mezclar-compras';
-export const detalleInsumoPath = '/mi-insumo/detalle';
+export const detalleInsumoPath = '/insumo/detalle';
