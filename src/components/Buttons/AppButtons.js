@@ -387,3 +387,60 @@ export const ShoppingCarButton = React.memo(({ children, isButton, to, onClick, 
         </BaseButton>
     )
 })
+
+export const InfoButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+
+    const icon = 'fas fa-info';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+            { children }
+        </BaseButton>
+    )
+})
+
+export const MoneyHandButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+
+    const icon = 'fas fa-hand-holding-usd';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+            { children }
+        </BaseButton>
+    )
+})
+
+export const PriceStatisticsButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+
+    const icon = 'fas fa-chart-line';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+            { children }
+        </BaseButton>
+    )
+})

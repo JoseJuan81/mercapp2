@@ -9,8 +9,8 @@ import { startLoadingInsumoData } from '../actions/newInsumoAction';
 import { InsumoForm } from '../components/Form/InsumoForm';
 import { editarInsumoPath } from '../constant/routes';
 import { extractIdFromPathName } from '../helper/route';
-import { PageLoading } from './PageLoading';
-import { PageNotAuthorized } from './PageNotAuthorized';
+import { PaginaLoading } from './PaginaLoading';
+import { PaginaNotAuthorized } from './PaginaNotAuthorized';
 
 export const PaginaNuevoInsumo = () => {
 
@@ -47,13 +47,13 @@ export const PaginaNuevoInsumo = () => {
     }, [dispatch, insumoId, isEditing, name]);
 
     if ( loading ) {
-        return <PageLoading />
+        return <PaginaLoading />
     }
 
     return (
         <>
             {isEditing && isEmpty( getPropertysValue( 'name', data ) )
-                ? <PageNotAuthorized />
+                ? <PaginaNotAuthorized />
                 : (
                     <div
                         className="

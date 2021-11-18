@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import { resumenDeComprasPath } from '../constant/routes';
 
-export const PageNotAuthorized = () => {
+export const PaginaNotAuthorized = () => {
 
     return (
         <div

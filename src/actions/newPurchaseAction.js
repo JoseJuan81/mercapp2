@@ -4,7 +4,8 @@ import { type } from "../constant/type";
 
 import { fetchCreatePurchase } from "../helper/fetch";
 import { getFromLocalStorage, removeFromLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
-import { NotificationError, NotificationSuccess } from "../helper/toast";
+import { NotificationError, NotificationInfo, NotificationSuccess } from "../helper/toast";
+import { updateItemInArrayByProp } from "../helper/updateItemInArrayByProp";
 
 import { selectAllInsumosToBuy } from "./insumosAction";
 import { endLoading, startLoading } from "./loadingAction";
@@ -77,6 +78,23 @@ export const clearInsumosToBuy = () => dispatch => {
 
         dispatch( endLoading() );
     }, 700)
+}
+
+export const updateInsumoPriceOnBuying = ({ id, newPrice }) => ( dispatch, rooState ) => {
+
+    const { newPurchase } = rooState();
+    const { establishmentName, insumos } = newPurchase;
+
+    if ( establishmentName ) {
+
+        const insumoToUpdate = find( equality( 'id', id ), insumos );
+        const insumoUpdated = { ...insumoToUpdate, price: { ...insumoToUpdate.price, [establishmentName.toLowerCase()]: Number( newPrice ) } };
+        const insumosToBuyUpdated = updateItemInArrayByProp('id', insumoUpdated, insumos);
+        dispatch( updateNewPurchase( { ...newPurchase, insumos: insumosToBuyUpdated } ) );
+        dispatch( totalBuy() );
+    } else {
+        NotificationInfo( type.notificationMessages.newPurchaseNoEstablishmentError );
+    }
 }
 
 /// ============= Acciones Asincronas ================= //

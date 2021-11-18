@@ -1,11 +1,11 @@
 import React from 'react'
-import { PageDetalleCompra } from '../../Pages/PageDetalleCompra'
+import { PaginaDetalleCompra } from '../../Pages/PaginaDetalleCompra'
 
 export const DetalleCompraContainer = () => {
     return (
         <div>
             Container
-            <PageDetalleCompra />
+            <PaginaDetalleCompra />
         </div>
     )
 }

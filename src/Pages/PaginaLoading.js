@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const PageLoading = () => {
+export const PaginaLoading = () => {
     return (
         <div
             className="

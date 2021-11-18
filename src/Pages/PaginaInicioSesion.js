@@ -11,7 +11,7 @@ import { InputField } from '../components/Form/InputField';
 import { registroUsuarioPath } from '../constant/routes';
 
 import { useForm } from '../hooks/useForm';
-import { PageLoading } from './PageLoading';
+import { PaginaLoading } from './PaginaLoading';
 
 const formFields = {
     email: '',
@@ -69,7 +69,7 @@ export const PaginaInicioSesion = () => {
     }
 
     if ( loading ) {
-        return <PageLoading />
+        return <PaginaLoading />
     }
 
     return (

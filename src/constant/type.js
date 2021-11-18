@@ -2,6 +2,9 @@ export const type = {
     establishment: {
         set: '[establishment] set list of establisment in the state'
     },
+    insumoDetails: {
+        setData: '[insumo details] set insumos data'
+    },
     insumos: {
         add: '[insumos] add new one to state',
         deleteInsumoById: '[insumos] delete insumo by id',
@@ -26,6 +29,8 @@ export const type = {
     },
     notificationMessages: {
         bye: '👋 Vuelve pronto ✌🏽',
+        getInsumoDetails: '✅ Insumo cargado exitosamente',
+        getInsumoDetailsError: '😱 Error al actualizar insumo 😳',
         logout: '🥺 Cerrando sesion...',
         login: '🕙 Iniciando sesion',
         insumosLoaded: '✅ Insumos cargados',
@@ -36,6 +41,7 @@ export const type = {
         newPurchaseCreated: '🎉 Compra creada con exito 🎉',
         newPurchaseInsumoRemoved: '✅ Insumo removido de la compra con exito 👍🏽',
         newPurchaseCreatedError: '😱 Error al crear compra 😳',
+        newPurchaseNoEstablishmentError: '⚠️ Debe seleccionar un establecimiento',
         purchasesLoaded: '✅ Compras cargadas',
         purchasesLoadedError: '😱 Error cargar las compras 😳',
         welcome: '🎉 Bienvenido !!!',

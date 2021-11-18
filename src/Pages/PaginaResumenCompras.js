@@ -51,6 +51,8 @@ const PurchasesList = ({ purchases }) => {
         </div>
     )
 }
+
+
 export const PaginaResumenCompras = () => {
 
     // ===== STORE =====

@@ -2,7 +2,12 @@ import React from 'react';
 
 import { InputField } from '../Form/InputField';
 
-export const InsumoPrice = React.memo( ({ currency = 'PEN', price }) => {
+export const InsumoPrice = React.memo( ({ currency = 'PEN', price, onChange, id }) => {
+
+    const onFocusSelectAll = () => {
+        const input = document.querySelector('[data-input-price="' + id + '"]');
+        input.select();
+    }
 
     return (
         <dt
@@ -25,9 +30,11 @@ export const InsumoPrice = React.memo( ({ currency = 'PEN', price }) => {
                 <span>{ currency }</span>
             </div>
             <InputField
+                data-input-price={ id }
                 specialClass="input-transparent pl-10"
                 value={ price }
-                onChange={ () => {} }
+                onChange={ onChange }
+                onFocus={ onFocusSelectAll }
             />
         </dt>
     )

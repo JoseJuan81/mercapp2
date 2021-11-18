@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import { PageLoading } from '../Pages/PageLoading.js';
+import { PaginaLoading } from '../Pages/PaginaLoading.js';
 import { Menu } from './Menus/Menu.js';
 import { BackButton } from './Buttons/AppButtons.js';
 
 import { pageTitles } from '../constant/pageTitles';
-import { detalleComprasPath, mezclarComprasPath, nuevaCompraPath, resumenDeComprasPath } from '../constant/routes.js';
+import { detalleComprasPath, detalleInsumoPath, mezclarComprasPath, misInsumosPath, nuevaCompraPath, resumenDeComprasPath } from '../constant/routes.js';
 
 const AppName = React.memo( () => {
     return (
@@ -70,6 +70,18 @@ const BackToPurchases = React.memo( () => {
             to={ resumenDeComprasPath }
         />
     )
+});
+
+const BackToInsumos = React.memo( () => {
+    return (
+        <BackButton
+            className="
+                btn-icon
+                flex items-center justify-center
+            "
+            to={ misInsumosPath }
+        />
+    )
 })
 
 export const NavBar = () => {
@@ -87,6 +99,7 @@ export const NavBar = () => {
     const [isBuyActive, setIsBuyActive] = useState( false );
     const [isMergingPurchases, setIsMergingPurchases] = useState( false );
     const [isPurchaseDetail, setIsPurchaseDetail] = useState( false );
+    const [isInsumoDetail, setIsInsumoDetail] = useState( false );
 
     // ===== FUNCIONES PROPIAS =====
     const handleShowMenu = useCallback( ({ target }) => {
@@ -112,11 +125,12 @@ export const NavBar = () => {
         setPageTitle( pageTitles[pathname] || null );
         setIsMergingPurchases( pathname.includes( mezclarComprasPath ) );
         setIsPurchaseDetail( pathname.includes( detalleComprasPath ) );
+        setIsInsumoDetail( pathname.includes( detalleInsumoPath ) );
 
     }, [pathname]);
 
     if ( loading ) {
-        return <PageLoading />
+        return <PaginaLoading />
     }
 
     return (
@@ -134,6 +148,7 @@ export const NavBar = () => {
             {isBuyActive && <BuyPageButton />}
             {isMergingPurchases && <BackToPurchases />}
             {isPurchaseDetail && <BackToPurchases />}
+            {isInsumoDetail && <BackToInsumos />}
 
             <AppName />
 

@@ -10,6 +10,7 @@ import { loadingReducer } from '../reducers/loadingReducer';
 import { newInsumoReducer } from '../reducers/newInsumoReducer';
 import { searchInsumosReducer } from '../reducers/searchInsumosReducer';
 import { purchasesReducer } from '../reducers/purchaseReducer';
+import { insumoDetailsReducer } from '../reducers/insumoDetailsReducer';
 
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
@@ -17,6 +18,7 @@ const reducers = combineReducers({
     auth: authReducer,
     establishments: establishmentReducer,
     loading: loadingReducer,
+    insumoDetails: insumoDetailsReducer,
     insumos: insumosReducer,
     newInsumo: newInsumoReducer,
     newPurchase: newPurchaseReducer,
