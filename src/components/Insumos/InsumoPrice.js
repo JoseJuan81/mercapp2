@@ -14,7 +14,7 @@ export const InsumoPrice = React.memo( ({ currency = 'PEN', price, onChange, id 
             className="
                 text-2xl text-warmGray-500
                 font-light
-                mx-2
+                ml-2
                 relative
             "
         >

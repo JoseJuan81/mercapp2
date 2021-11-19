@@ -58,10 +58,10 @@ export const loadSelectedInsumos = () => dispatch => {
     dispatch( totalBuy() );
 }
 
-export const startUpdatingQuantity = ( { id, quantity } ) => ( dispatch ) => {
+export const startUpdatingQuantity = ( { id, quantity } ) => ( dispatch, rootState ) => {
 
-    const selectedInsumos = getFromLocalStorage( type.localStorage.insumos );
-    const thisInsumo = find( equality( 'id', id ), selectedInsumos );
+    const { newPurchase: { insumos } } = rootState();
+    const thisInsumo = find( equality( 'id', id ), insumos );
 
     dispatch( updatingInsumosQuantity( { ...thisInsumo, quantity } ) );
     dispatch( totalBuy() );
