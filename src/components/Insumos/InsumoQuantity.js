@@ -61,7 +61,7 @@ export const InsumoQuantity = React.memo( ({ setTotal, price, id, quantity: insu
                 className="
                     bg-gray-100
                     text-gray-500 text-2xl
-                    w-12 h-12
+                    w-10 h-10
                 "
                 onClick={ handleMinusQuantity }
             >
@@ -69,7 +69,7 @@ export const InsumoQuantity = React.memo( ({ setTotal, price, id, quantity: insu
             </button>
             <input
                 className="
-                    w-16 h-12
+                    w-16 h-10
                     text-center text-xl font-medium text-warmGray-500
                 "
                 type="number"
@@ -84,7 +84,7 @@ export const InsumoQuantity = React.memo( ({ setTotal, price, id, quantity: insu
                 className="
                     bg-lime-50
                     text-lime-500 text-2xl
-                    w-12 h-12
+                    w-10 h-10
                 "
                 onClick={ handleAddQuantity }
             >

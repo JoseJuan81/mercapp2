@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const InsumoTotal = React.memo( ({ currency = 'PEN', total }) => {
+export const InsumoTotal = React.memo( ({ total }) => {
 
     return (
         <dt
@@ -10,9 +10,8 @@ export const InsumoTotal = React.memo( ({ currency = 'PEN', total }) => {
                 flex items-baseline
             "
         >
-            <small className="text-xs font-light">total:</small>
-            <small className="text-xs font-light mx-2">{ currency }</small>
-            <span>{ total }</span>
+            <small className="text-sm mr-2">=</small>
+            <span className="w-12 text-right">{ total }</span>
         </dt>
     )
 })

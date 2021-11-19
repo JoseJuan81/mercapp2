@@ -14,11 +14,15 @@ const inputStyles = ({ addComponents, theme }) => {
 			}
 		},
 		'.input-transparent': {
-			border: '0px none',
+            border: '0px none',
+            borderBottom: '1px solid' + theme('colors.warmGray.300'),
+            borderRadius: '0',
 			paddingLeft: '0',
 
 			'&:focus': {
-				'outline': 'none'
+                'outline': 'none',
+                borderBottom: '1px solid' + theme('colors.lime.300'),
+                transition: '1'
 			}
 		},
 	}

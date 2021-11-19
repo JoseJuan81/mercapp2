@@ -55,25 +55,14 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
 
             </div>
 
-            <InsumoPrice
-                currency={ currency }
-                price={ price }
-                onChange={ onChangePrice }
-                id={ id }
-            />
-
-            {labels && labels.length > 0 &&
-                <div
-                    className={`
-                        bg-warmGray-100
-                        p-1
-                    `}
-                >
-                    <InsumoEtiquetas labels={ labels } />
-                </div>
-            }
-
             <div className="flex justify-between items-center py-2 pr-4">
+
+                <InsumoPrice
+                    currency={ currency }
+                    price={ price }
+                    onChange={ onChangePrice }
+                    id={ id }
+                />
 
                 <InsumoQuantity
                     setTotal={ setTotal }
@@ -88,6 +77,33 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
                 />
 
             </div>
+
+            {labels && labels.length > 0 &&
+                <div
+                    className={`
+                        bg-warmGray-100
+                        p-1
+                    `}
+                >
+                    <InsumoEtiquetas labels={ labels } />
+                </div>
+            }
+
+            {/* <div className="flex justify-between items-center py-2 pr-4">
+
+                <InsumoQuantity
+                    setTotal={ setTotal }
+                    price={ price }
+                    id={ id }
+                    quantity={ quantity }
+                />
+
+                <InsumoTotal
+                    currency={ currency }
+                    total={ total }
+                />
+
+            </div> */}
             
         </div>
     )
