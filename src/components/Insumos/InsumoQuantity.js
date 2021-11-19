@@ -43,7 +43,7 @@ export const InsumoQuantity = React.memo( ({ setTotal, price, id, quantity: insu
 
     useEffect( () => {
 
-        const total = twoDecimals( q * price );
+        const total = twoDecimals( q * price ) || 0;
         setTotal( total );
 
     }, [q, price, setTotal])
@@ -59,7 +59,7 @@ export const InsumoQuantity = React.memo( ({ setTotal, price, id, quantity: insu
             <button
                 data-jest="minusQuantity"
                 className="
-                    bg-gray-100
+                    bg-gray-50
                     text-gray-500 text-2xl
                     w-10 h-10
                 "
@@ -69,7 +69,7 @@ export const InsumoQuantity = React.memo( ({ setTotal, price, id, quantity: insu
             </button>
             <input
                 className="
-                    w-16 h-10
+                    w-12 h-10
                     text-center text-xl font-medium text-warmGray-500
                 "
                 type="number"

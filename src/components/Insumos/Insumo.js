@@ -1,4 +1,4 @@
-import { setNewProperty } from 'functionallibrary';
+import { isEmpty, setNewProperty } from 'functionallibrary';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -15,6 +15,8 @@ import { InsumoQuantity } from './InsumoQuantity';
 import { InsumoBaseActions, InsumoActions } from './InsumoActions';
 
 import { detalleInsumoPath } from '../../constant/routes';
+import { NotificationInfo } from '../../helper/toast';
+import { type } from '../../constant/type';
 
 export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
 
@@ -23,17 +25,38 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
 
     // ===== VARIABLES LOCALES =====
     const { currency, labels, id, name: title, price: priceObject, quantity } = insumo;
-    const price = priceObject[establishment.toLowerCase()] || 0;
+    const price = priceObject[establishment.toLowerCase()];
 
     // ===== STATE =====
     const [total, setTotal] = useState( price );
 
     // ===== FUNCIONES LOCALES =====
     const onChangePrice = ( e ) => {
-        const { value } = e.target;
+        
+        if ( establishment ) {
+            
+            const { value } = e.target;
+            dispatch( updateInsumoPriceOnBuying({ id: insumo.id, newPrice: value }) );
+        } else {
+            NotificationInfo( type.notificationMessages.newPurchaseNoEstablishmentError );
+        }
 
-        dispatch( updateInsumoPriceOnBuying({ id: insumo.id, newPrice: value }) );
     }
+
+    const onBlur = () => {
+        if( isEmpty( price )) {
+            onChangePrice({ target: { value: 0 }})    
+        }
+    }
+
+    useEffect(() => {
+
+        if( isEmpty( price ) && price !== 0 ) {
+            dispatch( updateInsumoPriceOnBuying({ id: insumo.id, newPrice: 0 }) );
+        }
+
+    },[])
+
 
     return (
         <div
@@ -61,6 +84,7 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
                     currency={ currency }
                     price={ price }
                     onChange={ onChangePrice }
+                    onBlur={ onBlur }
                     id={ id }
                 />
 
@@ -88,22 +112,6 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
                     <InsumoEtiquetas labels={ labels } />
                 </div>
             }
-
-            {/* <div className="flex justify-between items-center py-2 pr-4">
-
-                <InsumoQuantity
-                    setTotal={ setTotal }
-                    price={ price }
-                    id={ id }
-                    quantity={ quantity }
-                />
-
-                <InsumoTotal
-                    currency={ currency }
-                    total={ total }
-                />
-
-            </div> */}
             
         </div>
     )

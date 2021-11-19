@@ -85,16 +85,11 @@ export const updateInsumoPriceOnBuying = ({ id, newPrice }) => ( dispatch, rooSt
     const { newPurchase } = rooState();
     const { establishmentName, insumos } = newPurchase;
 
-    if ( establishmentName ) {
-
-        const insumoToUpdate = find( equality( 'id', id ), insumos );
-        const insumoUpdated = { ...insumoToUpdate, price: { ...insumoToUpdate.price, [establishmentName.toLowerCase()]: Number( newPrice ) } };
-        const insumosToBuyUpdated = updateItemInArrayByProp('id', insumoUpdated, insumos);
-        dispatch( updateNewPurchase( { ...newPurchase, insumos: insumosToBuyUpdated } ) );
-        dispatch( totalBuy() );
-    } else {
-        NotificationInfo( type.notificationMessages.newPurchaseNoEstablishmentError );
-    }
+    const insumoToUpdate = find( equality( 'id', id ), insumos );
+    const insumoUpdated = { ...insumoToUpdate, price: { ...insumoToUpdate.price, [establishmentName.toLowerCase()]: Number( newPrice ) } };
+    const insumosToBuyUpdated = updateItemInArrayByProp('id', insumoUpdated, insumos);
+    dispatch( updateNewPurchase( { ...newPurchase, insumos: insumosToBuyUpdated } ) );
+    dispatch( totalBuy() );
 }
 
 /// ============= Acciones Asincronas ================= //

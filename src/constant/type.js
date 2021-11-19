@@ -39,7 +39,7 @@ export const type = {
         newInsumoCreated: '🎉 Insumo creado con exito 🎉',
         newInsumoCreatedError: '😱 Error al crear insumo 😳',
         newPurchaseCreated: '🎉 Compra creada con exito 🎉',
-        newPurchaseInsumoRemoved: '✅ Insumo removido de la compra con exito 👍🏽',
+        newPurchaseInsumoRemoved: '✅ Insumo removido con exito 👍🏽',
         newPurchaseCreatedError: '😱 Error al crear compra 😳',
         newPurchaseNoEstablishmentError: '⚠️ Debe seleccionar un establecimiento',
         purchasesLoaded: '✅ Compras cargadas',

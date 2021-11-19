@@ -5,9 +5,10 @@ export const InsumoTotal = React.memo( ({ total }) => {
     return (
         <dt
             className="
-                text-2xl text-warmGray-500
+                text-xl text-warmGray-500
                 font-medium
                 flex items-baseline
+                pr-1
             "
         >
             <small className="text-sm mr-2">=</small>
