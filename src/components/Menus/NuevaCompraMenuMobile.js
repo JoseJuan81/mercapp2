@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { clearInsumosToBuy, startCreatingPurchase } from '../../actions/newPurchaseAction';
-import { misInsumosPath } from '../../constant/routes';
-import { AddCircleButton, CheckButton, CloseCircleButton, BackButton } from '../Buttons/AppButtons';
+import { mejorCompraPath, misInsumosPath } from '../../constant/routes';
+import { AddCircleButton, CheckButton, CloseCircleButton, BackButton, WalletButton } from '../Buttons/AppButtons';
 
 
 // ===== VARIABLES CONSTANTES =====
@@ -50,7 +50,7 @@ export const NuevaCompraMenuMobile = React.memo( () => {
         <div
             className="
                 menu_mobile__container
-                grid-cols-4
+                grid-cols-5
             "
         >
 
@@ -66,6 +66,10 @@ export const NuevaCompraMenuMobile = React.memo( () => {
 
             <AddCircleButton
                 to={ insumosRouteModificated }
+            />
+
+            <WalletButton
+                to={ mejorCompraPath }
             />
 
             <CheckButton

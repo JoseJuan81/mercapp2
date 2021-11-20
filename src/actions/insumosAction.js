@@ -93,7 +93,7 @@ export const selectAllInsumosToBuy = ( flag ) => ( dispatch, rootState ) => {
         setInLocalStorage( type.localStorage.insumos, [...newState] );
     } else {
 
-        const localUpdated = updateArrayWithArray( localInsumos, newState, 'id' );
+        const localUpdated = updateArrayWithArray( localInsumos, newState );
         setInLocalStorage( type.localStorage.insumos, [...localUpdated]);
     }
     

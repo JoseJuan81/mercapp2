@@ -5,6 +5,7 @@ import {
     detalleComprasPath,
     detalleInsumoPath,
     editarInsumoPath,
+    mejorCompraPath,
     mezclarComprasPath,
     misInsumosPath,
     nuevaCompraPath,
@@ -32,53 +33,39 @@ export const AppRoutes = () => {
             >
                 <Switch>
 
+                    {/* ===== COMPRAS ===== */}
                     <Route exact path={ resumenDeComprasPath }>
-
                         <MisComprasContainer />
-
                     </Route>
-
-                    <Route exact path={ misInsumosPath }>
-
-                        <MisInsumosContainer />
-
-                    </Route>
-
-                    <Route exact path={ nuevaCompraPath }>
-
-                        <NuevaCompraContainer />
-                        
-                    </Route>
-
-                    <Route exact path={ nuevoInsumoPath }>
-
-                        <NuevoInsumoContainer />
-
-                    </Route>
-
                     <Route exact path={ mezclarComprasPath }>
-
                         <MezclarComprasContainer />
-
                     </Route>
-                    
-                    <Route exact path={ `${ editarInsumoPath }/:id` }>
-
-                        <NuevoInsumoContainer />
-
+                    <Route exact path={ nuevaCompraPath }>
+                        <NuevaCompraContainer />
                     </Route>
-
+                    <Route exact path={ mejorCompraPath }>
+                        <NuevaCompraContainer />
+                    </Route>
                     <Route exact path={ `${ detalleComprasPath }/:id` }>
-
                         <DetalleCompraContainer />
-
                     </Route>
+                    {/* ===== COMPRAS ===== */}
 
+                    {/* ===== INSUMOS ===== */}
+                    <Route exact path={ misInsumosPath }>
+                        <MisInsumosContainer />
+                    </Route>
+                    <Route exact path={ nuevoInsumoPath }>
+                        <NuevoInsumoContainer />
+                    </Route>
+                    <Route exact path={ `${ editarInsumoPath }/:id` }>
+                        <NuevoInsumoContainer />
+                    </Route>
                     <Route path={ detalleInsumoPath }>
-
                         <DetalleInsumoContainer />
 
                     </Route>
+                    {/* ===== INSUMOS ===== */}
 
                     <Redirect to={ resumenDeComprasPath } />
 

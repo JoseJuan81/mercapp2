@@ -22,13 +22,16 @@ export const type = {
         end: '[loading] end',
     },
     localStorage: {
-        user: '[mercapp2] user-data',
+        establishments: '[mercapp2] establecimientos',
         insumos: '[mercapp2] insumos',
-        token: '[mercapp2] token',
+        newPurchase: '[mercapp2] nueva compra',
         purchases: '[mercapp2] compras',
+        token: '[mercapp2] token',
+        user: '[mercapp2] user-data',
     },
     notificationMessages: {
         bye: '👋 Vuelve pronto ✌🏽',
+        establishmentsError: '😱 Error inesperado cargando establecimientos 😳',
         getInsumoDetails: '✅ Insumo cargado exitosamente',
         getInsumoDetailsError: '😱 Error al actualizar insumo 😳',
         logout: '🥺 Cerrando sesion...',

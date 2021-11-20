@@ -12,7 +12,7 @@ describe('Pruebas sobre archivo updateArrayWithArray.js', () => {
             { id: 2, name: 'nuevo elemento' }
         ];
 
-        const result = updateArrayWithArray( baseArray, updatedArray, 'id' );
+        const result = updateArrayWithArray( baseArray, updatedArray );
 
         expect( result ).toEqual([
             { id: 1, name: 'Hola Mundo' },
@@ -26,7 +26,7 @@ describe('Pruebas sobre archivo updateArrayWithArray.js', () => {
             { id: 2, name: 'nuevo elemento actualizado' }
         ];
 
-        const result = updateArrayWithArray( baseArray, updatedArray, 'id' );
+        const result = updateArrayWithArray( baseArray, updatedArray );
 
         expect( result ).toEqual([
             { id: 1, name: 'Hola Mundo' },
@@ -45,7 +45,7 @@ describe('Pruebas sobre archivo updateArrayWithArray.js', () => {
             { id: 3, name: 'nuevo elemento actualizado' },
         ];
 
-        const result = updateArrayWithArray( baseArray, updatedArray, 'id' );
+        const result = updateArrayWithArray( baseArray, updatedArray );
 
         expect( result ).toEqual([
             { id: 1, name: 'Hola Mundo' },
