@@ -4,7 +4,7 @@ import { equality, find, isEmpty, setNewProperty } from "functionallibrary";
 import { addInsumoToState, updateInsumoInState } from "./insumosAction";
 import { endLoading, startLoading } from "./loadingAction";
 
-import { getFromLocalStorage, setInLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
+import { getFromLocalStorage, removeFromLocalStorage, setInLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
 import { priceFromArrayToObject } from "../helper/priceHandling";
 import { fetchCreateInsumo, fetchInsumo, fetchUpdateInsumo } from "../helper/fetch";
 import toast, { NotificationError, NotificationSuccess } from "../helper/toast";
@@ -57,7 +57,7 @@ export const setInsumoToUpdate = ( insumoId ) => ( dispatch, rootState ) => {
 }
 
 /// ============= Acciones asincronas ================= //
-export const startCreateInsumo = ( isSelected, redirect ) => async ( dispatch, rootState ) => {
+export const startCreateInsumo = ( isSelected ) => async ( dispatch, rootState ) => {
 
     dispatch( startLoading() );
 
@@ -74,13 +74,15 @@ export const startCreateInsumo = ( isSelected, redirect ) => async ( dispatch, r
         dispatch( addInsumoToState( insumoCreated ) );
         setInLocalStorage( type.localStorage.insumos, [insumoCreated, ...allInsumos] );
 
-        toast.success( type.notificationMessages.newInsumoCreated );
+        NotificationSuccess( type.notificationMessages.newInsumoCreated );
 
         dispatch ( resetForm() );
 
+        removeFromLocalStorage( type.localStorage.establishments );
+
     } catch (error) {
 
-        toast.success( type.notificationMessages.newInsumoCreated );
+        NotificationError( type.notificationMessages.newInsumoCreatedError );
         console.error( 'Error al crear insumo ', error);
 
     } finally {
@@ -135,6 +137,8 @@ export const startUpdateInsumo = () => async ( dispatch, rootState ) => {
         updateInsumoInLocalStorage( { ...insumoUpdated, selected } );
 
         NotificationSuccess( type.notificationMessages.insumoUpdated );
+
+        removeFromLocalStorage( type.localStorage.establishments );
         
     } catch (error) {
         

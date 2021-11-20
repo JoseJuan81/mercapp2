@@ -1,11 +1,12 @@
-import { equality, find, removeItemFromArrayByProp } from "functionallibrary";
+import { equality, filter, find, removeItemFromArrayByProp } from "functionallibrary";
 
 import { type } from "../constant/type";
 
 import { fetchCreatePurchase } from "../helper/fetch";
 import { getFromLocalStorage, removeFromLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
-import { NotificationError, NotificationInfo, NotificationSuccess } from "../helper/toast";
+import { NotificationError, NotificationSuccess } from "../helper/toast";
 import { updateItemInArrayByProp } from "../helper/updateItemInArrayByProp";
+import { updateInsumosToBuyWithSelected } from "../helper/updateArrayWithArray";
 
 import { selectAllInsumosToBuy } from "./insumosAction";
 import { endLoading, startLoading } from "./loadingAction";
@@ -56,6 +57,20 @@ export const loadSelectedInsumos = () => dispatch => {
 
     dispatch( selectedInsumos( allInsumos ) );
     dispatch( totalBuy() );
+}
+
+export const loadPurchasesData = () => dispatch => {
+
+    const currentPurchase = getFromLocalStorage( type.localStorage.newPurchase );
+    const allInsumos = getFromLocalStorage( type.localStorage.insumos );
+
+    if ( currentPurchase ) {
+        const selectedInumos = filter( equality( 'selected', true ), allInsumos );
+        const matchSelectedInsumos = updateInsumosToBuyWithSelected( currentPurchase.insumos, selectedInumos );
+        dispatch( updateNewPurchase( { ...currentPurchase, insumos: matchSelectedInsumos } ) );
+    } else {
+        dispatch( loadSelectedInsumos() );
+    }
 }
 
 export const startUpdatingQuantity = ( { id, quantity } ) => ( dispatch, rootState ) => {

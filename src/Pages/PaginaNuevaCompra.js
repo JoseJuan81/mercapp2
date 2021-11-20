@@ -2,7 +2,7 @@ import { equality, find, getPropertysValue, isEmpty } from 'functionallibrary';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { loadSelectedInsumos, setEstablishmentInBuy } from '../actions/newPurchaseAction';
+import { loadPurchasesData, loadSelectedInsumos, setEstablishmentInBuy } from '../actions/newPurchaseAction';
 import { loadEstablishments } from '../actions/establishmentAction';
 
 import { BigAddButton } from '../components/Buttons/BigAddButton';
@@ -13,6 +13,8 @@ import { misInsumosPath } from '../constant/routes';
 import { DEFAULT_ESTABLISHMENT } from '../constant/defaults';
 
 import { PaginaLoading } from './PaginaLoading';
+import { removeFromLocalStorage, setInLocalStorage } from '../helper/localStorage';
+import { type } from '../constant/type';
 
 
 // ===== VARIABLES CONSTANTES =====
@@ -59,13 +61,25 @@ export const PaginaNuevaCompra = () => {
 
     },[])
 
-    // cargar establecimientos e insumos seleccionados
+    // cargar establecimientos y compra actual si existe, sino los insumos seleccionados
     useEffect( () => {
 
         dispatch( loadEstablishments() );
-        dispatch( loadSelectedInsumos() );
+        dispatch( loadPurchasesData() );
 
     }, [dispatch]);
+
+    // actualizar compras en localStorage
+    useEffect(() => {
+        
+        if ( isEmpty( insumos ) ) {
+            removeFromLocalStorage( type.localStorage.newPurchase );
+        } else {
+
+            setInLocalStorage( type.localStorage.newPurchase, { insumos, establishmentName } );
+        }
+
+    },[insumos, establishmentName])
 
     // obtener el objeto establecimiento a partir del nombre del establecimiento
     useEffect( () => {

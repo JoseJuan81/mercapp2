@@ -12,9 +12,11 @@ import { searchInsumosReducer } from '../reducers/searchInsumosReducer';
 import { purchasesReducer } from '../reducers/purchaseReducer';
 import { insumoDetailsReducer } from '../reducers/insumoDetailsReducer';
 
+import { type } from '../constant/type';
+
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
-const reducers = combineReducers({
+const appReducers = combineReducers({
     auth: authReducer,
     establishments: establishmentReducer,
     loading: loadingReducer,
@@ -27,8 +29,18 @@ const reducers = combineReducers({
     // error: errorsReducer
 })
 
+const rootReducer = ( state, action ) => {
+
+    if ( action.type === type.auth.logout ) {
+        console.log('hola')
+        console.log(state, action);
+        state = undefined
+    }
+    return appReducers( state, action );
+}
+
 export const store = createStore(
-	reducers,
+	rootReducer,
 	composeEnhancers(
         applyMiddleware( thunk )
     )

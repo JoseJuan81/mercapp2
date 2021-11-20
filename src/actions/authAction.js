@@ -2,7 +2,7 @@ import { firebase, googleAuthProvider } from '../firebase/firebase-config';
 
 import { clearLocalStorage, setInLocalStorage } from '../helper/localStorage';
 import { fetchLogin, fetchSignUp } from '../helper/fetch';
-import toast from '../helper/toast';
+import toast, { NotificationInfo, NotificationSuccess } from '../helper/toast';
 
 import { type } from '../constant/type';
 
@@ -134,11 +134,11 @@ export const appLogout = () => dispatch => {
 
     dispatch( startLoading() );
 
+    
     setTimeout(() => {
-
+        
         clearLocalStorage();
         dispatch( logout() );
-
         dispatch( endLoading() );
 
     }, 2000);
@@ -146,7 +146,7 @@ export const appLogout = () => dispatch => {
     setTimeout(() => {
 
         toast.dismiss( toastLogoutId );
-        toast.success( type.notificationMessages.bye );
+        NotificationInfo( type.notificationMessages.bye );
 
         const toastScoped = toast;
         setTimeout(() => {
