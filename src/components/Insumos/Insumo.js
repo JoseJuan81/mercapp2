@@ -25,7 +25,7 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
 
     // ===== VARIABLES LOCALES =====
     const { currency, labels, id, name: title, price: priceObject, quantity } = insumo;
-    const price = priceObject[establishment.toLowerCase()];
+    const price = priceObject[establishment.toLowerCase()] || 0;
 
     // ===== STATE =====
     const [total, setTotal] = useState( price );
@@ -48,15 +48,6 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
             onChangePrice({ target: { value: 0 }})    
         }
     }
-
-    useEffect(() => {
-
-        if( isEmpty( price ) && price !== 0 ) {
-            dispatch( updateInsumoPriceOnBuying({ id: insumo.id, newPrice: 0 }) );
-        }
-
-    },[])
-
 
     return (
         <div
