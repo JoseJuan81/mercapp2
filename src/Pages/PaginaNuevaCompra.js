@@ -2,8 +2,7 @@ import { equality, find, getPropertysValue, isEmpty } from 'functionallibrary';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { loadPurchasesData, loadSelectedInsumos, setEstablishmentInBuy } from '../actions/newPurchaseAction';
-import { loadEstablishments } from '../actions/establishmentAction';
+import { setEstablishmentInBuy } from '../actions/newPurchaseAction';
 
 import { BigAddButton } from '../components/Buttons/BigAddButton';
 import { InsumoToBuy } from '../components/Insumos/Insumo';
@@ -60,14 +59,6 @@ export const PaginaNuevaCompra = () => {
         dispatch( setEstablishmentInBuy( value ) );
 
     },[])
-
-    // cargar establecimientos y compra actual si existe, sino los insumos seleccionados
-    useEffect( () => {
-
-        dispatch( loadEstablishments() );
-        dispatch( loadPurchasesData() );
-
-    }, [dispatch]);
 
     // actualizar compras en localStorage
     useEffect(() => {
