@@ -2,8 +2,6 @@ import { isEmpty, map, setNewProperty } from "functionallibrary";
 
 import { type } from "../constant/type";
 
-import { db } from "../firebase/firebase-config";
-
 import { endLoading, startLoading } from "./loadingAction";
 
 import { fetchDeleteInsumo, fetchInsumos } from "../helper/fetch";

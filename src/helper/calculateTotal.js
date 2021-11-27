@@ -4,6 +4,10 @@ const twoDecimals = round(2);
 
 export const calculateTotal = ( itemsArray, name ) => {
 
+    if ( itemsArray.length === 0 ) {
+        return 0
+    }
+
     const lowerName = name.toLowerCase();
     const totalFn = ( acc, { price, quantity } ) => {
         const p = isEmpty( price ) ? 0 : ( price[lowerName] || 0 );

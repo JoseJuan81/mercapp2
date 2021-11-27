@@ -1,9 +1,9 @@
 import { equality, filter, isEmpty } from 'functionallibrary';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 
 import { selectAllInsumosToBuy } from '../../actions/insumosAction';
+import { cleaningNewPurchase } from '../../actions/newPurchaseAction';
 import { showSearchField, hideSearchAndFilterField, showFilterField } from '../../actions/searchAction';
 
 import { nuevaCompraPath, nuevoInsumoPath } from '../../constant/routes';
@@ -13,13 +13,16 @@ export const InsumosMenuMobile = React.memo(() => {
 
     const url = new URL( window.location );
 
+    // ===== STORE =====
+    const dispatch = useDispatch();
     const { showField, isSearching, isFiltering } = useSelector( state => state.search );
     const selectedInsumos = useSelector( state => filter( equality( 'selected', true ), state.insumos ));
 
+    // ===== STATE =====
     const [newInsumoRouteModificated, setNewInsumoRouteModificated] = useState( nuevoInsumoPath )
 
-    const dispatch = useDispatch();
 
+    // ===== FUNCIONES PROPIAS =====
     const toogleShowSearch = () => {
         
         if ( ( showField && isFiltering ) || !showField ) {
@@ -42,6 +45,17 @@ export const InsumosMenuMobile = React.memo(() => {
         }
     }
 
+    const handleClickOnCheckButton = ( flag ) => {
+
+        if ( !flag ) {
+
+            dispatch( cleaningNewPurchase() );
+        }
+
+        dispatch( selectAllInsumosToBuy( flag ) )
+    }
+
+    // ===== ACTUALIZAR RUTA =====
     useEffect( () => {
         
         let newRoute = nuevoInsumoPath;
@@ -64,12 +78,12 @@ export const InsumosMenuMobile = React.memo(() => {
             
             <CheckFullFilledCircleButton
                 isButton
-                onClick={ () => dispatch( selectAllInsumosToBuy( true ) ) }
+                onClick={ () => handleClickOnCheckButton( true ) }
             />
 
             <CheckCircleButton
                 isButton
-                onClick={ () => dispatch( selectAllInsumosToBuy( false ) ) }
+                onClick={ () => handleClickOnCheckButton( false ) }
             />
 
             <SearchButton

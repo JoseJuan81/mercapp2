@@ -11,3 +11,13 @@ export const getFormatDate = (date) => {
 export const getDayInWord = ( date ) => {
     return format( new Date( date ), 'eeee', { locale })
 }
+
+export const formattedByInputDate = ( date ) => {
+
+    if (date) {
+        return date;
+    }
+
+    const current = new Date().toLocaleDateString().split('/');
+    return current[2] + '-' + current[1] + '-' + current[0];
+}

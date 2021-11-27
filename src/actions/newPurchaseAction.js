@@ -17,11 +17,6 @@ export const selectedInsumos = ( allInsumos ) => ({
     payload: allInsumos
 })
 
-export const settingEstablishmentName = ( name ) => ({
-    type: type.newPurchase.establishment,
-    payload: name
-})
-
 export const updatingInsumosQuantity = ( updatedInsumo ) => ({
     type: type.newPurchase.updateQuantity,
     payload: updatedInsumo
@@ -36,10 +31,6 @@ export const totalBuy = () => ({
     type: type.newPurchase.total
 })
 
-export const removeInsumosFromBuy = () => ({
-    type: type.newPurchase.clear
-})
-
 export const updateNewPurchase = ( newPurchaseData ) => ({
     type: type.newPurchase.update,
     payload: newPurchaseData
@@ -47,16 +38,25 @@ export const updateNewPurchase = ( newPurchaseData ) => ({
 
 export const setEstablishmentInBuy = ( name ) => dispatch => {
 
-    dispatch( settingEstablishmentName( name ) );
-    dispatch( totalBuy() );
+    dispatch( updateNewPurchase({ establishmentName: name }) );
+}
+
+export const setNameInBuy = ( name ) => dispatch => {
+
+    dispatch( updateNewPurchase({ name }) );
+}
+
+export const setBuyDate = ( date ) => dispatch => {
+
+    dispatch( updateNewPurchase({ purchaseDate: date }) );
 }
 
 export const loadSelectedInsumos = () => dispatch => {
 
     const allInsumos = getFromLocalStorage( type.localStorage.insumos ) || [];
 
-    dispatch( selectedInsumos( allInsumos ) );
-    dispatch( totalBuy() );
+    const filterSelected = filter( equality('selected', true), allInsumos );
+    dispatch( selectedInsumos( filterSelected ) );
 }
 
 export const loadPurchasesData = () => dispatch => {
@@ -79,14 +79,12 @@ export const startUpdatingQuantity = ( { id, quantity } ) => ( dispatch, rootSta
     const thisInsumo = find( equality( 'id', id ), insumos );
 
     dispatch( updatingInsumosQuantity( { ...thisInsumo, quantity } ) );
-    dispatch( totalBuy() );
-    updateInsumoInLocalStorage( { ...thisInsumo, quantity } );
 }
 
 export const clearInsumosToBuy = () => dispatch => {
 
     dispatch( startLoading() );
-    dispatch( removeInsumosFromBuy() );
+    dispatch( cleaningNewPurchase() );
     dispatch( selectAllInsumosToBuy( false ) );
 
     setTimeout(() => {
@@ -104,7 +102,12 @@ export const updateInsumoPriceOnBuying = ({ id, newPrice }) => ( dispatch, rooSt
     const insumoUpdated = { ...insumoToUpdate, price: { ...insumoToUpdate.price, [establishmentName.toLowerCase()]: Number( newPrice ) } };
     const insumosToBuyUpdated = updateItemInArrayByProp('id', insumoUpdated, insumos);
     dispatch( updateNewPurchase( { ...newPurchase, insumos: insumosToBuyUpdated } ) );
-    dispatch( totalBuy() );
+}
+
+export const cleaningNewPurchase = () => dispatch => {
+
+    removeFromLocalStorage( type.localStorage.newPurchase );
+    dispatch( updateNewPurchase({ establishmentName: '', insumos: [] }) );
 }
 
 /// ============= Acciones Asincronas ================= //

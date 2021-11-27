@@ -2,7 +2,7 @@ import { equality, find, getPropertysValue, isEmpty } from 'functionallibrary';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setEstablishmentInBuy } from '../actions/newPurchaseAction';
+import { setBuyDate, setEstablishmentInBuy, setNameInBuy, totalBuy } from '../actions/newPurchaseAction';
 
 import { BigAddButton } from '../components/Buttons/BigAddButton';
 import { InsumoToBuy } from '../components/Insumos/Insumo';
@@ -14,6 +14,8 @@ import { DEFAULT_ESTABLISHMENT } from '../constant/defaults';
 import { PaginaLoading } from './PaginaLoading';
 import { removeFromLocalStorage, setInLocalStorage } from '../helper/localStorage';
 import { type } from '../constant/type';
+import { InputField } from '../components/Form/InputField';
+import { formattedByInputDate } from '../helper/dates';
 
 
 // ===== VARIABLES CONSTANTES =====
@@ -45,7 +47,7 @@ export const PaginaNuevaCompra = () => {
     // ===== STORE =====
     const dispatch = useDispatch();
     const { loading } = useSelector( state => state.loading );
-    const { insumos, establishmentName, total } = useSelector( state => state.newPurchase );
+    const { insumos, establishmentName, total, name, purchaseDate } = useSelector( state => state.newPurchase );
     const establishments = useSelector( state => state.establishments );
 
     // ===== STATE =====
@@ -57,6 +59,20 @@ export const PaginaNuevaCompra = () => {
 
         const value = getPropertysValue( 'value', e.target ) || '';
         dispatch( setEstablishmentInBuy( value ) );
+
+    },[])
+
+    const handleChangeOnName = useCallback( ( e ) => {
+
+        const value = getPropertysValue( 'value', e.target ) || '';
+        dispatch( setNameInBuy( value ) );
+
+    },[])
+
+    const handleChangeOnDate = useCallback( ( e ) => {
+
+        const value = getPropertysValue( 'value', e.target ) || '';
+        dispatch( setBuyDate( value ) );
 
     },[])
 
@@ -112,6 +128,24 @@ export const PaginaNuevaCompra = () => {
 
     },[selectedEstablisment])
 
+    // ACTUALIZAR TOTAL DE LA COMPRA
+    useEffect(() => {
+
+        dispatch( totalBuy() );
+
+    },[establishmentName, insumos, dispatch])
+
+    // ACTUALIZAR FECHA DE LA COMPRA
+    useEffect(() => {
+
+        if ( !purchaseDate ) {
+
+            const todayDate = formattedByInputDate( purchaseDate );
+            handleChangeOnDate({ target: { value: todayDate } });
+        }
+
+    },[purchaseDate])
+
     if ( loading ) {
         return <PaginaLoading />
     }
@@ -122,28 +156,55 @@ export const PaginaNuevaCompra = () => {
                 grid gap-3
                 self-start
                 w-full
-                px-2 pb-2 pt-20
+                px-2 pb-2
+                relative
             "
         >
             <form
                 className="
-                    fixed top-16 left-0 z-10
                     bg-white
                     w-full
-                    px-2 pb-3 pt-5
-                    flex items-center
+                    pb-3
+                    flex flex-col items-center justify-center
+                    sticky -top-32 z-10
                 "
                 onSubmit={ (e) => e.preventDefault() }
             >
                 <fieldset
                     className="
+                        w-full
+                        mb-3
+                    "
+                >
+                    <InputField
+                        type="date"
+                        placeholder="dd/mm/aaaa"
+                        value={ purchaseDate }
+                        onChange={ handleChangeOnDate }
+                    />
+                </fieldset>
+                <fieldset
+                    className="
+                        w-full
+                        mb-3
+                    "
+                >
+                    <InputField
+                        placeholder="nombre de su compra"
+                        onChange={ handleChangeOnName }
+                        value={ name }
+                    />
+                </fieldset>
+                <fieldset
+                    className="
+                        sticky top-16 left-0 z-10
                         flex items-center justify-between
                         w-full
                     "
                 >
                     <DataList
                         autoFocus
-                        placeholder="seleccione..."
+                        placeholder="comprar en..."
                         onChange={ handleChange }
                         options={ establishments }
                         value={ selectedEstablisment }
