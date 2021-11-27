@@ -10,6 +10,8 @@ import { updateInsumosToBuyWithSelected } from "../helper/updateArrayWithArray";
 
 import { selectAllInsumosToBuy } from "./insumosAction";
 import { endLoading, startLoading } from "./loadingAction";
+import { initialState } from "../reducers/newPurchaseReducer";
+import { dateWithTime } from "../helper/dates";
 
 /// ============= Acciones sincronas ================= //
 export const selectedInsumos = ( allInsumos ) => ({
@@ -107,7 +109,7 @@ export const updateInsumoPriceOnBuying = ({ id, newPrice }) => ( dispatch, rooSt
 export const cleaningNewPurchase = () => dispatch => {
 
     removeFromLocalStorage( type.localStorage.newPurchase );
-    dispatch( updateNewPurchase({ establishmentName: '', insumos: [] }) );
+    dispatch( updateNewPurchase( initialState ) );
 }
 
 /// ============= Acciones Asincronas ================= //
@@ -118,7 +120,10 @@ export const startCreatingPurchase = () => async ( dispatch, rootState ) => {
     const { newPurchase } = rootState();
 
     try {
-        const response = await fetchCreatePurchase( newPurchase );
+
+        const { purchaseDate } = newPurchase;
+        const formattedDate = dateWithTime( purchaseDate );
+        const response = await fetchCreatePurchase({ ...newPurchase, purchaseDate: formattedDate } );
 
         dispatch( createPurchase( response.data ) );
         dispatch( selectAllInsumosToBuy( false ) );

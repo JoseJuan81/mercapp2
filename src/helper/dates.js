@@ -21,3 +21,14 @@ export const formattedByInputDate = ( date ) => {
     const current = new Date().toLocaleDateString().split('/');
     return current[2] + '-' + current[1] + '-' + current[0];
 }
+
+export const dateWithTime = ( date ) => {
+
+    const current = new Date();
+    const h = current.getHours();
+    const m = current.getMinutes();
+    const s = current.getSeconds();
+
+    const [y, month, d] = date.split('-');
+    return new Date(y, month, d, h, m, s);
+}
