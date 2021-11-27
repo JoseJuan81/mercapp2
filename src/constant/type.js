@@ -56,9 +56,7 @@ export const type = {
     },
     newPurchase: {
         add: '[newPurchase] insumos to add',
-        clear: '[newPurchase] remove insumos from buy',
         createBuy: '[newPurchase] create new buy from BD into state',
-        establishment: '[newPurchase] set establisment name',
         remove: '[newPurchase] insumos to remove',
         selected: '[newPurchase] insumos to buy',
         total: '[newPurchase] calculate insumos total',

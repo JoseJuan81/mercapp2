@@ -21,7 +21,6 @@ export const InsumoQuantity = React.memo( ({ setTotal, price, id, quantity: insu
         const quantity = result < 0 ? 1 : result;
 
         setQ(quantity);
-        dispatch( startUpdatingQuantity({ id, quantity }) );
         
     }
     
@@ -31,16 +30,15 @@ export const InsumoQuantity = React.memo( ({ setTotal, price, id, quantity: insu
         const quantity = Number( q )  + 1;
 
         setQ(quantity);
-        dispatch( startUpdatingQuantity({ id, quantity }) );
     }
     
     const handleInputChange = (e) => {
         
         const quantity = e.target.value;
         setQ( quantity );
-        dispatch({ type: 'quantity-change', payload: { id, quantity } })
     }
 
+    // Actualizar total cada vez que cambie la cantidad y el precio
     useEffect( () => {
 
         const total = twoDecimals( q * price ) || 0;
@@ -50,9 +48,9 @@ export const InsumoQuantity = React.memo( ({ setTotal, price, id, quantity: insu
 
     useEffect( () => {
 
-        dispatch({ type: 'quantity-change', payload: { id, quantity: initialQuantity } });
+        dispatch( startUpdatingQuantity({ id, quantity: q }) );
 
-    }, [])
+    }, [q, dispatch, id])
 
     return (
         <div className="flex mx-2">

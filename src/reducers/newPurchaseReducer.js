@@ -1,4 +1,3 @@
-import { equality, filter } from "functionallibrary";
 import { type } from "../constant/type";
 
 import { calculateTotal } from "../helper/calculateTotal";
@@ -9,16 +8,17 @@ export const initialState = {
     establishmentName: '',
     id: '',
     insumos: [],
+    name: '',
+    purchaseDate: '',
     total: 0,
 }
 
 export const newPurchaseReducer = ( state = initialState, action ) => {
     
     const opts = {
-        [type.newPurchase.establishment]: () => ({ ...state, establishmentName: action.payload }),
         [type.newPurchase.selected]: () => ({
             ...state,
-            insumos: filter( equality( 'selected', true ), action.payload )
+            insumos: [...action.payload]
         }),
         [type.newPurchase.updateQuantity]: () => ({
             ...state,
@@ -28,7 +28,6 @@ export const newPurchaseReducer = ( state = initialState, action ) => {
             ...state,
             total: calculateTotal( state.insumos, state.establishmentName )
         }),
-        [type.newPurchase.clear]: () => ({ ...state, insumos: [] }),
         [type.newPurchase.createBuy]: () => ({ ...state, ...action.payload }),
         [type.newPurchase.update]: () => ({ ...state, ...action.payload })
     }
