@@ -12,7 +12,7 @@ export const InsumoPrice = React.memo( ({ currency = 'PEN', price, onChange, onB
     return (
         <dt
             className="
-                text-xl text-warmGray-500
+                text-lg text-warmGray-600
                 font-light
                 ml-2
                 relative

@@ -463,3 +463,41 @@ export const WalletButton = React.memo(({ children, isButton, to, onClick, class
         </BaseButton>
     )
 })
+
+export const ListButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+
+    const icon = 'fas fa-grip-lines';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+            { children }
+        </BaseButton>
+    )
+})
+
+export const GalleryButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+
+    const icon = 'fas fa-grip-horizontal';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+            { children }
+        </BaseButton>
+    )
+})

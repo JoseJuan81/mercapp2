@@ -28,6 +28,7 @@ export const PaginaInsumos = ({ insumos }) => {
             <div
                 data-cy="PaginaInsumos"
                 className="
+                    animate__animated animate__fadeIn
                     grid gap-2
                     self-start
                     w-full

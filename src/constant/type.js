@@ -1,4 +1,9 @@
 export const type = {
+    auth: {
+        login: '[auth] login',
+        logout: '[auth] logout',
+        userData: '[auth] user-data'
+    },
     establishment: {
         set: '[establishment] set list of establisment in the state'
     },
@@ -73,9 +78,10 @@ export const type = {
         showFilter: '[search] show filter insumos field',
         hide: '[search] hide search and filter field',
     },
-    auth: {
-        login: '[auth] login',
-        logout: '[auth] logout',
-        userData: '[auth] user-data'
+    views: {
+        purchases: {
+            card: 'card-list',
+            table: 'table-list',
+        }
     }
 }

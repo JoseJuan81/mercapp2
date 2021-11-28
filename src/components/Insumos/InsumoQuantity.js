@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { startUpdatingQuantity } from '../../actions/newPurchaseAction';
+import { InputField } from '../Form/InputField';
 
 const twoDecimals = round(2);
 
@@ -53,22 +54,23 @@ export const InsumoQuantity = React.memo( ({ setTotal, price, id, quantity: insu
     }, [q, dispatch, id])
 
     return (
-        <div className="flex mx-2">
+        <div className="flex mx-2 h-12">
             <button
                 data-jest="minusQuantity"
                 className="
                     bg-gray-50
                     text-gray-500 text-2xl
-                    w-10 h-10
+                    w-10 h-full
                 "
                 onClick={ handleMinusQuantity }
             >
                 <i className="fas fa-minus"></i>
             </button>
-            <input
-                className="
-                    w-12 h-10
-                    text-center text-xl font-medium text-warmGray-500
+            <InputField
+                specialClass="
+                    w-16 h-full
+                    text-center text-lg font-medium text-warmGray-600
+                    input-transparent
                 "
                 type="number"
                 step={ 1 }
@@ -82,7 +84,7 @@ export const InsumoQuantity = React.memo( ({ setTotal, price, id, quantity: insu
                 className="
                     bg-lime-50
                     text-lime-500 text-2xl
-                    w-10 h-10
+                    w-10 h-full
                 "
                 onClick={ handleAddQuantity }
             >
