@@ -27,8 +27,6 @@ export const startLoadingInsumoData = ( insumoId ) => async dispatch => {
             // consumir servicio para obtener datos del insumo
         }
 
-        NotificationSuccess( type.notificationMessages.getInsumoDetails );
-
     } catch( error ) {
 
         console.log('Error: obteniendo datos del insumo', error);

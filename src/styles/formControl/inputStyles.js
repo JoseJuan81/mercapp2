@@ -15,7 +15,6 @@ const inputStyles = ({ addComponents, theme }) => {
 		},
 		'.input-transparent': {
             border: '0px none',
-            borderBottom: '1px solid' + theme('colors.warmGray.300'),
             borderRadius: '0',
 			paddingLeft: '0',
 
