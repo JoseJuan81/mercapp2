@@ -9,18 +9,12 @@ import { showSearchField, hideSearchAndFilterField, showFilterField } from '../.
 import { nuevaCompraPath, nuevoInsumoPath } from '../../constant/routes';
 import { AddCircleButton, CheckCircleButton, CheckFullFilledCircleButton, FilterButton, SearchButton, ShoppingCarButton } from '../Buttons/AppButtons';
 
-export const InsumosMenuMobile = React.memo(() => {
-
-    const url = new URL( window.location );
+export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
 
     // ===== STORE =====
     const dispatch = useDispatch();
     const { showField, isSearching, isFiltering } = useSelector( state => state.search );
     const selectedInsumos = useSelector( state => filter( equality( 'selected', true ), state.insumos ));
-
-    // ===== STATE =====
-    const [newInsumoRouteModificated, setNewInsumoRouteModificated] = useState( nuevoInsumoPath )
-
 
     // ===== FUNCIONES PROPIAS =====
     const toogleShowSearch = () => {
@@ -54,19 +48,6 @@ export const InsumosMenuMobile = React.memo(() => {
 
         dispatch( selectAllInsumosToBuy( flag ) )
     }
-
-    // ===== ACTUALIZAR RUTA =====
-    useEffect( () => {
-        
-        let newRoute = nuevoInsumoPath;
-
-        if ( url.searchParams.get('activeBuy') ) {
-                newRoute += url.search;
-        }
-
-        setNewInsumoRouteModificated( newRoute );
-        
-    }, [url.searchParams, url.search])
 
     return (
         <div
@@ -117,7 +98,7 @@ x                onClick={ toogleShowFilter }
             </ShoppingCarButton>
 
             <AddCircleButton
-                to={ newInsumoRouteModificated }
+                to={ newInsumoPath }
             />
 
         </div>

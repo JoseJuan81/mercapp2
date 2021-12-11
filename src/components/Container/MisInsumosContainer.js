@@ -1,5 +1,5 @@
 import { isEmpty } from 'functionallibrary';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { nuevoInsumoPath } from '../../constant/routes';
@@ -30,20 +30,39 @@ const AddButton = ({ path }) => {
 
 export const MisInsumosContainer = () => {
 
+    const url = new URL( window.location );
+    
+    // ===== STORE =====
     const dispatch = useDispatch();
-
+    
     const {
         insumos,
         search: { isSearching, isFiltering }
     } = useSelector( state => state );
-
+    
     const { loading } = useSelector( state => state.loading );
+
+    // ===== STATE =====
+    const [newInsumoRouteModificated, setNewInsumoRouteModificated] = useState( nuevoInsumoPath );
 
     useEffect( () => {
 
         dispatch( startLoadingInsumos() );
 
     }, []);
+
+    // ===== ACTUALIZAR RUTA =====
+    useEffect( () => {
+        
+        let newRoute = nuevoInsumoPath;
+
+        if ( url.searchParams.get('activeBuy') ) {
+                newRoute += url.search;
+        }
+
+        setNewInsumoRouteModificated( newRoute );
+        
+    }, [url.searchParams, url.search])
 
     if ( loading ) {
         return <PaginaLoading />
@@ -57,13 +76,13 @@ export const MisInsumosContainer = () => {
 
             { isEmpty( insumos ) && !( isFiltering || isSearching )
 
-                ? <AddButton path={ nuevoInsumoPath } />
+                ? <AddButton path={ newInsumoRouteModificated } />
 
                 : <PaginaInsumos insumos={ insumos } />
 
             }
 
-            <InsumosMenuMobile />
+            <InsumosMenuMobile newInsumoPath={ newInsumoRouteModificated } />
         </div>
     )
 }

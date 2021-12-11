@@ -1,7 +1,9 @@
 import { equality, filter, find, removeItemFromArrayByProp } from "functionallibrary";
 
 import { type } from "../constant/type";
+import { resumenDeComprasPath } from "../constant/routes";
 
+import { dateWithTime } from "../helper/dates";
 import { fetchCreatePurchase } from "../helper/fetch";
 import { getFromLocalStorage, removeFromLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
 import { NotificationError, NotificationSuccess } from "../helper/toast";
@@ -11,7 +13,6 @@ import { updateInsumosToBuyWithSelected } from "../helper/updateArrayWithArray";
 import { selectAllInsumosToBuy } from "./insumosAction";
 import { endLoading, startLoading } from "./loadingAction";
 import { initialState } from "../reducers/newPurchaseReducer";
-import { dateWithTime } from "../helper/dates";
 
 /// ============= Acciones sincronas ================= //
 export const selectedInsumos = ( allInsumos ) => ({
@@ -21,6 +22,11 @@ export const selectedInsumos = ( allInsumos ) => ({
 
 export const updatingInsumosQuantity = ( updatedInsumo ) => ({
     type: type.newPurchase.updateQuantity,
+    payload: updatedInsumo
+})
+
+export const updatingInsumosTotal = ( updatedInsumo ) => ({
+    type: type.newPurchase.updateInsumoTotal,
     payload: updatedInsumo
 })
 
@@ -83,6 +89,14 @@ export const startUpdatingQuantity = ( { id, quantity } ) => ( dispatch, rootSta
     dispatch( updatingInsumosQuantity( { ...thisInsumo, quantity } ) );
 }
 
+export const startUpdatingTotal = ( { id, total } ) => ( dispatch, rootState ) => {
+
+    const { newPurchase: { insumos } } = rootState();
+    const thisInsumo = find( equality( 'id', id ), insumos );
+
+    dispatch( updatingInsumosTotal( { ...thisInsumo, total } ) );
+}
+
 export const clearInsumosToBuy = () => dispatch => {
 
     dispatch( startLoading() );
@@ -113,7 +127,7 @@ export const cleaningNewPurchase = () => dispatch => {
 }
 
 /// ============= Acciones Asincronas ================= //
-export const startCreatingPurchase = () => async ( dispatch, rootState ) => {
+export const startCreatingPurchase = ( history ) => async ( dispatch, rootState ) => {
 
     dispatch( startLoading() );
 
@@ -131,6 +145,8 @@ export const startCreatingPurchase = () => async ( dispatch, rootState ) => {
         removeFromLocalStorage( type.localStorage.purchases );
 
         NotificationSuccess( type.notificationMessages.newPurchaseCreated );
+
+        history.push( resumenDeComprasPath );
         
     } catch (error) {
         NotificationError( type.notificationMessages.newPurchaseCreatedError );

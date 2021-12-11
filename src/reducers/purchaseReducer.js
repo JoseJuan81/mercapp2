@@ -11,6 +11,7 @@ export const purchasesReducer = ( state = initialState, action ) => {
 
     const opts = {
         [type.purchases.getAll]: () => ({ ...state, list: action.payload }),
+        [type.purchases.unselectAll]: () => ({ ...state, selected: [] }),
         [type.purchases.select]: () => ({
             ...state,
             list: updateItemInArrayByProp( 'id', action.payload, state.list ),

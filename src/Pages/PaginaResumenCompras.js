@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectPurchase, startGettingPurchases } from '../actions/purchasesAction';
+import { selectPurchase, startGettingPurchases, unSelectPurchase } from '../actions/purchasesAction';
 import { ListButton, GalleryButton } from '../components/Buttons/AppButtons';
 
 import { BigAddButton } from '../components/Buttons/BigAddButton';
@@ -85,7 +85,8 @@ const PurchasesList = ({ purchases }) => {
     const handleOnSelectPurchase = ( purchase ) => {
         
         const selected = !purchase.selected;
-        dispatch( selectPurchase({ ...purchase, selected }) );
+        const selectedFN = selected ? selectPurchase : unSelectPurchase;
+        dispatch( selectedFN({ ...purchase, selected }) );
     }
 
     return (

@@ -46,7 +46,7 @@ export const AppRoutes = () => {
                     <Route exact path={ mejorCompraPath }>
                         <NuevaCompraContainer />
                     </Route>
-                    <Route exact path={ `${ detalleComprasPath }/:id` }>
+                    <Route path={ detalleComprasPath }>
                         <DetalleCompraContainer />
                     </Route>
                     {/* ===== COMPRAS ===== */}
