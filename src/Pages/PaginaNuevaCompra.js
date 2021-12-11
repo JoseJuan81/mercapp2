@@ -144,7 +144,7 @@ export const PaginaNuevaCompra = () => {
             handleChangeOnDate({ target: { value: todayDate } });
         }
 
-    },[purchaseDate])
+    },[purchaseDate, handleChangeOnDate])
 
     if ( loading ) {
         return <PaginaLoading />

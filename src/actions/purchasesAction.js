@@ -1,7 +1,7 @@
 import { type } from "../constant/type"
 import { fetchAllPurchases } from "../helper/fetch";
 import { getFromLocalStorage, setInLocalStorage } from "../helper/localStorage";
-import { NotificationError, NotificationSuccess } from "../helper/toast";
+import { NotificationError } from "../helper/toast";
 import { endLoading, startLoading } from "./loadingAction";
 
 /// ============= Acciones sincronas ================= //
@@ -18,6 +18,10 @@ export const selectPurchase = ( purchase ) => ({
 export const unSelectPurchase = ( purchase ) => ({
     type: type.purchases.unselect,
     payload: purchase
+})
+
+export const unSelectAllInsumos = () => ({
+    type: type.purchases.unselectAll,
 })
 
 /// ============= Acciones Asincronas ================= //

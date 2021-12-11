@@ -24,6 +24,10 @@ export const newPurchaseReducer = ( state = initialState, action ) => {
             ...state,
             insumos: updateItemInArrayByProp( 'id', action.payload, state.insumos )
         }),
+        [type.newPurchase.updateInsumoTotal]: () => ({
+            ...state,
+            insumos: updateItemInArrayByProp( 'id', action.payload, state.insumos )
+        }),
         [type.newPurchase.total]: () => ({
             ...state,
             total: calculateTotal( state.insumos, state.establishmentName )

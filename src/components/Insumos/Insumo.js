@@ -24,11 +24,9 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
     const dispatch = useDispatch();
 
     // ===== VARIABLES LOCALES =====
-    const { currency, labels, id, name: title, price: priceObject, quantity } = insumo;
+    const { currency, labels, id, name: title, price: priceObject, quantity, total:totalInsumo } = insumo;
     const price = priceObject[establishment.toLowerCase()] || 0;
-
-    // ===== STATE =====
-    const [total, setTotal] = useState( price );
+    const total = totalInsumo || price;
 
     // ===== FUNCIONES LOCALES =====
     const onChangePrice = ( e ) => {
@@ -80,7 +78,6 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
                 />
 
                 <InsumoQuantity
-                    setTotal={ setTotal }
                     price={ price }
                     id={ id }
                     quantity={ quantity }

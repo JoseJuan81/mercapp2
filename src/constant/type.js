@@ -67,11 +67,13 @@ export const type = {
         total: '[newPurchase] calculate insumos total',
         update: '[newPurchase] update all new purchase',
         updateQuantity: '[newPurchase] update quantity in insumo',
+        updateInsumoTotal: '[newPurchase] update total in insumo',
     },
     purchases: {
         getAll: '[purchases] get all purchases',
         select: '[purchases] select a purchase',
         unselect: '[purchases] unselect a purchase',
+        unselectAll: '[purchases] unselect all purchases',
     },
     search: {
         showSearch: '[search] show search insumos field',

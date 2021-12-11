@@ -2,12 +2,12 @@ import { round } from 'functionallibrary';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { startUpdatingQuantity } from '../../actions/newPurchaseAction';
+import { startUpdatingQuantity, startUpdatingTotal } from '../../actions/newPurchaseAction';
 import { InputField } from '../Form/InputField';
 
 const twoDecimals = round(2);
 
-export const InsumoQuantity = React.memo( ({ setTotal, price, id, quantity: insumoQuantity }) => {
+export const InsumoQuantity = React.memo( ({ price, id, quantity: insumoQuantity }) => {
 
 
     const initialQuantity = insumoQuantity || 1;
@@ -43,9 +43,9 @@ export const InsumoQuantity = React.memo( ({ setTotal, price, id, quantity: insu
     useEffect( () => {
 
         const total = twoDecimals( q * price ) || 0;
-        setTotal( total );
+        dispatch( startUpdatingTotal({ id, total }) );
 
-    }, [q, price, setTotal])
+    }, [q, price, dispatch, id])
 
     useEffect( () => {
 

@@ -30,7 +30,7 @@ export const NuevaCompraMenuMobile = React.memo( () => {
 
     const handleClickOnCheckButton = () => {
 
-        dispatch( startCreatingPurchase() );
+        dispatch( startCreatingPurchase( history ) );
     }
 
     // modificar la url en funcion del establecimiento seleccionado

@@ -182,6 +182,15 @@ export const fetchAllPurchases = () => {
     const url = `${ urlBase }/purchases`;
     return buildGetFetch( url ).then( (res) => res.json() );
 }
+/**
+ * @description Obtener una compra
+
+ */
+export const fetchPurchase = ( id ) => {
+
+    const url = `${ urlBase }/purchases/${ id }`;
+    return buildGetFetch( url ).then( (res) => res.json() );
+}
 
 /**
  * @description Eliminar insumo
