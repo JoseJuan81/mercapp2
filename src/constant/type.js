@@ -71,6 +71,7 @@ export const type = {
     },
     purchases: {
         getAll: '[purchases] get all purchases',
+        multiSelect: '[purchases] purchases multi select',
         select: '[purchases] select a purchase',
         unselect: '[purchases] unselect a purchase',
         unselectAll: '[purchases] unselect all purchases',

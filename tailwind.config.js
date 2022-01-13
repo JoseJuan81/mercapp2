@@ -16,7 +16,13 @@ module.exports = {
 				rose: colors.rose,
 				sky: colors.sky,
 				warmGray: colors.warmGray
-			},
+            },
+			fill: {
+				lime: colors.lime,
+				rose: colors.rose,
+				sky: colors.sky,
+				warmGray: colors.warmGray
+            },
 			fontFamily: {
 				mercapp: 'Nunito'
 			},

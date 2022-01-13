@@ -6,8 +6,8 @@ import { selectAllInsumosToBuy } from '../../actions/insumosAction';
 import { cleaningNewPurchase } from '../../actions/newPurchaseAction';
 import { showSearchField, hideSearchAndFilterField, showFilterField } from '../../actions/searchAction';
 
-import { nuevaCompraPath, nuevoInsumoPath } from '../../constant/routes';
-import { AddCircleButton, CheckCircleButton, CheckFullFilledCircleButton, FilterButton, SearchButton, ShoppingCarButton } from '../Buttons/AppButtons';
+import { nuevaCompraPath } from '../../constant/routes';
+import { AddCircleButton, CheckCircleButton, CheckFullFilledCircleButton, FilterButton, HeartButton, SearchButton, ShoppingCarButton } from '../Buttons/AppButtons';
 
 export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
 
@@ -15,6 +15,10 @@ export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
     const dispatch = useDispatch();
     const { showField, isSearching, isFiltering } = useSelector( state => state.search );
     const selectedInsumos = useSelector( state => filter( equality( 'selected', true ), state.insumos ));
+
+    // ===== STATE =====
+    const [selectAll, setSelectAll] = useState( false );
+    const [isMounting, setIsMounting] = useState( true );
 
     // ===== FUNCIONES PROPIAS =====
     const toogleShowSearch = () => {
@@ -39,15 +43,25 @@ export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
         }
     }
 
-    const handleClickOnCheckButton = ( flag ) => {
+    useEffect(() => {
 
-        if ( !flag ) {
+        if ( !isMounting ) {
 
-            dispatch( cleaningNewPurchase() );
+            if ( !selectAll ) {
+    
+                dispatch( cleaningNewPurchase() );
+            } else {
+
+                dispatch( selectAllInsumosToBuy( selectAll ) );
+            }
+    
+
+        } else {
+
+            setIsMounting( false );
         }
 
-        dispatch( selectAllInsumosToBuy( flag ) )
-    }
+    },[selectAll, dispatch])
 
     return (
         <div
@@ -57,14 +71,19 @@ export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
             "
         >
             
-            <CheckFullFilledCircleButton
-                isButton
-                onClick={ () => handleClickOnCheckButton( true ) }
-            />
+            {selectAll
+                ? <CheckCircleButton
+                    isButton
+                    onClick={ () => setSelectAll( s => !s ) }
+                />
+                : <CheckFullFilledCircleButton
+                    isButton
+                    onClick={ () => setSelectAll( s => !s ) }
+                />
+            }
 
-            <CheckCircleButton
+            <HeartButton
                 isButton
-                onClick={ () => handleClickOnCheckButton( false ) }
             />
 
             <SearchButton

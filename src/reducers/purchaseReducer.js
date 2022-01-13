@@ -22,6 +22,7 @@ export const purchasesReducer = ( state = initialState, action ) => {
             list: updateItemInArrayByProp( 'id', action.payload, state.list ),
             selected: removeItemFromArrayByProp( 'id', action.payload, state.selected )
         }),
+        [type.purchases.multiSelect]: () => ({ ...state, selected: [].concat( action.payload )})
     }
 
     const fn = opts[action.type];

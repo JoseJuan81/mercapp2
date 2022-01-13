@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import { clearInsumosToBuy, startCreatingPurchase } from '../../actions/newPurchaseAction';
 import { mejorCompraPath, misInsumosPath } from '../../constant/routes';
-import { AddCircleButton, CheckButton, CloseCircleButton, BackButton, WalletButton } from '../Buttons/AppButtons';
+import { AddCircleButton, CheckButton, CloseCircleButton, BackButton, PigButton } from '../Buttons/AppButtons';
 
 
 // ===== VARIABLES CONSTANTES =====
@@ -68,7 +68,7 @@ export const NuevaCompraMenuMobile = React.memo( () => {
                 to={ insumosRouteModificated }
             />
 
-            <WalletButton
+            <PigButton
                 to={ mejorCompraPath }
             />
 

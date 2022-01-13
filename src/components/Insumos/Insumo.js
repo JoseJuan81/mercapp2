@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { selectInsumoToBuy } from '../../actions/insumosAction';
 import { updateInsumoPriceOnBuying } from '../../actions/newPurchaseAction';
 
-import { SeeDetailsButton } from '../Buttons/AppButtons';
+import { HeartButton, HeartSolidButton, SeeDetailsButton } from '../Buttons/AppButtons';
 import { InsumoEtiquetas } from './InsumoEtiquetas';
 import { InsumoTitle } from './InsumoTitle';
 import { InsumoPrice } from './InsumoPrice';
@@ -57,7 +57,7 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
             `}
         >
 
-            <div className="flex p-2 overflow-hidden relative">
+            <div className="flex p-2 pt-1 overflow-hidden relative">
 
                 <div className="flex flex-auto">
                     <InsumoTitle title={ title } />
@@ -67,7 +67,7 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
 
             </div>
 
-            <div className="flex justify-between items-center py-2 pr-4">
+            <div className="flex justify-between items-center pb-2 pr-4">
 
                 <InsumoPrice
                     currency={ currency }
@@ -100,6 +100,9 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
                     <InsumoEtiquetas labels={ labels } />
                 </div>
             }
+
+            {/* Precios por establecimiento */}
+            {/* <InsumoPriceByEstablishment prices={ priceObject } /> */}
             
         </div>
     )
@@ -114,7 +117,7 @@ export const InsumoBase = React.memo( ({ insumo }) => {
     const dispatch = useDispatch();
 
     // ===== VARIABLES LOCALES =====
-    const { selected, labels, id, name: title } = insumo;
+    const { selected, labels, id, name: title, isFavorite } = insumo;
 
     // ===== STATE =====
     const [insumoDetailsPage, setInsumoDetailsPage] = useState('');
@@ -135,7 +138,7 @@ export const InsumoBase = React.memo( ({ insumo }) => {
     useEffect(() => {
 
         const insumoId = '?insumoId=' + id;
-        const insumoData = '&prices=true';
+        const insumoData = '&data=true';
         const query = insumoId + insumoData;
         setInsumoDetailsPage( detalleInsumoPath + query );
 
@@ -153,7 +156,7 @@ export const InsumoBase = React.memo( ({ insumo }) => {
             onClick={ handleSelecting }
         >
 
-            <div className="flex items-center p-2 pr-10 overflow-hidden relative">
+            <div className="flex items-center pl-2 py-1 pr-10 overflow-hidden relative">
 
                 <div className="flex flex-auto items-center">
                     
@@ -161,15 +164,36 @@ export const InsumoBase = React.memo( ({ insumo }) => {
                         title={ title }
                         checked={ selected }
                     />
+                    
 
                 </div>
+
+                {isFavorite
+                ? <HeartSolidButton
+                    isButton
+                    className={`
+                        text-base text-rose-500
+                        w-10 h-10
+                        mr-2
+                    `}
+                />
+                : <HeartButton
+                    isButton
+                    className={`
+                        text-base
+                        w-10 h-10
+                        mr-2
+                    `}
+                />
+        }
+                
 
                 {id &&
                     <SeeDetailsButton
                         isButton
                         className={`
                             rounded-full
-                            w-10 h-10
+                            min-w-10 w-10 h-10
                             mr-2
                             text-base ${ selected ? 'text-lime-500' : 'text-warmGray-800' }
                             ${ selected? 'bg-lime-50' : 'bg-warmGray-100' }
@@ -187,7 +211,7 @@ export const InsumoBase = React.memo( ({ insumo }) => {
                     className={`
                         rounded-br-lg rounded-bl-lg
                         ${ selected ? 'bg-lime-100' : 'bg-warmGray-100' }
-                        p-1
+                        px-1
                     `}
                 >
                     <InsumoEtiquetas

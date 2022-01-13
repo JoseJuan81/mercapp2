@@ -37,7 +37,7 @@ export const AppRoutes = () => {
                     <Route exact path={ resumenDeComprasPath }>
                         <MisComprasContainer />
                     </Route>
-                    <Route exact path={ mezclarComprasPath }>
+                    <Route path={ mezclarComprasPath }>
                         <MezclarComprasContainer />
                     </Route>
                     <Route exact path={ nuevaCompraPath }>

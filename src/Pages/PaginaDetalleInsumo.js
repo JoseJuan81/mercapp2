@@ -15,7 +15,8 @@ export const PaginaDetalleInsumo = () => {
 
     // ===== STORE =====
     const dispatch = useDispatch()
-    const { data } = useSelector( store => store.insumoDetails );
+    const { data, prices } = useSelector( store => store.insumoDetails );
+    const { loading } = useSelector( store => store.loading );
 
     // cargar datos del insumo
     useEffect(() => {
@@ -30,20 +31,20 @@ export const PaginaDetalleInsumo = () => {
     return (
         <div
             className="
-                px-2 pt-3
+                pt-3
                 flex items-start justify-center
             "
         >
             {!isEmpty( url.searchParams.get('data') ) && (
-                <InsumoDataInfo data={ data } />
+                <InsumoDataInfo data={ data } prices={ prices } />
             )}
 
             {!isEmpty( url.searchParams.get('prices') ) && (
                 <InsumoPriceInfo />
             )}
 
-            {!isEmpty( url.searchParams.get('statistics') ) && (
-                <InsumoStatisticsInfo />
+            {!isEmpty( url.searchParams.get('statistics') ) && !loading && (
+                <InsumoStatisticsInfo historyPrices={ data.historyPrice } name={ data.name } />
             )}
         </div>
     )

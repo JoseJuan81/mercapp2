@@ -26,7 +26,7 @@ export const DetalleInsumoMenuMobile = () => {
             className="
                 fixed bottom-0 left-0
                 w-full h-16
-                grid grid-cols-4
+                grid grid-cols-3
                 z-30
                 bg-white
             "
@@ -46,14 +46,6 @@ export const DetalleInsumoMenuMobile = () => {
                     ${ url.searchParams.get( 'data' ) && 'text-lime-500' }
                 `}
                 to={ insumoBaseRoute + '&data=true' }
-            />
-
-            <MoneyHandButton
-                className={`
-                    flex items-center justify-center
-                    ${ url.searchParams.get( 'prices' ) && 'text-lime-500' }
-                `}
-                to={ insumoBaseRoute + '&prices=true' }
             />
             <PriceStatisticsButton
                 className={`
