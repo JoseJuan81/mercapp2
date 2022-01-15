@@ -3,7 +3,8 @@ const layoutStyles = ({ addComponents, theme }) => {
 
 	const layout = {
 		'.layout__container': {
-			height: 'calc(100vh - 64px)',
+            height: '100vh',
+            paddingTop: theme( 'spacing.16' ),
 			width: '100%',
 		},
 		'.layout__page': {

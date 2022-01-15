@@ -65,7 +65,6 @@ const BackToPurchases = React.memo( () => {
         <BackButton
             className="
                 btn-icon
-                flex items-center justify-center
             "
             to={ resumenDeComprasPath }
         />
@@ -137,11 +136,10 @@ export const NavBar = () => {
         <div
             className="
                 px-3
-                h-16
                 border-b border-solid border-warmGray-200
                 flex items-center justify-between
-                sticky top-0 z-10
-                w-full
+                fixed top-0 z-10
+                w-screen h-16
                 bg-white
             "
         >

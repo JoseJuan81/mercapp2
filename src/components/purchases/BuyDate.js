@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getDayInWord, getFormatDate } from '../../helper/dates';
 
-export const BuyDate = React.memo(({ date, inline = false, selected }) => {
+export const BuyDate = React.memo(({ date, inline = false, selected = false }) => {
     return (
         <div
             className={`

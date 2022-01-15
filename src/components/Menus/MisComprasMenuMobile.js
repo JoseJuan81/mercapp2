@@ -1,9 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getPropertysValue, map } from 'functionallibrary';
 
 import { detalleComprasPath, mezclarComprasPath, nuevaCompraPath } from '../../constant/routes';
 import { AddCircleButton, FilterButton, MergeButton, SeeDetailsButton } from '../Buttons/AppButtons';
-import { useHistory } from 'react-router-dom';
 
 export const MisComprasMenuMobile = () => {
 
@@ -24,7 +25,7 @@ export const MisComprasMenuMobile = () => {
 
         if ( isDetails ) {
 
-            const route = `${ detalleComprasPath }?id=${ selected[0].id }`;
+            const route = `${ detalleComprasPath }?ids=${ selected[0].id }`;
             history.push( route );
         }
     }
@@ -33,7 +34,8 @@ export const MisComprasMenuMobile = () => {
 
         if ( isMergeable ) {
 
-            const route = mezclarComprasPath;
+            const ids = map( getPropertysValue( 'id' ), selected );
+            const route = `${ mezclarComprasPath }?compras=${ ids.join(',') }`;
             history.push( route );
         }
     }

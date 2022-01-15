@@ -30,5 +30,5 @@ export const dateWithTime = ( date ) => {
     const s = current.getSeconds();
 
     const [y, month, d] = date.split('-');
-    return new Date(y, month, d, h, m, s);
+    return new Date(y, month - 1, d, h, m, s);
 }

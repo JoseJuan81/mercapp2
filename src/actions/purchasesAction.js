@@ -24,6 +24,11 @@ export const unSelectAllInsumos = () => ({
     type: type.purchases.unselectAll,
 })
 
+export const selectMultiPurchases = ( purchases ) => ({
+    type: type.purchases.multiSelect,
+    payload: purchases
+})
+
 /// ============= Acciones Asincronas ================= //
 export const startGettingPurchases = () => async ( dispatch ) => {
 

@@ -11,7 +11,7 @@ import { PurchaseCard } from '../components/purchases/PurchaseCard';
 import { nuevaCompraPath } from '../constant/routes';
 import { type } from '../constant/type';
 
-import { orderingPurchases } from '../helper/orderingPurchases';
+import { getPurchasesByMonth, orderingPurchases } from '../helper/orderingPurchases';
 
 const NoPurchases = React.memo(() => {
     return (
@@ -31,24 +31,44 @@ const NoPurchases = React.memo(() => {
 })
 
 const PurchasesCardList = ({ purchases, onSelect }) => {
+
+    const purchasesByMonth = getPurchasesByMonth( purchases );
+
     return (
-        <div
-            className="
-                animate__animated animate__bounceInRight
-                grid grid-cols-2 gap-2
-                h-full w-full
-                px-2
-                overflow-scroll
-            "
-        >
-            {purchases.map( ( purchase, index ) => (
-                    <PurchaseCard
-                        key={ `${ purchase.id }-${ index }` }
-                        purchase={ purchase }
-                        onSelect={ onSelect }
-                    />
-                ))
-            }
+        <div>
+            {purchasesByMonth.map(( month, monthIndex) => (
+                <div
+                    key={month.name + '-' + monthIndex}
+                    className="
+                       mb-5
+                    "
+                >
+                    <h2
+                        className="
+                            font-bold text-2xl text-warmGray-600
+                            ml-4
+                        "
+                    >{month.name}</h2>
+                    <div
+                        className="
+                            animate__animated animate__bounceInRight
+                            grid grid-cols-2 gap-2
+                            h-full w-full
+                            px-2
+                            overflow-scroll
+                        "
+                    >
+                        {month.purchases.map( ( purchase, index ) => (
+                                <PurchaseCard
+                                    key={ `${ purchase.id }-${ index }` }
+                                    purchase={ purchase }
+                                    onSelect={ onSelect }
+                                />
+                            ))
+                        }
+                    </div>
+                </div>
+            ))}
             
         </div>
     )

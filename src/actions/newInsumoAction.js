@@ -7,7 +7,7 @@ import { endLoading, startLoading } from "./loadingAction";
 import { getFromLocalStorage, removeFromLocalStorage, setInLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
 import { priceFromArrayToObject } from "../helper/priceHandling";
 import { fetchCreateInsumo, fetchInsumo, fetchUpdateInsumo } from "../helper/fetch";
-import toast, { NotificationError, NotificationSuccess } from "../helper/toast";
+import { NotificationError, NotificationSuccess } from "../helper/toast";
 
 import { type } from "../constant/type";
 

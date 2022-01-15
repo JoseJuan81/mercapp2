@@ -54,7 +54,7 @@ export const InsumoQuantity = React.memo( ({ price, id, quantity: insumoQuantity
     }, [q, dispatch, id])
 
     return (
-        <div className="flex mx-2 h-12">
+        <div className="flex mx-2 h-10">
             <button
                 data-jest="minusQuantity"
                 className="
