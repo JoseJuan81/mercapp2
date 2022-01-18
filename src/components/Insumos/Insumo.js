@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { selectInsumoToBuy } from '../../actions/insumosAction';
+import { selectInsumoToBuy, startIsFavorite } from '../../actions/insumosAction';
 import { updateInsumoPriceOnBuying } from '../../actions/newPurchaseAction';
 
 import { HeartButton, HeartSolidButton, SeeDetailsButton } from '../Buttons/AppButtons';
@@ -128,6 +128,12 @@ export const InsumoBase = React.memo( ({ insumo }) => {
         dispatch( selectInsumoToBuy( selectedInsumo ) );
     }
 
+    const handleFavorite = (ev) => {
+        ev.stopPropagation();
+
+        dispatch( startIsFavorite( { ...insumo, isFavorite: !isFavorite } ) );
+    }
+
     const handleClickOninsumoDetails = ( ev ) => {
         ev.stopPropagation();
         
@@ -176,6 +182,7 @@ export const InsumoBase = React.memo( ({ insumo }) => {
                         w-10 h-10
                         mr-2
                     `}
+                    onClick={ handleFavorite }
                 />
                 : <HeartButton
                     isButton
@@ -184,6 +191,7 @@ export const InsumoBase = React.memo( ({ insumo }) => {
                         w-10 h-10
                         mr-2
                     `}
+                    onClick={ handleFavorite }
                 />
         }
                 

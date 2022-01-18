@@ -19,7 +19,7 @@ export const PaginaInsumos = ({ insumos }) => {
 
     const {
         search: { isFiltering, isSearching}
-    } = useSelector( state => state );
+    } = useSelector( store => store );
 
     return (
         <>

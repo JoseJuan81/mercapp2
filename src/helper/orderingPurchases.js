@@ -31,7 +31,7 @@ export const getPurchasesByMonth = purchases => {
         if ( existIndex > -1) {
 
             const thisMonth = month[existIndex];
-            thisMonth.purchases = [].concat( purchase, thisMonth.purchases );
+            thisMonth.purchases = [].concat( thisMonth.purchases, purchase );
             thisMonth.count = thisMonth.count + 1;
             return month;
         } else {

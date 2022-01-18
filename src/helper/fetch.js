@@ -2,7 +2,7 @@ import { type } from "../constant/type";
 
 import { getFromLocalStorage } from "./localStorage";
 
-const urlBase = process.env.REACT_APP_URLBASE;
+const URLBASE = process.env.REACT_APP_URLBASE;
 
 /// ===== UTILIDADES PARA SERVICIOS WEB =====
 
@@ -54,7 +54,7 @@ const buildGetFetch = ( url ) => {
 const buildPostOrPutFetch = ( url, data, method  ) => {
 
     const token = getFromLocalStorage( type.localStorage.token );
-    
+
     const body = JSON.stringify( data );
 
     return fetch(
@@ -79,7 +79,7 @@ const buildPostOrPutFetch = ( url, data, method  ) => {
  */
 export const fetchLogin = ( email, password ) => {
 
-    const url = `${ urlBase }/auth`;
+    const url = `${ URLBASE }/auth`;
     return fetch( url, {
         headers: {
             'Content-type': 'application/json'
@@ -99,7 +99,7 @@ export const fetchLogin = ( email, password ) => {
  */
 export const fetchSignUp = ( name, email, password ) => {
 
-    const url = `${ urlBase }/auth/new`;
+    const url = `${ URLBASE }/auth/new`;
     return fetch( url, {
         headers: {
             'Content-type': 'application/json'
@@ -112,13 +112,13 @@ export const fetchSignUp = ( name, email, password ) => {
 
 export const fetchInsumos = () => {
 
-    const url = `${ urlBase }/insumos`;
+    const url = `${ URLBASE }/insumos`;
     return buildGetFetch( url ).then( (res) => res.json() );
 }
 
 export const fetchInsumo = async ( id ) => {
 
-    const url = `${ urlBase }/insumos/${ id }`;
+    const url = `${ URLBASE }/insumos/${ id }`;
 
     const res = await buildGetFetch( url );
     const data = await res.json();
@@ -138,19 +138,27 @@ export const fetchInsumo = async ( id ) => {
  */
 export const fetchCreateInsumo = ( body ) => {
     
-    const url = `${ urlBase }/insumos`;
+    const url = `${ URLBASE }/insumos`;
     return buildPostOrPutFetch( url, body, 'POST' ).then( (res) => res.json() );
 }
 
 /**
  * @description Editar un insumo
- * @param {string} id 
  * @param {object} body 
  */
 export const fetchUpdateInsumo = ( body ) => {
     
-    const url = `${ urlBase }/insumos/${ body.id }`;
+    const url = `${ URLBASE }/insumos/${ body.id }`;
     return buildPostOrPutFetch( url, body, 'PUT' ).then( (res) => res.json() );
+}
+
+/**
+ * @description Actualizar un insumo favorito
+ * @param {object} body 
+ */
+export const fetchFavorite = ( body ) => {
+    
+    return fetchUpdateInsumo( body );
 }
 
 /**
@@ -159,7 +167,7 @@ export const fetchUpdateInsumo = ( body ) => {
  */
 export const fetchEstablishments = () => {
 
-    const url = `${ urlBase }/establishments`;
+    const url = `${ URLBASE }/establishments`;
     return buildGetFetch( url ).then( (res) => res.json() );
 }
 
@@ -169,7 +177,7 @@ export const fetchEstablishments = () => {
  */
 export const fetchCreatePurchase = ( body ) => {
 
-    const url = `${ urlBase }/purchases/new`;
+    const url = `${ URLBASE }/purchases/new`;
     return buildPostOrPutFetch( url, body, 'POST' ).then( (res) => res.json() );
 }
 
@@ -179,7 +187,7 @@ export const fetchCreatePurchase = ( body ) => {
  */
 export const fetchAllPurchases = () => {
 
-    const url = `${ urlBase }/purchases`;
+    const url = `${ URLBASE }/purchases`;
     return buildGetFetch( url ).then( (res) => res.json() );
 }
 /**
@@ -188,7 +196,7 @@ export const fetchAllPurchases = () => {
  */
 export const fetchPurchase = ( id ) => {
 
-    const url = `${ urlBase }/purchases/${ id }`;
+    const url = `${ URLBASE }/purchases/${ id }`;
     return buildGetFetch( url ).then( (res) => res.json() );
 }
 
@@ -198,6 +206,6 @@ export const fetchPurchase = ( id ) => {
  */
 export const fetchDeleteInsumo = ( id ) => {
 
-    const url = `${ urlBase }/insumos/${ id }`;
+    const url = `${ URLBASE }/insumos/${ id }`;
     return buildDeleteFetch( url ).then( (res) => res.json() );
 }
