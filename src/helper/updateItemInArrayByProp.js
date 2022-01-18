@@ -5,6 +5,8 @@ import { equality, findIndex } from "functionallibrary";
  * @param {string} prop - propiedad a usar para ubicar elemento dentrod e arreglo
  * @param {object} item - elemento actualizado
  * @param {array} arr - arreglo de elementos
+ * 
+ * @return {array}
  */
 export const updateItemInArrayByProp = ( prop, item, arr ) => {
 

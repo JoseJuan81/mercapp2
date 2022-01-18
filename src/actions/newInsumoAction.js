@@ -129,16 +129,26 @@ export const startUpdateInsumo = () => async ( dispatch, rootState ) => {
     try {
         
         const response = await fetchUpdateInsumo( data );
-        const insumoUpdated = response.data;
+
+        if ( response.ok ) {
+            
+            const insumoUpdated = response.data;
+        
+            dispatch( updateInsumoInState( { ...insumoUpdated, selected } ) );
     
-        dispatch( updateInsumoInState( { ...insumoUpdated, selected } ) );
+            dispatch ( resetForm() );
+            updateInsumoInLocalStorage( { ...insumoUpdated, selected } );
+    
+            NotificationSuccess( type.notificationMessages.insumoUpdated );
+    
+            removeFromLocalStorage( type.localStorage.establishments );
 
-        dispatch ( resetForm() );
-        updateInsumoInLocalStorage( { ...insumoUpdated, selected } );
+        } else {
 
-        NotificationSuccess( type.notificationMessages.insumoUpdated );
+            NotificationError( type.notificationMessages.insumoUpdatedError );
+            NotificationError( response.msg );
 
-        removeFromLocalStorage( type.localStorage.establishments );
+        }
         
     } catch (error) {
         

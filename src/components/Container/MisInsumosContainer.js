@@ -36,9 +36,9 @@ export const MisInsumosContainer = () => {
     const dispatch = useDispatch();
     
     const {
-        insumos,
+        insumos: { data: insumos },
         search: { isSearching, isFiltering }
-    } = useSelector( state => state );
+    } = useSelector( store => store );
     
     const { loading } = useSelector( state => state.loading );
 

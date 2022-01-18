@@ -4,10 +4,11 @@ import { type } from "../constant/type";
 
 import { endLoading, startLoading } from "./loadingAction";
 
-import { fetchDeleteInsumo, fetchInsumos } from "../helper/fetch";
+import { fetchDeleteInsumo, fetchFavorite, fetchInsumos } from "../helper/fetch";
 import { getFromLocalStorage, removeInsumoFromLocalStorage, setInLocalStorage } from "../helper/localStorage";
 import { updateArrayWithArray } from "../helper/updateArrayWithArray";
 import { updateItemInArrayByProp } from "../helper/updateItemInArrayByProp";
+import { NotificationError } from "../helper/toast";
 
 /// ============= Acciones sincronas ================= //
 export const addInsumoToState = ( newInsumo ) => ({
@@ -55,6 +56,11 @@ export const selectAllInsumos = ( newState ) => ({
     payload: newState
 })
 
+export const selectAllFavorites = ( flag ) => ({
+    type: type.insumos.favorites,
+    payload: flag
+})
+
 export const searchingInsumo = ( val ) => dispatch => {
 
     const localInsumos = getFromLocalStorage( type.localStorage.insumos ) || [];
@@ -82,7 +88,7 @@ export const selectInsumoToBuy = ( insumo ) => dispatch => {
 
 export const selectAllInsumosToBuy = ( flag ) => ( dispatch, rootState ) => {
 
-    const state = rootState().insumos;
+    const state = rootState().insumos.data;
     const newState = map( setNewProperty( 'selected', flag ), state );
     const localInsumos = getFromLocalStorage( type.localStorage.insumos ) || [];
 
@@ -99,7 +105,7 @@ export const selectAllInsumosToBuy = ( flag ) => ( dispatch, rootState ) => {
 }
 
 /// ============= Acciones asincronas ================= //
-export const startLoadingInsumos = () => async ( dispatch, rootState ) => {
+export const startLoadingInsumos = () => async dispatch => {
     dispatch( startLoading() );
 
     const localInsumos = getFromLocalStorage( type.localStorage.insumos );
@@ -128,7 +134,7 @@ export const startLoadingInsumos = () => async ( dispatch, rootState ) => {
     dispatch( endLoading() );
 }
 
-export const startDeletingInsumos = ( id ) => async ( dispatch, rootState ) => {
+export const startDeletingInsumos = ( id ) => async dispatch => {
 
     dispatch( startLoading() );
 
@@ -144,4 +150,37 @@ export const startDeletingInsumos = ( id ) => async ( dispatch, rootState ) => {
     } finally {
         dispatch( endLoading() );
     }
+}
+
+export const startIsFavorite = ( insumoUpdated ) => async ( dispatch, rootState ) => {
+
+    dispatch( startLoading() );
+
+    const localInsumos = getFromLocalStorage( type.localStorage.insumos );
+    
+    try {
+
+        const response = await fetchFavorite( insumoUpdated );
+
+        if ( response.ok ) {
+
+            const updated = updateItemInArrayByProp( 'id', insumoUpdated, localInsumos );
+
+            dispatch( setInsumos( updated ) );
+            setInLocalStorage( type.localStorage.insumos, [...updated] );
+
+        } else {
+
+            NotificationError( type.notificationMessages.isFavoriteError );
+            NotificationError( response.msg );
+        }
+
+    } catch (error) {
+        
+        console.log('Error en servicio de favorito', error);
+    } finally {
+
+        dispatch( endLoading() );
+    }
+
 }

@@ -2,23 +2,24 @@ import { equality, filter, isEmpty } from 'functionallibrary';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectAllInsumosToBuy } from '../../actions/insumosAction';
+import { selectAllFavorites, selectAllInsumosToBuy } from '../../actions/insumosAction';
 import { cleaningNewPurchase } from '../../actions/newPurchaseAction';
 import { showSearchField, hideSearchAndFilterField, showFilterField } from '../../actions/searchAction';
 
 import { nuevaCompraPath } from '../../constant/routes';
-import { AddCircleButton, CheckCircleButton, CheckFullFilledCircleButton, FilterButton, HeartButton, SearchButton, ShoppingCarButton } from '../Buttons/AppButtons';
+import { AddCircleButton, CheckCircleButton, CheckFullFilledCircleButton, FilterButton, HeartButton, HeartSolidButton, SearchButton, ShoppingCarButton } from '../Buttons/AppButtons';
 
 export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
 
     // ===== STORE =====
     const dispatch = useDispatch();
-    const { showField, isSearching, isFiltering } = useSelector( state => state.search );
-    const selectedInsumos = useSelector( state => filter( equality( 'selected', true ), state.insumos ));
+    const { showField, isSearching, isFiltering } = useSelector( store => store.search );
+    const selectedInsumos = useSelector( store => filter( equality( 'selected', true ), store.insumos.data ));
 
     // ===== STATE =====
     const [selectAll, setSelectAll] = useState( false );
     const [isMounting, setIsMounting] = useState( true );
+    const [isFavorites, setIsFavorites] = useState( false );
 
     // ===== FUNCIONES PROPIAS =====
     const toogleShowSearch = () => {
@@ -50,18 +51,27 @@ export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
             if ( !selectAll ) {
     
                 dispatch( cleaningNewPurchase() );
-            } else {
 
-                dispatch( selectAllInsumosToBuy( selectAll ) );
             }
-    
 
+            dispatch( selectAllInsumosToBuy( selectAll ) );
+    
         } else {
 
             setIsMounting( false );
         }
 
     },[selectAll, dispatch])
+
+    useEffect(() => {
+
+        if ( !isMounting ) {
+
+            dispatch( selectAllFavorites( isFavorites ) );
+
+        }
+
+    },[isFavorites])
 
     return (
         <div
@@ -72,19 +82,29 @@ export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
         >
             
             {selectAll
-                ? <CheckCircleButton
+                ? <CheckFullFilledCircleButton
                     isButton
                     onClick={ () => setSelectAll( s => !s ) }
                 />
-                : <CheckFullFilledCircleButton
+                : <CheckCircleButton
                     isButton
                     onClick={ () => setSelectAll( s => !s ) }
                 />
             }
 
-            <HeartButton
-                isButton
-            />
+            {isFavorites
+                ? <HeartSolidButton
+                    isButton
+                    className="
+                        text-rose-500
+                    "
+                    onClick={ () => setIsFavorites( s => !s ) }
+                />
+                : <HeartButton
+                    isButton
+                    onClick={ () => setIsFavorites( s => !s ) }
+                />
+            }
 
             <SearchButton
                 isButton

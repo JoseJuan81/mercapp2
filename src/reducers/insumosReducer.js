@@ -1,5 +1,6 @@
 import {
     compose,
+    equality,
     filter,
     getPropertysValue,
     isEmpty,
@@ -52,18 +53,57 @@ const onFilter = ( localInsumos, filterValue ) => {
     return filtered;
 }
 
-export const insumosReducer = ( state = [], action ) => {
+/**
+ * @description filtrar productos favoritos
+ * @param {object} state - estado
+ * @param {boolean} flag - indica si se muestran o no los favoritos
+ * 
+ * @return {array} - arreglo de productos favoritos
+ */
+const onFavorites = ( state, flag ) => {
+
+    if ( flag ) {
+
+        return {
+            cache: [...state.data],
+            data: filter( equality( 'isFavorite', true ), state.data),
+        }
+
+    }
+
+    return {
+        cache: [],
+        data: [...state.cache],
+    }
+}
+
+const initialState = {
+    cache: [],
+    data: [],
+}
+export const insumosReducer = ( state = initialState, action ) => {
 
     const opts = {
-        [type.insumos.add]: () => ([action.payload, ...state]),
-        [type.insumos.getAll]: () => alphabeticSorting( [...state], action.payload ),
-        [type.insumos.set]: () => [...action.payload],
-        [type.insumos.deleteInsumoById]: () => [...removeItemFromArrayByProp( 'id', action.payload, state)],
-        [type.insumos.updateInsumos]: () => updateItemInArrayByProp( 'id', action.payload, state ),
-        [type.insumos.search]: () => onSearch( action.payload.insumos, action.payload.searchValue ),
-        [type.insumos.filter]: () => onFilter( action.payload.insumos, action.payload.filterValue ),
-        [type.insumos.select]: () => updateItemInArrayByProp( 'id', action.payload, state ),
-        [type.insumos.selectAll]: () => [...action.payload],
+        [type.insumos.add]: () => ({ ...state, data: [action.payload, ...state.data] }),
+        [type.insumos.getAll]: () => ({ ...state, data: alphabeticSorting( [...state], action.payload ) }),
+        [type.insumos.set]: () => ({ ...state, data: [...action.payload] }),
+        [type.insumos.deleteInsumoById]: () => (
+            { ...state, data: [...removeItemFromArrayByProp( 'id', action.payload, state.data)] }
+        ),
+        [type.insumos.updateInsumos]: () => (
+            { ...state, data: updateItemInArrayByProp( 'id', action.payload, state.data ) }
+        ),
+        [type.insumos.search]: () => (
+            { ...state, data: onSearch( action.payload.insumos, action.payload.searchValue ) }
+        ),
+        [type.insumos.filter]: () => (
+            { ...state, data: onFilter( action.payload.insumos, action.payload.filterValue ) }
+        ),
+        [type.insumos.select]: () => (
+            { ...state, data: updateItemInArrayByProp( 'id', action.payload, state.data ) }
+        ),
+        [type.insumos.selectAll]: () => ({ ...state, data: [...action.payload] }),
+        [type.insumos.favorites]: () => onFavorites( state, action.payload ),
     }
 
     const fn = opts[action.type];
