@@ -46,7 +46,7 @@ export const setInsumoToUpdate = ( insumoId ) => ( dispatch, rootState ) => {
 
     const insumos = isEmpty( rootState().insumos )
         ? getFromLocalStorage( type.localStorage.insumos )
-        : rootState().insumos;
+        : rootState().insumos.data;
 
     const insumoToUpdate = find(
         equality( 'id', insumoId ),
@@ -63,22 +63,30 @@ export const startCreateInsumo = ( isSelected ) => async ( dispatch, rootState )
 
     const localInsumos = getFromLocalStorage( type.localStorage.insumos ) || [];
 
-    const { newInsumo: { data }, insumos } = rootState();
+    const { newInsumo: { data }, insumos: { data: insumos } } = rootState();
     const allInsumos = isEmpty( insumos ) ? localInsumos : insumos;
 
     try {
         
         const response = await fetchCreateInsumo( data );
 
-        const insumoCreated = setNewProperty('selected', !!isSelected, response.data );
-        dispatch( addInsumoToState( insumoCreated ) );
-        setInLocalStorage( type.localStorage.insumos, [insumoCreated, ...allInsumos] );
+        if ( response.ok ) {
 
-        NotificationSuccess( type.notificationMessages.newInsumoCreated );
+            const insumoCreated = setNewProperty('selected', !!isSelected, response.data );
+            dispatch( addInsumoToState( insumoCreated ) );
+            setInLocalStorage( type.localStorage.insumos, [insumoCreated, ...allInsumos] );
+    
+            NotificationSuccess( type.notificationMessages.newInsumoCreated );
+    
+            dispatch ( resetForm() );
+    
+            removeFromLocalStorage( type.localStorage.establishments );
 
-        dispatch ( resetForm() );
+        } else {
+            NotificationError( type.notificationMessages.newInsumoCreatedError );
+            NotificationError( response.msg );
+        }
 
-        removeFromLocalStorage( type.localStorage.establishments );
 
     } catch (error) {
 
