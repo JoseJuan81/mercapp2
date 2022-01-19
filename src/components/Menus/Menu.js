@@ -155,7 +155,6 @@ const MenuHeader = React.memo(({ user, handleRefresh, handleShowMenu }) => {
             <span
                 className="
                     text-left text-warmGray-800
-                    mt-4
                 "
             >{ user.name }</span>
 
