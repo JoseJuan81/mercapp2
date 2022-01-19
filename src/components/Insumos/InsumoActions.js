@@ -6,8 +6,8 @@ import { startDeletingInsumos } from '../../actions/insumosAction';
 import { setInsumoToUpdate } from '../../actions/newInsumoAction';
 import { removeInsumoFromPurchase } from '../../actions/newPurchaseAction';
 
-import { detalleInsumoPath, editarInsumoPath } from '../../constant/routes';
-import { EditButton, LeftCircleButton, SeeDetailsButton, TrashButton } from '../Buttons/AppButtons';
+import { editarInsumoPath } from '../../constant/routes';
+import { EditButton, LeftCircleButton, TrashButton } from '../Buttons/AppButtons';
 
 export const InsumoBaseActions = React.memo( ({ id }) => {
 
@@ -19,23 +19,21 @@ export const InsumoBaseActions = React.memo( ({ id }) => {
 
     // ===== STATE =====
     const [toogle, setToogle] = useState(false);
-    // const [insumoDetailsPage, setInsumoDetailsPage] = useState('');
 
     // ===== FUNCIONES PROPIEAS =====
     const handleClickOnActionMenu = useCallback(( ev ) => {
         ev.stopPropagation();
 
         setToogle( s => !s );
-        // setInsumoDetailsPage( `${ detalleInsumoPath }/${ id }` );
 
     },[])
 
-    const handleDeleteInsumo = useCallback(( ev ) => {
+    const handleDeleteInsumo = ( ev ) => {
         ev.stopPropagation();
 
         dispatch( startDeletingInsumos( id ) );
         setToogle( false );
-    },[])
+    }
     
     const handleUpdateInsumo = ( ev ) => {
         ev.stopPropagation();
