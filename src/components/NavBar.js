@@ -138,7 +138,7 @@ export const NavBar = () => {
                 px-3
                 border-b border-solid border-warmGray-200
                 flex items-center justify-between
-                fixed top-0 z-10
+                fixed top-0 z-30
                 w-screen h-16
                 bg-white
             "

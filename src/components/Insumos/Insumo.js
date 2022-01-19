@@ -57,7 +57,7 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
             `}
         >
 
-            <div className="flex p-2 pt-1 overflow-hidden relative">
+            <div className="flex px-2 py-3 overflow-hidden relative">
 
                 <div className="flex flex-auto">
                     <InsumoTitle title={ title } />
@@ -67,7 +67,13 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
 
             </div>
 
-            <div className="flex justify-between items-center pb-2 pr-4">
+            <div
+                className="
+                    flex justify-between items-center
+                    pr-4 py-1
+                    h-12
+                "
+            >
 
                 <InsumoPrice
                     currency={ currency }
