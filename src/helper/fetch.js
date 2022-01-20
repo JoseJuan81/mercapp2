@@ -153,6 +153,16 @@ export const fetchUpdateInsumo = ( body ) => {
 }
 
 /**
+ * @description Eliminar insumo
+
+ */
+export const fetchDeleteInsumo = ( id ) => {
+
+    const url = `${ URLBASE }/insumos/${ id }`;
+    return buildDeleteFetch( url ).then( (res) => res.json() );
+}
+
+/**
  * @description Actualizar un insumo favorito
  * @param {object} body 
  */
@@ -201,11 +211,11 @@ export const fetchPurchase = ( id ) => {
 }
 
 /**
- * @description Eliminar insumo
+ * @description Eliminar Compra
 
  */
-export const fetchDeleteInsumo = ( id ) => {
+export const fetchDeletePurchase = ( id ) => {
 
-    const url = `${ URLBASE }/insumos/${ id }`;
+    const url = `${ URLBASE }/purchases/${ id }`;
     return buildDeleteFetch( url ).then( (res) => res.json() );
 }

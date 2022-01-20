@@ -20,7 +20,7 @@ export const unSelectPurchase = ( purchase ) => ({
     payload: purchase
 })
 
-export const unSelectAllInsumos = () => ({
+export const unSelectAllPurchases = () => ({
     type: type.purchases.unselectAll,
 })
 

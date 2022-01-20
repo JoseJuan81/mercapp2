@@ -17,7 +17,7 @@ export const PaginaDetalleCompra = ({ details }) => {
     return (
         <div
             className="
-                px-3 mt-3
+                px-3
             "
         >
             {name && <Descriptor data={ name } label="Compra:" />}

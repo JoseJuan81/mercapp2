@@ -37,7 +37,7 @@ export const BottomModal = ({children, show}) => {
                 w-full h-full
                 ${opacity ? 'bg-opacity-50' : 'bg-opacity-0'} bg-black
                 flex items-end justify-center
-                pt-8 px-4
+                pt-8 px-2
                 duration-200
             `}
         >

@@ -25,7 +25,7 @@ export const MisComprasMenuMobile = () => {
 
         if ( isDetails ) {
 
-            const route = `${ detalleComprasPath }?ids=${ selected[0].id }`;
+            const route = `${ detalleComprasPath }?id=${ selected[0].id }`;
             history.push( route );
         }
     }
