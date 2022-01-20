@@ -1,6 +1,7 @@
 import { isEmpty } from 'functionallibrary';
 import React from 'react';
 import { useSelector } from 'react-redux';
+
 import { priceFromObjectToArray } from '../../helper/priceHandling';
 
 const PriceByEstablishment = ({ establishmentName, price, currency, index }) => {

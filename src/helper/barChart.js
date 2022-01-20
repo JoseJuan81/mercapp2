@@ -13,7 +13,7 @@ const BarChart = {
 BarChart.init = function( root, { data, margin, width } ) {
 
     const [min, max] = extent( data, d => d.price );
-    this.min = min / 3;
+    this.min = min / 10;
     this.max = max * 1.3;
 
     this.createAxes( data, width, margin );
@@ -32,7 +32,8 @@ BarChart.createSVG = function( rootEl, width, margin ) {
       .attr("height", height)
       .attr("viewBox", [0, 0, width, height])
       .attr("font-size", "10")
-      .attr("text-anchor", "end");
+      .attr("class", "mx-auto")
+      .attr("text-anchor", "start");
 
       rootEl.append( this.svg.node() );
 }
@@ -54,36 +55,36 @@ BarChart.createChart = function(data, margin ) {
     this.bar = this.svg.selectAll("g")
       .data(data)
       .join("g")
-        .attr("transform", (d, i) => `translate(0,${this.y(i) + margin.top})`);
+        .attr("transform", (d, i) => `translate(0,${this.y(i) + ( i * 5 ) + margin.top})`);
 
     this.bar.append("rect")
-        .attr("class", "fill-lime-200")
+        .attr("class", "fill-warmGray-200")
+        .attr("fill-opacity", 0.5)
         .attr("width", d => this.x( d.price ))
-        .attr("height", this.y.bandwidth() - 3);
+        .attr( "height", this.y.bandwidth() );
 
     // mostrar precio
     this.bar.append("text")
-        .attr("class", "text-lime-600 font-bold text-xl")
-        .attr("x", d => this.x( d.price ) - 10)
+        .attr("class", "fill-warmGray-800 font-semibold text-lg")
+        .attr("x", d => this.x( d.price ) + 15)
         .attr("y", (this.y.bandwidth() - 1) / 2)
         .attr("dy", "0.35em")
         .text(d => d.price);
 
     // mostrar Fecha
     this.bar.append("text")
-        .attr("class", "text-warmGray-600 text-sm transform translate-x-14")
-        .attr("x", d => this.x(d.price) + 10)
-        .attr("y", (this.y.bandwidth() - 1) / 2)
-        .attr("dy", "0.35em")
+        .attr("class", "fill-warmGray-500 text-xs")
+        .attr("x", d => this.x( this.min ) + 4 )
+        .attr("y", (this.y.bandwidth() - 5))
+        .attr("dy", "0.1em")
         .text(d => getFormatDate( d.date ));
 
     // mostrar establecimiento
     this.bar.append("text")
-        .attr("class", "text-lime-700 text-sm")
-        .attr("x", this.x( this.min ) + 5)
-        .attr("y", (this.y.bandwidth() - 1) / 2)
-        .attr("dy", "0.35em")
-        .attr("text-anchor", "start")
+        .attr("class", "fill-lime-500 text-xs font-semibold")
+        .attr("x", this.x( this.min ) + 4)
+        .attr("y", ( 6 ))
+        .attr("dy", "0.5em")
         .text(d => d.establishmentName );
 }
 

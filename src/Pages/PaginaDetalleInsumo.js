@@ -35,17 +35,15 @@ export const PaginaDetalleInsumo = () => {
                 flex items-start justify-center
             "
         >
+
             {!isEmpty( url.searchParams.get('data') ) && (
                 <InsumoDataInfo data={ data } prices={ prices } />
-            )}
-
-            {!isEmpty( url.searchParams.get('prices') ) && (
-                <InsumoPriceInfo />
             )}
 
             {!isEmpty( url.searchParams.get('statistics') ) && !loading && (
                 <InsumoStatisticsInfo historyPrices={ data.historyPrice } name={ data.name } />
             )}
+
         </div>
     )
 }

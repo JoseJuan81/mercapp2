@@ -12,7 +12,12 @@ export const InsumoDataInfo = ({ data, prices }) => {
     const pricesOrdered = pricesArray.sort((a,b) => a.value - b.value);
 
     return (
-        <div className="w-full">
+        <div
+            className="
+                animate__animated animate__fadeInLeft
+                w-full
+            "
+        >
             <h1
                 className="
                     text-3xl font-bold text-center
