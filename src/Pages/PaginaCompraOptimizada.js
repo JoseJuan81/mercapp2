@@ -2,7 +2,7 @@ import { isEmpty } from 'functionallibrary';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { calculateTotal } from '../helper/calculateTotal';
+import { calculateSimpleTotal, calculateTotal } from '../helper/calculateTotal';
 import { capitalizeText } from '../helper/capitalize';
 import { clasifyingInsumosByEstablishment } from '../helper/clasifyingInsumosByEstablishment';
 
@@ -13,11 +13,14 @@ export const PaginaCompraOptimizada = () => {
 
     // ===== STATE =====
     const [insumosByEstablishment, setInsumosByEstablishment] = useState([]);
+    const [totalAmount, setTotalAmount] = useState(0);
 
     useEffect(() => {
         
-        const insumosClasified = clasifyingInsumosByEstablishment( insumos );
-        setInsumosByEstablishment( insumosClasified )
+        const classified = clasifyingInsumosByEstablishment( insumos );
+
+        setInsumosByEstablishment( classified );
+        setTotalAmount( calculateSimpleTotal( classified, 'total' ) );
 
     }, [insumos]);
 
@@ -25,13 +28,13 @@ export const PaginaCompraOptimizada = () => {
         <>
             {isEmpty( insumos )
                 ? <NoInsumosSelected />
-                : <InsumosByEstablishment insumos={ insumosByEstablishment } />
+                : <InsumosByEstablishment total={ totalAmount } insumos={ insumosByEstablishment } />
             }
         </>
     )
 }
 
-const InsumosByEstablishment = ({ insumos }) => {
+const InsumosByEstablishment = ({ insumos, total }) => {
 
     return (
         <div
@@ -39,6 +42,12 @@ const InsumosByEstablishment = ({ insumos }) => {
                 px-2
             "
         >
+            <h1
+                className="
+                    text-right font-bold text-2xl
+                    mb-2
+                "
+            >{ total }</h1>
             {
                 insumos.map(( { name, insumos }, index ) => (
                     <EstablishmentContainer

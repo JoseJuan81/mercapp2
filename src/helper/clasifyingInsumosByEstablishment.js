@@ -1,7 +1,9 @@
-import { compose, map, reduce } from "functionallibrary";
+import { compose, map, reduce, round } from "functionallibrary";
+
+const TWODECIMALS = round( 2 );
 
 export const clasifyingInsumosByEstablishment = ( insumos ) => {
-    
+
     return extractAccValuesByKey( reduce( clasifying, {}, insumos ) );
 }
 
@@ -37,10 +39,11 @@ export const addIntoAcc = ( accumulator, item ) => ({ name }) => {
     if ( exist ) {
 
         localAcc[name].insumos.push( item );
+        localAcc[name].total += TWODECIMALS( item.price[name] );
         
     } else {
 
-        localAcc[name] = { name, insumos: [item] };
+        localAcc[name] = { name, insumos: [item], total: TWODECIMALS( item.price[name] ) };
     }
 
     return localAcc;

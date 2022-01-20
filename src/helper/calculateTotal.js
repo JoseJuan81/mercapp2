@@ -19,3 +19,13 @@ export const calculateTotal = ( itemsArray, name ) => {
     const result = reduce( totalFn, 0, itemsArray );
     return twoDecimals( result );
 }
+
+export const calculateSimpleTotal = ( eles, prop ) => {
+    return twoDecimals(
+        reduce(
+            ( acc, item ) => acc + item[prop],
+            0,
+            eles
+        )
+    )
+}

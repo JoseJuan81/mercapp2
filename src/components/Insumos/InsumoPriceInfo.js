@@ -1,39 +1,35 @@
 import { isEmpty } from 'functionallibrary';
 import React from 'react';
-import { useSelector } from 'react-redux';
+
 import { priceFromObjectToArray } from '../../helper/priceHandling';
 
 const PriceByEstablishment = ({ establishmentName, price, currency, index }) => {
     return (
         <div
             className={`
-                flex items-center justify-between
-                w-full
-                ${ index === 0 ? 'border-t' : '' }
-                border-b border-warmGray-200 border-solid
-                py-3 px-4
-                text-2xl font-bold
+                flex flex-col items-start justify-start
+                m-1
+                text-xs
             `}
         >
             <h3
                 className="
-                    px-3
+                    bg-lime-100
                     text-lime-500
-                    rounded-lg
+                    px-1
+                    rounded
                 "
             >{ establishmentName }</h3>
             <div
                 className="
                     flex items-end justify-between
-                    px-3 py-2
-                    bg-warmGray-100
-                    text-warmGray-800
-                    rounded-lg
+                    text-warmGray-500
+                    ml-1
                 "
             >
                 <span
                     className="
-                        text-sm
+                        text-xs
                     "
                 >{ currency }</span>
                 <span>{ price }</span>
@@ -42,10 +38,7 @@ const PriceByEstablishment = ({ establishmentName, price, currency, index }) => 
     )
 }
 
-export const InsumoPriceInfo = () => {
-
-    // ===== STORE =====
-    const { prices } = useSelector( store => store.insumoDetails );
+export const InsumoPriceInfo = ({ prices }) => {
 
     // ===== VARIABLES LOCALES =====
     const pricesArray = priceFromObjectToArray( prices );
@@ -55,17 +48,10 @@ export const InsumoPriceInfo = () => {
         <div
             className="
                 w-full
-                pt-4
+                flex flex-wrap
+                space-x-1
             "
         >
-            <h1
-                className="
-                    font-bold text-3xl text-warmGray-500
-                    mb-6
-                "
-            >
-                Precios por Establecimiento
-            </h1>
 
             {!isEmpty( prices ) && pricesArray.length > 0
                 ? pricesOrdered.map((priceObj, ind) => (

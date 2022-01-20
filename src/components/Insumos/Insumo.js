@@ -17,6 +17,7 @@ import { InsumoBaseActions, InsumoActions } from './InsumoActions';
 import { detalleInsumoPath } from '../../constant/routes';
 import { NotificationInfo } from '../../helper/toast';
 import { type } from '../../constant/type';
+import { InsumoPriceInfo } from './InsumoPriceInfo';
 
 export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
 
@@ -108,7 +109,7 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
             }
 
             {/* Precios por establecimiento */}
-            {/* <InsumoPriceByEstablishment prices={ priceObject } /> */}
+            <InsumoPriceInfo prices={ priceObject } />
             
         </div>
     )

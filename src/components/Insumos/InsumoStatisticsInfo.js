@@ -13,6 +13,7 @@ export const InsumoStatisticsInfo = ({ historyPrices, name }) => {
         setWidth( window.innerWidth );
     }
 
+    // ESCUCHAR CAMBIOS DE DIMENSION EN PANTALLA
     useEffect(() => {
         window.addEventListener( 'resize', getScreenWidth )
         return () => {
@@ -20,6 +21,7 @@ export const InsumoStatisticsInfo = ({ historyPrices, name }) => {
         }
     }, [width])
 
+    // CREAR GRAFICO EN FUNCION DEL ANCHO DE LA PANTALLA
     useEffect(() => {
 
         if ( historyPrices ) {
@@ -35,7 +37,11 @@ export const InsumoStatisticsInfo = ({ historyPrices, name }) => {
     }, [width, historyPrices])
 
     return (
-        <div>
+        <div
+            className="
+                animate__animated animate__fadeInLeft
+            "
+        >
             <h1
                 className="
                     text-center text-3xl font-bold
