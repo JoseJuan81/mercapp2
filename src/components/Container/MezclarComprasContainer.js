@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty } from 'functionallibrary';
 
-import { unSelectAllInsumos } from '../../actions/purchasesAction';
+import { unSelectAllPurchases } from '../../actions/purchasesAction';
 
 import { PaginaMezclarCompras } from '../../Pages/PaginaMezclarCompras';
 import { LoadingMezclarComprasPage } from '../../Pages/loading/LoadingMezclarComprasPage';
@@ -21,7 +21,7 @@ export const MezclarComprasContainer = () => {
     // Limpiar newPurchase.seleted del store al salir de la pantalla
     useEffect(() => {
         return () => {
-            dispatch( unSelectAllInsumos() );
+            dispatch( unSelectAllPurchases() );
         }
     },[])
 

@@ -18,7 +18,7 @@ import { InputField } from '../components/Form/InputField';
 import { formattedByInputDate } from '../helper/dates';
 
 
-// ===== VARIABLES CONSTANTES =====
+// ===== CONSTANTES =====
 const activeBuyRoute = `${ misInsumosPath }?activeBuy=true`;
 
 // ===== COMPONENTES REACT PARA ESTA PAGINA =====
@@ -53,11 +53,11 @@ export const PaginaNuevaCompra = () => {
     // ===== STATE =====
     const [selectedEstablisment, setSelectedEstablishment] = useState( DEFAULT_ESTABLISHMENT );
     const [insumosRouteModificated, setInsumosRouteModificated] = useState( activeBuyRoute );
-    
-    // ===== FUNCIONES PROPIAS =====
-    const handleChange = useCallback( ( e ) => {
 
-        const value = getPropertysValue( 'value', e.target ) || '';
+    // ===== FUNCIONES PROPIAS =====
+    const handleChangeOnEstablishment = useCallback( ( e ) => {
+
+        const value = getPropertysValue( 'target.value', e ) || '';
         dispatch( setEstablishmentInBuy( value ) );
 
     },[])
@@ -76,7 +76,7 @@ export const PaginaNuevaCompra = () => {
 
     },[])
 
-    // actualizar compras en localStorage
+    // ACTUALIZAR COMPRAS EN LOCAL STORAGE CADA VEZ QUE CAMBIEN LOS INSUMOS O EL ESTABLECIMIENTO
     useEffect(() => {
         
         if ( isEmpty( insumos ) ) {
@@ -88,7 +88,7 @@ export const PaginaNuevaCompra = () => {
 
     },[insumos, establishmentName])
 
-    // obtener el objeto establecimiento a partir del nombre del establecimiento
+    // OBTENER OBJETO ESTABLECIMIENTO A PARTIR DEL NOMBRE DEL ESTABLECIMIENTO
     useEffect( () => {
 
         if ( establishmentName ) {
@@ -104,7 +104,7 @@ export const PaginaNuevaCompra = () => {
 
     }, [establishmentName, establishments, selectedEstablisment.value])
 
-    // modificar la url en funcion del establecimiento seleccionado
+    // MODIFICAR URL EN FUNCION DEL ESTABLECIMIENTO SELECCIONADO
     useEffect( () => {
 
         let newRoute = activeBuyRoute;
@@ -117,15 +117,13 @@ export const PaginaNuevaCompra = () => {
 
     },[establishmentName])
 
-    // etablecer el objeto establecimiento por defecto cuando el usuario borra datos del campo
+    // ESTABLECER OBJETO ESTABLECIMIENTO POR DEFECTO CUANDO USUASRIO BORRA DATOS DEL CAMPO
     useEffect(() => {
 
         if ( isEmpty( selectedEstablisment ) ) {
 
             setSelectedEstablishment( DEFAULT_ESTABLISHMENT );
-
         }
-
     },[selectedEstablisment])
 
     // ACTUALIZAR TOTAL DE LA COMPRA
@@ -205,7 +203,7 @@ export const PaginaNuevaCompra = () => {
                     <DataList
                         autoFocus
                         placeholder="comprar en..."
-                        onChange={ handleChange }
+                        onChange={ handleChangeOnEstablishment }
                         options={ establishments }
                         value={ selectedEstablisment }
                     />

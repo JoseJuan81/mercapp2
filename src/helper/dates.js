@@ -19,7 +19,10 @@ export const formattedByInputDate = ( date ) => {
     }
 
     const current = new Date().toLocaleDateString().split('/');
-    return current[2] + '-' + current[1] + '-' + current[0];
+    const year = current[2];
+    const month = current[1].length === 2 ? current[1] : `0${current[1]}`;
+    const day = current[0];
+    return year + '-' + month + '-' + day;
 }
 
 export const dateWithTime = ( date ) => {
