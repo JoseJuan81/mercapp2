@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { unSelectAllPurchases } from '../../actions/purchasesAction';
-import { startDeletingPurchase, startLoadingPurchaseDetails } from '../../actions/purchasesDetailsAction';
+import { startClosingPurchase, startDeletingPurchase, startLoadingPurchaseDetails } from '../../actions/purchasesDetailsAction';
 import { resumenDeComprasPath } from '../../constant/routes';
 
 import { LoadingPaginaDetalleCompra } from '../../Pages/loading/LoadingPaginaDetalleCompra';
@@ -23,7 +23,8 @@ export const DetalleCompraContainer = () => {
     const { selected } = useSelector( store => store.purchases );
 
     // ===== STATE =====
-    const [show, setShow] = useState( false );
+    const [showDeleting, setShowDeleting] = useState( false );
+    const [showClosing, setShowClosing] = useState( false );
 
     // ===== VARIABLES LOCALES =====
     const purchase = selected[0];
@@ -34,7 +35,15 @@ export const DetalleCompraContainer = () => {
         const id = url.searchParams.get('id');
         dispatch( startDeletingPurchase( id ) );
 
-        setShow( false );
+        setShowDeleting( false );
+
+    }
+
+    const onClosingPurchase = () => {
+
+        dispatch( startClosingPurchase( { ...purchase, closed: !purchase.closed } ) );
+
+        setShowClosing( false );
 
     }
 
@@ -97,15 +106,74 @@ export const DetalleCompraContainer = () => {
             <PaginaDetalleCompra details={ purchase } />
 
             <DetalleCompraMenuMobile
-                deleteAction={ () => setShow( true ) }
+                purchaseClosed={ purchase.closed }
+                deleteAction={ () => setShowDeleting( true ) }
+                closingAction={ () => setShowClosing( true ) }
             />
 
-            <BottomModal show={ show }>
+            {/* MODALES */}
+            <BottomModal show={ showDeleting }>
                 <ConfirmDeletingPurchase
-                    close={ () => setShow( false ) }
+                    close={ () => setShowDeleting( false ) }
                     accept={ onDeletingPurchase }
                 />
             </BottomModal>
+
+            <BottomModal show={ showClosing }>
+                <ConfirmClosingPurchase
+                    close={ () => setShowClosing( false ) }
+                    accept={ onClosingPurchase }
+                    purchaseClosed={ purchase.closed }
+                />
+            </BottomModal>
+        </div>
+    )
+}
+
+const ConfirmClosingPurchase = ({ close, accept, purchaseClosed }) => {
+    return (
+        <div
+            className="
+                mt-4
+            "
+        >
+            <h1
+                className="
+                    text-rose-500 font-semibold text-2xl
+                "
+            > ¿seguro que quiere { purchaseClosed ? 'abrir' : 'cerrar' } esta compra?
+            </h1>
+            <div
+                className="
+                    flex items-center justify-center
+                    mt-8
+                "
+            >
+                <BaseButton
+                    isButton
+                    className="
+                        mx-2 px-2 py-3
+                        w-full
+                        rounded
+                        text-base text-warmgray-800 font-semibold
+                        bg-warmGray-200
+                    "
+                    onClick={ close }
+                >Cancelar
+                </BaseButton>
+                <BaseButton
+                    isButton
+                    className="
+                        mx-2 px-2 py-3
+                        w-full
+                        rounded
+                        text-base text-warmgray-800 font-semibold
+                        bg-white
+                    "
+                    onClick={ accept }
+                >Aceptar
+                </BaseButton>
+            </div>
         </div>
     )
 }
