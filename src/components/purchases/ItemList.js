@@ -61,7 +61,7 @@ export const ItemList = ({ purchase, index, onSelect }) => {
                         flex items-center justify-between
                     "
                 >
-                    <BuyedInsumos insumos={ purchase.insumos } selected={ purchase.selected } />
+                    <BuyedInsumos inline insumos={ purchase.insumos } selected={ purchase.selected } />
                     <BuyDate inline date={ purchase.date || purchase.createdAt } selected={ purchase.selected } />
                 </div>
             </div>

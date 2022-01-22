@@ -71,6 +71,10 @@ export const type = {
         updateQuantity: '[newPurchase] update quantity in insumo',
         updateInsumoTotal: '[newPurchase] update total in insumo',
     },
+    period: {
+        month: 'month',
+        week: 'week',
+    },
     purchases: {
         getAll: '[purchases] get all purchases',
         multiSelect: '[purchases] purchases multi select',
