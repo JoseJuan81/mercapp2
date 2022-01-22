@@ -181,9 +181,9 @@ export const fetchEstablishments = () => {
     return buildGetFetch( url ).then( (res) => res.json() );
 }
 
+// ========== COMPRA ==========
 /**
  * @description Crear nueva compra o mercado
-
  */
 export const fetchCreatePurchase = ( body ) => {
 
@@ -212,10 +212,20 @@ export const fetchPurchase = ( id ) => {
 
 /**
  * @description Eliminar Compra
-
+    @param {string} id
  */
 export const fetchDeletePurchase = ( id ) => {
 
     const url = `${ URLBASE }/purchases/${ id }`;
     return buildDeleteFetch( url ).then( (res) => res.json() );
+}
+
+/**
+ * @description Editar una compra
+ * @param {object} body 
+ */
+export const fetchUpdatePurchase = ( body ) => {
+    
+    const url = `${ URLBASE }/purchases/${ body.id }`;
+    return buildPostOrPutFetch( url, body, 'PUT' ).then( (res) => res.json() );
 }
