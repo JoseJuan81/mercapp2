@@ -11,7 +11,7 @@ const TWODECIMALS = round( 2 );
 export const PaginaDetalleCompra = ({ details }) => {
 
     // ===== VARIABLES LOCALES =====
-    const { closed, date, establishmentName, insumos, name, total } = details;
+    const { date, establishmentName, insumos, name, total } = details;
     const insumosOrdered = paretoOrdering( insumos, { prop: 'total', total } );
 
     return (
@@ -24,7 +24,6 @@ export const PaginaDetalleCompra = ({ details }) => {
             {date && <Descriptor data={ getFormatDate( date ) } label="Fecha:" userClass="animate__delay-1s" />}
             <div className="flex justify-between items-center">
                 {establishmentName && <Descriptor data={ establishmentName } label="Comprado en:" userClass="animate__delay-2s" />}
-                <Descriptor data={ closed ? 'Cerrada' : 'Abierta' } label="Compra:" userClass="animate__delay-5s" />
             </div>
             <div
                 className="
@@ -65,7 +64,7 @@ const InsumosList = ({ insumos }) => {
                         font-bold text-lime-500
                         bg-lime-50
                         py-2
-                        sticky top-16
+                        sticky -top-4
                     `}
                 >
                     <span

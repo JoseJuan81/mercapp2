@@ -35,32 +35,6 @@ export const startLoadingPurchaseDetails = ( id ) => async ( dispatch ) => {
     }
 }
 
-export const startClosingPurchase = ( purchase ) => async ( dispatch ) => {
-
-    dispatch( startLoading() );
-
-    try {
-
-        const response = await fetchUpdatePurchase( purchase );
-
-        if ( response.ok ) {
-
-            dispatch( unSelectAllPurchases() );
-            dispatch( selectPurchase( response.data ) );
-            removeFromLocalStorage( type.localStorage.purchases );
-        } else {
-
-            NotificationError( response.msg );
-        }
-
-    } catch (error) {
-        NotificationError( type.notificationMessages.purchasesLoadedError );
-        console.log('Error: no fue posible obtener la informacion de la compra');
-    } finally {
-        dispatch( endLoading() );
-    }
-}
-
 export const startDeletingPurchase = ( id ) => async ( dispatch ) => {
 
     dispatch( startLoading() );

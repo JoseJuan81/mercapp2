@@ -36,7 +36,6 @@ export const ItemList = ({ purchase, index, onSelect }) => {
                 "
             >
                 <CheckedCard inline selected={ purchase.selected } />
-                <LockedBuyIcon closed={ purchase.closed } selected={ purchase.selected } />
             </div>
 
             <div

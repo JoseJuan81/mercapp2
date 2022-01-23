@@ -1,26 +1,15 @@
 import React from 'react';
 
-import { LockButton, LockButtonOpen, TrashButton } from '../Buttons/AppButtons';
+import { TrashButton } from '../Buttons/AppButtons';
 
-export const DetalleCompraMenuMobile = ({ deleteAction, closingAction, purchaseClosed }) => {
+export const DetalleCompraMenuMobile = ({ deleteAction }) => {
     return (
         <div
             className="
                 menu_mobile__container
-                grid-cols-2
+                grid-cols-1
             "
         >
-
-            {purchaseClosed
-                ? <LockButtonOpen
-                    isButton
-                    onClick={ closingAction }
-                />
-                : <LockButton
-                    isButton
-                    onClick={ closingAction }
-                />
-            }
 
             <TrashButton
                 isButton
