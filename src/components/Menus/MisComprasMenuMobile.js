@@ -45,6 +45,7 @@ export const MisComprasMenuMobile = () => {
             className="
                 menu_mobile__container
                 grid-cols-4
+                z-20
             "
         >
 

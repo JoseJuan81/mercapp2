@@ -46,8 +46,7 @@ const PurchasesList = ({ purchasesList }) => {
     const [period, setPeriod] = useState( type.period.week );
 
     // ===== VARIABLES PROPIAS =====
-    const purchasesOrdered = orderingPurchases( purchasesList );
-    const purchases = getPurchasesByMonth( purchasesOrdered, { period } );
+    const purchases = getPurchasesByMonth( purchasesList, { period } );
 
     // ===== STORE =====
     const dispatch = useDispatch();

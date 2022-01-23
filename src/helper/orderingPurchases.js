@@ -45,7 +45,7 @@ export const getPurchasesByMonth = (purchases, { period }) => {
         
         const periodName = ( isMonth && dateFormatted + ' - ' + year ) || ( isWeek && `Semana ${dateFormatted} - ${year}` );
 
-        const existIndex = period.findIndex(m => m.number === periodNumber + year);
+        const existIndex = period.findIndex(m => m.name === periodName);
 
         if ( existIndex > -1) {
 

@@ -143,6 +143,7 @@ export const startCreatingPurchase = ( history ) => async ( dispatch, rootState 
         dispatch( selectAllInsumosToBuy( false ) );
 
         removeFromLocalStorage( type.localStorage.purchases );
+        removeFromLocalStorage( type.localStorage.insumos );
 
         NotificationSuccess( type.notificationMessages.newPurchaseCreated );
 

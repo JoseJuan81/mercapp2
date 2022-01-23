@@ -29,7 +29,6 @@ export const PurchaseCard = ({ purchase, onSelect }) => {
                     flex items-end justify-between
                 "
             >
-                <LockedBuyIcon closed={ purchase.closed } selected={ purchase.selected } />
                 <BuyTotal total={ purchase.total } selected={ purchase.selected } />
             </div>
 
