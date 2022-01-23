@@ -22,7 +22,7 @@ export const orderingPurchases = ( list ) => {
     return [...purchases[0], ...purchases[1]];
 }
 
-export const getPurchasesByMonth = (purchases, { period }) => {
+export const getPurchasesByPeriod = (purchases, { period }) => {
 
     // ===== MES =====
     const isMonth = period === type.period.month;

@@ -7,13 +7,12 @@ import { ListButton, GalleryButton } from '../components/Buttons/AppButtons';
 import { BigAddButton } from '../components/Buttons/BigAddButton';
 import { ItemList } from '../components/purchases/ItemList';
 import { PurchaseCard } from '../components/purchases/PurchaseCard';
-import { BaseButton } from '../components/Buttons/AppButtons';
 
 import { nuevaCompraPath } from '../constant/routes';
 import { type } from '../constant/type';
 
 import { capitalizeText } from '../helper/capitalize';
-import { getPurchasesByMonth, orderingPurchases } from '../helper/orderingPurchases';
+import { getPurchasesByPeriod } from '../helper/orderingPurchases';
 
 export const PaginaResumenCompras = () => {
 
@@ -46,7 +45,7 @@ const PurchasesList = ({ purchasesList }) => {
     const [period, setPeriod] = useState( type.period.week );
 
     // ===== VARIABLES PROPIAS =====
-    const purchases = getPurchasesByMonth( purchasesList, { period } );
+    const purchases = getPurchasesByPeriod( purchasesList, { period } );
 
     // ===== STORE =====
     const dispatch = useDispatch();
