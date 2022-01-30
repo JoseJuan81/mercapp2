@@ -29,6 +29,7 @@ export const InsumoStatisticsInfo = ({ historyPrices, name }) => {
             const container = document.querySelector('#d3-container');
             BarChart.init( container, {
                 data: historyPrices,
+                prop: 'price',
                 margin: { top: 22, right: 10, bottom: 10, left: 20 },
                 width
             });

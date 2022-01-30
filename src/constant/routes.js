@@ -9,3 +9,4 @@ export const resumenDeComprasPath = '/mis-compras';
 export const detalleComprasPath = '/mi-compra';
 export const mezclarComprasPath = '/mezclar-compras';
 export const detalleInsumoPath = '/insumo/detalle';
+export const comprasEstadisticas = '/estadisticas';

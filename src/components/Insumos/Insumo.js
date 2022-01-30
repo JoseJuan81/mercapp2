@@ -115,7 +115,7 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
     )
 })
 
-export const InsumoBase = React.memo( ({ insumo }) => {
+export const InsumoBase = React.memo( ({ insumo, deleteAction }) => {
 
     // ===== NAVIGATION =====
     const history = useHistory();
@@ -217,7 +217,7 @@ export const InsumoBase = React.memo( ({ insumo }) => {
                     />
                 }
 
-                <InsumoBaseActions id={ id } />
+                <InsumoBaseActions id={ id } deleteAction={ deleteAction } />
 
             </div>
 

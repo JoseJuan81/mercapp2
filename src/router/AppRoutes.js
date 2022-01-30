@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import {
+    comprasEstadisticas,
     detalleComprasPath,
     detalleInsumoPath,
     editarInsumoPath,
@@ -21,6 +22,7 @@ import { NavBar } from '../components/NavBar.js';
 import { DetalleCompraContainer } from '../components/Container/DetalleCompraContainer';
 import { MezclarComprasContainer } from '../components/Container/MezclarComprasContainer';
 import { DetalleInsumoContainer } from '../components/Container/DetalleInsumoContainer';
+import { EstadisticasComprasContainer } from '../components/Container/EstadisticasComprasContainer';
 
 export const AppRoutes = () => {
 
@@ -36,6 +38,9 @@ export const AppRoutes = () => {
                     {/* ===== COMPRAS ===== */}
                     <Route exact path={ resumenDeComprasPath }>
                         <MisComprasContainer />
+                    </Route>
+                    <Route path={ comprasEstadisticas }>
+                        <EstadisticasComprasContainer />
                     </Route>
                     <Route path={ mezclarComprasPath }>
                         <MezclarComprasContainer />

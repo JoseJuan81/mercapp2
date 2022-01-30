@@ -2,14 +2,13 @@ import React, { useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { startDeletingInsumos } from '../../actions/insumosAction';
 import { setInsumoToUpdate } from '../../actions/newInsumoAction';
 import { removeInsumoFromPurchase } from '../../actions/newPurchaseAction';
 
 import { editarInsumoPath } from '../../constant/routes';
 import { EditButton, LeftCircleButton, TrashButton } from '../Buttons/AppButtons';
 
-export const InsumoBaseActions = React.memo( ({ id }) => {
+export const InsumoBaseActions = React.memo( ({ id, deleteAction }) => {
 
     // ===== NAVIGATION =====
     const history = useHistory();
@@ -31,7 +30,7 @@ export const InsumoBaseActions = React.memo( ({ id }) => {
     const handleDeleteInsumo = ( ev ) => {
         ev.stopPropagation();
 
-        dispatch( startDeletingInsumos( id ) );
+        deleteAction( id );
         setToogle( false );
     }
     
