@@ -425,13 +425,14 @@ export const MoneyHandButton = React.memo(({ children, isButton, to, onClick, cl
     )
 })
 
-export const PriceStatisticsButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+export const PriceStatisticsButton = React.memo(({ children, isButton, to, onClick, className, text, disabled }) => {
 
     const icon = 'fas fa-chart-line';
     const buildClasses = text ? `${ icon } mr-2` : icon;
 
     return (
         <BaseButton
+            disabled={ disabled }
             className={ className }
             to={ to }
             isButton={ isButton }

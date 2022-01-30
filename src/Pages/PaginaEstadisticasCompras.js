@@ -1,22 +1,60 @@
-import { round } from 'functionallibrary';
-import React, { useState } from 'react';
+import { isEmpty, round } from 'functionallibrary';
+import React, { useEffect, useState } from 'react';
 
 import { DownButton } from '../components/Buttons/AppButtons';
 import { Descriptor } from '../components/Descriptor';
 import { BuyDate } from '../components/purchases/BuyDate';
 import { BuyEstablishmentName } from '../components/purchases/BuyEstablishmentName';
+import ParetoBarChart from '../helper/paretoInsumosChart';
 
 import { capitalizeText } from '../helper/capitalize';
+import { extractAndOrderInsumos } from '../helper/extractAndOrderInsumos';
 import { getTotalAmountAndTotalInsumos } from '../helper/getTotalAmountAndTotalInsumos';
 import { paretoOrdering } from '../helper/paretoOrdering';
 
 const twoDecimals = round( 2 );
 
-export const PaginaMezclarCompras = ({ purchases, currency = 'S/.' }) => {
+export const PaginaEstadisticasCompras = ({ purchases, currency = 'S/.' }) => {
+
+    // ===== STATE =====
+    const [width, setWidth] = useState( window.innerWidth );
 
     // ===== VARIABLES LOCALES =====
     const { totalInsumos, totalAmount } = getTotalAmountAndTotalInsumos( purchases );
-    const purchasesOrdered = paretoOrdering( purchases, { prop: 'total', total: totalAmount } );
+    const purchasesPareto = paretoOrdering( purchases, { prop: 'total', total: totalAmount } );
+    const allInsumosOrdered = extractAndOrderInsumos( purchases );
+
+
+    // ===== FUNCIONES =====
+    const getScreenWidth = () => {
+        
+        setWidth( window.innerWidth );
+    }
+
+    // ESCUCHAR CAMBIOS DE DIMENSION EN PANTALLA
+    useEffect(() => {
+        window.addEventListener( 'resize', getScreenWidth )
+        return () => {
+            window.removeEventListener( 'resize', getScreenWidth )
+        }
+    }, [width])
+
+    // CREAR GRAFICO EN FUNCION DEL ANCHO DE LA PANTALLA
+    useEffect(() => {
+
+        if ( !isEmpty( allInsumosOrdered ) ) {
+
+            const container = document.querySelector('#d3-pareto__insumos');
+
+            ParetoBarChart.init( container, {
+                data: allInsumosOrdered,
+                prop: 'total',
+                margin: { top: 20, right: 15, bottom: 10, left: 25 },
+                width
+            });
+        }
+
+    }, [width, allInsumosOrdered])
 
     return (
         <div>
@@ -34,7 +72,8 @@ export const PaginaMezclarCompras = ({ purchases, currency = 'S/.' }) => {
                 
             </div>
 
-            <PurchasesList purchases={ purchasesOrdered } currency={ currency } />
+            <div id="d3-pareto__insumos" className="pb-5"></div>
+            {/* <PurchasesList purchases={ purchasesPareto } currency={ currency } /> */}
         </div>
     )
 }

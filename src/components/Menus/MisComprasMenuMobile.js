@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getPropertysValue, map } from 'functionallibrary';
 
-import { detalleComprasPath, mezclarComprasPath, nuevaCompraPath } from '../../constant/routes';
-import { AddCircleButton, FilterButton, MergeButton, SeeDetailsButton } from '../Buttons/AppButtons';
+import { comprasEstadisticas, detalleComprasPath, mezclarComprasPath, nuevaCompraPath } from '../../constant/routes';
+import { AddCircleButton, FilterButton, MergeButton, PriceStatisticsButton, SeeDetailsButton } from '../Buttons/AppButtons';
 
 export const MisComprasMenuMobile = () => {
 
@@ -35,7 +35,7 @@ export const MisComprasMenuMobile = () => {
         if ( isMergeable ) {
 
             const ids = map( getPropertysValue( 'id' ), selected );
-            const route = `${ mezclarComprasPath }?compras=${ ids.join(',') }`;
+            const route = `${ comprasEstadisticas }?compras=${ ids.join(',') }`;
             history.push( route );
         }
     }
@@ -53,7 +53,7 @@ export const MisComprasMenuMobile = () => {
                 isButton
             />
 
-            <MergeButton
+            <PriceStatisticsButton
                 isButton
                 disabled={ !isMergeable }
                 onClick={ handleClickOnMerge }

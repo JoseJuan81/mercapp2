@@ -7,7 +7,15 @@ import { Menu } from './Menus/Menu.js';
 import { BackButton } from './Buttons/AppButtons.js';
 
 import { pageTitles } from '../constant/pageTitles';
-import { detalleComprasPath, detalleInsumoPath, mezclarComprasPath, misInsumosPath, nuevaCompraPath, resumenDeComprasPath } from '../constant/routes.js';
+import {
+    detalleComprasPath,
+    detalleInsumoPath,
+    mezclarComprasPath,
+    misInsumosPath,
+    nuevaCompraPath,
+    resumenDeComprasPath,
+    comprasEstadisticas
+} from '../constant/routes.js';
 
 const AppName = React.memo( () => {
     return (
@@ -97,6 +105,7 @@ export const NavBar = () => {
     const [showMenu, setShowMenu] = useState( false );
     const [isBuyActive, setIsBuyActive] = useState( false );
     const [isMergingPurchases, setIsMergingPurchases] = useState( false );
+    const [isPurchasesStatistics, setIsPurchasesStatistics] = useState( false );
     const [isPurchaseDetail, setIsPurchaseDetail] = useState( false );
     const [isInsumoDetail, setIsInsumoDetail] = useState( false );
 
@@ -125,6 +134,7 @@ export const NavBar = () => {
         setIsMergingPurchases( pathname.includes( mezclarComprasPath ) );
         setIsPurchaseDetail( pathname.includes( detalleComprasPath ) );
         setIsInsumoDetail( pathname.includes( detalleInsumoPath ) );
+        setIsPurchasesStatistics( pathname.includes( comprasEstadisticas ) );
 
     }, [pathname]);
 
@@ -145,6 +155,7 @@ export const NavBar = () => {
         >
             {isBuyActive && <BuyPageButton />}
             {isMergingPurchases && <BackToPurchases />}
+            {isPurchasesStatistics && <BackToPurchases />}
             {isPurchaseDetail && <BackToPurchases />}
             {isInsumoDetail && <BackToInsumos />}
 

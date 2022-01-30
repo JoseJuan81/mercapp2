@@ -1,5 +1,4 @@
-import { axisTop, create, extent, range, scaleBand, scaleLinear } from 'd3';
-import { getFormatDate } from './dates';
+import { axisTop, create, extent, range, scaleBand, scaleLinear, scaleOrdinal, schemePaired } from 'd3';
 
 const BarChart = {
     max: null,
@@ -13,8 +12,8 @@ const BarChart = {
 BarChart.init = function( root, { data, prop, margin, width } ) {
 
     const [min, max] = extent( data, d => d[prop] );
-    this.min = min / 10;
-    this.max = max * 1.3;
+    this.min = min / 5;
+    this.max = max * 1.2;
 
     this.createAxes( data, width, margin );
     this.createSVG( root, width, margin );
@@ -23,13 +22,14 @@ BarChart.init = function( root, { data, prop, margin, width } ) {
 
 }
 
-BarChart.createSVG = function( rootEl, width, margin ) {
+BarChart.createSVG = function( rootEl, w, margin ) {
 
     const height = this.y.range()[1] + margin.top + margin.bottom;
+    const width = w - margin.left - margin.right;
 
     this.svg = create("svg")
-      .attr("width", width - margin.right - margin.left)
-      .attr("height", height)
+      .attr("width", width )
+      .attr("height", height )
       .attr("viewBox", [0, 0, width, height])
       .attr("font-size", "10")
       .attr("class", "mx-auto")
@@ -42,12 +42,13 @@ BarChart.createAxes = function( data, width, margin ) {
 
     this.x = scaleLinear()
         .domain([this.min, this.max])
-        .range([0, width - margin.right])
+        .range([0, width - margin.right - margin.left])
 
-    const barThick = 35;
+    const barThick = 45;
     this.y = scaleBand()
         .domain( range( data.length ) )
         .range([0, barThick * data.length])
+        .padding(0.1)
 }
 
 BarChart.createChart = function(data, margin, prop ) {
@@ -55,43 +56,46 @@ BarChart.createChart = function(data, margin, prop ) {
     this.bar = this.svg.selectAll("g")
       .data(data)
       .join("g")
-        .attr("transform", (d, i) => `translate(0,${this.y(i) + ( i * 5 ) + margin.top})`);
+        .attr("transform", (d, i) => `translate(0,${this.y(i) + margin.top })`);
 
     this.bar.append("rect")
-        .attr("class", "fill-warmGray-200")
+        .attr("fill", scaleOrdinal( schemePaired ) )
         .attr("fill-opacity", 0.5)
         .attr("width", d => this.x( d[prop] ))
-        .attr( "height", this.y.bandwidth() );
+        .attr( "height", this.y.bandwidth() - 1 );
 
-    // mostrar precio
+    // mostrar total
     this.bar.append("text")
         .attr("class", "fill-warmGray-800 font-semibold text-lg")
-        .attr("x", d => this.x( d[prop] ) + 15)
+        .attr("x", d => this.x( this.min ) )
         .attr("y", (this.y.bandwidth() - 1) / 2)
-        .attr("dy", "0.35em")
+        .attr("dy", "0.65rem")
+        .attr("dx", "0.25rem")
         .text(d => d[prop]);
 
-    // mostrar Fecha
+    // mostrar nombre
     this.bar.append("text")
-        .attr("class", "fill-warmGray-500 text-xs")
-        .attr("x", d => this.x( this.min ) + 4 )
-        .attr("y", (this.y.bandwidth() - 5))
-        .attr("dy", "0.1em")
-        .text(d => getFormatDate( d.date ));
+        .attr("class", "fill-warmGray-800 text-sm font-semibold")
+        .attr("x", this.x( this.max ) )
+        .attr("y", ( 8 ))
+        .attr("dy", "0.4rem")
+        .attr("text-anchor", "end")
+        .text(d => d.name );
 
     // mostrar establecimiento
     this.bar.append("text")
-        .attr("class", "fill-lime-500 text-xs font-semibold")
-        .attr("x", this.x( this.min ) + 4)
-        .attr("y", ( 6 ))
-        .attr("dy", "0.5em")
+        .attr("class", "fill-warmGray-600 text-xs")
+        .attr("x", this.x( this.max ) )
+        .attr("y", ( 8 ))
+        .attr("dy", "1.3rem")
+        .attr("text-anchor", "end")
         .text(d => d.establishmentName );
 }
 
 BarChart.showAxes = function(margin) {
     // x
     this.svg.append("g")
-        .attr("transform", `translate(0,${margin.top})`)
+        .attr("transform", `translate(0,${ margin.top })`)
         .call( axisTop( this.x ).ticks(5) );
 }
 
