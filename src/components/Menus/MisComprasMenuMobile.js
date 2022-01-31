@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getPropertysValue, map } from 'functionallibrary';
 
-import { comprasEstadisticas, detalleComprasPath, mezclarComprasPath, nuevaCompraPath } from '../../constant/routes';
-import { AddCircleButton, FilterButton, MergeButton, PriceStatisticsButton, SeeDetailsButton } from '../Buttons/AppButtons';
+import { comprasEstadisticas, detalleComprasPath, nuevaCompraPath } from '../../constant/routes';
+import { AddCircleButton, FilterButton, PriceStatisticsButton, SeeDetailsButton } from '../Buttons/AppButtons';
 
 export const MisComprasMenuMobile = () => {
 

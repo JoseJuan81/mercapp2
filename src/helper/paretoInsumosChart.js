@@ -1,4 +1,15 @@
-import { axisTop, create, extent, range, scaleBand, scaleLinear, scaleOrdinal, schemePaired } from 'd3';
+import {
+    axisTop,
+    create,
+    easeLinear,
+    extent,
+    range,
+    scaleBand,
+    scaleLinear,
+    scaleOrdinal,
+    schemePaired,
+    transition
+} from 'd3';
 
 const BarChart = {
     max: null,
@@ -7,6 +18,7 @@ const BarChart = {
     y: null,
     svg: null,
     bar: null,
+    transition: transition().duration(250).ease( easeLinear ),
 };
 
 BarChart.init = function( root, { data, prop, margin, width } ) {
