@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import { appLogout } from '../../actions/authAction';
 import { startLoadingInsumos } from '../../actions/insumosAction';
+import { startGettingPurchases } from '../../actions/purchasesAction';
 
 import { MENU_ROUTES } from '../../constant/defaults';
 import { type } from '../../constant/type';
@@ -29,7 +30,11 @@ export const Menu = ({ showMenu, handleShowMenu }) => {
     const handleRefresh = useCallback(() => {
 
         removeFromLocalStorage( type.localStorage.insumos );
+        removeFromLocalStorage( type.localStorage.purchases );
+        removeFromLocalStorage( type.localStorage.newPurchase );
+        removeFromLocalStorage( type.localStorage.establishments );
         dispatch( startLoadingInsumos() );
+        dispatch( startGettingPurchases() );
 
     },[])
 
