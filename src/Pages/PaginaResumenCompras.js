@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { forEach } from 'functionallibrary';
 
-import { selectPurchase, startGettingPurchases, unSelectPurchase } from '../actions/purchasesAction';
+import { selectPurchase, startGettingPurchases, unSelectAllPurchases, unSelectPurchase } from '../actions/purchasesAction';
 import { ListButton, GalleryButton } from '../components/Buttons/AppButtons';
 
 import { BigAddButton } from '../components/Buttons/BigAddButton';
 import { ItemList } from '../components/purchases/ItemList';
 import { PurchaseCard } from '../components/purchases/PurchaseCard';
+import { CheckBoxButton } from '../components/Buttons/CheckBoxButton';
 
 import { nuevaCompraPath } from '../constant/routes';
 import { type } from '../constant/type';
@@ -42,7 +44,7 @@ const PurchasesList = ({ purchasesList }) => {
 
     // ===== STAtE =====
     const [view, setView] = useState( type.views.purchases.table );
-    const [period, setPeriod] = useState( type.period.week );
+    const [period, setPeriod] = useState( type.period.month );
 
     // ===== VARIABLES PROPIAS =====
     const purchases = getPurchasesByPeriod( purchasesList, { period } );
@@ -148,11 +150,25 @@ const ViewButtons = React.memo(({ view, setView }) => {
     )
 })
 
-const PurchasesWrapperList = ({ view, purchases, onSelect, selectedPeriod }) => {
+const PurchasesWrapperList = ({ view, purchases, onSelect }) => {
+
+    // ===== STORE =====
+    const dispatch = useDispatch();
 
     // ===== VARIABLES LOCALES =====
     const isGalleryView = type.views.purchases.card === view;
     const isTableView = type.views.purchases.table === view;
+
+    // ===== FUNCIONES PROPIAS =====
+    const handleOnCheckAll = ( checkedAll, period ) => {
+
+        const selectedFN = checkedAll ? selectPurchase : unSelectAllPurchases;
+
+        forEach(
+            ( purchase ) => dispatch( selectedFN({ ...purchase, selected: checkedAll }) ),
+            period.purchases
+        );
+    }
 
     return (
         <div>
@@ -164,23 +180,34 @@ const PurchasesWrapperList = ({ view, purchases, onSelect, selectedPeriod }) => 
                        mb-5
                     "
                 >
-                    <h2
+
+                    <div
                         className="
                             sticky -top-4 z-10
                             bg-white
                             w-full
                             font-bold text-xl text-warmGray-800
-                            px-3 py-2
+                            px-3 py-3
                             flex justify-between items-center 
                         "
                     >
-                        <span
+                      
+                        <div
                             className="
                                 text-warmGray-500 font-semibold
+                                flex items-center
+                                whitespace-nowrap
+                                transform -translate-x-1
                             "
-                        >{ capitalizeText( period.name ) }</span>
+                        >
+                              <CheckBoxButton
+                                checked={ period.purchases.every( purchase => !!purchase.selected ) }
+                                onCheck={ ( checked ) => handleOnCheckAll( checked, period ) }
+                            />
+                            { capitalizeText( period.name ) }
+                        </div>
                         <span>{ period.total }</span>
-                    </h2>
+                    </div>
 
                     {isGalleryView && <GalleryView purchases={ period.purchases } onSelect={ onSelect } />}
                     {isTableView && <TableView purchases={ period.purchases } onSelect={ onSelect } />}

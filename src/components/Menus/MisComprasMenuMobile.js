@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getPropertysValue, map } from 'functionallibrary';
 
-import { comprasEstadisticas, detalleComprasPath, nuevaCompraPath } from '../../constant/routes';
-import { AddCircleButton, FilterButton, PriceStatisticsButton, SeeDetailsButton } from '../Buttons/AppButtons';
+import { comprasEstadisticas, nuevaCompraPath } from '../../constant/routes';
+import { AddCircleButton, FilterButton, PriceStatisticsButton } from '../Buttons/AppButtons';
 
 export const MisComprasMenuMobile = () => {
 
@@ -17,22 +17,14 @@ export const MisComprasMenuMobile = () => {
     // ===== VARIABLES LOCALES =====
     const len = selected.length;
     const isAddable = len === 0;
-    const isMergeable = len > 1;
-    const isDetails = len === 1;
+    const isStatistics = len > 0;
+    // const isDetails = len === 1;
 
     // ===== FUNCIONES PROPIAS =====
-    const handleClickOnDetail = () => {
-
-        if ( isDetails ) {
-
-            const route = `${ detalleComprasPath }?id=${ selected[0].id }`;
-            history.push( route );
-        }
-    }
 
     const handleClickOnMerge = () => {
 
-        if ( isMergeable ) {
+        if ( isStatistics ) {
 
             const ids = map( getPropertysValue( 'id' ), selected );
             const route = `${ comprasEstadisticas }?compras=${ ids.join(',') }`;
@@ -44,7 +36,7 @@ export const MisComprasMenuMobile = () => {
         <div
             className="
                 menu_mobile__container
-                grid-cols-4
+                grid-cols-3
                 z-20
             "
         >
@@ -55,14 +47,8 @@ export const MisComprasMenuMobile = () => {
 
             <PriceStatisticsButton
                 isButton
-                disabled={ !isMergeable }
+                disabled={ !isStatistics }
                 onClick={ handleClickOnMerge }
-            />
-
-            <SeeDetailsButton
-                isButton
-                onClick={ handleClickOnDetail }
-                disabled={ !isDetails }
             />
 
             <AddCircleButton
