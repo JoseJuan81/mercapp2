@@ -134,16 +134,12 @@ const CardExpensive = ({ label, name, amount, userClass }) => {
                 animate__animated animate__bounceInLeft
                 border border-solid border-warmGray-200 rounded-lg
                 pl-2 pr-4 py-2
-                flex flex-col
+                flex items-center justify-between
                 relative
             `}
         >
-            <span
-                className="
-                text-warmGray-500 font-bold text-xl text-left
-                "
-            >{ name }</span>
-            <div className="flex items-end justify-between">
+            
+            <div className="flex flex-col">
                 <label
                     className="
                         text-rose-500 font-bold text-lg text-left
@@ -151,16 +147,22 @@ const CardExpensive = ({ label, name, amount, userClass }) => {
                 >{ label }</label>
                 <span
                     className="
-                        text-rose-500 font-bold text-4xl text-right
-                        bg-rose-50
-                        rounded
-                        px-3 py-1
+                    text-warmGray-500 font-bold text-xl text-left
                     "
-                >
-                    { amount }
-                </span>
+                >{ name }</span>
+                
             </div>
-
+            
+            <span
+                className="
+                    text-rose-500 font-bold text-4xl text-right
+                    bg-rose-50
+                    rounded
+                    px-3 py-1
+                "
+            >
+                { amount }
+            </span>
             <i
                 class="
                     fas fa-exclamation-circle
