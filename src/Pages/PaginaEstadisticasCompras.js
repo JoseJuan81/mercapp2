@@ -105,8 +105,9 @@ const CardDescriptor = ({ label, data, userClass = "" }) => {
                 ${ userClass }
                 animate__animated animate__bounceInLeft
                 border border-solid border-warmGray-200 rounded-lg
-                pl-2 pr-4 py-2
+                pl-2 pr-4 py-1
                 flex items-end justify-between
+                h-12
             `}
         >
             <label
@@ -116,7 +117,8 @@ const CardDescriptor = ({ label, data, userClass = "" }) => {
             >{ label }</label>
             <span
                 className="
-                    text-lime-500 font-bold text-5xl text-right
+                    text-lime-500 font-bold text-4xl text-right
+                    transform translate-y-1
                 "
             >{ data }</span>
         </div>
@@ -133,12 +135,12 @@ const CardExpensive = ({ label, name, amount, userClass }) => {
                 border border-solid border-warmGray-200 rounded-lg
                 pl-2 pr-4 py-2
                 flex flex-col
+                relative
             `}
         >
             <span
                 className="
-                text-warmGray-600 font-bold text-2xl text-left
-                mb-2
+                text-warmGray-500 font-bold text-xl text-left
                 "
             >{ name }</span>
             <div className="flex items-end justify-between">
@@ -149,12 +151,24 @@ const CardExpensive = ({ label, name, amount, userClass }) => {
                 >{ label }</label>
                 <span
                     className="
-                        text-lime-500 font-bold text-5xl text-right
+                        text-rose-500 font-bold text-4xl text-right
+                        bg-rose-50
+                        rounded
+                        px-3 py-1
                     "
                 >
                     { amount }
                 </span>
             </div>
+
+            <i
+                class="
+                    fas fa-exclamation-circle
+                    text-rose-700
+                    absolute -top-2 -left-1
+                "
+            ></i>
+
         </div>
     )
 }

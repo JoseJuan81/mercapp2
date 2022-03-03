@@ -7,9 +7,10 @@ import { nuevoInsumoPath } from '../../constant/routes';
 import { startLoadingInsumos } from '../../actions/insumosAction';
 
 import { PaginaInsumos } from '../../Pages/PaginaInsumos.js'
+import { LoadingPaginaInsumos } from '../../Pages/loading/LoadingPaginaInsumos';
+
 import { BigAddButton } from '../Buttons/BigAddButton.js';
 import { InsumosMenuMobile } from '../Menus/InsumosMenuMobile.js';
-import { PaginaLoading } from '../../Pages/PaginaLoading';
 
 const AddButton = ({ path }) => {
     return (
@@ -65,7 +66,7 @@ export const MisInsumosContainer = () => {
     }, [url.searchParams, url.search])
 
     if ( loading ) {
-        return <PaginaLoading />
+        return <LoadingPaginaInsumos />
     }
 
     return (

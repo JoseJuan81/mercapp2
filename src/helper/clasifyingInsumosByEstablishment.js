@@ -1,4 +1,6 @@
-import { compose, map, reduce, round } from "functionallibrary";
+import { compose, isEmpty, map, reduce, round, setNewProperty } from "functionallibrary";
+
+import { NO_PRICES_INSUMO } from "../constant/defaults";
 
 const TWODECIMALS = round( 2 );
 
@@ -10,6 +12,13 @@ export const clasifyingInsumosByEstablishment = ( insumos ) => {
 export const clasifying = ( acc, item ) => {
 
     const { price } = item;
+
+    if ( isEmpty( price ) ) {
+
+        const newItem = setNewProperty( 'price', { NO_PRICES_INSUMO: 0 }, item );
+        return noPriceInsumo( acc, newItem );
+    }
+
     const pricesKeys = Object.keys( price );
 
     return compose(
@@ -49,4 +58,28 @@ export const addIntoAcc = ( accumulator, item ) => ({ name }) => {
     return localAcc;
 }
 
-export const extractAccValuesByKey = ( acc ) => Object.values( acc );
+export const extractAccValuesByKey = ( acc ) => {
+
+    if ( !isEmpty( acc )) {
+        
+        const { [NO_PRICES_INSUMO]:noPrice, ...rest } = acc;
+        return Object.values({ noPrice, ...rest });
+    }
+
+    return [];
+}
+
+export const noPriceInsumo = ( acc, item ) => {
+    
+    const localAcc = { ...acc };
+
+    if ( isEmpty( acc[NO_PRICES_INSUMO] ) ) {
+
+        localAcc[NO_PRICES_INSUMO] = { name: NO_PRICES_INSUMO, insumos: [item], total: 0 };
+    } else {
+        
+        localAcc[NO_PRICES_INSUMO] = { name: NO_PRICES_INSUMO, insumos: acc.insumos.push( item ), total: 0 };
+    }
+
+    return localAcc;
+}

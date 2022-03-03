@@ -37,11 +37,7 @@ export const PaginaCompraOptimizada = () => {
 const InsumosByEstablishment = ({ insumos, total }) => {
 
     return (
-        <div
-            className="
-                px-2
-            "
-        >
+        <div className="px-2">
             <h1
                 className="
                     text-right font-bold text-2xl

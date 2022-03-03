@@ -26,7 +26,7 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
 
     // ===== VARIABLES LOCALES =====
     const { currency, labels, id, name: title, price: priceObject, quantity, total:totalInsumo } = insumo;
-    const price = priceObject[establishment.toLowerCase()] || 0;
+    const price = (priceObject && priceObject[establishment.toLowerCase()]) || 0;
     const total = totalInsumo || price;
 
     // ===== FUNCIONES LOCALES =====

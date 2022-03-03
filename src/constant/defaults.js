@@ -8,4 +8,6 @@ export const MENU_ROUTES = [
     { to: resumenDeComprasPath, name: 'Mis compras', icon: 'fas fa-store mr-2' },
     { to: nuevaCompraPath, name: 'Nueva Compra', icon: 'fas fa-cart-plus mr-2' },
     { to: misInsumosPath, name: 'Mis insumos', icon: 'fas fa-pepper-hot mr-2' },
-]
+];
+
+export const NO_PRICES_INSUMO = 'Sin Precio';

@@ -62,6 +62,7 @@ export const getPurchasesByPeriod = (purchases, { period }) => {
                 purchases: [purchase],
                 count: 1,
                 total: TWODECIMALS( purchase.total ),
+                checkAll: false,
             })
         }
 

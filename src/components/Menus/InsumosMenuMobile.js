@@ -1,4 +1,3 @@
-import { equality, filter, isEmpty } from 'functionallibrary';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -6,7 +5,6 @@ import { selectAllFavorites, selectAllInsumosToBuy } from '../../actions/insumos
 import { cleaningNewPurchase } from '../../actions/newPurchaseAction';
 import { showSearchField, hideSearchAndFilterField, showFilterField } from '../../actions/searchAction';
 
-import { nuevaCompraPath } from '../../constant/routes';
 import { AddCircleButton, CheckCircleButton, CheckFullFilledCircleButton, FilterButton, HeartButton, HeartSolidButton, SearchButton, ShoppingCarButton } from '../Buttons/AppButtons';
 
 export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
@@ -14,7 +12,6 @@ export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
     // ===== STORE =====
     const dispatch = useDispatch();
     const { showField, isSearching, isFiltering } = useSelector( store => store.search );
-    const selectedInsumos = useSelector( store => filter( equality( 'selected', true ), store.insumos.data ));
 
     // ===== STATE =====
     const [selectAll, setSelectAll] = useState( false );
@@ -71,7 +68,7 @@ export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
 
         }
 
-    },[isFavorites])
+    },[isFavorites, dispatch])
 
     return (
         <div
@@ -116,25 +113,7 @@ export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
 x                onClick={ toogleShowFilter }
             />
 
-            <ShoppingCarButton
-                to={ nuevaCompraPath }
-                className="
-                    relative
-                "
-            >
-                { !isEmpty( selectedInsumos ) &&
-                    <div
-                        className="
-                            absolute top-2 right-4
-                            text-xs font-medium
-                            bg-white
-                            w-5 h-5 rounded-full
-                            flex items-center justify-center
-                            border-2 border-solid border-lime-500
-                        "
-                    >{ selectedInsumos.length }</div>
-                }
-            </ShoppingCarButton>
+            
 
             <AddCircleButton
                 to={ newInsumoPath }
