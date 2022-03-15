@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { isEmpty } from 'functionallibrary';
 
-export const Searcher = ({ onSearch, placeholder }) => {
+export const Searcher = ({ onSearch, placeholder, initialValue = '', submit }) => {
 
     const [formState, setFormState] = useState({
-        search: ''
+        search: initialValue
     });
 
     const inputRef = useRef();
@@ -12,7 +12,7 @@ export const Searcher = ({ onSearch, placeholder }) => {
     const handleFormSubmit = (ev) => {
         ev.preventDefault();
 
-        onSearch(formState.search.trim());
+        submit( formState.search.trim() );
 
         inputRef.current.select();
     }

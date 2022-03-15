@@ -12,23 +12,6 @@ import { LoadingPaginaInsumos } from '../../Pages/loading/LoadingPaginaInsumos';
 import { BigAddButton } from '../Buttons/BigAddButton.js';
 import { InsumosMenuMobile } from '../Menus/InsumosMenuMobile.js';
 
-const AddButton = ({ path }) => {
-    return (
-        <div
-            className="
-                flex items-center justify-center
-                h-full w-full
-                overflow-scroll
-            "
-        >
-            <BigAddButton
-                to={ path }
-                title="Nuevo insumo"
-            />
-        </div>
-    )
-}
-
 export const MisInsumosContainer = () => {
 
     const url = new URL( window.location );
@@ -40,7 +23,7 @@ export const MisInsumosContainer = () => {
         insumos: { data: insumos },
         search: { isSearching, isFiltering }
     } = useSelector( store => store );
-    
+
     const { loading } = useSelector( state => state.loading );
 
     // ===== STATE =====
@@ -52,7 +35,7 @@ export const MisInsumosContainer = () => {
 
     }, []);
 
-    // ===== ACTUALIZAR RUTA =====
+    // ===== ACTUALIZAR RUTA NUEVO INSUMO =====
     useEffect( () => {
         
         let newRoute = nuevoInsumoPath;
@@ -84,6 +67,23 @@ export const MisInsumosContainer = () => {
             }
 
             <InsumosMenuMobile newInsumoPath={ newInsumoRouteModificated } />
+        </div>
+    )
+}
+
+const AddButton = ({ path }) => {
+    return (
+        <div
+            className="
+                flex items-center justify-center
+                h-full w-full
+                overflow-scroll
+            "
+        >
+            <BigAddButton
+                to={ path }
+                title="Nuevo insumo"
+            />
         </div>
     )
 }
