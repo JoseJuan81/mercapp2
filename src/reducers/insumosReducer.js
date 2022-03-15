@@ -17,10 +17,13 @@ import { updateItemInArrayByProp } from "../helper/updateItemInArrayByProp";
  * @description Buscador de insumos por nombre
  * @param {string} searchValue - criterio de busqueda
  */
-const onSearch = ( localInsumos, searchValue ) => {
+const onSearch = ( state, searchValue ) => {
 
     if ( isEmpty( searchValue ) ) {
-        return [...localInsumos];
+        return {
+            ...state,
+            data: state.cache,
+        };
     }
 
     const lowerCaseValue = searchValue.toLowerCase();
@@ -28,9 +31,12 @@ const onSearch = ( localInsumos, searchValue ) => {
     const getName = getPropertysValue( 'name' );
     const filtered = filter(
         insumo => getName( insumo ).toLowerCase().includes( lowerCaseValue ),
-        localInsumos
+        state.cache
     );
-    return filtered;
+    return {
+        ...state,
+        data: filtered
+    };
 }
 
 /**
@@ -86,16 +92,14 @@ export const insumosReducer = ( state = initialState, action ) => {
     const opts = {
         [type.insumos.add]: () => ({ ...state, data: [action.payload, ...state.data] }),
         [type.insumos.getAll]: () => ({ ...state, data: alphabeticSorting( [...state], action.payload ) }),
-        [type.insumos.set]: () => ({ ...state, data: [...action.payload] }),
+        [type.insumos.set]: () => ({ ...state, data: [...action.payload], cache: [...action.payload] }),
         [type.insumos.deleteInsumoById]: () => (
             { ...state, data: [...removeItemFromArrayByProp( 'id', action.payload, state.data)] }
         ),
         [type.insumos.updateInsumos]: () => (
             { ...state, data: updateItemInArrayByProp( 'id', action.payload, state.data ) }
         ),
-        [type.insumos.search]: () => (
-            { ...state, data: onSearch( action.payload.insumos, action.payload.searchValue ) }
-        ),
+        [type.insumos.search]: () => onSearch( state, action.payload ),
         [type.insumos.filter]: () => (
             { ...state, data: onFilter( action.payload.insumos, action.payload.filterValue ) }
         ),

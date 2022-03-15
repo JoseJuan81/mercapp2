@@ -1,3 +1,4 @@
+import { equality, filter } from 'functionallibrary';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -5,13 +6,23 @@ import { selectAllFavorites, selectAllInsumosToBuy } from '../../actions/insumos
 import { cleaningNewPurchase } from '../../actions/newPurchaseAction';
 import { showSearchField, hideSearchAndFilterField, showFilterField } from '../../actions/searchAction';
 
-import { AddCircleButton, CheckCircleButton, CheckFullFilledCircleButton, FilterButton, HeartButton, HeartSolidButton, SearchButton, ShoppingCarButton } from '../Buttons/AppButtons';
+import {
+    AddCircleButton,
+    CheckCircleButton,
+    CheckFullFilledCircleButton,
+    FilterButton,
+    HeartButton,
+    HeartSolidButton,
+    PriceStatisticsButton,
+    SearchButton
+} from '../Buttons/AppButtons';
 
 export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
 
     // ===== STORE =====
     const dispatch = useDispatch();
     const { showField, isSearching, isFiltering } = useSelector( store => store.search );
+    const selectedInsumos = useSelector( store => filter( equality( 'selected', true ), store.insumos.data ));
 
     // ===== STATE =====
     const [selectAll, setSelectAll] = useState( false );
@@ -110,10 +121,13 @@ export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
 
             <FilterButton
                 isButton
-x                onClick={ toogleShowFilter }
+                onClick={ toogleShowFilter }
             />
 
-            
+            <PriceStatisticsButton
+                isButton
+                disabled={ selectedInsumos.length === 0 }
+            />    
 
             <AddCircleButton
                 to={ newInsumoPath }

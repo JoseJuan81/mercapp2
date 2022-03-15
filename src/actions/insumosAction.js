@@ -38,7 +38,7 @@ export const updateInsumoInState = ( insumoUpdated ) => ({
 
 export const searchInsumo = ( insumos, searchValue ) => ({
     type: type.insumos.search,
-    payload: { insumos, searchValue }
+    payload: searchValue
 })
 
 export const filterInsumo = ( insumos, filterValue ) => ({
