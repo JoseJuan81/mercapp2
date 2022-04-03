@@ -1,7 +1,7 @@
 import { equality, find } from "functionallibrary";
 import { type } from "../constant/type";
 import { getFromLocalStorage } from "../helper/localStorage";
-import { NotificationError, NotificationSuccess } from "../helper/toast";
+import { NotificationError } from "../helper/toast";
 import { endLoading, startLoading } from "./loadingAction";
 
 /// ============= Acciones sincronas ================= //
