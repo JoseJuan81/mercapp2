@@ -1,10 +1,11 @@
 import { equality, find, isEmpty } from 'functionallibrary';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { startDeletingInsumos } from '../actions/insumosAction';
+import { hideSearchAndFilterField, showFilterField, showSearchField } from '../actions/searchAction';
 
-import { BaseButton } from '../components/Buttons/AppButtons';
+import { BaseButton, FilterButton, SearchButton } from '../components/Buttons/AppButtons';
 import { InsumoBase } from '../components/Insumos/Insumo';
 import { SearchAndFilterComponent } from '../components/Insumos/SearchAndFilterComponent';
 import { BottomModal } from '../components/Modal/BottomModal';
@@ -46,7 +47,17 @@ export const PaginaInsumos = ({ insumos }) => {
 
     return (
         <>
-            <SearchAndFilterComponent />
+            <div
+                className="
+                    flex
+                    px-2 pt-3 pb-4
+                    sticky top-0 z-10
+                    bg-white
+                "
+            >
+                <SearchAndFilterRadioButtons />
+                <SearchAndFilterComponent />
+            </div>
 
             <div
                 data-cy="PaginaInsumos"
@@ -79,6 +90,69 @@ export const PaginaInsumos = ({ insumos }) => {
                 />
             </BottomModal>
         </>
+    )
+}
+
+const SearchAndFilterRadioButtons = () => {
+
+    // ===== STORE =====
+    const dispatch = useDispatch();
+    const { showField, isSearching, isFiltering } = useSelector( store => store.search );
+
+    // ===== FUNCIONES PROPIAS =====
+    const toogleShowSearch = () => {
+        
+        if ( ( showField && isFiltering ) || !showField ) {
+            
+            dispatch( showSearchField() );
+        } else {
+            
+            dispatch( hideSearchAndFilterField() );
+        }
+    }
+
+    const toogleShowFilter = () => {
+
+        if ( ( showField && isSearching ) || !showField ) {
+            
+            dispatch( showFilterField() );
+        } else {
+            
+            dispatch( hideSearchAndFilterField() );
+        }
+    }
+
+    useEffect(() => {
+        dispatch( showSearchField() );
+    }, [])
+
+    return (
+        <div
+            className="
+                flex
+                mr-2
+            "
+        >
+            <SearchButton
+                isButton
+                className={`
+                    py-2 px-4
+                    text-base ${ isSearching ? 'text-lime-500' : 'text-warmGray-500' }
+                    ${ isSearching ? 'bg-lime-50' : 'bg-warmGray-50' }
+                `}
+                onClick={ toogleShowSearch }
+            />
+
+            <FilterButton
+                isButton
+                className={`
+                    py-2 px-4
+                    text-base ${ isFiltering ? 'text-lime-500' : 'text-warmGray-500' }
+                    ${ isFiltering ? 'bg-lime-50' : 'bg-warmGray-50' }
+                `}
+                onClick={ toogleShowFilter }
+            />
+        </div>
     )
 }
 

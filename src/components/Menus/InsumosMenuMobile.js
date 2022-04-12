@@ -4,53 +4,26 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selectAllFavorites, selectAllInsumosToBuy } from '../../actions/insumosAction';
 import { cleaningNewPurchase } from '../../actions/newPurchaseAction';
-import { showSearchField, hideSearchAndFilterField, showFilterField } from '../../actions/searchAction';
 
 import {
     AddCircleButton,
     CheckCircleButton,
     CheckFullFilledCircleButton,
-    FilterButton,
     HeartButton,
     HeartSolidButton,
     PriceStatisticsButton,
-    SearchButton
 } from '../Buttons/AppButtons';
 
 export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
 
     // ===== STORE =====
     const dispatch = useDispatch();
-    const { showField, isSearching, isFiltering } = useSelector( store => store.search );
     const selectedInsumos = useSelector( store => filter( equality( 'selected', true ), store.insumos.data ));
 
     // ===== STATE =====
     const [selectAll, setSelectAll] = useState( false );
     const [isMounting, setIsMounting] = useState( true );
     const [isFavorites, setIsFavorites] = useState( false );
-
-    // ===== FUNCIONES PROPIAS =====
-    const toogleShowSearch = () => {
-        
-        if ( ( showField && isFiltering ) || !showField ) {
-            
-            dispatch( showSearchField() );
-        } else {
-            
-            dispatch( hideSearchAndFilterField() );
-        }
-    }
-
-    const toogleShowFilter = () => {
-
-        if ( ( showField && isSearching ) || !showField ) {
-            
-            dispatch( showFilterField() );
-        } else {
-            
-            dispatch( hideSearchAndFilterField() );
-        }
-    }
 
     useEffect(() => {
 
@@ -85,7 +58,7 @@ export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
         <div
             className="
                 menu_mobile__container
-                grid-cols-6
+                grid-cols-4
             "
         >
             
@@ -113,16 +86,6 @@ export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
                     onClick={ () => setIsFavorites( s => !s ) }
                 />
             }
-
-            <SearchButton
-                isButton
-                onClick={ toogleShowSearch }
-            />
-
-            <FilterButton
-                isButton
-                onClick={ toogleShowFilter }
-            />
 
             <PriceStatisticsButton
                 isButton

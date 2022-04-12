@@ -5,6 +5,7 @@ var filesToCache = [
     '/bundle.js',
     '/main.chunk.js',
     '/all.min.css',
+    '/ramda.min.js'
 ];
 
 // esto es para meter en cache los archivos html, css y js que quiera

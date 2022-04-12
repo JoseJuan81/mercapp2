@@ -124,9 +124,7 @@ export const fetchInsumo = async ( id ) => {
     const data = await res.json();
     
     return new Promise( ( resolve, reject ) => {
-        if ( data.ok ) {
-            resolve( data )
-        }
+        if ( data.ok ) resolve( data );
 
         reject( data );
     })

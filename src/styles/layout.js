@@ -10,7 +10,6 @@ const layoutStyles = ({ addComponents, theme }) => {
 		'.layout__page': {
 			height: '100%',
 			paddingBottom: theme( 'spacing.16' ),
-			paddingTop: theme( 'spacing.4' ),
 			overflow: 'auto'
 		}
 	}
