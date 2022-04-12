@@ -39,7 +39,7 @@ export const type = {
         bye: '👋 Vuelve pronto ✌🏽',
         establishmentsError: '😱 Error inesperado cargando establecimientos 😳',
         getInsumoDetails: '✅ Insumo cargado exitosamente',
-        getInsumoDetailsError: '😱 Error al actualizar insumo 😳',
+        getInsumoDetailsError: '😱 Error al cargar informacion de insumo 😳',
         logout: '🥺 Cerrando sesion...',
         login: '🕙 Iniciando sesion',
         insumosLoaded: '✅ Insumos cargados',

@@ -1,10 +1,13 @@
 import { isEmpty } from 'functionallibrary';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { startLoadingInsumoData } from '../actions/insumoDetailsAction';
+
 import { InsumoDataInfo } from '../components/Insumos/InsumoDataInfo';
-import { InsumoPriceInfo } from '../components/Insumos/InsumoPriceInfo';
 import { InsumoStatisticsInfo } from '../components/Insumos/InsumoStatisticsInfo';
+
+import { orderingAscByDate } from '../helper/orderingByDate';
 
 export const PaginaDetalleInsumo = () => {
     
@@ -17,6 +20,9 @@ export const PaginaDetalleInsumo = () => {
     const dispatch = useDispatch()
     const { data, prices } = useSelector( store => store.insumoDetails );
     const { loading } = useSelector( store => store.loading );
+
+    // ===== VARIABLES LOCALES =====
+    const historyPrice = orderingAscByDate( data.historyPrice );
 
     // cargar datos del insumo
     useEffect(() => {
@@ -41,7 +47,7 @@ export const PaginaDetalleInsumo = () => {
             )}
 
             {!isEmpty( url.searchParams.get('statistics') ) && !loading && (
-                <InsumoStatisticsInfo historyPrices={ data.historyPrice } name={ data.name } />
+                <InsumoStatisticsInfo historyPrices={ historyPrice } name={ data.name } />
             )}
 
         </div>

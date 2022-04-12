@@ -1,7 +1,11 @@
 import { equality, find } from "functionallibrary";
+
 import { type } from "../constant/type";
+
+import { fetchInsumo } from "../helper/fetch";
 import { getFromLocalStorage } from "../helper/localStorage";
-import { NotificationError, NotificationSuccess } from "../helper/toast";
+import { NotificationError } from "../helper/toast";
+
 import { endLoading, startLoading } from "./loadingAction";
 
 /// ============= Acciones sincronas ================= //
@@ -19,12 +23,21 @@ export const startLoadingInsumoData = ( insumoId ) => async dispatch => {
 
     try {
 
-        if ( insumo ) {
+        if ( !insumo ) {
             const { price, ...rest } = insumo;
             dispatch( setInsumoData({ prices: price, data: { ...rest } }) );
-    
+            
         } else {
-            // consumir servicio para obtener datos del insumo
+            const response = await fetchInsumo( insumoId );
+            
+            if ( response.ok) {
+
+                const { price, ...rest } = response.data;
+                dispatch( setInsumoData({ prices: price, data: { ...rest } }) );
+            } else {
+                NotificationError( type.notificationMessages.getInsumoDetailsError );
+                NotificationError( response.data );
+            }
         }
 
     } catch( error ) {
