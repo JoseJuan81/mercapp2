@@ -2,6 +2,7 @@ var cacheName = 'mercapp2PWA-shell-v1';
 var filesToCache = [
     '/',
     '/index.html',
+    '/index.html?hs=true',
     '/bundle.js',
     '/main.chunk.js',
     '/all.min.css',
