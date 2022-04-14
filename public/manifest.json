@@ -1,6 +1,6 @@
 {
   "short_name": "MercApp2",
-  "name": "Compra alimentos con MercApp2",
+  "name": "MercApp2",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,8 +18,8 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/index.html?hs=true",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#84cc16",
   "background_color": "#ffffff"
 }
