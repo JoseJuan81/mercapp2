@@ -6,8 +6,8 @@ jobs:
   jest-run:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Running Jest
-        run: npm ci
-        run: npm test
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3   
+      - run: npm ci
+      - run: npm start
+      - run: npm test
