@@ -1,17 +1,18 @@
 import {
-    compose,
     equality,
     filter,
-    getPropertysValue,
-    isEmpty,
+    isEmpty as isFullyEmpty,
     removeItemFromArrayByProp,
-    some,
 } from "functionallibrary";
+import { always, complement, cond, isEmpty } from 'ramda';
 
 import { type } from "../constant/type";
 
 import { alphabeticSorting } from "../helper/alphabeticSorting";
+import { findElementsByLabelsMatch, findElementsByName } from "../helper/searchAndFilterInsumos";
 import { updateItemInArrayByProp } from "../helper/updateItemInArrayByProp";
+
+const isNotEmpty = complement(isEmpty);
 
 /**
  * @description Buscador de insumos por nombre
@@ -19,44 +20,27 @@ import { updateItemInArrayByProp } from "../helper/updateItemInArrayByProp";
  */
 const onSearch = ( state, searchValue ) => {
 
-    if ( isEmpty( searchValue ) ) {
-        return {
-            ...state,
-            data: state.cache,
-        };
-    }
+    const getDataSearched = cond([
+        [isFullyEmpty, always( state.cache )],
+        [isNotEmpty, findElementsByName( state.cache )]
+    ])
 
-    const lowerCaseValue = searchValue.toLowerCase();
-    
-    const getName = getPropertysValue( 'name' );
-    const filtered = filter(
-        insumo => getName( insumo ).toLowerCase().includes( lowerCaseValue ),
-        state.cache
-    );
-    return {
-        ...state,
-        data: filtered
-    };
+    const dataSearched = getDataSearched( searchValue );
+    return { ...state, data: [...dataSearched] };
 }
 
 /**
  * @description filtrado de insumos por etiquetas
  * @param {string} filterValue - criterio para filtrar insumos
  */
-const onFilter = ( localInsumos, filterValue ) => {
+const onFilter = ( state, filterValue ) => {
 
-    if ( isEmpty( filterValue ) ) {
-        return [...localInsumos];
-    }
-
-    const lowerCaseValue = filterValue.toLowerCase();
-    
-    const getLabels = getPropertysValue( 'labels' );
-    const someLabelHasThisValue = value => some( l => l.toLowerCase().includes( value ) );
-    const findLabelWithThisValue = compose( someLabelHasThisValue( lowerCaseValue ), getLabels );
-    const filtered = filter( findLabelWithThisValue, localInsumos );
-
-    return filtered;
+    const getDataFiltered = cond([
+        [isFullyEmpty, always( state.cache )],
+        [isNotEmpty, findElementsByLabelsMatch( state.cache )]
+    ])
+    const dataFiltered = getDataFiltered( filterValue );
+    return { ...state, data: [...dataFiltered] };
 }
 
 /**
@@ -83,30 +67,49 @@ const onFavorites = ( state, flag ) => {
     }
 }
 
-const initialState = {
+export const initialState = {
     cache: [],
     data: [],
 }
 export const insumosReducer = ( state = initialState, action ) => {
 
     const opts = {
-        [type.insumos.add]: () => ({ ...state, data: [action.payload, ...state.data] }),
-        [type.insumos.getAll]: () => ({ ...state, data: alphabeticSorting( [...state], action.payload ) }),
+        [type.insumos.add]: () => ({
+            ...state,
+            cache: [action.payload, ...state.data],
+            data: [action.payload, ...state.data]
+        }),
+        [type.insumos.getAll]: () => ({
+            ...state,
+            data: alphabeticSorting( state.data, action.payload )
+        }),
         [type.insumos.set]: () => ({ ...state, data: [...action.payload], cache: [...action.payload] }),
-        [type.insumos.deleteInsumoById]: () => (
-            { ...state, data: [...removeItemFromArrayByProp( 'id', action.payload, state.data)] }
-        ),
-        [type.insumos.updateInsumos]: () => (
-            { ...state, data: updateItemInArrayByProp( 'id', action.payload, state.data ) }
-        ),
+        [type.insumos.deleteInsumoById]: () => {
+            const removedIt = removeItemFromArrayByProp( 'id', action.payload, state.data);
+            return {
+                ...state,
+                cache: [...removedIt],
+                data: [...removedIt]
+            }
+        },
+        [type.insumos.updateInsumos]: () => {
+            const updated = updateItemInArrayByProp( 'id', action.payload, state.data );
+            return {
+                ...state,
+                cache: [...updated],
+                data: [...updated]
+            }
+        },
         [type.insumos.search]: () => onSearch( state, action.payload ),
-        [type.insumos.filter]: () => (
-            { ...state, data: onFilter( action.payload.insumos, action.payload.filterValue ) }
-        ),
+        [type.insumos.filter]: () => onFilter( state, action.payload ),
         [type.insumos.select]: () => (
-            { ...state, data: updateItemInArrayByProp( 'id', action.payload, state.data ) }
+            {
+                ...state,
+                cache: updateItemInArrayByProp( 'id', action.payload, state.data ),
+                data: updateItemInArrayByProp( 'id', action.payload, state.data )
+            }
         ),
-        [type.insumos.selectAll]: () => ({ ...state, data: [...action.payload] }),
+        [type.insumos.selectAll]: () => ({ ...state, cache: [...action.payload], data: [...action.payload] }),
         [type.insumos.favorites]: () => onFavorites( state, action.payload ),
     }
 

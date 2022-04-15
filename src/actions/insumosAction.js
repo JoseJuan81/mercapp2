@@ -43,7 +43,7 @@ export const searchInsumo = ( insumos, searchValue ) => ({
 
 export const filterInsumo = ( insumos, filterValue ) => ({
     type: type.insumos.filter,
-    payload: { insumos, filterValue }
+    payload: filterValue
 })
 
 export const selectInsumo = ( insumo ) => ({
