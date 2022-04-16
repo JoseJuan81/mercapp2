@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3   
-      - run: npm ci
-      - run: npm run cy:run
+      - uses: cypress-io/github-action@v2 
+        with:
+          build: npm build
+          start: npm start
