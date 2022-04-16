@@ -1,7 +1,7 @@
 context('Pruebas sobre archivo PaginaRegistroUsuario.js', () => {
     
     it('Presionar boton "registrarme" para ir al formulario de registro', () => {
-        // cy.loginPage();
+        cy.loginPage();
         cy.get('[data-cy="login-form"]')
             .should('exist')
             .find('a')
