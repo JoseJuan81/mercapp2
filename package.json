@@ -30,6 +30,7 @@
 		"build": "CI=false craco build",
 		"test": "craco test",
 		"cy": "npx cypress open",
+		"cy:run": "npx cypress run",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
