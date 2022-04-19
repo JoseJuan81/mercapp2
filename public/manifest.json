@@ -1,25 +1,31 @@
 {
-  "short_name": "MercApp2",
-  "name": "MercApp2",
-  "icons": [
+    "name": "MercApp2",
+    "short_name": "MercApp2",
+    "start_url": "./?utm_source=web_app_manifest",
+    "display": "standalone",
+    "default_locale": "es",
+    "lang": "es",
+    "developer": {
+        "name": "Jose Juan Dominguez Lopez",
+        "url" : "https://github.com/JoseJuan81"
+    },
+    "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+        "src": "favicon.ico",
+        "sizes": "64x64 32x32 24x24 16x16",
+        "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
+        "src": "logo192.png",
+        "type": "image/png",
+        "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+        "src": "logo512.png",
+        "type": "image/png",
+        "sizes": "512x512"
     }
-  ],
-  "start_url": "/index.html?hs=true",
-  "display": "standalone",
-  "theme_color": "#84cc16",
-  "background_color": "#ffffff"
+    ],
+    "theme_color": "#84cc16",
+    "background_color": "#ffffff"
 }

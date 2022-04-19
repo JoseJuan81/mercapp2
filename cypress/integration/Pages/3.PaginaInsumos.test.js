@@ -17,6 +17,8 @@ context('Pruebas sobre archivo PaginaInsumos.js', () => {
 
             cy.loginPage();
             cy.fillLoginForm();
+            // aqui problema
+            cy.wait(1000)
             cy.insumosPage();
 
             cy.wait('@fake-insumos')
