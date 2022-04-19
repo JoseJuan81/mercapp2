@@ -1,12 +1,13 @@
-import { defaultObjectPrice, priceFromArrayToObject, priceFromObjectToArray } from "../../helper/priceHandling"
+import { DEFAULT_OBJECT_PRICE } from "../../constant/defaults";
+import { priceFromArrayToObject, priceFromObjectToArray } from "../../helper/priceHandling"
 
 describe('Pruebas sobre archivo priceHandling.js', () => {
 
-    test('Retornar objeto por defecto de precio de insumo', () => {
+    test('Retornar objeto de precio por defecto cuando insumo no tiene precio', () => {
 
         const result = priceFromObjectToArray();
 
-        expect( result ).toEqual( [defaultObjectPrice] );
+        expect( result ).toEqual( [DEFAULT_OBJECT_PRICE] );
     });
 
     test('Convertir objeto a arreglo', () => {

@@ -1,4 +1,4 @@
-import { auth } from "../../constant/auth";
+import { type } from "../../constant/type";
 import { authReducer, initialState } from "../../reducers/authReducer"
 
 describe('Pruebas en archivo authReducer.js', () => {
@@ -20,7 +20,7 @@ describe('Pruebas en archivo authReducer.js', () => {
     test('Probando el Login', () => {
         
         const loginAction = {
-            type: auth.login,
+            type: type.auth.login,
             payload: userData
         }
         const state = authReducer( initialState, loginAction );
@@ -31,7 +31,7 @@ describe('Pruebas en archivo authReducer.js', () => {
     test('Probando el Logout', () => {
         
         const loginAction = {
-            type: auth.logout
+            type: type.auth.logout
         }
         const state = authReducer( initialState, loginAction );
 

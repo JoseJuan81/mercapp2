@@ -1,4 +1,5 @@
 import { compose, isEmpty, map, reduce, round, setNewProperty } from "functionallibrary";
+import { curry } from 'ramda';
 
 import { NO_PRICES_INSUMO } from "../constant/defaults";
 
@@ -15,7 +16,7 @@ export const clasifying = ( acc, item ) => {
 
     if ( isEmpty( price ) ) {
 
-        const newItem = setNewProperty( 'price', { NO_PRICES_INSUMO: 0 }, item );
+        const newItem = setNewProperty( 'price', { [NO_PRICES_INSUMO]: 0 }, item );
         return noPriceInsumo( acc, newItem );
     }
 
@@ -30,25 +31,26 @@ export const clasifying = ( acc, item ) => {
 
 }
 
-export const convertIntoArray = objectPrice => ( keysArray ) => {
+export const convertIntoArray = curry(( objectPrice, keysArray ) => {
 
     const priceObject = key => ({ name: key, price: objectPrice[key] })
-
     return map( priceObject, keysArray );
-}
+})
 
 export const ascendingOrder = arr => arr.sort((a, b) => a.price - b.price )
 
 export const getFirstEl = arr => arr[0];
 
-export const addIntoAcc = ( accumulator, item ) => ({ name }) => {
+export const addIntoAcc = curry(( accumulator, item, { name }) => {
     const localAcc = { ...accumulator };
     const exist = localAcc[name];
 
     if ( exist ) {
 
         localAcc[name].insumos.push( item );
-        localAcc[name].total += TWODECIMALS( item.price[name] );
+
+        const total = localAcc[name].total + item.price[name];
+        localAcc[name].total = TWODECIMALS( total );
         
     } else {
 
@@ -56,14 +58,14 @@ export const addIntoAcc = ( accumulator, item ) => ({ name }) => {
     }
 
     return localAcc;
-}
+})
 
 export const extractAccValuesByKey = ( acc ) => {
 
     if ( !isEmpty( acc )) {
         
         const { [NO_PRICES_INSUMO]:noPrice, ...rest } = acc;
-        return Object.values({ noPrice, ...rest });
+        return isEmpty( noPrice ) ? Object.values({ ...rest }) : Object.values({ noPrice, ...rest });
     }
 
     return [];
@@ -72,13 +74,14 @@ export const extractAccValuesByKey = ( acc ) => {
 export const noPriceInsumo = ( acc, item ) => {
     
     const localAcc = { ...acc };
+    const defaultNoPrice = { name: NO_PRICES_INSUMO, total: 0 };
 
     if ( isEmpty( acc[NO_PRICES_INSUMO] ) ) {
 
-        localAcc[NO_PRICES_INSUMO] = { name: NO_PRICES_INSUMO, insumos: [item], total: 0 };
+        localAcc[NO_PRICES_INSUMO] = { ...defaultNoPrice, insumos: [item] };
     } else {
         
-        localAcc[NO_PRICES_INSUMO] = { name: NO_PRICES_INSUMO, insumos: acc.insumos.push( item ), total: 0 };
+        localAcc[NO_PRICES_INSUMO] = { ...defaultNoPrice, insumos: acc.insumos.concat( item ) };
     }
 
     return localAcc;

@@ -28,8 +28,10 @@
 	"scripts": {
 		"start": "PORT=3333 craco start",
 		"build": "CI=false craco build",
-		"test": "craco test",
-		"cy": "npx cypress open",
+		"test": "npm run cy:run",
+		"test:jest": "craco test",
+		"cy:open": "npx cypress open",
+		"cy:run": "npx cypress run",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
@@ -59,6 +61,7 @@
 		"enzyme": "^3.11.0",
 		"enzyme-to-json": "^3.6.2",
 		"postcss": "^7.0.36",
+		"ramda": "^0.27.1",
 		"tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.2"
 	}
 }

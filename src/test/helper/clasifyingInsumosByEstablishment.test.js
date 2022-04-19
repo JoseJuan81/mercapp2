@@ -1,4 +1,7 @@
+import { round } from "functionallibrary";
 import { addIntoAcc, ascendingOrder, clasifyingInsumosByEstablishment, convertIntoArray } from "../../helper/clasifyingInsumosByEstablishment";
+
+const TWODECIMALS = round( 2 );
 
 describe('Pruebas sobre archivo clasifyingInsumosByEstablishment.js', () => {
 
@@ -55,7 +58,7 @@ describe('Pruebas sobre archivo clasifyingInsumosByEstablishment.js', () => {
         {
             createdAt: "2021-10-30T00:35:55.636Z",
             id: "617c936ba67466c237c77435",
-            labels: ["bdega frente", "3 unidades", "wong"],
+            labels: ["bodega frente", "3 unidades", "wong"],
             name: "Bombones Ferrero",
             price: {wong: 9.99, 'bodega frente': 7},
             updatedAt: "2021-11-07T14:36:14.715Z",
@@ -69,10 +72,20 @@ describe('Pruebas sobre archivo clasifyingInsumosByEstablishment.js', () => {
             price: {'plaza vea': 11.9, wong: 10.9, 'bodega frente': 7.8},
             updatedAt: "2021-11-16T03:22:40.645Z",
             user: "6162ef3fdd1908fe718d821c"
-        }
+        },
     ]
 
-    it('Debe convertir en arreglo de objetos precios ( convertIntoArray() )', () => {
+    const noPriceInsumo = {
+        createdAt: "2021-10-31T01:34:35.571Z",
+        id: "617df2ab98858415166767f3",
+        labels: ["bodega frente", "wong", "85 g", "kraft", "plaza vea"],
+        name: "Queso Mozzarela",
+        price: {},
+        updatedAt: "2021-11-16T03:22:40.645Z",
+        user: "6162ef3fdd1908fe718d821c"
+    }
+
+    it('Debe convertir en arreglo de objetos los precios ( convertIntoArray() )', () => {
         
 
         const result = convertIntoArray( item1.price )(['Plaza vea', 'wong']);
@@ -88,50 +101,103 @@ describe('Pruebas sobre archivo clasifyingInsumosByEstablishment.js', () => {
         expect( result ).toEqual([plaza, wong]);
     })
 
-    it('Debe agregar al acumulador del reduce ( addIntoAcc() )', () => {
+    it('Agregar un Elemento al acumulador vacio del reduce ( addIntoAcc() )', () => {
 
-        acc = addIntoAcc( acc, item1 )( plaza );
+        acc = addIntoAcc( acc, item1, plaza );
 
         expect( acc ).toEqual({
             'Plaza vea': {
                 name: plaza.name,
-                insumos: [item1]
-            }
-        })
-
-        acc = addIntoAcc( acc, item1 )( wong );
-        expect( acc ).toEqual({
-            'Plaza vea': {
-                name: plaza.name,
-                insumos: [item1]
-            },
-            'wong': {
-                name: wong.name,
-                insumos: [item1]
-            }
-        })
-
-        acc = addIntoAcc( acc, item1 )( plaza );
-        expect( acc ).toEqual({
-            'Plaza vea': {
-                name: plaza.name,
-                insumos: [item1, item1]
-            },
-            'wong': {
-                name: wong.name,
-                insumos: [item1]
+                insumos: [item1],
+                total: plaza.price
             }
         })
     })
 
-    it('pruebas en funcion clasifyingInsumosByEstablishment.js', () => {
+    it('Agregar un Elemento al acumulador del reduce ( addIntoAcc() )', () => {
+
+        acc = addIntoAcc( acc, item1, wong );
+
+        expect( acc ).toEqual({
+            'Plaza vea': {
+                name: plaza.name,
+                insumos: [item1],
+                total: plaza.price
+            },
+            'wong': {
+                name: wong.name,
+                insumos: [item1],
+                total: wong.price
+            }
+        })
+    })
+
+    it('Agregar un Elemento al acumulador y sumar el total', () => {
+
+        acc = addIntoAcc( acc, item1, plaza );
+
+        expect( acc ).toEqual({
+            'Plaza vea': {
+                name: plaza.name,
+                insumos: [item1, item1],
+                total: plaza.price + plaza.price
+            },
+            'wong': {
+                name: wong.name,
+                insumos: [item1],
+                total: wong.price
+            }
+        })
+    })
+
+    it('pruebas en clasifyingInsumosByEstablishment.js :: Un insumo sin precio', () => {
+
+        const result = clasifyingInsumosByEstablishment( [...insumos, noPriceInsumo] );
+
+        expect( result ).toEqual([
+            {
+                name: 'Sin Precio',
+                insumos: [{ ...noPriceInsumo, price: { 'Sin Precio': 0 } }],
+                total: 0
+            },
+            {
+                name: 'plaza vea',
+                insumos: [insumos[0]],
+                total: insumos[0].price['plaza vea']
+            },
+            {
+                name: 'wong',
+                insumos: [insumos[1], insumos[2]],
+                total: TWODECIMALS( insumos[1].price['wong'] + insumos[2].price['wong'] )
+            },
+            {
+                name: 'bodega frente',
+                insumos: [insumos[3], insumos[4], insumos[5]],
+                total: insumos[3].price['bodega frente'] + insumos[4].price['bodega frente'] + insumos[5].price['bodega frente']
+            },
+        ])
+    })
+
+    it('pruebas en clasifyingInsumosByEstablishment.js :: Todos los insumos tienen precio', () => {
 
         const result = clasifyingInsumosByEstablishment( insumos );
 
         expect( result ).toEqual([
-            { name: 'plaza vea', insumos: [insumos[0]] },
-            { name: 'wong', insumos: [insumos[1], insumos[2]] },
-            { name: 'bodega frente', insumos: [insumos[3], insumos[4], insumos[5]] },
+            {
+                name: 'plaza vea',
+                insumos: [insumos[0]],
+                total: insumos[0].price['plaza vea']
+            },
+            {
+                name: 'wong',
+                insumos: [insumos[1], insumos[2]],
+                total: TWODECIMALS( insumos[1].price['wong'] + insumos[2].price['wong'] )
+            },
+            {
+                name: 'bodega frente',
+                insumos: [insumos[3], insumos[4], insumos[5]],
+                total: insumos[3].price['bodega frente'] + insumos[4].price['bodega frente'] + insumos[5].price['bodega frente']
+            },
         ])
     })
 })

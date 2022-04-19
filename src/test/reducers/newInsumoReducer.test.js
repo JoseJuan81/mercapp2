@@ -1,16 +1,16 @@
-import { newInsumoTypeForm, newInsumoForm } from "../../constant/newInsumoTypeForm";
-import { newInsumoReducer } from "../../reducers/newInsumoReducer";
+import { type } from "../../constant/type";
+import { newInsumoReducer, newInsmoInitialState } from "../../reducers/newInsumoReducer";
 
 describe('Pruebas sobre archivo newInsumoReducer.js', () => {
   
     test('Debe retornar el estado inicial', () => {
 
-        const result = newInsumoReducer( newInsumoTypeForm, {} );
+        const result = newInsumoReducer( {}, {} );
 
-        expect( result ).toEqual( newInsumoTypeForm );
+        expect( result ).toEqual( {} );
     });
 
-    test('Llenar formulario de nuevo indumo', () => {
+    test('Llenar formulario de nuevo insumo', () => {
 
         const newInsumo = {
             name: 'Insumo a actualizar',
@@ -18,10 +18,10 @@ describe('Pruebas sobre archivo newInsumoReducer.js', () => {
             labels: []
         }
         const action = {
-            type: newInsumoForm.fill,
+            type: type.newInsumo.fill,
             payload: newInsumo
         }
-        const result = newInsumoReducer( newInsumoTypeForm, action );
+        const result = newInsumoReducer( newInsmoInitialState, action );
 
         expect( result ).toEqual( { data: { ...newInsumo, name: newInsumo.name }, isEditing: false } );
     });
@@ -29,11 +29,11 @@ describe('Pruebas sobre archivo newInsumoReducer.js', () => {
     test('Limpiar formulario de nuevo insumo', () => {
 
         const action = {
-            type: newInsumoForm.reset
+            type: type.newInsumo.reset
         }
-        const result = newInsumoReducer( newInsumoTypeForm, action );
+        const result = newInsumoReducer( newInsmoInitialState, action );
 
-        expect( result ).toEqual( newInsumoTypeForm );
+        expect( result ).toEqual( newInsmoInitialState );
     });
 
     test('Llenar formulario con insumo a actualizar', () => {
@@ -47,10 +47,10 @@ describe('Pruebas sobre archivo newInsumoReducer.js', () => {
             labels: ['foo', 'bar', 'bazz']
         }
         const action = {
-            type: newInsumoForm.update,
+            type: type.newInsumo.update,
             payload: insumoToUpdate
         }
-        const result = newInsumoReducer( newInsumoTypeForm, action );
+        const result = newInsumoReducer( newInsmoInitialState, action );
 
         expect( result ).toEqual( { data: { ...insumoToUpdate }, isEditing: true } );
     });
