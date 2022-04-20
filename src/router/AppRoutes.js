@@ -6,6 +6,7 @@ import {
     detalleComprasPath,
     detalleInsumoPath,
     editarInsumoPath,
+    listaComprasPath,
     mejorCompraPath,
     mezclarComprasPath,
     misInsumosPath,
@@ -23,6 +24,7 @@ import { DetalleCompraContainer } from '../components/Container/DetalleCompraCon
 import { MezclarComprasContainer } from '../components/Container/MezclarComprasContainer';
 import { DetalleInsumoContainer } from '../components/Container/DetalleInsumoContainer';
 import { EstadisticasComprasContainer } from '../components/Container/EstadisticasComprasContainer';
+import { ListaComprasContainer } from '../components/Container/ListaComprasContainer';
 
 export const AppRoutes = () => {
 
@@ -53,6 +55,9 @@ export const AppRoutes = () => {
                     </Route>
                     <Route path={ detalleComprasPath }>
                         <DetalleCompraContainer />
+                    </Route>
+                    <Route path={ listaComprasPath }>
+                        <ListaComprasContainer />
                     </Route>
                     {/* ===== COMPRAS ===== */}
 
