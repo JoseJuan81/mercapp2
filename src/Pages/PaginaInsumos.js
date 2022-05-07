@@ -6,7 +6,7 @@ import { startDeletingInsumos } from '../actions/insumosAction';
 import { hideSearchAndFilterField, showFilterField, showSearchField } from '../actions/searchAction';
 
 import { BaseButton, FilterButton, SearchButton } from '../components/Buttons/AppButtons';
-import { InsumoBase } from '../components/Insumos/Insumo';
+import { InsumoCard } from '../components/Insumos/InsumoCard';
 import { SearchAndFilterComponent } from '../components/Insumos/SearchAndFilterComponent';
 import { BottomModal } from '../components/Modal/BottomModal';
 
@@ -63,8 +63,7 @@ export const PaginaInsumos = ({ insumos }) => {
                 data-cy="PaginaInsumos"
                 className="
                     animate__animated animate__fadeIn
-                    grid gap-2
-                    self-start
+                    product__grid
                     w-full
                     px-2 pb-2
                 "
@@ -74,7 +73,7 @@ export const PaginaInsumos = ({ insumos }) => {
                 }
 
                 {insumos.map( (insumo, index ) => (
-                    <InsumoBase
+                    <InsumoCard
                         key={ `${insumo}-${index}` }
                         insumo={ insumo }
                         deleteAction={ insumoToDelete }
