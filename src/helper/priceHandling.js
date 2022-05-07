@@ -1,8 +1,8 @@
-import { isEmpty, round } from 'functionallibrary';
+import { isEmpty } from 'functionallibrary';
 
 import { DEFAULT_OBJECT_PRICE } from '../constant/defaults';
 
-const twoDecimals = round(2);
+import { twoDecimals } from './roundPrices';
 
 export const priceFromObjectToArray = ( price ) => {
 

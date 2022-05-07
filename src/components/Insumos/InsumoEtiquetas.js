@@ -3,7 +3,13 @@ import React from 'react';
 export const InsumoEtiquetas = React.memo( ({ labels, checked }) => {
 
     return (
-        <ul className="flex flex-wrap">
+        <ul
+            className="
+                flex
+                overflow-auto
+                h-auto
+            "
+        >
 
             {
                 labels.map((la, i) => (
@@ -13,6 +19,7 @@ export const InsumoEtiquetas = React.memo( ({ labels, checked }) => {
                             bg-white
                             text-xs ${ checked ? 'text-lime-700' : 'text-warmGray-800' }
                             m-1 p-1
+                            whitespace-nowrap
                         `}
                     >{ la }</li>
                 ))

@@ -224,6 +224,19 @@ export const LeftCircleButton = React.memo(({ isButton, to, onClick, className }
     )
 })
 
+export const LeftButton = React.memo(({ isButton, to, onClick, className }) => {
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i class="fas fa-chevron-left"></i>
+        </BaseButton>
+    )
+})
+
 export const EditButton = React.memo(({ isButton, to, onClick, className }) => {
     return (
         <BaseButton

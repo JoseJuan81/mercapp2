@@ -6,7 +6,7 @@ import { setInsumoToUpdate } from '../../actions/newInsumoAction';
 import { removeInsumoFromPurchase } from '../../actions/newPurchaseAction';
 
 import { editarInsumoPath } from '../../constant/routes';
-import { EditButton, LeftCircleButton, TrashButton } from '../Buttons/AppButtons';
+import { EditButton, LeftButton, TrashButton } from '../Buttons/AppButtons';
 
 export const InsumoBaseActions = React.memo( ({ id, deleteAction }) => {
 
@@ -45,36 +45,32 @@ export const InsumoBaseActions = React.memo( ({ id, deleteAction }) => {
     return (
         <div
             className={`
-                absolute right-1
-                h-10
-                bg-warmGray-100
+                h-9 ${toogle ? 'max-w-40' : 'max-w-6'}
                 flex
-                transform ${ toogle ? 'translate-x-1' : 'translate-x-28' }
-                border border-solid ${ toogle ? 'border-warmGray-200' : 'border-white' }
-                rounded-l-full
                 duration-300
+                bg-white
             `}
         >
-            <LeftCircleButton
+            <LeftButton
                 isButton
                 className={`
                     bg-white
-                    flex items-center justify-center
                     text-warmGray-600 text-xl
                     transform ${toogle ? 'rotate-180' : 'rotate-0'}
-                    w-10
-                    ${ toogle ? 'rounded-full' : 'rounded-l-full' }
-                    border border-solid border-warmGray-200
-                    duration-300
+                    w-auto
+                    px-2
+                    duration-500
                 `}
                 onClick= { handleClickOnActionMenu }
             />
 
             <div
-                className="
+                className={`
                     grid grid-cols-2 gap-2
+                    ${toogle ? 'bg-warmGray-50' : 'bg-white'}
                     px-2
-                "
+                    animate__animated animate__fadeIn
+                `}
             >
 
                 <EditButton
@@ -146,7 +142,7 @@ export const InsumoActions = React.memo( ({ id }) => {
                 duration-300
             `}
         >
-            <LeftCircleButton
+            <LeftButton
                 isButton
                 className={`
                     bg-white
