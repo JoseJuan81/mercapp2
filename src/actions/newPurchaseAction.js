@@ -73,10 +73,12 @@ export const loadPurchasesData = () => dispatch => {
     const allInsumos = getFromLocalStorage( type.localStorage.insumos );
 
     if ( currentPurchase ) {
+
         const selectedInumos = filter( equality( 'selected', true ), allInsumos );
         const matchSelectedInsumos = updateInsumosToBuyWithSelected( currentPurchase.insumos, selectedInumos );
         dispatch( updateNewPurchase( { ...currentPurchase, insumos: matchSelectedInsumos } ) );
     } else {
+
         dispatch( loadSelectedInsumos() );
     }
 }

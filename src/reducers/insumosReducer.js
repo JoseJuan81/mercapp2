@@ -26,6 +26,7 @@ const onSearch = ( state, searchValue ) => {
     ])
 
     const dataSearched = getDataSearched( searchValue );
+
     return { ...state, data: [...dataSearched] };
 }
 
@@ -105,7 +106,7 @@ export const insumosReducer = ( state = initialState, action ) => {
         [type.insumos.select]: () => (
             {
                 ...state,
-                cache: updateItemInArrayByProp( 'id', action.payload, state.data ),
+                cache: updateItemInArrayByProp( 'id', action.payload, state.cache ),
                 data: updateItemInArrayByProp( 'id', action.payload, state.data )
             }
         ),

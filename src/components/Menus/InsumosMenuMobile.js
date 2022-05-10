@@ -30,7 +30,7 @@ export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
         if ( !isMounting ) {
 
             if ( !selectAll ) {
-    
+
                 dispatch( cleaningNewPurchase() );
 
             }

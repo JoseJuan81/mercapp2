@@ -25,7 +25,7 @@ export const InsumoCard = ({ insumo, deleteAction }) => {
  const dispatch = useDispatch();
 
  // ===== VARIABLES LOCALES =====
- const { selected, labels, id, name: title, isFavorite, img, price } = insumo;
+ const { selected, labels, id, name: title, isFavorite, image:img, price } = insumo;
 
  // ===== STATE =====
  const [insumoDetailsPage, setInsumoDetailsPage] = useState('');
@@ -62,21 +62,22 @@ export const InsumoCard = ({ insumo, deleteAction }) => {
     return (
         <div
             className={`
-                w-full h-full
+                w-full h-content
                 relative
-                duration-200
                 rounded-lg ${selected && 'shadow-xl'}
                 border border-solid ${selected ? 'border-lime-400' : 'border-warmGray-300'}
+                mb-4
+                duration-200
             `}
             onClick={ handleSelecting }
         >
             <div
-                className="
+                className={`
                     bg-warmGray-100
-                    w-full h-32
-                "
+                    w-full h-full ${img ? 'min-h-0' : 'min-h-40'}
+                `}
             >
-                {img && <img src='' />}
+                {img && <img src={ img } className="" />}
                
             </div>
                     

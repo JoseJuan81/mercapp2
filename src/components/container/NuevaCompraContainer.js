@@ -28,7 +28,7 @@ export const NuevaCompraContainer = () => {
         dispatch( loadEstablishments() );
         dispatch( loadPurchasesData() );
 
-    }, [dispatch]);
+    }, []);
 
     return (
         <div

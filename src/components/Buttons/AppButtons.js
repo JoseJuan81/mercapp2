@@ -232,7 +232,7 @@ export const LeftButton = React.memo(({ isButton, to, onClick, className }) => {
             isButton={ isButton }
             onClick={ onClick }
         >
-            <i class="fas fa-chevron-left"></i>
+            <i className="fas fa-chevron-left"></i>
         </BaseButton>
     )
 })

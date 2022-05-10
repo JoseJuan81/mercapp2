@@ -2,20 +2,22 @@ import { equality, find, getPropertysValue, isEmpty } from 'functionallibrary';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setBuyDate, setEstablishmentInBuy, setNameInBuy, totalBuy } from '../actions/newPurchaseAction';
+import { cleaningNewPurchase, setBuyDate, setEstablishmentInBuy, setNameInBuy, totalBuy } from '../actions/newPurchaseAction';
 
 import { BigAddButton } from '../components/Buttons/BigAddButton';
 import { InsumoToBuy } from '../components/Insumos/Insumo';
 import { DataList } from '../components/Form/DataList';
+import { InputField } from '../components/Form/InputField';
 
 import { misInsumosPath } from '../constant/routes';
 import { DEFAULT_ESTABLISHMENT } from '../constant/defaults';
 
 import { PaginaLoading } from './PaginaLoading';
-import { removeFromLocalStorage, setInLocalStorage } from '../helper/localStorage';
-import { type } from '../constant/type';
-import { InputField } from '../components/Form/InputField';
+
+import { getFromLocalStorage, setInLocalStorage } from '../helper/localStorage';
 import { formattedByInputDate } from '../helper/dates';
+
+import { type } from '../constant/type';
 
 
 // ===== CONSTANTES =====
@@ -53,6 +55,7 @@ export const PaginaNuevaCompra = () => {
     // ===== STATE =====
     const [selectedEstablisment, setSelectedEstablishment] = useState( DEFAULT_ESTABLISHMENT );
     const [insumosRouteModificated, setInsumosRouteModificated] = useState( activeBuyRoute );
+    const [isMounting, setIsMounting] = useState( true );
 
     // ===== FUNCIONES PROPIAS =====
     const handleChangeOnEstablishment = useCallback( ( e ) => {
@@ -76,17 +79,21 @@ export const PaginaNuevaCompra = () => {
 
     },[])
 
-    // ACTUALIZAR COMPRAS EN LOCAL STORAGE CADA VEZ QUE CAMBIEN LOS INSUMOS O EL ESTABLECIMIENTO
+    // ACTUALIZAR COMPRAS EN LOCAL STORAGE CADA VEZ QUE CAMBIEN LOS INSUMOS, FECHA Y EL ESTABLECIMIENTO
     useEffect(() => {
-        
-        if ( isEmpty( insumos ) ) {
-            removeFromLocalStorage( type.localStorage.newPurchase );
-        } else {
 
-            setInLocalStorage( type.localStorage.newPurchase, { insumos, establishmentName } );
+        if ( isEmpty( insumos ) && !isMounting ) {
+
+            dispatch( cleaningNewPurchase() );
+        } else if ( (insumos || establishmentName || purchaseDate || name) && !isMounting ) {
+            
+            const newPurchaseData = { insumos, establishmentName, purchaseDate, name };
+            setInLocalStorage( type.localStorage.newPurchase, newPurchaseData );
+        } else {
+            setIsMounting( false );
         }
 
-    },[insumos, establishmentName])
+    },[insumos, establishmentName, purchaseDate, name])
 
     // OBTENER OBJETO ESTABLECIMIENTO A PARTIR DEL NOMBRE DEL ESTABLECIMIENTO
     useEffect( () => {
@@ -117,7 +124,7 @@ export const PaginaNuevaCompra = () => {
 
     },[establishmentName])
 
-    // ESTABLECER OBJETO ESTABLECIMIENTO POR DEFECTO CUANDO USUASRIO BORRA DATOS DEL CAMPO
+    // ESTABLECER OBJETO ESTABLECIMIENTO POR DEFECTO CUANDO USUARIO BORRA DATOS DEL CAMPO
     useEffect(() => {
 
         if ( isEmpty( selectedEstablisment ) ) {

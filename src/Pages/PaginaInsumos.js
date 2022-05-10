@@ -8,6 +8,7 @@ import { hideSearchAndFilterField, showFilterField, showSearchField } from '../a
 import { BaseButton, FilterButton, SearchButton } from '../components/Buttons/AppButtons';
 import { InsumoCard } from '../components/Insumos/InsumoCard';
 import { SearchAndFilterComponent } from '../components/Insumos/SearchAndFilterComponent';
+import { Masonry } from '../components/Masonry';
 import { BottomModal } from '../components/Modal/BottomModal';
 
 export const PaginaInsumos = ({ insumos }) => {
@@ -59,19 +60,15 @@ export const PaginaInsumos = ({ insumos }) => {
                 <SearchAndFilterComponent />
             </div>
 
-            <div
-                data-cy="PaginaInsumos"
-                className="
-                    animate__animated animate__fadeIn
-                    product__grid
-                    w-full
-                    px-2 pb-2
-                "
-            >
-                { isEmpty( insumos ) && ( isFiltering || isSearching ) &&
-                    <NotFoundInsumos />
-                }
+           
+            { isEmpty( insumos ) && ( isFiltering || isSearching ) &&
+                <NotFoundInsumos />
+            }
 
+            <Masonry
+                minColumnsWidth={ 180 }
+                gapCol={ 16 }
+            >
                 {insumos.map( (insumo, index ) => (
                     <InsumoCard
                         key={ `${insumo}-${index}` }
@@ -79,7 +76,7 @@ export const PaginaInsumos = ({ insumos }) => {
                         deleteAction={ insumoToDelete }
                     />
                 ))}
-            </div>
+            </Masonry>
 
             <BottomModal show={ showDeleteModal } >
                 <ConfirmDeletingInsumo
