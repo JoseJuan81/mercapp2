@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cleaningNewPurchase, setBuyDate, setEstablishmentInBuy, setNameInBuy, totalBuy } from '../actions/newPurchaseAction';
 
 import { BigAddButton } from '../components/Buttons/BigAddButton';
-import { InsumoToBuy } from '../components/Insumos/Insumo';
 import { DataList } from '../components/Form/DataList';
 import { InputField } from '../components/Form/InputField';
+import { InsumoToBuy } from '../components/Insumos/InsumoToBuy';
 
 import { misInsumosPath } from '../constant/routes';
 import { DEFAULT_ESTABLISHMENT } from '../constant/defaults';

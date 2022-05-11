@@ -97,7 +97,7 @@ export const InsumoBaseActions = React.memo( ({ id, deleteAction }) => {
     )
 })
 
-export const InsumoActions = React.memo( ({ id }) => {
+export const InsumoToBuyActions = React.memo( ({ id }) => {
     
     // ===== NAVIGATION =====
     const history = useHistory();

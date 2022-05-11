@@ -73,7 +73,11 @@ export const InsumoBase = React.memo( ({ insumo, deleteAction }) => {
                     
                     <InsumoTitle
                         title={ title }
-                        checked={ selected }
+                        css={`
+                            duration-200
+                            text-md font-light ${selected ? 'text-lime-500' : 'text-warmGray-800'}
+                            mx-2 my-3
+                        `}
                     />
                     
 

@@ -1,16 +1,12 @@
-import React from 'react'
+import React from 'react';
 
-export const InsumoTitle = React.memo( ({ title, checked }) => {
+export const InsumoTitle = React.memo( ({ title, css = '' }) => {
 
     return (
-        <dt
-            className={`
-                duration-200
-                text-md font-light ${checked ? 'text-lime-500' : 'text-warmGray-800'}
-                mx-2 my-3
-            `}
+        <h3
+            className={ css }
         >
             { title }
-        </dt>
+        </h3>
     )
 })

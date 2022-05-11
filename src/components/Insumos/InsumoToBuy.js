@@ -9,10 +9,12 @@ import { InsumoTitle } from './InsumoTitle';
 import { InsumoPrice } from './InsumoPrice';
 import { InsumoTotal } from './InsumoTotal';
 import { InsumoQuantity } from './InsumoQuantity';
+import { InsumoToBuyActions } from './InsumoActions';
+import { InsumoPriceInfo } from './InsumoPriceInfo';
 
 import { NotificationInfo } from '../../helper/toast';
+
 import { type } from '../../constant/type';
-import { InsumoPriceInfo } from './InsumoPriceInfo';
 
 export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
 
@@ -56,10 +58,17 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
             <div className="flex px-2 py-3 overflow-hidden relative">
 
                 <div className="flex flex-auto">
-                    <InsumoTitle title={ title } />
+                    <InsumoTitle
+                        title={ title }
+                        css={`
+                            duration-200
+                            text-xl font-medium text-warmGray-800
+                            mx-2 my-3
+                        `}
+                    />
                 </div>
 
-                <InsumoActions id={ id } />
+                <InsumoToBuyActions id={ id } />
 
             </div>
 

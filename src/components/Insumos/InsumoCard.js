@@ -81,7 +81,14 @@ export const InsumoCard = ({ insumo, deleteAction }) => {
                
             </div>
                     
-            <InsumoTitle title={ title } checked={ selected } />
+            <InsumoTitle
+                title={ title }
+                css={`
+                    duration-200
+                    text-md font-light ${selected ? 'text-lime-500' : 'text-warmGray-800'}
+                    mx-2 my-3
+                `}
+            />
 
             <FavoriteBtn isFavorite={ isFavorite } handleFavorite={ handleFavorite } />
 
@@ -169,6 +176,14 @@ const MinAndMaxPrices = ({ price }) => {
 
     const pricesArray = priceFromObjectToArray( price );
     const [min, max] = extent( pricesArray, d => d.value );
+
+    if ( min === max ) {
+        return (
+            <div>
+                <span>{ min }</span>
+            </div>
+        )     
+    }
 
     return (
         <div>
