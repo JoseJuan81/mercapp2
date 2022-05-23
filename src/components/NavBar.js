@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { equality, filter, isEmpty } from 'functionallibrary';
 
-import { PaginaLoading } from '../Pages/PaginaLoading.js';
 import { Menu } from './Menus/Menu.js';
 import { BackButton, ShoppingCarButton } from './Buttons/AppButtons.js';
 
@@ -16,16 +16,12 @@ import {
     resumenDeComprasPath,
     comprasEstadisticas
 } from '../constant/routes.js';
-import { equality, filter, isEmpty } from 'functionallibrary';
 
 export const NavBar = () => {
 
     // ===== NAVIGATION =====
     const url = new URL( window.location );
     const { pathname } = useLocation();
-
-    // ===== STORE =====
-    const { loading } = useSelector( state => state.loading );
 
     // ====== STATE =====
     const [pageTitle, setPageTitle] = useState( '' );
@@ -66,10 +62,6 @@ export const NavBar = () => {
         setIsInsumosPage( pathname.includes( misInsumosPath ) );
 
     }, [pathname]);
-
-    if ( loading ) {
-        return <PaginaLoading />
-    }
 
     return (
         <div

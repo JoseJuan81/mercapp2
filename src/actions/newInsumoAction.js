@@ -63,9 +63,9 @@ export const startCreateInsumo = ( isSelected ) => async ( dispatch, rootState )
 
     const localInsumos = getFromLocalStorage( type.localStorage.insumos ) || [];
 
-    const { newInsumo: { data }, insumos: { data: insumos } } = rootState();
+    const { newInsumo: { data }, insumos: { cache: insumos } } = rootState();
     const allInsumos = isEmpty( insumos ) ? localInsumos : insumos;
-
+debugger
     try {
         
         const response = await fetchCreateInsumo( data );
@@ -79,7 +79,7 @@ export const startCreateInsumo = ( isSelected ) => async ( dispatch, rootState )
             NotificationSuccess( type.notificationMessages.newInsumoCreated );
     
             dispatch ( resetForm() );
-    
+            // Remuevo para obligar a consumir el servicio nuevamente
             removeFromLocalStorage( type.localStorage.establishments );
 
         } else {

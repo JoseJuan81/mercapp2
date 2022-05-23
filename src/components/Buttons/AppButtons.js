@@ -232,7 +232,7 @@ export const LeftButton = React.memo(({ isButton, to, onClick, className }) => {
             isButton={ isButton }
             onClick={ onClick }
         >
-            <i class="fas fa-chevron-left"></i>
+            <i className="fas fa-chevron-left"></i>
         </BaseButton>
     )
 })
@@ -384,6 +384,25 @@ export const MergeButton = React.memo(({ isButton, to, onClick, className, text,
 export const ShoppingCarButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
 
     const icon = 'fas fa-shopping-cart';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+            { children }
+        </BaseButton>
+    )
+})
+
+export const ShoppingCarPlusButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+
+    const icon = 'fa fa-cart-plus';
     const buildClasses = text ? `${ icon } mr-2` : icon;
 
     return (

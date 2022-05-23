@@ -6,7 +6,7 @@ import { extent } from 'd3';
 
 import { selectInsumoToBuy, startIsFavorite } from '../../actions/insumosAction';
 
-import { HeartButton, HeartSolidButton, SeeDetailsButton } from '../Buttons/AppButtons';
+import { HeartButton, HeartSolidButton, SeeDetailsButton, ShoppingCarPlusButton } from '../Buttons/AppButtons';
 import { InsumoEtiquetas } from './InsumoEtiquetas';
 import { InsumoTitle } from './InsumoTitle';
 import { InsumoBaseActions } from './InsumoActions';
@@ -25,7 +25,7 @@ export const InsumoCard = ({ insumo, deleteAction }) => {
  const dispatch = useDispatch();
 
  // ===== VARIABLES LOCALES =====
- const { selected, labels, id, name: title, isFavorite, img, price } = insumo;
+ const { selected, labels, id, name: title, isFavorite, image:img, price } = insumo;
 
  // ===== STATE =====
  const [insumoDetailsPage, setInsumoDetailsPage] = useState('');
@@ -62,25 +62,33 @@ export const InsumoCard = ({ insumo, deleteAction }) => {
     return (
         <div
             className={`
-                w-full h-full
+                w-full h-content
                 relative
-                duration-200
                 rounded-lg ${selected && 'shadow-xl'}
                 border border-solid ${selected ? 'border-lime-400' : 'border-warmGray-300'}
+                mb-4
+                duration-200
             `}
             onClick={ handleSelecting }
         >
             <div
-                className="
+                className={`
                     bg-warmGray-100
-                    w-full h-32
-                "
+                    w-full h-full ${img ? 'min-h-0' : 'min-h-40'}
+                `}
             >
-                {img && <img src='' />}
+                {img && <img src={ img } className="" />}
                
             </div>
                     
-            <InsumoTitle title={ title } checked={ selected } />
+            <InsumoTitle
+                title={ title }
+                css={`
+                    duration-200
+                    text-md font-light ${selected ? 'text-lime-500' : 'text-warmGray-800'}
+                    mx-2 my-3
+                `}
+            />
 
             <FavoriteBtn isFavorite={ isFavorite } handleFavorite={ handleFavorite } />
 
@@ -116,6 +124,14 @@ export const InsumoCard = ({ insumo, deleteAction }) => {
 
                 <InsumoBaseActions id={ id } deleteAction={ deleteAction } />
             </div>
+
+            {/*<ShoppingCarPlusButton
+                isButton
+                className={`
+                    w-full
+                    ${selected ? 'text-lime-500' : 'text-warmGray-700'}
+                `}
+            />*/}
             
             {labels && labels.length > 0 &&
                 <div
@@ -168,6 +184,14 @@ const MinAndMaxPrices = ({ price }) => {
 
     const pricesArray = priceFromObjectToArray( price );
     const [min, max] = extent( pricesArray, d => d.value );
+
+    if ( min === max ) {
+        return (
+            <div>
+                <span>{ min }</span>
+            </div>
+        )     
+    }
 
     return (
         <div>

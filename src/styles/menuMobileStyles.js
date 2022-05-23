@@ -11,7 +11,7 @@ const menuMobileStyles = ({ addComponents, theme }) => {
             display: 'grid',
             height: theme( 'spacing.16' ),
             left: '0',
-            position: 'absolute',
+            position: 'fixed',
             width: '100%',
 		}
 	}

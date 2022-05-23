@@ -73,10 +73,12 @@ export const loadPurchasesData = () => dispatch => {
     const allInsumos = getFromLocalStorage( type.localStorage.insumos );
 
     if ( currentPurchase ) {
+
         const selectedInumos = filter( equality( 'selected', true ), allInsumos );
         const matchSelectedInsumos = updateInsumosToBuyWithSelected( currentPurchase.insumos, selectedInumos );
         dispatch( updateNewPurchase( { ...currentPurchase, insumos: matchSelectedInsumos } ) );
     } else {
+
         dispatch( loadSelectedInsumos() );
     }
 }
@@ -137,13 +139,11 @@ export const startCreatingPurchase = ( history ) => async ( dispatch, rootState 
 
         const { purchaseDate } = newPurchase;
         const formattedDate = dateWithTime( purchaseDate );
-        const response = await fetchCreatePurchase({ ...newPurchase, purchaseDate: formattedDate } );
+        await fetchCreatePurchase({ ...newPurchase, purchaseDate: formattedDate } );
 
-        dispatch( createPurchase( response.data ) );
         dispatch( selectAllInsumosToBuy( false ) );
-
+        dispatch( cleaningNewPurchase() );
         removeFromLocalStorage( type.localStorage.purchases );
-        removeFromLocalStorage( type.localStorage.insumos );
 
         NotificationSuccess( type.notificationMessages.newPurchaseCreated );
 

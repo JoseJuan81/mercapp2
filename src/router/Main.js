@@ -10,8 +10,8 @@ import {
 import { PrivateRoutes } from './PrivateRoutes';
 import { AppRoutes } from './AppRoutes';
 
-import { PaginaRegistroUsuario } from '../Pages/PaginaRegistroUsuario';
-import { PaginaInicioSesion } from '../Pages/PaginaInicioSesion';
+import { PaginaRegistroUsuario } from '../Pages/Auth/PaginaRegistroUsuario';
+import { PaginaInicioSesion } from '../Pages/Auth/PaginaInicioSesion';
 
 import { inicioSesionPath, registroUsuarioPath } from '../constant/routes';
 import { type } from '../constant/type';
@@ -22,12 +22,15 @@ import { login } from '../actions/authAction';
 
 export const Main = () => {
 
+    // VARIABLES LOCALES
     const userFromLocalStore = getFromLocalStorage( type.localStorage.user );
-    const userFromStore = useSelector( state => state.auth );
+    const userFromStore = useSelector( store => store.auth );
     const user =  userFromLocalStore || userFromStore;
 
+    // STORE
     const dispatch = useDispatch();
 
+    // VERIFICAR SI EL USUARIO YA INICIÓ SESIÓN 
     useEffect(() => {
     
         if ( userFromLocalStore ) {
