@@ -3,10 +3,10 @@ import { extractIdFromPathName } from "../../helper/route";
 
 describe( 'Pruebas sobre archivo Route', () => {
 
-    test('pruebas sobre funcion extractIdFromPathName', () => {
+    test('pruebas sobre funcion extractIdFromPathName (editar insumo)', () => {
 
         const id = '18p8BB5GCPy2cyuXTDYD';
-        const completePath = `/actualizar-insumo/${id}`;
+        const completePath = editarInsumoPath + '/' + id;
 
         const idFromPath = extractIdFromPathName( completePath, editarInsumoPath );
 
