@@ -2,29 +2,15 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import {
-    comprasEstadisticas,
-    detalleComprasPath,
-    detalleInsumoPath,
-    editarInsumoPath,
-    listaComprasPath,
-    mejorCompraPath,
-    mezclarComprasPath,
-    misInsumosPath,
-    nuevaCompraPath,
-    nuevoInsumoPath,
-    resumenDeComprasPath,
+    inicioPath, insumosBaseUrl, purchasesBaseUrl,
 } from '../constant/routes';
 
-import { MisComprasContainer } from '../components/Container/MisComprasContainer.js';
-import { MisInsumosContainer } from '../components/Container/MisInsumosContainer.js';
-import { NuevaCompraContainer } from '../components/Container/NuevaCompraContainer.js';
-import { NuevoInsumoContainer } from '../components/Container/NuevoInsumoContainer.js';
 import { NavBar } from '../components/NavBar.js';
-import { DetalleCompraContainer } from '../components/Container/DetalleCompraContainer';
-import { MezclarComprasContainer } from '../components/Container/MezclarComprasContainer';
-import { DetalleInsumoContainer } from '../components/Container/DetalleInsumoContainer';
-import { EstadisticasComprasContainer } from '../components/Container/EstadisticasComprasContainer';
-import { ListaComprasContainer } from '../components/Container/ListaComprasContainer';
+
+import { PaginaInicioApp } from '../Pages/PaginaInicioApp';
+
+import { InsumosRoutes } from './routes/InsumosRoutes';
+import { PurchasesRoutes } from './routes/PurchasesRoutes';
 
 export const AppRoutes = () => {
 
@@ -32,52 +18,22 @@ export const AppRoutes = () => {
         <div className="w-screen h-screen">
             <NavBar />
 
-            <div
-                className="layout__container"
-            >
+            <div className="layout__container">
                 <Switch>
 
-                    {/* ===== COMPRAS ===== */}
-                    <Route exact path={ resumenDeComprasPath }>
-                        <MisComprasContainer />
+                    <Route path={ inicioPath }>
+                        <PaginaInicioApp />
                     </Route>
-                    <Route path={ comprasEstadisticas }>
-                        <EstadisticasComprasContainer />
-                    </Route>
-                    <Route path={ mezclarComprasPath }>
-                        <MezclarComprasContainer />
-                    </Route>
-                    <Route exact path={ nuevaCompraPath }>
-                        <NuevaCompraContainer />
-                    </Route>
-                    <Route exact path={ mejorCompraPath }>
-                        <NuevaCompraContainer />
-                    </Route>
-                    <Route path={ detalleComprasPath }>
-                        <DetalleCompraContainer />
-                    </Route>
-                    <Route path={ listaComprasPath }>
-                        <ListaComprasContainer />
-                    </Route>
-                    {/* ===== COMPRAS ===== */}
 
-                    {/* ===== INSUMOS ===== */}
-                    <Route exact path={ misInsumosPath }>
-                        <MisInsumosContainer />
+                    <Route path={ insumosBaseUrl }>
+                        <InsumosRoutes />
                     </Route>
-                    <Route exact path={ nuevoInsumoPath }>
-                        <NuevoInsumoContainer />
+                    
+                    <Route path={ purchasesBaseUrl }>
+                        <PurchasesRoutes />
                     </Route>
-                    <Route exact path={ `${ editarInsumoPath }/:id` }>
-                        <NuevoInsumoContainer />
-                    </Route>
-                    <Route path={ detalleInsumoPath }>
-                        <DetalleInsumoContainer />
 
-                    </Route>
-                    {/* ===== INSUMOS ===== */}
-
-                    <Redirect to={ resumenDeComprasPath } />
+                    <Redirect to={ inicioPath } />
 
                 </Switch>
             </div>

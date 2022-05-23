@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { clearInsumosToBuy, startCreatingPurchase } from '../../actions/newPurchaseAction';
+import { cleaningNewPurchase, clearInsumosToBuy, startCreatingPurchase } from '../../actions/newPurchaseAction';
+
 import { mejorCompraPath, misInsumosPath } from '../../constant/routes';
+
 import { AddCircleButton, CheckButton, CloseCircleButton, BackButton, PigButton } from '../Buttons/AppButtons';
 
 
@@ -44,7 +46,7 @@ export const NuevaCompraMenuMobile = React.memo( () => {
 
         setInsumosRouteModificated( newRoute );
 
-    },[establishmentName])
+    },[establishmentName]) 
 
     return (
         <div

@@ -1,3 +1,4 @@
+import { always, cond, equals, T } from "ramda";
 import { isEmpty, map, setNewProperty } from "functionallibrary";
 
 import { type } from "../constant/type";
@@ -36,12 +37,12 @@ export const updateInsumoInState = ( insumoUpdated ) => ({
     payload: insumoUpdated
 });
 
-export const searchInsumo = ( insumos, searchValue ) => ({
+export const searchInsumo = ( searchValue ) => ({
     type: type.insumos.search,
     payload: searchValue
 })
 
-export const filterInsumo = ( insumos, filterValue ) => ({
+export const filterInsumo = ( filterValue ) => ({
     type: type.insumos.filter,
     payload: filterValue
 })
@@ -63,16 +64,12 @@ export const selectAllFavorites = ( flag ) => ({
 
 export const searchingInsumo = ( val ) => dispatch => {
 
-    const localInsumos = getFromLocalStorage( type.localStorage.insumos ) || [];
-
-    dispatch( searchInsumo( localInsumos, val ) );
+    dispatch( searchInsumo( val ) );
 }
 
 export const filteringInsumo = ( val ) => dispatch => {
 
-    const localInsumos = getFromLocalStorage( type.localStorage.insumos ) || [];
-
-    dispatch( filterInsumo( localInsumos, val ) );
+    dispatch( filterInsumo( val ) );
 }
 
 export const selectInsumoToBuy = ( insumo ) => dispatch => {
@@ -88,7 +85,7 @@ export const selectInsumoToBuy = ( insumo ) => dispatch => {
 
 export const selectAllInsumosToBuy = ( flag ) => ( dispatch, rootState ) => {
 
-    const state = rootState().insumos.data;
+    const state = rootState().insumos.cache;
     const newState = map( setNewProperty( 'selected', flag ), state );
     const localInsumos = getFromLocalStorage( type.localStorage.insumos ) || [];
 
@@ -105,10 +102,11 @@ export const selectAllInsumosToBuy = ( flag ) => ( dispatch, rootState ) => {
 }
 
 /// ============= Acciones asincronas ================= //
-export const startLoadingInsumos = () => async dispatch => {
+export const startLoadingInsumos = () => async ( dispatch, rootState ) => {
     dispatch( startLoading() );
 
-    const localInsumos = getFromLocalStorage( type.localStorage.insumos );
+    let localInsumos = getFromLocalStorage( type.localStorage.insumos );
+    const insumosCache = rootState().insumos.cache;
 
     if ( isEmpty( localInsumos ) ) {
 
@@ -126,8 +124,14 @@ export const startLoadingInsumos = () => async dispatch => {
         }
 
     } else {
-        
-        dispatch( setInsumos( localInsumos ) );
+
+        const getLocalInsumos = cond([
+            [() => equals( localInsumos.length, insumosCache.length), always(insumosCache)],
+            [() => equals( insumosCache.length, 0), always(localInsumos)],
+            [() => insumosCache.length > localInsumos.length, always(insumosCache)],
+            [T, always( localInsumos )]
+        ])
+        dispatch( setInsumos( getLocalInsumos() ) );
     }
 
 
@@ -156,7 +160,7 @@ export const startIsFavorite = ( insumoUpdated ) => async ( dispatch, rootState 
 
     dispatch( startLoading() );
 
-    const localInsumos = getFromLocalStorage( type.localStorage.insumos );
+    const localInsumos = rootState().insumos.cache;
     
     try {
 
@@ -164,10 +168,10 @@ export const startIsFavorite = ( insumoUpdated ) => async ( dispatch, rootState 
 
         if ( response.ok ) {
 
-            const updated = updateItemInArrayByProp( 'id', insumoUpdated, localInsumos );
+            const insumosUpdated = updateItemInArrayByProp( 'id', insumoUpdated, localInsumos );
 
-            dispatch( setInsumos( updated ) );
-            setInLocalStorage( type.localStorage.insumos, [...updated] );
+            dispatch( setInsumos( insumosUpdated ) );
+            setInLocalStorage( type.localStorage.insumos, [...insumosUpdated] );
 
         } else {
 

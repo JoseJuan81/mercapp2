@@ -6,7 +6,7 @@ import { extent } from 'd3';
 
 import { selectInsumoToBuy, startIsFavorite } from '../../actions/insumosAction';
 
-import { HeartButton, HeartSolidButton, SeeDetailsButton } from '../Buttons/AppButtons';
+import { HeartButton, HeartSolidButton, SeeDetailsButton, ShoppingCarPlusButton } from '../Buttons/AppButtons';
 import { InsumoEtiquetas } from './InsumoEtiquetas';
 import { InsumoTitle } from './InsumoTitle';
 import { InsumoBaseActions } from './InsumoActions';
@@ -124,6 +124,14 @@ export const InsumoCard = ({ insumo, deleteAction }) => {
 
                 <InsumoBaseActions id={ id } deleteAction={ deleteAction } />
             </div>
+
+            {/*<ShoppingCarPlusButton
+                isButton
+                className={`
+                    w-full
+                    ${selected ? 'text-lime-500' : 'text-warmGray-700'}
+                `}
+            />*/}
             
             {labels && labels.length > 0 &&
                 <div

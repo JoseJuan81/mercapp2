@@ -11,7 +11,8 @@ import {
     CheckFullFilledCircleButton,
     HeartButton,
     HeartSolidButton,
-    PriceStatisticsButton,
+    //PriceStatisticsButton,
+    ShoppingCarPlusButton,
 } from '../Buttons/AppButtons';
 
 export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
@@ -87,7 +88,7 @@ export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
                 />
             }
 
-            <PriceStatisticsButton
+            <ShoppingCarPlusButton
                 isButton
                 disabled={ selectedInsumos.length === 0 }
             />    

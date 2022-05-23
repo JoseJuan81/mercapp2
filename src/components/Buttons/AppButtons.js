@@ -400,6 +400,25 @@ export const ShoppingCarButton = React.memo(({ children, isButton, to, onClick, 
     )
 })
 
+export const ShoppingCarPlusButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+
+    const icon = 'fa fa-cart-plus';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+            { children }
+        </BaseButton>
+    )
+})
+
 export const InfoButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
 
     const icon = 'fas fa-info';
