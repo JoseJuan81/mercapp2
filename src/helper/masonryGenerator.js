@@ -1,16 +1,25 @@
+import { isEmpty } from "functionallibrary";
+import { always, cond, gt, T } from "ramda";
 
-export const masonryGenerator = ( screenWidth, columWidth, items ) => {
+export const masonryGenerator = ( screenWidth, { columWidth, children, screenMaxWidth } ) => {
+    
+    const marginX = 20;
+    const maxWidth = cond([
+        [() => isEmpty(screenMaxWidth), always(screenWidth)],
+        [() => gt( screenMaxWidth, screenWidth ), always(screenWidth)],
+        [T, always(screenMaxWidth - marginX)]
+    ]);
 
-    const numCols = Math.floor( screenWidth / columWidth );
-    const itemsContainer = [];
+    const numCols = Math.floor( maxWidth() / columWidth );
+    const container = [];
 
     for ( let i = 0; i < numCols; i += 1 ) {
-        itemsContainer.push([]);
+        container.push([]);
     }
 
-    items.forEach((item, ind) => {
-        itemsContainer[ind%numCols].push(item)
+    children.forEach((child, ind) => {
+        container[ind%numCols].push(child)
     })
 
-    return [].concat( itemsContainer );
+    return [].concat( container );
 }

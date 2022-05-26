@@ -4,7 +4,7 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 
 import { masonryGenerator } from '../helper/masonryGenerator';
 
-export const Masonry = ({ children, minColumnsWidth, gapCol = 20 }) => {
+export const Masonry = ({ children, minColumnsWidth, gapCol = 20, screenMaxWidth }) => {
 
     // STATE
     const [screenW, setScreenW] = useState(0);
@@ -33,7 +33,13 @@ export const Masonry = ({ children, minColumnsWidth, gapCol = 20 }) => {
       
         if ( !isEmpty(screenW) ) {
 
-            const masonryArray = masonryGenerator( screenW, minColumnsWidth, children );
+            const opts = {
+                columWidth: minColumnsWidth,
+                children,
+                screenMaxWidth,
+            }
+            
+            const masonryArray = masonryGenerator( screenW, opts);
             setMasonryGrid( masonryArray );
         }
 
