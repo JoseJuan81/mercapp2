@@ -1,5 +1,6 @@
 export const insumosBaseUrl = '/insumos/';
 export const purchasesBaseUrl = '/compras/';
+export const purchasesListBaseUrl = '/listas-de-compra/';
 
 export const comprasEstadisticas = purchasesBaseUrl + 'estadisticas';
 export const detalleComprasPath = purchasesBaseUrl + 'detalle';
@@ -13,7 +14,7 @@ export const detalleInsumoPath = insumosBaseUrl + 'detalle';
 export const misInsumosPath = insumosBaseUrl + 'listado';
 export const nuevoInsumoPath = insumosBaseUrl + 'nuevo-insumo';
 
-export const listaComprasPath = '/listas-de-compra/listado';
+export const listaComprasPath = purchasesListBaseUrl + 'listado';
 
 export const inicioPath = '/inicio';
 export const inicioSesionPath = '/inicio-sesion';

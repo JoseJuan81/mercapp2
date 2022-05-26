@@ -10,12 +10,14 @@ import { pageTitles } from '../constant/pageTitles';
 import {
     detalleComprasPath,
     detalleInsumoPath,
+    inicioPath,
     mezclarComprasPath,
     misInsumosPath,
     nuevaCompraPath,
     resumenDeComprasPath,
     comprasEstadisticas
 } from '../constant/routes.js';
+import { Link } from 'react-router-dom';
 
 export const NavBar = () => {
 
@@ -140,12 +142,13 @@ const CarButton = () => {
 
 const AppName = React.memo( () => {
     return (
-        <h1
+        <Link
             className="
                 font-medium
                 text-lime-500 text-base
             "
-        >MercApp2</h1>
+            to={ inicioPath }
+        >MercApp2</Link>
     )
 })
 

@@ -68,6 +68,7 @@ export const PaginaInsumos = ({ insumos }) => {
             <Masonry
                 minColumnsWidth={ 180 }
                 gapCol={ 16 }
+                screenMaxWidth={ 1280 }
             >
                 {insumos.map( (insumo, index ) => (
                     <InsumoCard
