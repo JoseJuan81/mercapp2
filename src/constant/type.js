@@ -32,6 +32,7 @@ export const type = {
         insumos: '[mercapp2] insumos',
         newPurchase: '[mercapp2] nueva compra',
         purchases: '[mercapp2] compras',
+        purchasesList: '[mercapp2] listas de compras',
         token: '[mercapp2] token',
         user: '[mercapp2] user-data',
     },

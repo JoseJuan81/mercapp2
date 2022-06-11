@@ -8,29 +8,50 @@ import { createPurchaseFromPurchasesList } from '../../actions/purchaseListActio
 import { ShareButton, ShoppingCarPlusButton } from '../../components/Buttons/AppButtons';
 
 import { nuevaCompraPath } from '../../constant/routes';
+import { type } from '../../constant/type';
 
 import { calculateSimpleTotal, calculateTotal } from '../../helper/calculateTotal';
 import { capitalizeText } from '../../helper/capitalize';
 import { clasifyingInsumosByEstablishment } from '../../helper/clasifyingInsumosByEstablishment';
+import { getFromLocalStorage, setInLocalStorage } from '../../helper/localStorage';
 
 export const PaginaCompraOptimizada = ({ insumos }) => {
 
     // ===== STATE =====
     const [insumosByEstablishment, setInsumosByEstablishment] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
+    const [isMount, setIsMount] = useState(true);
 
+    // Verificar si existen listas en el localStorage para agregarlas a la pantalla
     useEffect(() => {
-        
-        const classified = clasifyingInsumosByEstablishment( insumos );
 
-        setInsumosByEstablishment( classified );
-        setTotalAmount( calculateSimpleTotal( classified, 'total' ) );
+        const localPurchasesList = getFromLocalStorage( type.localStorage.purchasesList );
+        if ( isMount && localPurchasesList ) {
+            setInsumosByEstablishment( localPurchasesList );
+            setTotalAmount( calculateSimpleTotal( localPurchasesList, 'total' ) );
+        }
 
-    }, [insumos]);
+        setIsMount( false );
+
+    }, [])
+
+    // Clasificar insumos por establecimiento de acuerdo al precio
+    useEffect(() => {
+
+        if ( !isMount && !isEmpty( insumos ) ) {
+            const classified = clasifyingInsumosByEstablishment( insumos );
+            console.log('entro')
+            setInsumosByEstablishment( classified );
+            setTotalAmount( calculateSimpleTotal( classified, 'total' ) );
+    
+            setInLocalStorage( type.localStorage.purchasesList, classified );
+        }
+
+    }, [insumos, isMount]);
 
     return (
         <>
-            {isEmpty( insumos )
+            {isEmpty( insumosByEstablishment )
                 ? <NoInsumosSelected />
                 : <InsumosByEstablishment
                     total={ totalAmount }
