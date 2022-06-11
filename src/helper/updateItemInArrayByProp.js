@@ -1,4 +1,5 @@
 import { equality, findIndex } from "functionallibrary";
+import { curry } from "ramda";
 
 /**
  * Actualizar elemento dentro de un arreglo
@@ -17,3 +18,5 @@ export const updateItemInArrayByProp = ( prop, item, arr ) => {
 
     return [...local];
 }
+
+export const updateItemInArrayById = curry( (item, array ) => updateItemInArrayByProp('id', item, array ) );

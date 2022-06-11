@@ -1,5 +1,5 @@
 import { compose, isEmpty, map, reduce, round, setNewProperty } from "functionallibrary";
-import { curry } from 'ramda';
+import { curry, prop, sortBy, toLower } from 'ramda';
 
 import { NO_PRICES_INSUMO } from "../constant/defaults";
 
@@ -65,7 +65,9 @@ export const extractAccValuesByKey = ( acc ) => {
     if ( !isEmpty( acc )) {
         
         const { [NO_PRICES_INSUMO]:noPrice, ...rest } = acc;
-        return isEmpty( noPrice ) ? Object.values({ ...rest }) : Object.values({ noPrice, ...rest });
+        const values = isEmpty( noPrice ) ? Object.values({ ...rest }) : Object.values({ noPrice, ...rest });
+        const alphabeticOrder = sortBy( compose( toLower, prop('name') ), values );
+        return alphabeticOrder;
     }
 
     return [];

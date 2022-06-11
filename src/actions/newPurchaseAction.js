@@ -141,9 +141,9 @@ export const startCreatingPurchase = ( history ) => async ( dispatch, rootState 
         const formattedDate = dateWithTime( purchaseDate );
         await fetchCreatePurchase({ ...newPurchase, purchaseDate: formattedDate } );
 
-        dispatch( selectAllInsumosToBuy( false ) );
         dispatch( cleaningNewPurchase() );
-        removeFromLocalStorage( type.localStorage.purchases );
+        dispatch( selectAllInsumosToBuy( false ) );
+        //removeFromLocalStorage( type.localStorage.purchases );
 
         NotificationSuccess( type.notificationMessages.newPurchaseCreated );
 
@@ -151,7 +151,7 @@ export const startCreatingPurchase = ( history ) => async ( dispatch, rootState 
         
     } catch (error) {
         NotificationError( type.notificationMessages.newPurchaseCreatedError );
-        console.log('Error: creando nueva compra')
+        console.log('Error: creando nueva compra', error)
     } finally {
 
         dispatch( endLoading() );

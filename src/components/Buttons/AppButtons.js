@@ -654,3 +654,23 @@ export const ListButton = React.memo(({ children, isButton, to, onClick, classNa
         </BaseButton>
     )
 })
+
+export const ShareButton = React.memo(({ children, isButton, to, onClick, className, text, disabled }) => {
+
+    const icon = 'fas fa-share-alt';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            disabled={disabled}
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+            { children }
+        </BaseButton>
+    )
+})

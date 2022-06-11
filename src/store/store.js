@@ -32,10 +32,10 @@ const appReducers = combineReducers({
 const rootReducer = ( state, action ) => {
 
     if ( action.type === type.auth.logout ) {
-        console.log('hola')
-        console.log(state, action);
+        
         state = undefined
     }
+    
     return appReducers( state, action );
 }
 

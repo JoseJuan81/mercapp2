@@ -1,6 +1,13 @@
 import { isEmpty } from 'functionallibrary';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
+import { createPurchaseFromPurchasesList } from '../../actions/purchaseListAction';
+
+import { ShareButton, ShoppingCarPlusButton } from '../../components/Buttons/AppButtons';
+
+import { nuevaCompraPath } from '../../constant/routes';
 
 import { calculateSimpleTotal, calculateTotal } from '../../helper/calculateTotal';
 import { capitalizeText } from '../../helper/capitalize';
@@ -25,7 +32,10 @@ export const PaginaCompraOptimizada = ({ insumos }) => {
         <>
             {isEmpty( insumos )
                 ? <NoInsumosSelected />
-                : <InsumosByEstablishment total={ totalAmount } insumos={ insumosByEstablishment } />
+                : <InsumosByEstablishment
+                    total={ totalAmount }
+                    insumos={ insumosByEstablishment }
+                />
             }
         </>
     )
@@ -79,6 +89,7 @@ const EstablishmentContainer = ({ name, insumos }) => {
                 quantity={ qty }
                 total={ total }
                 establishmentName={ establishmentName }
+                insumos={ insumos }
             />
 
             <InsumosList
@@ -91,7 +102,24 @@ const EstablishmentContainer = ({ name, insumos }) => {
     )
 }
 
-const InsumoContainerHeader = ({ quantity, total, establishmentName}) => {
+const InsumoContainerHeader = ({ quantity, total, establishmentName, insumos}) => {
+
+    // ===== STORE =====
+    const dispatch = useDispatch();
+
+    // ===== NAVEGACIÓN =====
+    const history = useHistory();
+
+    // ===== FUNCIONES LOCALES =====
+    const handlerClickToConvertIntoPurchase = ( ev ) => {
+        ev.stopPropagation();
+
+        const newPurchaseData = { insumos, establishmentName }
+        dispatch( createPurchaseFromPurchasesList( newPurchaseData ) );
+
+        history.push( nuevaCompraPath )
+    }
+
     return (
         <>
             <div
@@ -100,23 +128,37 @@ const InsumoContainerHeader = ({ quantity, total, establishmentName}) => {
                     text-xl font-bold
                 "
             >
-                <h1
-                    className="
-                        text-warmGray-600 
-                    "
-                >{ establishmentName }</h1>
-                <h3
-                    className="
-                        text-warmGray-800
-                    "
-                >{ total }</h3>
+                <h1 className="text-warmGray-600">{ establishmentName }</h1>
+                <h3 className="text-warmGray-800">{ total }</h3>
             </div>
-            <span
+
+            <span className="text-warmGray-500">Cantidad de insumos: { quantity }</span>
+
+            <div
                 className="
-                    text-warmGray-500
+                    flex items-center justify-center
+                    my-4
                 "
-            >Cantidad de insumos: { quantity }
-            </span>
+            >
+                <ShoppingCarPlusButton
+                    isButton
+                    className="
+                        flex-auto
+                        bg-warmGray-100
+                        text-lg
+                    "
+                    onClick={ handlerClickToConvertIntoPurchase }
+                />
+
+                <ShareButton
+                    isButton
+                    className="
+                        flex-auto
+                        bg-warmGray-50
+                        text-lg
+                    "
+                />
+            </div>
         </>
     )
 }
