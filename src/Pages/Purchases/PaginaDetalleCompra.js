@@ -22,6 +22,7 @@ export const PaginaDetalleCompra = ({ details }) => {
         >
             {name && <Descriptor data={ name } label="Compra:" />}
             {date && <Descriptor data={ getFormatDate( date ) } label="Fecha:" userClass="animate__delay-1s" />}
+            
             <div className="flex justify-between items-center">
                 {establishmentName && <Descriptor data={ establishmentName } label="Comprado en:" userClass="animate__delay-2s" />}
             </div>

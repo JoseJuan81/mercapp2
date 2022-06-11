@@ -1,6 +1,8 @@
 
 import { format } from 'date-fns';
 import { es, enUS } from 'date-fns/locale';
+import { cond, equals, head, join, map, pipe, prop, T, __ } from 'ramda';
+import { extent } from 'd3';
 
 const locale = window.navigator.language.includes('es') ? es : enUS;
 
@@ -34,4 +36,19 @@ export const dateWithTime = ( date ) => {
 
     const [y, month, d] = date.split('-');
     return new Date(y, month - 1, d, h, m, s);
+}
+
+export const getRangeOfDatesFromPurchases = ( purchases ) => {
+
+    const getFirstDateAndFormates = pipe( head, prop('date'), getFormatDate );
+    
+    const getFirstAndLastItems =  p => extent( p, d => d.date  );
+    const getAndFormatesDates = map ( getFormatDate );
+    
+    const get = cond([
+        [(p) => equals( p.length, 1 ), getFirstDateAndFormates],
+        [T, pipe( getFirstAndLastItems, getAndFormatesDates, join(' - ') )]
+    ])
+
+    return get( purchases );
 }

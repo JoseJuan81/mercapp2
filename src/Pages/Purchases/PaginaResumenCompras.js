@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { forEach } from 'functionallibrary';
 
 import { selectPurchase, startGettingPurchases, unSelectAllPurchases, unSelectPurchase } from '../../actions/purchasesAction';
-import { ListButton, GalleryButton } from '../../components/Buttons/AppButtons';
+import { TwoLinesButton, GalleryButton } from '../../components/Buttons/AppButtons';
 
 import { BigAddButton } from '../../components/Buttons/BigAddButton';
 import { ItemList } from '../../components/purchases/ItemList';
@@ -126,7 +126,7 @@ const ViewButtons = React.memo(({ view, setView }) => {
                 flex items-center justify-end
             "
         >
-            <ListButton
+            <TwoLinesButton
                 isButton
                 className={`
                     ${ view === type.views.purchases.table ? 'bg-lime-50' : 'bg-white' }
@@ -183,7 +183,7 @@ const PurchasesWrapperList = ({ view, purchases, onSelect }) => {
 
                     <div
                         className="
-                            sticky -top-4 z-10
+                            sticky -top-1 z-10
                             bg-white
                             w-full
                             font-bold text-xl text-warmGray-800

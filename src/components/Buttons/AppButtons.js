@@ -477,13 +477,14 @@ export const PriceStatisticsButton = React.memo(({ children, isButton, to, onCli
     )
 })
 
-export const PigButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+export const PigButton = React.memo(({ children, isButton, to, onClick, className, text, disabled }) => {
 
     const icon = 'fas fa-piggy-bank';
     const buildClasses = text ? `${ icon } mr-2` : icon;
 
     return (
         <BaseButton
+            disabled={disabled}
             className={ className }
             to={ to }
             isButton={ isButton }
@@ -496,13 +497,14 @@ export const PigButton = React.memo(({ children, isButton, to, onClick, classNam
     )
 })
 
-export const ListButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+export const TwoLinesButton = React.memo(({ children, isButton, to, onClick, className, text, disabled }) => {
 
     const icon = 'fas fa-grip-lines';
     const buildClasses = text ? `${ icon } mr-2` : icon;
 
     return (
         <BaseButton
+            disabled={disabled}
             className={ className }
             to={ to }
             isButton={ isButton }
@@ -515,13 +517,14 @@ export const ListButton = React.memo(({ children, isButton, to, onClick, classNa
     )
 })
 
-export const GalleryButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+export const GalleryButton = React.memo(({ children, isButton, to, onClick, className, text, disabled }) => {
 
     const icon = 'fas fa-grip-horizontal';
     const buildClasses = text ? `${ icon } mr-2` : icon;
 
     return (
         <BaseButton
+            disabled={disabled}
             className={ className }
             to={ to }
             isButton={ isButton }
@@ -533,13 +536,14 @@ export const GalleryButton = React.memo(({ children, isButton, to, onClick, clas
         </BaseButton>
     )
 })
-export const HeartSolidButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+export const HeartSolidButton = React.memo(({ children, isButton, to, onClick, className, text, disabled }) => {
 
     const icon = 'fas fa-heart';
     const buildClasses = text ? `${ icon } mr-2` : icon;
 
     return (
         <BaseButton
+            disabled={disabled}
             className={ className }
             to={ to }
             isButton={ isButton }
@@ -551,13 +555,14 @@ export const HeartSolidButton = React.memo(({ children, isButton, to, onClick, c
         </BaseButton>
     )
 })
-export const HeartButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+export const HeartButton = React.memo(({ children, isButton, to, onClick, className, text, disabled }) => {
 
     const icon = 'far fa-heart';
     const buildClasses = text ? `${ icon } mr-2` : icon;
 
     return (
         <BaseButton
+            disabled={disabled}
             className={ className }
             to={ to }
             isButton={ isButton }
@@ -570,13 +575,14 @@ export const HeartButton = React.memo(({ children, isButton, to, onClick, classN
     )
 })
 
-export const DownButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+export const DownButton = React.memo(({ children, isButton, to, onClick, className, text, disabled }) => {
 
     const icon = 'fas fa-chevron-down';
     const buildClasses = text ? `${ icon } mr-2` : icon;
 
     return (
         <BaseButton
+            disabled={disabled}
             className={ className }
             to={ to }
             isButton={ isButton }
@@ -589,13 +595,14 @@ export const DownButton = React.memo(({ children, isButton, to, onClick, classNa
     )
 })
 
-export const LockButton = React.memo(({ children, isButton, to, onClick, className, text }) => {
+export const LockButton = React.memo(({ children, isButton, to, onClick, className, text, disabled }) => {
 
     const icon = 'fas fa-lock';
     const buildClasses = text ? `${ icon } mr-2` : icon;
 
     return (
         <BaseButton
+            disabled={disabled}
             className={ className }
             to={ to }
             isButton={ isButton }
@@ -608,13 +615,34 @@ export const LockButton = React.memo(({ children, isButton, to, onClick, classNa
     )
 })
 
-export const LockButtonOpen = React.memo(({ children, isButton, to, onClick, className, text }) => {
+export const LockButtonOpen = React.memo(({ children, isButton, to, onClick, className, text, disabled }) => {
 
     const icon = 'fas fa-lock-open';
     const buildClasses = text ? `${ icon } mr-2` : icon;
 
     return (
         <BaseButton
+            disabled={disabled}
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+            { children }
+        </BaseButton>
+    )
+})
+
+export const ListButton = React.memo(({ children, isButton, to, onClick, className, text, disabled }) => {
+
+    const icon = 'fas fa-list';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            disabled={disabled}
             className={ className }
             to={ to }
             isButton={ isButton }

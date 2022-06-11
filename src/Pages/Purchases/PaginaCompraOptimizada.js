@@ -6,10 +6,7 @@ import { calculateSimpleTotal, calculateTotal } from '../../helper/calculateTota
 import { capitalizeText } from '../../helper/capitalize';
 import { clasifyingInsumosByEstablishment } from '../../helper/clasifyingInsumosByEstablishment';
 
-export const PaginaCompraOptimizada = () => {
-
-    // ===== STORE =====
-    const { insumos } = useSelector( store => store.newPurchase );
+export const PaginaCompraOptimizada = ({ insumos }) => {
 
     // ===== STATE =====
     const [insumosByEstablishment, setInsumosByEstablishment] = useState([]);

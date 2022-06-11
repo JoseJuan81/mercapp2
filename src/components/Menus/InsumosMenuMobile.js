@@ -11,11 +11,12 @@ import {
     CheckFullFilledCircleButton,
     HeartButton,
     HeartSolidButton,
+    ListButton,
     //PriceStatisticsButton,
-    ShoppingCarPlusButton,
+    //ShoppingCarPlusButton,
 } from '../Buttons/AppButtons';
 
-export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
+export const InsumosMenuMobile = React.memo(({ newInsumoPath, listaComprasPath }) => {
 
     // ===== STORE =====
     const dispatch = useDispatch();
@@ -88,8 +89,8 @@ export const InsumosMenuMobile = React.memo(({ newInsumoPath }) => {
                 />
             }
 
-            <ShoppingCarPlusButton
-                isButton
+            <ListButton
+                to={ listaComprasPath }
                 disabled={ selectedInsumos.length === 0 }
             />    
 

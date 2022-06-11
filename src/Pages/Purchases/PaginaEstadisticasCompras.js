@@ -2,9 +2,9 @@ import { isEmpty, round } from 'functionallibrary';
 import React, { useEffect, useState } from 'react';
 
 import ParetoBarChart from '../../helper/paretoInsumosChart';
-
 import { extractAndOrderInsumos } from '../../helper/extractAndOrderInsumos';
 import { getTotalAmountAndTotalInsumos } from '../../helper/getTotalAmountAndTotalInsumos';
+import { getRangeOfDatesFromPurchases } from '../../helper/dates';
 
 const TWODECIMALS = round( 2 );
 
@@ -20,7 +20,7 @@ export const PaginaEstadisticasCompras = ({ purchases, currency = 'S/.' }) => {
         expensive,
         expense
     } = extractAndOrderInsumos( purchases );
-
+    const dates = getRangeOfDatesFromPurchases( purchases );
 
     // ===== FUNCIONES =====
     const getScreenWidth = () => {
@@ -65,16 +65,22 @@ export const PaginaEstadisticasCompras = ({ purchases, currency = 'S/.' }) => {
                 "
             >
                 <CardDescriptor
+                    medium={ purchases.length !== 1 }
+                    label="Rango de fecha:"
+                    data={ dates }
+                    userClass="col-span-2"
+                />
+                <CardDescriptor
                     label="Compras"
                     data={ purchases.length }
                 />
                 <CardDescriptor
-                    userClass="animate__delay-1s"
                     label="Insumos" data={ totalInsumos }
+                    userClass="animate__delay-1s"
                 />
                 <CardDescriptor
-                    userClass="animate__delay-2s col-span-2"
                     label={ `Total ${currency}` }
+                    userClass="animate__delay-2s col-span-2"
                     data={ totalAmount }
                 />
                 <CardExpensive
@@ -97,17 +103,17 @@ export const PaginaEstadisticasCompras = ({ purchases, currency = 'S/.' }) => {
     )
 }
 
-const CardDescriptor = ({ label, data, userClass = "" }) => {
+const CardDescriptor = ({ label, data, userClass = "", medium = false }) => {
 
     return (
         <div
             className={`
-                ${ userClass }
                 animate__animated animate__bounceInLeft
                 border border-solid border-warmGray-200 rounded-lg
                 pl-2 pr-4 py-1
                 flex items-end justify-between
                 h-12
+                ${ userClass }
             `}
         >
             <label
@@ -116,10 +122,10 @@ const CardDescriptor = ({ label, data, userClass = "" }) => {
                 "
             >{ label }</label>
             <span
-                className="
-                    text-lime-500 font-bold text-4xl text-right
+                className={`
+                    text-lime-500 font-bold ${ medium ? 'text-2xl' : 'text-4xl'} text-right
                     transform translate-y-1
-                "
+                `}
             >{ data }</span>
         </div>
     )
@@ -130,12 +136,12 @@ const CardExpensive = ({ label, name, amount, userClass }) => {
     return (
         <div
             className={`
-                ${ userClass }
                 animate__animated animate__bounceInLeft
                 border border-solid border-warmGray-200 rounded-lg
                 pl-2 pr-4 py-2
                 flex items-center justify-between
                 relative
+                ${ userClass }
             `}
         >
             
