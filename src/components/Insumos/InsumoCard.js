@@ -145,6 +145,7 @@ export const InsumoCard = ({ insumo, deleteAction }) => {
                     <InsumoEtiquetas
                         labels={ labels }
                         checked={ selected }
+                        userClass="overflow-auto"
                     />
                 </div>
             }
