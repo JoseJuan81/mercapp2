@@ -156,9 +156,9 @@ describe('Pruebas sobre archivo clasifyingInsumosByEstablishment.js', () => {
 
         expect( result ).toEqual([
             {
-                name: 'Sin Precio',
-                insumos: [{ ...noPriceInsumo, price: { 'Sin Precio': 0 } }],
-                total: 0
+                name: 'bodega frente',
+                insumos: [insumos[3], insumos[4], insumos[5]],
+                total: insumos[3].price['bodega frente'] + insumos[4].price['bodega frente'] + insumos[5].price['bodega frente']
             },
             {
                 name: 'plaza vea',
@@ -166,14 +166,14 @@ describe('Pruebas sobre archivo clasifyingInsumosByEstablishment.js', () => {
                 total: insumos[0].price['plaza vea']
             },
             {
+                name: 'Sin Precio',
+                insumos: [{ ...noPriceInsumo, price: { 'Sin Precio': 0 } }],
+                total: 0
+            },
+            {
                 name: 'wong',
                 insumos: [insumos[1], insumos[2]],
                 total: TWODECIMALS( insumos[1].price['wong'] + insumos[2].price['wong'] )
-            },
-            {
-                name: 'bodega frente',
-                insumos: [insumos[3], insumos[4], insumos[5]],
-                total: insumos[3].price['bodega frente'] + insumos[4].price['bodega frente'] + insumos[5].price['bodega frente']
             },
         ])
     })
@@ -184,6 +184,11 @@ describe('Pruebas sobre archivo clasifyingInsumosByEstablishment.js', () => {
 
         expect( result ).toEqual([
             {
+                name: 'bodega frente',
+                insumos: [insumos[3], insumos[4], insumos[5]],
+                total: insumos[3].price['bodega frente'] + insumos[4].price['bodega frente'] + insumos[5].price['bodega frente']
+            },
+            {
                 name: 'plaza vea',
                 insumos: [insumos[0]],
                 total: insumos[0].price['plaza vea']
@@ -192,11 +197,6 @@ describe('Pruebas sobre archivo clasifyingInsumosByEstablishment.js', () => {
                 name: 'wong',
                 insumos: [insumos[1], insumos[2]],
                 total: TWODECIMALS( insumos[1].price['wong'] + insumos[2].price['wong'] )
-            },
-            {
-                name: 'bodega frente',
-                insumos: [insumos[3], insumos[4], insumos[5]],
-                total: insumos[3].price['bodega frente'] + insumos[4].price['bodega frente'] + insumos[5].price['bodega frente']
             },
         ])
     })
