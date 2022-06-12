@@ -1,14 +1,11 @@
 import React from 'react';
 
-export const InsumoEtiquetas = React.memo( ({ labels, checked }) => {
+export const InsumoEtiquetas = React.memo( ({ labels, checked, userClass }) => {
 
+    const fusionClass = "flex h-auto " + userClass
     return (
         <ul
-            className="
-                flex
-                overflow-auto
-                h-auto
-            "
+            className={ fusionClass }
         >
 
             {

@@ -2,7 +2,7 @@ import { isEmpty } from 'functionallibrary';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { nuevoInsumoPath } from '../../../constant/routes';
+import { listaComprasPath, nuevoInsumoPath,  } from '../../../constant/routes';
 
 import { startLoadingInsumos } from '../../../actions/insumosAction';
 
@@ -66,7 +66,10 @@ export const MisInsumosContainer = () => {
 
             }
 
-            <InsumosMenuMobile newInsumoPath={ newInsumoRouteModificated } />
+            <InsumosMenuMobile
+                newInsumoPath={ newInsumoRouteModificated }
+                listaComprasPath={ listaComprasPath }
+            />
         </div>
     )
 }

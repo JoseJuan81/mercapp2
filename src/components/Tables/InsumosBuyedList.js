@@ -1,45 +1,15 @@
 import { round } from 'functionallibrary';
 import React from 'react';
 
-import { Descriptor } from '../../components/Descriptor';
-
-import { getFormatDate } from '../../helper/dates';
+import { extractInsumos } from '../../helper/extractAndOrderInsumos';
 import { paretoOrdering } from '../../helper/paretoOrdering';
 
 const TWODECIMALS = round( 2 );
 
-export const PaginaDetalleCompra = ({ details }) => {
+export const InsumosBuyedList = ({ purchases, total }) => {
 
-    // ===== VARIABLES LOCALES =====
-    const { date, establishmentName, insumos, name, total } = details;
+    const insumos = extractInsumos( purchases );
     const insumosOrdered = paretoOrdering( insumos, { prop: 'total', total } );
-
-    return (
-        <div
-            className="
-                px-3
-            "
-        >
-            {name && <Descriptor data={ name } label="Compra:" />}
-            {date && <Descriptor data={ getFormatDate( date ) } label="Fecha:" userClass="animate__delay-1s" />}
-            
-            <div className="flex justify-between items-center">
-                {establishmentName && <Descriptor data={ establishmentName } label="Comprado en:" userClass="animate__delay-2s" />}
-            </div>
-            <div
-                className="
-                    flex justify-between items-center
-                "
-            >
-                <Descriptor data={ insumos.length } label="Insumos:"userClass="animate__delay-3s" />
-                <Descriptor data={ total } label="Total (S/.):" userClass="animate__delay-4s" />
-            </div>
-            <InsumosList insumos={ insumosOrdered } />
-        </div>
-    )
-}
-
-const InsumosList = ({ insumos }) => {
 
     const tableClassRow = `
         grid grid-cols-6
@@ -55,30 +25,30 @@ const InsumosList = ({ insumos }) => {
     return (
         <ul
             className="
-                animate__animated animate__bounceInRight animate__delay-5s
-                mt-6
+                animate__animated animate__fadeInLeftBig
             "
         >
-                <li
-                    className={`
-                        ${ tableClassRow }
-                        font-bold text-lime-500
-                        bg-lime-50
-                        py-2
-                        sticky -top-4
-                    `}
-                >
-                    <span
-                        className="
-                            col-span-3
-                            border-l border-solid border-warmGray-200
-                        "
-                    >Nombre</span>
-                    <span className="text-center" >Cant.</span>
-                    <span className="text-center">Precio</span>
-                    <span className="text-center">Total</span>
-                </li>
-            {insumos.map((insumo, index) => (
+            <li
+                className={`
+                    ${ tableClassRow }
+                    font-bold text-lime-500
+                    bg-lime-50
+                    py-2
+                    sticky -top-4
+                `}
+            >
+                <span
+                    className="
+                        col-span-3
+                        border-l border-solid border-warmGray-200
+                    "
+                >Nombre</span>
+                <span className="text-center" >Cant.</span>
+                <span className="text-center">Precio</span>
+                <span className="text-center">Total</span>
+            </li>
+
+            {insumosOrdered.map((insumo, index) => (
                 <li
                     key={ insumo.id + index }
                     className={ tableClassRow }

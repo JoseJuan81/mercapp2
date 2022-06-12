@@ -108,7 +108,10 @@ export const InsumoToBuy = React.memo( ({ insumo, establishment }) => {
                         p-1
                     `}
                 >
-                    <InsumoEtiquetas labels={ labels } />
+                    <InsumoEtiquetas
+                        labels={ labels }
+                        userClass="flex-wrap"
+                    />
                 </div>
             }
 

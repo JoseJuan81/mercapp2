@@ -15,8 +15,8 @@ export const paretoOrdering = ( items, { prop, total } ) => {
             weightAcc = weight;
         } else {
 
-            const lastWeightAcc = acc[index - 1].weightAcc;
-            weightAcc = TWODECIMALS( lastWeightAcc + weight )
+            const previusWeightAcc = acc[index - 1].weightAcc;
+            weightAcc = TWODECIMALS( previusWeightAcc + weight )
         }
     
         return acc.concat(

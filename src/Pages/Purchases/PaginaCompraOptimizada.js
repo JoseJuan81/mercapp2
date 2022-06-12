@@ -1,34 +1,62 @@
 import { isEmpty } from 'functionallibrary';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
+import { createPurchaseFromPurchasesList } from '../../actions/purchaseListAction';
+
+import { ShareButton, ShoppingCarPlusButton } from '../../components/Buttons/AppButtons';
+
+import { nuevaCompraPath } from '../../constant/routes';
+import { type } from '../../constant/type';
 
 import { calculateSimpleTotal, calculateTotal } from '../../helper/calculateTotal';
 import { capitalizeText } from '../../helper/capitalize';
 import { clasifyingInsumosByEstablishment } from '../../helper/clasifyingInsumosByEstablishment';
+import { getFromLocalStorage, setInLocalStorage } from '../../helper/localStorage';
 
-export const PaginaCompraOptimizada = () => {
-
-    // ===== STORE =====
-    const { insumos } = useSelector( store => store.newPurchase );
+export const PaginaCompraOptimizada = ({ insumos }) => {
 
     // ===== STATE =====
     const [insumosByEstablishment, setInsumosByEstablishment] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
+    const [isMount, setIsMount] = useState(true);
 
+    // Verificar si existen listas en el localStorage para agregarlas a la pantalla
     useEffect(() => {
-        
-        const classified = clasifyingInsumosByEstablishment( insumos );
 
-        setInsumosByEstablishment( classified );
-        setTotalAmount( calculateSimpleTotal( classified, 'total' ) );
+        const localPurchasesList = getFromLocalStorage( type.localStorage.purchasesList );
+        if ( isMount && localPurchasesList ) {
+            setInsumosByEstablishment( localPurchasesList );
+            setTotalAmount( calculateSimpleTotal( localPurchasesList, 'total' ) );
+        }
 
-    }, [insumos]);
+        setIsMount( false );
+
+    }, [])
+
+    // Clasificar insumos por establecimiento de acuerdo al precio
+    useEffect(() => {
+
+        if ( !isMount && !isEmpty( insumos ) ) {
+            const classified = clasifyingInsumosByEstablishment( insumos );
+            console.log('entro')
+            setInsumosByEstablishment( classified );
+            setTotalAmount( calculateSimpleTotal( classified, 'total' ) );
+    
+            setInLocalStorage( type.localStorage.purchasesList, classified );
+        }
+
+    }, [insumos, isMount]);
 
     return (
         <>
-            {isEmpty( insumos )
+            {isEmpty( insumosByEstablishment )
                 ? <NoInsumosSelected />
-                : <InsumosByEstablishment total={ totalAmount } insumos={ insumosByEstablishment } />
+                : <InsumosByEstablishment
+                    total={ totalAmount }
+                    insumos={ insumosByEstablishment }
+                />
             }
         </>
     )
@@ -82,6 +110,7 @@ const EstablishmentContainer = ({ name, insumos }) => {
                 quantity={ qty }
                 total={ total }
                 establishmentName={ establishmentName }
+                insumos={ insumos }
             />
 
             <InsumosList
@@ -94,7 +123,24 @@ const EstablishmentContainer = ({ name, insumos }) => {
     )
 }
 
-const InsumoContainerHeader = ({ quantity, total, establishmentName}) => {
+const InsumoContainerHeader = ({ quantity, total, establishmentName, insumos}) => {
+
+    // ===== STORE =====
+    const dispatch = useDispatch();
+
+    // ===== NAVEGACIÓN =====
+    const history = useHistory();
+
+    // ===== FUNCIONES LOCALES =====
+    const handlerClickToConvertIntoPurchase = ( ev ) => {
+        ev.stopPropagation();
+
+        const newPurchaseData = { insumos, establishmentName }
+        dispatch( createPurchaseFromPurchasesList( newPurchaseData ) );
+
+        history.push( nuevaCompraPath )
+    }
+
     return (
         <>
             <div
@@ -103,23 +149,37 @@ const InsumoContainerHeader = ({ quantity, total, establishmentName}) => {
                     text-xl font-bold
                 "
             >
-                <h1
-                    className="
-                        text-warmGray-600 
-                    "
-                >{ establishmentName }</h1>
-                <h3
-                    className="
-                        text-warmGray-800
-                    "
-                >{ total }</h3>
+                <h1 className="text-warmGray-600">{ establishmentName }</h1>
+                <h3 className="text-warmGray-800">{ total }</h3>
             </div>
-            <span
+
+            <span className="text-warmGray-500">Cantidad de insumos: { quantity }</span>
+
+            <div
                 className="
-                    text-warmGray-500
+                    flex items-center justify-center
+                    my-4
                 "
-            >Cantidad de insumos: { quantity }
-            </span>
+            >
+                <ShoppingCarPlusButton
+                    isButton
+                    className="
+                        flex-auto
+                        bg-warmGray-100
+                        text-lg
+                    "
+                    onClick={ handlerClickToConvertIntoPurchase }
+                />
+
+                <ShareButton
+                    isButton
+                    className="
+                        flex-auto
+                        bg-warmGray-50
+                        text-lg
+                    "
+                />
+            </div>
         </>
     )
 }
