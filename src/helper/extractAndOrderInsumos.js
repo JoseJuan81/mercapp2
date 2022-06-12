@@ -4,7 +4,7 @@ import { map, setNewProperty } from "functionallibrary";
 export const extractAndOrderInsumos = ( purchases ) => {
 
     const insumos = extractInsumos( purchases );
-    const insumosOrdered = decendingOrder( insumos );
+    const insumosOrdered = decendingOrderByTotal( insumos );
     const expensiveInsumo = getExpensiveInsumo( insumosOrdered );
     const expenseInsumo = getExpenseInsumo( insumosOrdered );
     
@@ -15,7 +15,7 @@ export const extractAndOrderInsumos = ( purchases ) => {
     }
 }
 
-const extractInsumos = ( purchases ) => {
+export const extractInsumos = ( purchases ) => {
     
     let arr = [];
     purchases.forEach( purchase => {
@@ -32,7 +32,7 @@ const extractInsumos = ( purchases ) => {
     return [...arr]
 }
 
-const decendingOrder = ( eles ) => {
+const decendingOrderByTotal = ( eles ) => {
     return eles.sort( (a, b) => b.total - a.total );
 }
 

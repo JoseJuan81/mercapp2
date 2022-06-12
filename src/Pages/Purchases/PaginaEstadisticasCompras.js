@@ -2,16 +2,19 @@ import { isEmpty, round } from 'functionallibrary';
 import React, { useEffect, useState } from 'react';
 
 import ParetoBarChart from '../../helper/paretoInsumosChart';
-import { extractAndOrderInsumos } from '../../helper/extractAndOrderInsumos';
+import { extractAndOrderInsumos, extractInsumos } from '../../helper/extractAndOrderInsumos';
 import { getTotalAmountAndTotalInsumos } from '../../helper/getTotalAmountAndTotalInsumos';
 import { getRangeOfDatesFromPurchases } from '../../helper/dates';
+import { paretoOrdering } from '../../helper/paretoOrdering';
+
+import { ChartButton, ListButton } from '../../components/Buttons/AppButtons';
 
 const TWODECIMALS = round( 2 );
 
 export const PaginaEstadisticasCompras = ({ purchases, currency = 'S/.' }) => {
 
     // ===== STATE =====
-    const [width, setWidth] = useState( window.innerWidth );
+    const [showChart, setShowChart] = useState(false)
 
     // ===== VARIABLES LOCALES =====
     const { totalInsumos, totalAmount } = getTotalAmountAndTotalInsumos( purchases );
@@ -21,6 +24,111 @@ export const PaginaEstadisticasCompras = ({ purchases, currency = 'S/.' }) => {
         expense
     } = extractAndOrderInsumos( purchases );
     const dates = getRangeOfDatesFromPurchases( purchases );
+
+    return (
+        <div>
+
+            <PageHeader
+                purchases={ purchases }
+                currency={ currency }
+                datesRange={ dates }
+                totalInsumos={ totalInsumos }
+                totalAmount={ totalAmount }
+                expensive={ expensive }
+                expense={ expense }
+            />
+
+            <ToogleButtons showChartAction={ setShowChart } showChart={ showChart } />
+
+            {showChart
+                ? <ParetoChart insumos={ allInsumosOrdered }/>
+                : <ParetoList
+                    purchases={ purchases }
+                    total={ totalAmount }
+                />
+            }
+
+        </div>
+    )
+}
+
+const PageHeader = ({ currency, datesRange, expense, expensive, totalAmount, totalInsumos, purchases }) => {
+    return (
+        <div
+            className="
+                my-4 px-2 mx-auto
+                grid grid-cols-2 gap-3
+                text-center
+                max-w-md
+            "
+        >
+            <CardDescriptor
+                medium={ purchases.length !== 1 }
+                label="Rango de fecha:"
+                data={ datesRange }
+                userClass="col-span-2"
+            />
+            <CardDescriptor
+                label="Compras"
+                data={ purchases.length }
+            />
+            <CardDescriptor
+                label="Insumos" data={ totalInsumos }
+                userClass="animate__delay-1s"
+            />
+            <CardDescriptor
+                label={ `Total ${currency}` }
+                userClass="animate__delay-2s col-span-2"
+                data={ totalAmount }
+            />
+            <CardExpensive
+                userClass="animate__delay-3s col-span-2"
+                label="Mas costoso"
+                name={ expensive.name }
+                amount={ TWODECIMALS(expensive.total / expensive.quantity ) }
+            />
+            <CardExpensive
+                userClass="animate__delay-4s col-span-2"
+                label="Gaste mas"
+                name={ expense.name }
+                amount={ TWODECIMALS( expense.total ) }
+            />
+            
+        </div>
+    )
+}
+
+const ToogleButtons = ({ showChartAction, showChart }) => {
+
+    const listClassBtn = showChart ? 'text-warmGray-700 bg-warmGray-100' : 'text-lime-500 bg-lime-50';
+    const chartClassBtn = showChart ? 'text-lime-500 bg-lime-50' : 'text-warmGray-700 bg-warmGray-100';
+
+    return (
+        <div
+            className="
+                grid grid-cols-2 items-center justify-center
+            "
+        >
+            <ListButton
+                isButton
+                onClick={ () => showChartAction( false ) }
+                className={ listClassBtn }
+            />
+
+            <ChartButton
+                isButton
+                onClick={ () => showChartAction( true ) }
+                className={ chartClassBtn }
+            />
+
+        </div>
+    )
+}
+
+const ParetoChart = ({ insumos }) => {
+
+    // ===== STATE =====
+    const [width, setWidth] = useState( window.innerWidth );
 
     // ===== FUNCIONES =====
     const getScreenWidth = () => {
@@ -39,67 +147,37 @@ export const PaginaEstadisticasCompras = ({ purchases, currency = 'S/.' }) => {
     // CREAR GRAFICO EN FUNCION DEL ANCHO DE LA PANTALLA
     useEffect(() => {
 
-        if ( !isEmpty( allInsumosOrdered ) ) {
+        if ( !isEmpty( insumos ) ) {
 
             const container = document.querySelector('#d3-pareto__insumos');
 
             ParetoBarChart.init( container, {
-                data: allInsumosOrdered,
+                data: insumos,
                 prop: 'total',
                 margin: { top: 20, right: 15, bottom: 10, left: 25 },
                 width
             });
         }
 
-    }, [width, allInsumosOrdered])
+    }, [width, insumos])
 
     return (
-        <div>
+        <div
+            id="d3-pareto__insumos"
+            className="
+                animate__animated animate__fadeInRightBig
+                pb-5
+            "
+        ></div>
+    )
+}
 
-            <div
-                className="
-                    my-4 px-2 mx-auto
-                    grid grid-cols-2 gap-3
-                    text-center
-                    max-w-md
-                "
-            >
-                <CardDescriptor
-                    medium={ purchases.length !== 1 }
-                    label="Rango de fecha:"
-                    data={ dates }
-                    userClass="col-span-2"
-                />
-                <CardDescriptor
-                    label="Compras"
-                    data={ purchases.length }
-                />
-                <CardDescriptor
-                    label="Insumos" data={ totalInsumos }
-                    userClass="animate__delay-1s"
-                />
-                <CardDescriptor
-                    label={ `Total ${currency}` }
-                    userClass="animate__delay-2s col-span-2"
-                    data={ totalAmount }
-                />
-                <CardExpensive
-                    userClass="animate__delay-3s col-span-2"
-                    label="Mas costoso"
-                    name={ expensive.name }
-                    amount={ TWODECIMALS(expensive.total / expensive.quantity ) }
-                />
-                <CardExpensive
-                    userClass="animate__delay-4s col-span-2"
-                    label="Gaste mas"
-                    name={ expense.name }
-                    amount={ TWODECIMALS( expense.total ) }
-                />
-                
-            </div>
-
-            <div id="d3-pareto__insumos" className="pb-5"></div>
-        </div>
+const ParetoList = ({ purchases, total }) => {
+    return (
+        <InsumosList
+            purchases={ purchases }
+            total={ total }
+        />
     )
 }
 
@@ -123,7 +201,7 @@ const CardDescriptor = ({ label, data, userClass = "", medium = false }) => {
             >{ label }</label>
             <span
                 className={`
-                    text-lime-500 font-bold ${ medium ? 'text-2xl' : 'text-4xl'} text-right
+                    text-lime-500 font-bold ${ medium ? 'text-xl' : 'text-4xl'} text-right
                     transform translate-y-1
                 `}
             >{ data }</span>
@@ -178,5 +256,118 @@ const CardExpensive = ({ label, name, amount, userClass }) => {
             ></i>
 
         </div>
+    )
+}
+
+const InsumosList = ({ purchases, total }) => {
+
+    const insumos = extractInsumos( purchases );
+    const insumosOrdered = paretoOrdering( insumos, { prop: 'total', total } );
+
+    const tableClassRow = `
+        grid grid-cols-6
+        items-center justify-center
+        border-b border-solid border-warmGray-200
+    `;
+    const classCell = `
+        h-full
+        flex items-center
+        px-1 py-2
+    `;
+
+    return (
+        <ul
+            className="
+                animate__animated animate__fadeInLeftBig
+            "
+        >
+            <li
+                className={`
+                    ${ tableClassRow }
+                    font-bold text-lime-500
+                    bg-lime-50
+                    py-2
+                    sticky -top-4
+                `}
+            >
+                <span
+                    className="
+                        col-span-3
+                        border-l border-solid border-warmGray-200
+                    "
+                >Nombre</span>
+                <span className="text-center" >Cant.</span>
+                <span className="text-center">Precio</span>
+                <span className="text-center">Total</span>
+            </li>
+
+            {insumosOrdered.map((insumo, index) => (
+                <li
+                    key={ insumo.id + index }
+                    className={ tableClassRow }
+                >
+                    <div
+                        className={`
+                            ${ classCell }
+                            col-span-3
+                            justify-start
+                            font-bold
+                        `}
+                    >{ insumo.name }</div>
+                    <div
+                        className={`
+                            ${ classCell }
+                            justify-center
+                        `}
+                    >{ insumo.quantity }</div>
+                    <div
+                        className={`
+                            ${ classCell }
+                            justify-center
+                        `}
+                    >{ TWODECIMALS( insumo.total / insumo.quantity ) }</div>
+                    <div
+                        className={`
+                            ${ classCell }
+                            justify-center
+                        `}
+                    >{ insumo.total }</div>
+                    <div
+                        className={`
+                            ${ classCell }
+                            justify-center
+                            col-span-3
+                            bg-warmGray-100
+                            text-sm
+                        `}
+                    >
+                        <span>peso: </span>
+                        <span
+                            className="
+                                font-bold text
+                                ml-2
+                            "
+                        >{ insumo.weight }%</span>
+                    </div>
+                    <div
+                        className={`
+                            ${ classCell }
+                            justify-center
+                            col-span-3
+                            bg-warmGray-200
+                            text-sm
+                        `}
+                    >
+                        <span>acumulado: </span>
+                        <span
+                            className="
+                                font-bold text
+                                ml-2
+                            "
+                            >{ insumo.weightAcc }%</span>
+                    </div>
+                </li>
+            ))}
+        </ul>
     )
 }
