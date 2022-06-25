@@ -2,7 +2,11 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import {
-    inicioPath, insumosBaseUrl, purchasesBaseUrl, purchasesListBaseUrl,
+    inicioPath,
+    insumosBaseUrl,
+    purchasesBaseUrl,
+    purchasesListBaseUrl,
+    userBaseUrl,
 } from '../constant/routes';
 
 import { NavBar } from '../components/NavBar.js';
@@ -12,6 +16,7 @@ import { PaginaInicioApp } from '../Pages/PaginaInicioApp';
 import { InsumosRoutes } from './routes/InsumosRoutes';
 import { PurchasesRoutes } from './routes/PurchasesRoutes';
 import { PurchasesListRoutes } from './routes/PurchasesListRoutes';
+import { UserRoutes } from './routes/UserRoutes';
 
 export const AppRoutes = () => {
 
@@ -36,6 +41,10 @@ export const AppRoutes = () => {
 
                     <Route path={ purchasesListBaseUrl }>
                         <PurchasesListRoutes />
+                    </Route>
+
+                    <Route path={ userBaseUrl }>
+                        <UserRoutes />
                     </Route>
 
                     <Redirect to={ inicioPath } />

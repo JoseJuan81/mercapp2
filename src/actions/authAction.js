@@ -1,7 +1,9 @@
+import { isEmpty } from 'functionallibrary';
+
 import { firebase, googleAuthProvider } from '../firebase/firebase-config';
 
 import { clearLocalStorage, setInLocalStorage } from '../helper/localStorage';
-import { fetchLogin, fetchSignUp } from '../helper/fetch';
+import { fetchCurrency, fetchLogin, fetchSignUp, fetchUser } from '../helper/fetch';
 import toast, { NotificationInfo, NotificationSuccess } from '../helper/toast';
 
 import { type } from '../constant/type';
@@ -58,17 +60,17 @@ export const startLoginWithEmailAndPassword = ({ email, password }) => async dis
         if ( response.ok ) {
 
             const { data:user } = response;
-            const userData = {
-                name: user.name,
-                uid: user.uid,
-                email: user.email,
-                avatar: user.photoURL
-            }
-    
-            dispatch( login( userData ) );
-    
-            setInLocalStorage( type.localStorage.user, { ...userData, logged: true } );
+
             setInLocalStorage( type.localStorage.token, user.token );
+
+            if ( isEmpty( user.currencies[0].code )) {
+
+                const { code, symbol } = await fetchCurrency();
+                user.currencies[0] = { code, symbol };
+                fetchUser.update({ currencies: user.currencies });
+            }
+            
+            dispatch( login( user ) );
             
             toast.dismiss( toastLoginId );
             toast.success( type.notificationMessages.welcome, { autoClose: 3000, delay: 500 });

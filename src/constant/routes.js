@@ -1,6 +1,7 @@
 export const insumosBaseUrl = '/insumos/';
 export const purchasesBaseUrl = '/compras/';
 export const purchasesListBaseUrl = '/listas-de-compra/';
+export const userBaseUrl = '/usuario/';
 
 export const comprasEstadisticas = purchasesBaseUrl + 'estadisticas';
 export const detalleComprasPath = purchasesBaseUrl + 'detalle';
@@ -19,3 +20,5 @@ export const listaComprasPath = purchasesListBaseUrl + 'listado';
 export const inicioPath = '/inicio';
 export const inicioSesionPath = '/inicio-sesion';
 export const registroUsuarioPath = '/registro-usuario';
+
+export const userDataPath = userBaseUrl + 'info';

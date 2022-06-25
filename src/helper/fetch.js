@@ -7,7 +7,7 @@ const URLBASE = process.env.REACT_APP_URLBASE;
 /// ===== UTILIDADES PARA SERVICIOS WEB =====
 
 /**
- * 
+ * @description funcion para eliminar de BD
  * @param {string} url 
  */
 const buildDeleteFetch = ( url ) => {
@@ -26,7 +26,7 @@ const buildDeleteFetch = ( url ) => {
     )
 }
 /**
- * 
+ * @description función para obtener información de BD
  * @param {string} url 
  */
 const buildGetFetch = ( url ) => {
@@ -46,7 +46,7 @@ const buildGetFetch = ( url ) => {
 }
 
 /**
- * 
+ * @description función para crear o actualizar elemento en BD
  * @param {string} url 
  * @param {object} data 
  * @param {string} method - POST / PUT
@@ -226,4 +226,22 @@ export const fetchUpdatePurchase = ( body ) => {
     
     const url = `${ URLBASE }/purchases/${ body.id }`;
     return buildPostOrPutFetch( url, body, 'PUT' ).then( (res) => res.json() );
+}
+
+export const fetchCurrency = () => {
+    const IP_URL = 'https://api.ipify.org?format=json';
+    const COUNTRY_URL = 'http://www.geoplugin.net/json.gp?ip=';
+
+    return fetch(IP_URL)
+        .then(res => res.json())
+        .then(data => fetch( COUNTRY_URL + data.ip ))
+        .then(res => res.json())
+        .then(data => ({ code: data.geoplugin_currencyCode, symbol: data.geoplugin_currencySymbol }))
+}
+
+export const fetchUser = {
+    url: `${ URLBASE }/user`,
+    update: ( body ) => {
+        return buildPostOrPutFetch( fetchUser.url, body, 'PUT' ).then( (res) => res.json() );
+    }
 }
