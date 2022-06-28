@@ -97,7 +97,7 @@ export const fetchLogin = ( email, password ) => {
  * @param {string} password 
  * @return {object}
  */
-export const fetchSignUp = ( name, email, password ) => {
+export const fetchSignUp = ( name, email, password, currencies ) => {
 
     const url = `${ URLBASE }/auth/new`;
     return fetch( url, {
@@ -105,7 +105,7 @@ export const fetchSignUp = ( name, email, password ) => {
             'Content-type': 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify({ name, email, password })
+        body: JSON.stringify({ name, email, password, currencies })
     })
     .then( ( res ) => res.json() );
 }
