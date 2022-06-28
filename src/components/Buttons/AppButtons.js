@@ -716,3 +716,23 @@ export const CreditCardButton = React.memo(({ children, isButton, to, onClick, c
         </BaseButton>
     )
 })
+
+export const StoreButton = React.memo(({ children, isButton, to, onClick, className, text, disabled }) => {
+
+    const icon = 'fas fa-store';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            disabled={disabled}
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+            { children }
+        </BaseButton>
+    )
+})

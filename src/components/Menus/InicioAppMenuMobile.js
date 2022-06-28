@@ -2,7 +2,7 @@ import React from 'react';
 
 import { misInsumosPath, nuevaCompraPath, resumenDeComprasPath } from '../../constant/routes';
 
-import { AddCircleButton, ListButton, MoneyHandButton } from '../Buttons/AppButtons';
+import { ListButton, ShoppingCarPlusButton, StoreButton } from '../Buttons/AppButtons';
 
 export const InicioAppMenuMobile = () => {
   return (
@@ -15,10 +15,10 @@ export const InicioAppMenuMobile = () => {
         <ListButton
             to={ misInsumosPath }
         />
-        <MoneyHandButton
+        <StoreButton
             to={ resumenDeComprasPath }
         />
-        <AddCircleButton
+        <ShoppingCarPlusButton
             to={ nuevaCompraPath }
         />
     </div>

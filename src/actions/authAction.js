@@ -73,7 +73,7 @@ export const startLoginWithEmailAndPassword = ({ email, password }) => async dis
             const { createdAt, id, password, token, uid, updatedAt, ...rest } = userResponse;
 
             dispatch( login( rest ) );
-            setInLocalStorage( type.localStorage.user, { ...rest, logged: true } );
+            setInLocalStorage( type.localStorage.user, { logged: true } );
             
             toast.dismiss( toastLoginId );
             toast.success( type.notificationMessages.welcome, { autoClose: 3000, delay: 500 });
