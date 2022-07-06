@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { misInsumosPath, nuevaCompraPath, resumenDeComprasPath } from '../../constant/routes';
+import { expensesUrls, misInsumosPath, resumenDeComprasPath } from '../../constant/routes';
 
 import { ListButton, ShoppingCarPlusButton, StoreButton } from '../Buttons/AppButtons';
 
@@ -19,7 +19,7 @@ export const InicioAppMenuMobile = () => {
             to={ resumenDeComprasPath }
         />
         <ShoppingCarPlusButton
-            to={ nuevaCompraPath }
+            to={ expensesUrls.new }
         />
     </div>
   )

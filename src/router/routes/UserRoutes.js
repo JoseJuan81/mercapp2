@@ -3,12 +3,12 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { UserContainer } from '../../components/Container/User/UserContainer';
 
-import { inicioPath, userDataPath } from '../../constant/routes';
+import { inicioPath, userUrls } from '../../constant/routes';
 
 export const UserRoutes = () => {
     return (
         <Switch>
-            <Route exact path={ userDataPath }>
+            <Route exact path={ userUrls.info }>
                 <UserContainer />
             </Route>
 
