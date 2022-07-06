@@ -736,3 +736,23 @@ export const StoreButton = React.memo(({ children, isButton, to, onClick, classN
         </BaseButton>
     )
 })
+
+export const CircleUpButton = React.memo(({ children, isButton, to, onClick, className, text, disabled }) => {
+
+    const icon = 'fas fa-arrow-circle-up';
+    const buildClasses = text ? `${ icon } mr-2` : icon;
+
+    return (
+        <BaseButton
+            disabled={disabled}
+            className={ className }
+            to={ to }
+            isButton={ isButton }
+            onClick={ onClick }
+        >
+            <i className={ buildClasses }></i>
+            { text }
+            { children }
+        </BaseButton>
+    )
+})
