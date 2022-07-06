@@ -22,7 +22,7 @@ export const registroUsuarioPath = '/registro-usuario';
 const userUrls = {
     baseUrl: '/usuario/',
 }
-userUrls.info = 'info';
+userUrls.info = userUrls.baseUrl + 'info';
 export { userUrls }
 
 const expensesUrls = {
