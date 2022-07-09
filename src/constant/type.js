@@ -7,6 +7,9 @@ export const type = {
     establishment: {
         set: '[establishment] set list of establisment in the state'
     },
+    newExpense: {
+        update: '[expense] update expense'
+    },
     insumoDetails: {
         setData: '[insumo details] set insumos data'
     },
@@ -30,6 +33,7 @@ export const type = {
     localStorage: {
         establishments: '[mercapp2] establecimientos',
         insumos: '[mercapp2] insumos',
+        newExpense: '[mercapp2] nuevo gasto',
         newPurchase: '[mercapp2] nueva compra',
         purchases: '[mercapp2] compras',
         purchasesList: '[mercapp2] listas de compras',

@@ -10,7 +10,9 @@ export const DataList = React.memo(({ options, onChange, onBlur, value, autoFocu
     const ref = useRef();
 
     const randomId = Math.random().toString( 32 ).split('.')[1];
-    const inputValue = value && typeof value.label === 'string' ? value.label : '';
+
+    let inputValue = value && !value.label ? value : '';
+    inputValue = value && value.label && typeof value.label === 'string' ? value.label : inputValue;
 
     useEffect( () => {
 
