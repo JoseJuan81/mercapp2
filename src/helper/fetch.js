@@ -240,8 +240,16 @@ export const fetchCurrency = () => {
 }
 
 export const fetchUser = {
-    url: `${ URLBASE }/user`,
+    baseURL: `${ URLBASE }/user`,
     update: ( body ) => {
-        return buildPostOrPutFetch( fetchUser.url, body, 'PUT' ).then( (res) => res.json() );
+        return buildPostOrPutFetch( fetchUser.baseURL, body, 'PUT' ).then( (res) => res.json() );
+    }
+}
+
+export const fetchExpense = {
+    baseURL: `${ URLBASE }/expenses`,
+    new: ( body ) => {
+        const url = fetchExpense.baseURL + '/new';
+        return buildPostOrPutFetch( url, body, 'PUT' ).then( (res) => res.json() );
     }
 }

@@ -8,7 +8,8 @@ export const type = {
         set: '[establishment] set list of establisment in the state'
     },
     newExpense: {
-        update: '[expense] update expense'
+        update: '[new expense] update expense',
+        reset: '[new expense] set initial state'
     },
     insumoDetails: {
         setData: '[insumo details] set insumos data'
