@@ -1,11 +1,11 @@
 import { type } from "../constant/type";
 
 const inicialState = {
-    amount: '',
-    category: '',
+    amount: 0,
+    category: { name: '' },
     date: '',
     description: '',
-    establishment: '',
+    establishment: { name: '' },
     items: []
 }
 

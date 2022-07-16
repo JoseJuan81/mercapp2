@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { values } from 'ramda';
+import { equals, or, values } from 'ramda';
 import { every, isEmpty } from 'functionallibrary';
 
 import { updateNewExpense } from '../../actions/newExpenseAction';
@@ -12,6 +12,10 @@ import { type } from '../../constant/type';
 
 import { getFromLocalStorage, removeFromLocalStorage, setInLocalStorage } from '../../helper/localStorage';
 import { timeFormat } from 'd3';
+import { CATEGORY, ESTABLISHMENT } from '../../constant/defaults';
+
+const isCategory = equals( CATEGORY );
+const isEstablishment = equals( ESTABLISHMENT );
 
 export const PaginaNewExpense = () => {
 
@@ -24,8 +28,13 @@ export const PaginaNewExpense = () => {
 	const onChangeUpdateNewExpense = ( e ) => {
 		
 		const { name, value } = e.target;
+		let expenseUpdated = { ...newExpense, [name]: Number( value ) || value };
 
-		dispatch( updateNewExpense( { ...newExpense, [name]: value } ) );
+		if ( or( isCategory( name ), isEstablishment( name ) ) ) {
+			expenseUpdated = { ...newExpense, [name]: { name: value } }
+		}
+
+		dispatch( updateNewExpense( expenseUpdated ) );
 	}
 
 	// ESTABLECER INFORMACIÓN DEL LOCAL STORAGE
@@ -103,7 +112,7 @@ export const PaginaNewExpense = () => {
 						name="category"
                         placeholder="categoría"
 						options={ [] }
-						value={ newExpense.category }
+						value={ newExpense.category.name }
 						onChange={ onChangeUpdateNewExpense }
                     />
 				</fieldset>
@@ -113,7 +122,7 @@ export const PaginaNewExpense = () => {
 						name="establishment"
 						placeholder="establecimiento"
 						options={ [] }
-						value={ newExpense.establishment }
+						value={ newExpense.establishment.name }
 						onChange={ onChangeUpdateNewExpense }
 					/>
 				</fieldset>
@@ -131,3 +140,4 @@ export const PaginaNewExpense = () => {
 		</div>
 	)
 }
+
