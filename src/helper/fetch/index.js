@@ -1,8 +1,8 @@
-import { type } from "../constant/type";
+import { type } from "../../constant/type";
 
-import { getFromLocalStorage } from "./localStorage";
+import { getFromLocalStorage } from "../localStorage";
 
-const URLBASE = process.env.REACT_APP_URLBASE;
+export const URLBASE = process.env.REACT_APP_URLBASE;
 
 /// ===== UTILIDADES PARA SERVICIOS WEB =====
 
@@ -10,7 +10,7 @@ const URLBASE = process.env.REACT_APP_URLBASE;
  * @description funcion para eliminar de BD
  * @param {string} url 
  */
-const buildDeleteFetch = ( url ) => {
+export const buildDeleteFetch = ( url ) => {
 
     const token = getFromLocalStorage( type.localStorage.token );
 
@@ -25,11 +25,13 @@ const buildDeleteFetch = ( url ) => {
         },
     )
 }
+
+
 /**
  * @description función para obtener información de BD
  * @param {string} url 
  */
-const buildGetFetch = ( url ) => {
+export const buildGetFetch = ( url ) => {
 
     const token = getFromLocalStorage( type.localStorage.token );
 
@@ -45,13 +47,14 @@ const buildGetFetch = ( url ) => {
     )
 }
 
+
 /**
  * @description función para crear o actualizar elemento en BD
  * @param {string} url 
  * @param {object} data 
  * @param {string} method - POST / PUT
  */
-const buildPostOrPutFetch = ( url, data, method  ) => {
+export const buildPostOrPutFetch = ( url, data, method  ) => {
 
     const token = getFromLocalStorage( type.localStorage.token );
 
@@ -71,24 +74,6 @@ const buildPostOrPutFetch = ( url, data, method  ) => {
 }
 
 /// ===== SERVICIOS WEB =====
-
-/**
- * 
- * @param {string} email 
- * @param {string} password 
- */
-export const fetchLogin = ( email, password ) => {
-
-    const url = `${ URLBASE }/auth`;
-    return fetch( url, {
-        headers: {
-            'Content-type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify({ email, password })
-    })
-    .then( ( res ) => res.json() );
-}
 
 /**
  * 
@@ -237,13 +222,6 @@ export const fetchCurrency = () => {
         .then(data => fetch( COUNTRY_URL + data.ip ))
         .then(res => res.json())
         .then(data => ({ code: data.geoplugin_currencyCode, symbol: data.geoplugin_currencySymbol }))
-}
-
-export const fetchUser = {
-    baseURL: `${ URLBASE }/user`,
-    update: ( body ) => {
-        return buildPostOrPutFetch( fetchUser.baseURL, body, 'PUT' ).then( (res) => res.json() );
-    }
 }
 
 export const fetchExpense = {

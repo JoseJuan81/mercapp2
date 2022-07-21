@@ -14,6 +14,7 @@ import { insumoDetailsReducer } from '../reducers/insumoDetailsReducer';
 
 import { type } from '../constant/type';
 import { newExpenseReducer } from '../reducers/newExpenseReducer';
+import { userReducer } from '../reducers/userReducer';
 
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
@@ -28,6 +29,7 @@ const appReducers = combineReducers({
     search: searchInsumosReducer,
     purchases: purchasesReducer,
     newExpense: newExpenseReducer,
+    user: userReducer,
     // error: errorsReducer
 })
 

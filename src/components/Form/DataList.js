@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from 'react';
  * @param {object} value
  * @property {string} value.label
  */
-export const DataList = React.memo(({ options, onChange, onBlur, value, autoFocus, ...rest }) => {
+export const DataList = React.memo(({ options, onChange, onBlur, value, autoFocus, propToShow = 'label', ...rest }) => {
 
     const ref = useRef();
 
@@ -43,7 +43,7 @@ export const DataList = React.memo(({ options, onChange, onBlur, value, autoFocu
 
                 {options.map((o, i) => (
                     
-                    <option value={ o.label } key={ `${ randomId }-${ i }`} />
+                    <option value={ o[propToShow] } key={ `${ randomId }-${ i }`} />
                 ))}
                 
             </datalist>

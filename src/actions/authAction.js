@@ -3,17 +3,19 @@ import { isEmpty } from 'functionallibrary';
 import { firebase, googleAuthProvider } from '../firebase/firebase-config';
 
 import { clearLocalStorage, setInLocalStorage } from '../helper/localStorage';
-import { fetchCurrency, fetchLogin, fetchSignUp, fetchUser } from '../helper/fetch';
-import toast, { NotificationInfo, NotificationSuccess } from '../helper/toast';
+import { fetchCurrency, fetchSignUp } from '../helper/fetch';
+import { userFetch } from '../helper/fetch/userFetch';
+import { loginFetch } from '../helper/fetch/loginFetch';
+import toast, { NotificationInfo } from '../helper/toast';
 
 import { type } from '../constant/type';
 
 import { endLoading, startLoading } from './loadingAction';
+import { resetUserState, updateUserData } from './userAction';
 
 /// ============= Acciones sincronas ================= //
-export const login = ( userData ) => ({
-    type: type.auth.login,
-    payload: userData
+export const login = () => ({
+    type: type.auth.login
 });
 
 export const logout = () => ({
@@ -55,26 +57,26 @@ export const startLoginWithEmailAndPassword = ({ email, password }) => async dis
 
     try {
 
-        const response = await fetchLogin( email, password );
+        const response = await loginFetch.login( email, password );
 
         if ( response.ok ) {
 
             const { data:userResponse } = response;
 
             setInLocalStorage( type.localStorage.token, userResponse.token );
+            setInLocalStorage( type.localStorage.user, { logged: true } );
+            dispatch( login() );
             
-            if ( isEmpty( userResponse.currencies[0].code )) {
+            if ( isEmpty( userResponse.currencies ) || isEmpty( userResponse.currencies[0].code )) {
                 
                 const { code, symbol } = await fetchCurrency();
                 userResponse.currencies[0] = { code, symbol };
-                fetchUser.update({ currencies: userResponse.currencies });
+                userFetch.update({ currencies: userResponse.currencies });
             }
 
-            const { createdAt, id, password, token, uid, updatedAt, ...rest } = userResponse;
+            const { token, uid, id, ...restUserData } = userResponse;
+            dispatch( updateUserData( restUserData ) );
 
-            dispatch( login( rest ) );
-            setInLocalStorage( type.localStorage.user, { logged: true } );
-            
             toast.dismiss( toastLoginId );
             toast.success( type.notificationMessages.welcome, { autoClose: 3000, delay: 500 });
 
@@ -142,11 +144,12 @@ export const appLogout = () => dispatch => {
 
     dispatch( startLoading() );
 
+    clearLocalStorage();
     
     setTimeout(() => {
         
-        clearLocalStorage();
         dispatch( logout() );
+        dispatch( resetUserState() );
         dispatch( endLoading() );
 
     }, 2000);

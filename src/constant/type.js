@@ -93,6 +93,11 @@ export const type = {
         showFilter: '[search] show filter insumos field',
         hide: '[search] hide search and filter field',
     },
+    user: {
+        data: '[user] get user data',
+        update: '[user] update user data',
+        logout: '[user] reset users initial state'
+    },
     views: {
         purchases: {
             card: 'card-list',

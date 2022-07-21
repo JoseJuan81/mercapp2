@@ -21,6 +21,7 @@ export const PaginaNewExpense = () => {
 
 	// STORE
 	const newExpense = useSelector( store => store.newExpense );
+	const { categories, establishments, items } = useSelector( store => store.user );
 
 	const dispatch = useDispatch();
 
@@ -110,8 +111,9 @@ export const PaginaNewExpense = () => {
 				<fieldset>
 					<DataList
 						name="category"
+						propToShow="name"
                         placeholder="categoría"
-						options={ [] }
+						options={ categories }
 						value={ newExpense.category.name }
 						onChange={ onChangeUpdateNewExpense }
                     />
@@ -120,8 +122,9 @@ export const PaginaNewExpense = () => {
 				<fieldset>
 					<DataList
 						name="establishment"
+						propToShow="name"
 						placeholder="establecimiento"
-						options={ [] }
+						options={ establishments }
 						value={ newExpense.establishment.name }
 						onChange={ onChangeUpdateNewExpense }
 					/>

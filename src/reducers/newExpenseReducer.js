@@ -1,6 +1,6 @@
 import { type } from "../constant/type";
 
-const inicialState = {
+const initialState = {
     amount: 0,
     category: { name: '' },
     date: '',
@@ -9,10 +9,11 @@ const inicialState = {
     items: []
 }
 
-export const newExpenseReducer = ( state = inicialState, action ) => {
+export const newExpenseReducer = ( state = initialState, action ) => {
 
     const opts = {
-        [type.newExpense.update]: () => ({ ...state, ...action.payload }) 
+        [type.newExpense.update]: () => ({ ...state, ...action.payload }),
+        [type.newExpense.reset]: () => ({ ...initialState})
     }
 
     const fn = opts[action.type];
