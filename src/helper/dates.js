@@ -14,6 +14,10 @@ export const getDayInWord = ( date ) => {
     return format( new Date( date ), 'eeee', { locale })
 }
 
+export const getMonthInWord = ( date ) => {
+    return format( new Date( date ), 'LLLL Y', { locale })
+}
+
 export const formattedByInputDate = ( date ) => {
 
     if (date) {
@@ -27,15 +31,16 @@ export const formattedByInputDate = ( date ) => {
     return year + '-' + month + '-' + day;
 }
 
-export const dateWithTime = ( date ) => {
+export const absDate = ( date ) => {
 
-    const current = new Date();
-    const h = current.getHours();
-    const m = current.getMinutes();
-    const s = current.getSeconds();
+    const isAbsDate = date.includes("T");
+
+    if ( isAbsDate ) {
+        return new Date( date );
+    }
 
     const [y, month, d] = date.split('-');
-    return new Date(y, month - 1, d, h, m, s);
+    return new Date(y, month - 1, d, 0, 0, 0, 0);
 }
 
 export const getRangeOfDatesFromPurchases = ( purchases ) => {

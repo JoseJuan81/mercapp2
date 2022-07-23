@@ -1,15 +1,11 @@
-import { cond, prop, propEq, T } from "ramda";
+import { always, cond, prop, propEq, T } from "ramda";
 import { type } from "../constant/type";
 
 import { userFetch } from "../helper/fetch/userFetch";
 import { clearLocalStorage } from "../helper/localStorage";
-import { logout } from "./authAction";
+import { appLogout } from "./authAction";
 
 import { endLoading, startLoading } from "./loadingAction";
-
-const didNotGetUserData = ( res ) => {
-    return console.error('Error al obtener datos del usuario', res.msg)
-}
 
 /// ============= Acciones sincronas ================= //
 export const resetUserState = () => ({
@@ -21,6 +17,11 @@ export const updateUserData = ( userData ) => ({
     payload: userData
 });
 
+export const updateExpensesInUser = ( expense ) => ({
+    type: type.user.addExpense,
+    payload: expense
+});
+
 /// ============= Acciones asincronas ================= //
 export const fetchingUserData = () => async dispatch => {
 
@@ -29,20 +30,26 @@ export const fetchingUserData = () => async dispatch => {
         
         const res = await userFetch.data();
 
-        cond([
-            [propEq('ok', true), () => dispatch( updateUserData( prop('data') ))],
-            [T, didNotGetUserData]
-        ])(res)
+        if (res.ok) {
+            dispatch( updateUserData( res.data ));
+        } else {
+            didNotGetUserData( res );
+        }
 
     } catch (error) {
 
         console.log('No se obtuvo la información del usuario', error);
         clearLocalStorage();
-        dispatch( logout() );
+        dispatch( appLogout() );
 
     } finally {
 
         dispatch( endLoading() );
 
     }
+}
+
+/// ========== Funciones locales ========== //
+const didNotGetUserData = ( res ) => {
+    return console.error('Error al obtener datos del usuario', res.msg)
 }

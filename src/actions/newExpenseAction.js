@@ -1,8 +1,11 @@
 import { type } from "../constant/type";
+import { absDate } from "../helper/dates";
 
 import { fetchExpense } from "../helper/fetch";
 
 import { endLoading, startLoading } from "./loadingAction";
+
+import { updateExpensesInUser } from "./userAction";
 
 /// ============= Acciones síncronas ================= //
 export const updateNewExpense = ( newExpenseObj ) => ({
@@ -19,11 +22,14 @@ export const clearNewExpenseData = () => ({
 export const startCreatingNewExpense = () => async ( dispatch, rootState ) => {
     
     dispatch( startLoading() );
+    const { newExpense } = rootState();
 
     try {
 
-        await fetchExpense.new( rootState().newExpense );
+        const body = { ...newExpense, date: absDate( newExpense.date ) }
+        const expenseCreated = await fetchExpense.new( body );
         dispatch( clearNewExpenseData() );
+        dispatch( updateExpensesInUser( expenseCreated.data ) );
 
     } catch ( err ) {
 

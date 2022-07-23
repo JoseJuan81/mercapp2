@@ -1,24 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { getTotalByMonth } from '../helper/totalByMonth';
 
 export const PaginaInicioApp = () => {
+
+	// === STORE ===
+	const { expenses } = useSelector( store => store.user );
+
+	// === STATE ===
+	const [currentMonth, setCurrentMonth] = useState( new Date().getMonth() );
+
+	// === VARIABLES LOCALES ===
+	const totalByMonth = getTotalByMonth( expenses );
+
+
   return (
 	<div
 		className=""
 	>
 		<MonthlyExpensesCard
-			monthDate="03, July 2022"
-			amount={ 927.50 }
+			monthDate={ totalByMonth[currentMonth]?.month }
+			amount={ totalByMonth[currentMonth]?.total }
 			currency="S/."
 			average={ 817.35 }
 			diferencePercentageToPrevius={ 9.89 }
 		/>
 		<div>
-		Mostrar:
-			- Monto acumulado de gastos del mes en curso
-			- Top 5 Gastos mas costosos
-			- Gasto mensual promedio
-			- Acumulado por categorías
-			a ver
+			{ JSON.stringify( totalByMonth[currentMonth]?.totalByCategory, null, 2 ) }
 
 		</div>
 	</div>

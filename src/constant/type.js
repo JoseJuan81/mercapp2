@@ -94,9 +94,10 @@ export const type = {
         hide: '[search] hide search and filter field',
     },
     user: {
+        addExpense: '[user] add new expense to user expenses',
         data: '[user] get user data',
         update: '[user] update user data',
-        logout: '[user] reset users initial state'
+        logout: '[user] reset users initial state',
     },
     views: {
         purchases: {

@@ -43,7 +43,7 @@ export const PaginaNewExpense = () => {
 
 		const localInfo = getFromLocalStorage( type.localStorage.newExpense );
 		
-		if ( localInfo ) {
+		if ( localInfo && localInfo.date ) {
 			dispatch( updateNewExpense( { ...localInfo } ) );
 		} else {
 			const parsedTime = timeFormat("%Y-%m-%d");

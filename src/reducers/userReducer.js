@@ -1,3 +1,4 @@
+import { concat } from "ramda";
 import { type } from "../constant/type";
 
 const initialState = {
@@ -17,6 +18,7 @@ export const userReducer = ( state = initialState, action ) => {
         [type.user.data]: () => state,
         [type.user.update]: () => ({ ...state, ...action.payload }),
         [type.user.logout]: () => ({ ...initialState }),
+        [type.user.addExpense]: () => ({ ...state, expenses: concat( action.payload, state.expenses ) })
     }
 
     const fn = opts[ action.type ];

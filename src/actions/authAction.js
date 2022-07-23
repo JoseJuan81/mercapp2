@@ -149,7 +149,7 @@ export const appLogout = () => dispatch => {
     setTimeout(() => {
         
         dispatch( logout() );
-        dispatch( resetUserState() );
+        // dispatch( resetUserState() );
         dispatch( endLoading() );
 
     }, 2000);
