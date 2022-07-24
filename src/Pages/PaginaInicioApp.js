@@ -1,3 +1,4 @@
+import { map, upperFirst } from 'lodash';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -14,24 +15,48 @@ export const PaginaInicioApp = () => {
 	// === VARIABLES LOCALES ===
 	const totalByMonth = getTotalByMonth( expenses );
 
+	return (
+		<div
+			className=""
+		>
+			<MonthlyExpensesCard
+				monthDate={ totalByMonth[currentMonth]?.month }
+				amount={ totalByMonth[currentMonth]?.total }
+				currency="S/."
+				average={ 817.35 }
+				diferencePercentageToPrevius={ 9.89 }
+			/>
+			<ul
+				className="
+					px-6
+				"
+			>
+				{ map( totalByMonth[currentMonth]?.totalByCategory, (val, key) => (
+					<li
+						key={ key }
+						className="
+							grid grid-cols-3
+							items-center
+							h-10
+						"
+					>
+						<span>{ upperFirst( key ) }</span>
+						<span
+							className="
+								justify-self-center
+							"
+						>{ val.percentage + " %" }</span>
+						<span
+							className="
+								justify-self-end
+							"
+						>{ val.total }</span>
+					</li>
+				)) }
 
-  return (
-	<div
-		className=""
-	>
-		<MonthlyExpensesCard
-			monthDate={ totalByMonth[currentMonth]?.month }
-			amount={ totalByMonth[currentMonth]?.total }
-			currency="S/."
-			average={ 817.35 }
-			diferencePercentageToPrevius={ 9.89 }
-		/>
-		<div>
-			{ JSON.stringify( totalByMonth[currentMonth]?.totalByCategory, null, 2 ) }
-
+			</ul>
 		</div>
-	</div>
-  )
+	)
 }
 
 export const MonthlyExpensesCard = ({ monthDate, amount, currency, average, diferencePercentageToPrevius }) => {
