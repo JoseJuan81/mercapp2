@@ -2,6 +2,8 @@ import { map, upperFirst } from 'lodash';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { ProgressBar } from '../components/d3/ProgressBar';
+
 import { getTotalByMonth } from '../helper/totalByMonth';
 
 export const PaginaInicioApp = () => {
@@ -26,35 +28,11 @@ export const PaginaInicioApp = () => {
 				average={ 817.35 }
 				diferencePercentageToPrevius={ 9.89 }
 			/>
-			<ul
-				className="
-					px-6
-				"
-			>
-				{ map( totalByMonth[currentMonth]?.totalByCategory, (val, key) => (
-					<li
-						key={ key }
-						className="
-							grid grid-cols-3
-							items-center
-							h-10
-						"
-					>
-						<span>{ upperFirst( key ) }</span>
-						<span
-							className="
-								justify-self-center
-							"
-						>{ val.percentage + " %" }</span>
-						<span
-							className="
-								justify-self-end
-							"
-						>{ val.total }</span>
-					</li>
-				)) }
-
-			</ul>
+			
+			<CategorySummaryCard
+				currentMonth={ totalByMonth[currentMonth] }
+			/>
+			
 		</div>
 	)
 }
@@ -161,5 +139,37 @@ export const CompareToPrevius = ({ diferencePercentageToPrevius }) => {
 			<div>{ diferencePercentageToPrevius }</div>
 			<span>%</span>
 		</div>
+	)
+}
+
+export const CategorySummaryCard = ({ currentMonth }) => {
+	return (
+		<ul
+			className="
+				px-6
+			"
+		>
+			{ map( currentMonth?.totalByCategory, (val, key) => (
+				<li
+					key={ key }
+					className="
+						grid grid-cols-3
+						items-center
+						h-10
+					"
+				>
+					<span>{ upperFirst( key ) }</span>
+
+					<ProgressBar percentage={ val.percentage } />
+					
+					<span
+						className="
+							justify-self-end
+						"
+					>{ val.total }</span>
+				</li>
+			)) }
+
+		</ul>
 	)
 }
