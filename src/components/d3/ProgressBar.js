@@ -1,10 +1,18 @@
 import { select } from 'd3';
+import { cond, constant, stubTrue } from 'lodash';
 import React, { useEffect } from 'react'
 
-export const ProgressBar = ({ percentage, heightBar = 10, heightContainer = 30 }) => {
+export const ProgressBar = ({ percentage, heightBar = 7, heightContainer = 30, className }) => {
 
+	// ====== VARIABLES LOCALES ======
     const data = [100, percentage];
     const uid = Math.random().toString(16).slice(2);
+
+	const barColor = cond([
+		[p => p <= 25, constant("fill-sky-500")],
+		[p => p <= 45, constant("fill-amber-400")],
+		[stubTrue, constant("fill-rose-600")],
+	])(percentage)
 
     useEffect(() => {
 
@@ -24,10 +32,19 @@ export const ProgressBar = ({ percentage, heightBar = 10, heightContainer = 30 }
                 .attr("height", heightBar)
                 .attr("rx", heightBar / 2)
                 .attr("ry", heightBar / 2)
-                .attr("fill", (d, i) => `${ i === 0 ? "lightgray" : "red" }`);
+                .attr("class", (d, i) => `${ i === 0 ? "fill-warmGray-200" : barColor }`);
+        
+		g.selectAll("text")
+			.data([data[1]])
+			.join("text")
+				.attr("y", heightContainer / 2 - 2)
+				.attr("x", d => `${d}%`)
+				.attr("class", "fill-sky-500 text-xxs italic")
+				.text(d => `${d}%`)
+
     }, [percentage, heightBar, heightContainer])
 
   return (
-    <svg id={ "progress-bar--container__" + uid }></svg>
+    <svg id={ "progress-bar--container__" + uid } className={ className }></svg>
   )
 }

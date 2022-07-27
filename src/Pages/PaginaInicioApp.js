@@ -9,13 +9,14 @@ import { getTotalByMonth } from '../helper/totalByMonth';
 export const PaginaInicioApp = () => {
 
 	// === STORE ===
-	const { expenses } = useSelector( store => store.user );
+	const { expenses, currencies } = useSelector( store => store.user );
 
 	// === STATE ===
 	const [currentMonth, setCurrentMonth] = useState( new Date().getMonth() );
 
 	// === VARIABLES LOCALES ===
 	const totalByMonth = getTotalByMonth( expenses );
+	const [currency] = currencies;
 
 	return (
 		<div
@@ -24,13 +25,14 @@ export const PaginaInicioApp = () => {
 			<MonthlyExpensesCard
 				monthDate={ totalByMonth[currentMonth]?.month }
 				amount={ totalByMonth[currentMonth]?.total }
-				currency="S/."
+				currency={ currency?.symbol }
 				average={ 817.35 }
 				diferencePercentageToPrevius={ 9.89 }
 			/>
 			
 			<CategorySummaryCard
 				currentMonth={ totalByMonth[currentMonth] }
+				currency={ currency?.symbol }
 			/>
 			
 		</div>
@@ -41,8 +43,9 @@ export const MonthlyExpensesCard = ({ monthDate, amount, currency, average, dife
 	return (
 		<div
 			className="
-				border border-solid border-warmGray-300 rounded-lg
-				mx-4 px-4 pt-4 pb-2	
+				rounded-lg shadow-md
+				mx-auto mt-4 mb-8 px-4 pt-4 pb-6	
+				max-w-60
 			"
 			>
 			<div
@@ -70,7 +73,7 @@ export const MonthlyExpensesCard = ({ monthDate, amount, currency, average, dife
 
 export const MonthDate = ({ monthDate }) => {
 	return (
-		<span className="text-lime-500 font-semibold">{ monthDate }</span>
+		<span className="text-lime-500 font-bold">{ monthDate }</span>
 	)
 }
 
@@ -86,7 +89,7 @@ export const MonthAmount = ({ currency, amount, diferencePercentageToPrevius }) 
 		>
 			<div
 				className="
-						text-4xl font-bold text-warmGray-700
+						text-5xl font-bold text-warmGray-700
 						flex items-end justify-center
 						col-span-3
 				"
@@ -100,7 +103,7 @@ export const MonthAmount = ({ currency, amount, diferencePercentageToPrevius }) 
 				<span>{ amount }</span>
 			</div>
 
-			<CompareToPrevius diferencePercentageToPrevius={ diferencePercentageToPrevius } />
+			{/* <CompareToPrevius diferencePercentageToPrevius={ diferencePercentageToPrevius } /> */}
 			
 		</div>
 	)
@@ -142,34 +145,63 @@ export const CompareToPrevius = ({ diferencePercentageToPrevius }) => {
 	)
 }
 
-export const CategorySummaryCard = ({ currentMonth }) => {
+export const CategorySummaryCard = ({ currentMonth, currency }) => {
 	return (
-		<ul
+		<div
 			className="
-				px-6
+				mx-6 px-4 py-4
+				flex flex-col items-center
+				rounded-lg
+				shadow-md
 			"
 		>
-			{ map( currentMonth?.totalByCategory, (val, key) => (
-				<li
-					key={ key }
-					className="
-						grid grid-cols-3
-						items-center
-						h-10
-					"
-				>
-					<span>{ upperFirst( key ) }</span>
-
-					<ProgressBar percentage={ val.percentage } />
-					
-					<span
+			<h2
+				className="
+					text-lg font-bold text-sky-500
+				"
+			>Acumulado por categoría</h2>
+			<ul
+				className="
+					divide-y-2 divide-warmGray-100
+					mt-2
+				"
+			>
+				{ map( currentMonth?.totalByCategory, (val, key) => (
+					<li
+						key={ key }
 						className="
-							justify-self-end
+							grid grid-cols-6
+							items-center
+							h-10
+							font-semibold text-sm
+							pt-3 mb-3
 						"
-					>{ val.total }</span>
-				</li>
-			)) }
+					>
+						<span 
+							className="
+								col-span-2
+								font-semibold text-sm text-warmGray-600
+							"
+						>{ upperFirst( key ) }</span>
 
-		</ul>
+						<ProgressBar
+							className="col-span-3"
+							percentage={ val.percentage }
+						/>
+						
+						<span
+							className="
+								justify-self-end
+								text-base text-warmGray-600
+							"
+						>
+							<span className="text-xs mr-1">{ currency }</span>
+							{ val.total }
+						</span>
+					</li>
+				)) }
+
+			</ul>
+		</div>
 	)
 }
