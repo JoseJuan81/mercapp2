@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { equals, or, values } from 'ramda';
 import { every, isEmpty } from 'functionallibrary';
@@ -17,11 +17,22 @@ import { CATEGORY, ESTABLISHMENT } from '../../constant/defaults';
 const isCategory = equals( CATEGORY );
 const isEstablishment = equals( ESTABLISHMENT );
 
+const formField = {
+	date: '',
+	amount: '',
+	category: '',
+	establishment: '',
+	noErrors: true
+};
+
 export const PaginaNewExpense = () => {
 
 	// STORE
 	const newExpense = useSelector( store => store.newExpense );
 	const { categories, establishments, items } = useSelector( store => store.user );
+
+	// STATE
+	const [formErrors, setFormErrors] = useState( formField );
 
 	const dispatch = useDispatch();
 
@@ -36,6 +47,27 @@ export const PaginaNewExpense = () => {
 		}
 
 		dispatch( updateNewExpense( expenseUpdated ) );
+	}
+
+	const checkingForm = () => {
+
+		let errors = { ...formField, noErrors: true };
+		if ( isEmpty( newExpense.date ) ) {
+			errors = { ...errors, noErrors: false, date: 'La fecha es requerida' };
+		}
+
+		if ( isEmpty( newExpense.amount ) ) {
+			errors = { ...errors, noErrors: false, amount: 'El monto es requerido' };
+		}
+
+		if ( isEmpty( newExpense.category.name )) {
+			errors = { ...errors, noErrors: false, category: 'La categoría es requerida'};
+		}
+
+		if ( isEmpty( newExpense.establishment.name )) {
+			errors = { ...errors, noErrors: false, establishment: 'El establecimiento es requerido'};
+		}
+		setFormErrors({ ...errors });
 	}
 
 	// ESTABLECER INFORMACIÓN DEL LOCAL STORAGE
@@ -66,20 +98,6 @@ export const PaginaNewExpense = () => {
 		}
 	}, [newExpense])
 
-	// PENDIENTE ESTABLECER LA INFORMACIÓN DEL LOCAL STORAGE
-	// PENDIENTE ESTABLECER LA FECHA AL CARGAR
-	// BORRAR LOCAL STORAGE === ESTÁ DANTO PROBLEMAS PORQUE EL RETURN SE EJECUTA CON CADA RENDERIZADO
-	//useEffect(() => {
-
-	//	return () => {
-	//		const newExpenseValues = values( newExpense );
-	//		if ( every( isEmpty, newExpenseValues) ) {
-	//			removeFromLocalStorage( type.localStorage.newExpense );
-	//		}
-	//	}
-
-	//}, [])
-
 	return (
 		<div>
 			<form
@@ -95,6 +113,8 @@ export const PaginaNewExpense = () => {
                         placeholder="dd/mm/aaaa"
 						value={ newExpense.date }
 						onChange={ onChangeUpdateNewExpense }
+						onBlur={ checkingForm }
+						error={ formErrors.date }
                     />
 				</fieldset>
 
@@ -105,6 +125,8 @@ export const PaginaNewExpense = () => {
                         placeholder="monto gastado"
 						value={ newExpense.amount }
 						onChange={ onChangeUpdateNewExpense }
+						onBlur={ checkingForm }
+						error={ formErrors.amount }
                     />
 				</fieldset>
 
@@ -116,6 +138,8 @@ export const PaginaNewExpense = () => {
 						options={ categories }
 						value={ newExpense.category.name }
 						onChange={ onChangeUpdateNewExpense }
+						onBlur={ checkingForm }
+						error={ formErrors.category }
                     />
 				</fieldset>
 
@@ -127,6 +151,8 @@ export const PaginaNewExpense = () => {
 						options={ establishments }
 						value={ newExpense.establishment.name }
 						onChange={ onChangeUpdateNewExpense }
+						onBlur={ checkingForm }
+						error={ formErrors.establishment }
 					/>
 				</fieldset>
 

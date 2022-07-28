@@ -18,15 +18,16 @@ const totalMonth = (acc, values, key) => {
 	(acc[month] || (acc[month] = {})).total = total;
 	(acc[month] || (acc[month] = {})).expenses = values;
 	(acc[month] || (acc[month] = {})).month = getMonthInWord( key );
-	(acc[month] || (acc[month] = {})).totalByCategory = getTotalByCategory({ expenses: values, total });
+	(acc[month] || (acc[month] = {})).totalByCategory = getTotalBy({ prop: 'category.name', expenses: values, total });
+	(acc[month] || (acc[month] = {})).totalByEstablishment = getTotalBy({ prop: 'establishment.name', expenses: values, total });
 
 	return acc;
 };
 
 
-const getTotalByCategory = ({ expenses, total }) => {
+const getTotalBy = ({ expenses, total, prop }) => {
     const result = chain(expenses)
-    .groupBy( property('category.name') )
+    .groupBy( property(prop) )
     .reduce( (acu, vals, k) => {
         
         const totalByCat = vals.reduce((t, { amount }) => t += amount, 0);

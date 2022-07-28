@@ -118,13 +118,14 @@ export const CheckBox = React.memo(({ isButton, to, onClick, className }) => {
     )
 })
 
-export const CheckButton = React.memo(({ isButton, to, onClick, className, text }) => {
+export const CheckButton = React.memo(({ isButton, to, onClick, className, text, disabled }) => {
     
     const icon = 'fas fa-check';
     const buildClasses = text ? `${ icon } mr-2` : icon;
 
     return (
         <BaseButton
+            disabled={ disabled }
             className={ className }
             to={ to }
             isButton={ isButton }

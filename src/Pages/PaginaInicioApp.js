@@ -34,6 +34,11 @@ export const PaginaInicioApp = () => {
 				currentMonth={ totalByMonth[currentMonth] }
 				currency={ currency?.symbol }
 			/>
+
+			<EstablishmentSummaryCard
+				currentMonth={ totalByMonth[currentMonth] }
+				currency={ currency?.symbol }
+			/>
 			
 		</div>
 	)
@@ -149,7 +154,7 @@ export const CategorySummaryCard = ({ currentMonth, currency }) => {
 	return (
 		<div
 			className="
-				mx-6 px-4 py-4
+				mx-6 px-4 py-4 mb-8
 				flex flex-col items-center
 				rounded-lg
 				shadow-md
@@ -167,6 +172,67 @@ export const CategorySummaryCard = ({ currentMonth, currency }) => {
 				"
 			>
 				{ map( currentMonth?.totalByCategory, (val, key) => (
+					<li
+						key={ key }
+						className="
+							grid grid-cols-6
+							items-center
+							h-10
+							font-semibold text-sm
+							pt-3 mb-3
+						"
+					>
+						<span 
+							className="
+								col-span-2
+								font-semibold text-sm text-warmGray-600
+							"
+						>{ upperFirst( key ) }</span>
+
+						<ProgressBar
+							className="col-span-3"
+							percentage={ val.percentage }
+						/>
+						
+						<span
+							className="
+								justify-self-end
+								text-base text-warmGray-600
+							"
+						>
+							<span className="text-xs mr-1">{ currency }</span>
+							{ val.total }
+						</span>
+					</li>
+				)) }
+
+			</ul>
+		</div>
+	)
+}
+
+export const EstablishmentSummaryCard = ({ currentMonth, currency }) => {
+	return (
+		<div
+			className="
+				mx-6 px-4 py-4 mb-8
+				flex flex-col items-center
+				rounded-lg
+				shadow-md
+			"
+		>
+			<h2
+				className="
+					text-lg font-bold text-lime-500
+				"
+			>Acumulado por establecimiento</h2>
+			<ul
+				className="
+					divide-y-2 divide-warmGray-100
+					mt-2
+				"
+			>
+				{ map( currentMonth?.totalByEstablishment, (val, key) => (
 					<li
 						key={ key }
 						className="
