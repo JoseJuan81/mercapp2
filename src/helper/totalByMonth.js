@@ -1,6 +1,6 @@
 import { timeMonth } from "d3";
 import { chain, groupBy, property, reduce } from "lodash";
-import { compose, prop } from "ramda";
+import { compose, descend, prop, sort } from "ramda";
 
 import { absDate, getMonthInWord } from "./dates";
 
@@ -14,12 +14,13 @@ const totalMonth = (acc, values, key) => {
     const month = new Date( key ).getMonth();
     
     const total = values.reduce((t, { amount }) => t += amount, 0);
+    const descExpenses = sort( descend( prop( 'amount' )), values );
 
 	(acc[month] || (acc[month] = {})).total = total;
 	(acc[month] || (acc[month] = {})).expenses = values;
 	(acc[month] || (acc[month] = {})).month = getMonthInWord( key );
-	(acc[month] || (acc[month] = {})).totalByCategory = getTotalBy({ prop: 'category.name', expenses: values, total });
-	(acc[month] || (acc[month] = {})).totalByEstablishment = getTotalBy({ prop: 'establishment.name', expenses: values, total });
+	(acc[month] || (acc[month] = {})).totalByCategory = getTotalBy({ prop: 'category.name', expenses: descExpenses, total });
+	(acc[month] || (acc[month] = {})).totalByEstablishment = getTotalBy({ prop: 'establishment.name', expenses: descExpenses, total });
 
 	return acc;
 };

@@ -21,26 +21,39 @@ export const ProgressBar = ({ percentage, heightBar = 7, heightContainer = 30, c
             .attr("height", heightContainer)
       
         const g = svg.append("g")
-            //.attr("transform", 'translate(' + [0, -heightBar/2] + ')');
     
         g.selectAll("rect")
             .data(data)
-            .join("rect")
-                .attr("x", 0)
-                .attr("width", d => `${d}%`)
-                .attr("y", heightContainer/2)
-                .attr("height", heightBar)
-                .attr("rx", heightBar / 2)
-                .attr("ry", heightBar / 2)
-                .attr("class", (d, i) => `${ i === 0 ? "fill-warmGray-200" : barColor }`);
+            .join(
+				enter => enter.append("rect")
+					.attr("x", 0)
+					.attr("width", 0)
+					.attr("y", heightContainer/2)
+					.attr("height", heightBar)
+					.attr("rx", heightBar / 2)
+					.attr("ry", heightBar / 2)
+					.attr("class", (d, i) => `${ i === 0 ? "fill-warmGray-200" : barColor }`),
+				update => update,
+				exit => exit.remove()
+			)
+			.call( rect => rect.transition().duration(500)
+				.attr("width", d => `${d}%`)
+			)
         
 		g.selectAll("text")
 			.data([data[1]])
-			.join("text")
-				.attr("y", heightContainer / 2 - 2)
+			.join(
+				enter => enter.append("text")
+					.attr("y", heightContainer / 2 - 2)
+					.attr("x", d => -30)
+					.attr("class", "fill-sky-500 text-xxs italic")
+					.text(d => `${d}%`),
+				update => update,
+				exit => exit.remove()
+			)
+			.call( text => text.transition().duration(700).delay(200)
 				.attr("x", d => `${d}%`)
-				.attr("class", "fill-sky-500 text-xxs italic")
-				.text(d => `${d}%`)
+			)
 
     }, [percentage, heightBar, heightContainer])
 

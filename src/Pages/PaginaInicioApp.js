@@ -2,8 +2,10 @@ import { map, upperFirst } from 'lodash';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { AreaChart } from '../components/d3/AreaChart';
 import { ProgressBar } from '../components/d3/ProgressBar';
 
+import { getLastMonths } from '../helper/getLastMonths';
 import { getTotalByMonth } from '../helper/totalByMonth';
 
 export const PaginaInicioApp = () => {
@@ -16,6 +18,7 @@ export const PaginaInicioApp = () => {
 
 	// === VARIABLES LOCALES ===
 	const totalByMonth = getTotalByMonth( expenses );
+	const last3ExpenseMonth = getLastMonths({ period: 3, data: totalByMonth });
 	const [currency] = currencies;
 
 	return (
@@ -28,6 +31,7 @@ export const PaginaInicioApp = () => {
 				currency={ currency?.symbol }
 				average={ 817.35 }
 				diferencePercentageToPrevius={ 9.89 }
+				last3ExpenseMonth={ last3ExpenseMonth }
 			/>
 			
 			<CategorySummaryCard
@@ -44,7 +48,14 @@ export const PaginaInicioApp = () => {
 	)
 }
 
-export const MonthlyExpensesCard = ({ monthDate, amount, currency, average, diferencePercentageToPrevius }) => {
+export const MonthlyExpensesCard = ({
+	monthDate,
+	amount,
+	currency,
+	average,
+	diferencePercentageToPrevius,
+	last3ExpenseMonth,
+}) => {
 	return (
 		<div
 			className="
@@ -66,10 +77,14 @@ export const MonthlyExpensesCard = ({ monthDate, amount, currency, average, dife
 					diferencePercentageToPrevius={ diferencePercentageToPrevius }
 				/>
 
-				<ExpenseAverage
+				<AreaChart
+					lastAmountsByMonth={ last3ExpenseMonth }
+				/>
+
+				{/* <ExpenseAverage
 					currency={ currency }
 					average={ average }
-				/>
+				/>*/}
 
 			</div>
 		</div>
@@ -190,7 +205,7 @@ export const CategorySummaryCard = ({ currentMonth, currency }) => {
 						>{ upperFirst( key ) }</span>
 
 						<ProgressBar
-							className="col-span-3"
+							className="col-span-3 px-2"
 							percentage={ val.percentage }
 						/>
 						
@@ -251,7 +266,7 @@ export const EstablishmentSummaryCard = ({ currentMonth, currency }) => {
 						>{ upperFirst( key ) }</span>
 
 						<ProgressBar
-							className="col-span-3"
+							className="col-span-3 px-2"
 							percentage={ val.percentage }
 						/>
 						
