@@ -7,6 +7,10 @@ export const type = {
     establishment: {
         set: '[establishment] set list of establisment in the state'
     },
+    newExpense: {
+        update: '[new expense] update expense',
+        reset: '[new expense] set initial state'
+    },
     insumoDetails: {
         setData: '[insumo details] set insumos data'
     },
@@ -30,6 +34,7 @@ export const type = {
     localStorage: {
         establishments: '[mercapp2] establecimientos',
         insumos: '[mercapp2] insumos',
+        newExpense: '[mercapp2] nuevo gasto',
         newPurchase: '[mercapp2] nueva compra',
         purchases: '[mercapp2] compras',
         purchasesList: '[mercapp2] listas de compras',
@@ -87,6 +92,12 @@ export const type = {
         showSearch: '[search] show search insumos field',
         showFilter: '[search] show filter insumos field',
         hide: '[search] hide search and filter field',
+    },
+    user: {
+        addExpense: '[user] add new expense to user expenses',
+        data: '[user] get user data',
+        update: '[user] update user data',
+        logout: '[user] reset users initial state',
     },
     views: {
         purchases: {

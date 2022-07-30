@@ -3,7 +3,7 @@ import { equality, filter, find, removeItemFromArrayByProp } from "functionallib
 import { type } from "../constant/type";
 import { resumenDeComprasPath } from "../constant/routes";
 
-import { dateWithTime } from "../helper/dates";
+import { absDate } from "../helper/dates";
 import { fetchCreatePurchase } from "../helper/fetch";
 import { getFromLocalStorage, removeFromLocalStorage, updateInsumoInLocalStorage } from "../helper/localStorage";
 import { NotificationError, NotificationSuccess } from "../helper/toast";
@@ -138,7 +138,7 @@ export const startCreatingPurchase = ( history ) => async ( dispatch, rootState 
     try {
 
         const { purchaseDate } = newPurchase;
-        const formattedDate = dateWithTime( purchaseDate );
+        const formattedDate = absDate( purchaseDate );
         await fetchCreatePurchase({ ...newPurchase, purchaseDate: formattedDate } );
 
         dispatch( cleaningNewPurchase() );

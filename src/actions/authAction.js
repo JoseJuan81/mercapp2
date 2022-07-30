@@ -1,17 +1,21 @@
+import { isEmpty } from 'functionallibrary';
+
 import { firebase, googleAuthProvider } from '../firebase/firebase-config';
 
 import { clearLocalStorage, setInLocalStorage } from '../helper/localStorage';
-import { fetchLogin, fetchSignUp } from '../helper/fetch';
-import toast, { NotificationInfo, NotificationSuccess } from '../helper/toast';
+import { fetchCurrency, fetchSignUp } from '../helper/fetch';
+import { userFetch } from '../helper/fetch/userFetch';
+import { loginFetch } from '../helper/fetch/loginFetch';
+import toast, { NotificationInfo } from '../helper/toast';
 
 import { type } from '../constant/type';
 
 import { endLoading, startLoading } from './loadingAction';
+import { resetUserState, updateUserData } from './userAction';
 
 /// ============= Acciones sincronas ================= //
-export const login = ( userData ) => ({
-    type: type.auth.login,
-    payload: userData
+export const login = () => ({
+    type: type.auth.login
 });
 
 export const logout = () => ({
@@ -53,23 +57,26 @@ export const startLoginWithEmailAndPassword = ({ email, password }) => async dis
 
     try {
 
-        const response = await fetchLogin( email, password );
+        const response = await loginFetch.login( email, password );
 
         if ( response.ok ) {
 
-            const { data:user } = response;
-            const userData = {
-                name: user.name,
-                uid: user.uid,
-                email: user.email,
-                avatar: user.photoURL
-            }
-    
-            dispatch( login( userData ) );
-    
-            setInLocalStorage( type.localStorage.user, { ...userData, logged: true } );
-            setInLocalStorage( type.localStorage.token, user.token );
+            const { data:userResponse } = response;
+
+            setInLocalStorage( type.localStorage.token, userResponse.token );
+            setInLocalStorage( type.localStorage.user, { logged: true } );
+            dispatch( login() );
             
+            if ( isEmpty( userResponse.currencies ) || isEmpty( userResponse.currencies[0].code )) {
+                
+                const { code, symbol } = await fetchCurrency();
+                userResponse.currencies[0] = { code, symbol };
+                userFetch.update({ currencies: userResponse.currencies });
+            }
+
+            const { token, uid, id, ...restUserData } = userResponse;
+            dispatch( updateUserData( restUserData ) );
+
             toast.dismiss( toastLoginId );
             toast.success( type.notificationMessages.welcome, { autoClose: 3000, delay: 500 });
 
@@ -95,9 +102,12 @@ export const startLoginWithEmailAndPassword = ({ email, password }) => async dis
 export const startRegisterWithNameEmailAndPassword = ({ name, email, password }) => async dispatch => {
 
     dispatch( startLoading() );
+
     try {
 
-        const response = await fetchSignUp( name, email, password );
+        const { code, symbol } = await fetchCurrency();
+        const currencies = { code, symbol };
+        const response = await fetchSignUp( name, email, password, currencies );
 
         if ( response.ok ) {
 
@@ -134,11 +144,12 @@ export const appLogout = () => dispatch => {
 
     dispatch( startLoading() );
 
+    clearLocalStorage();
     
     setTimeout(() => {
         
-        clearLocalStorage();
         dispatch( logout() );
+        // dispatch( resetUserState() );
         dispatch( endLoading() );
 
     }, 2000);

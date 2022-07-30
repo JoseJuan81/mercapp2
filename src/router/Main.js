@@ -23,9 +23,10 @@ import { login } from '../actions/authAction';
 export const Main = () => {
 
     // VARIABLES LOCALES
-    const userFromLocalStore = getFromLocalStorage( type.localStorage.user );
-    const userFromStore = useSelector( store => store.auth );
-    const user =  userFromLocalStore || userFromStore;
+    const localUser = getFromLocalStorage( type.localStorage.user ) || {};
+    const storeUser = useSelector( store => store.auth );
+    const user = localUser || storeUser;
+
 
     // STORE
     const dispatch = useDispatch();
@@ -33,9 +34,9 @@ export const Main = () => {
     // VERIFICAR SI EL USUARIO YA INICIÓ SESIÓN 
     useEffect(() => {
     
-        if ( userFromLocalStore ) {
+        if ( !storeUser.logged && localUser.logged ) {
 
-            dispatch( login( userFromLocalStore ) );
+            dispatch( login() );
         }
         
     }, [])

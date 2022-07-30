@@ -5,12 +5,22 @@ import React, { useEffect, useRef } from 'react';
  * @param {object} value
  * @property {string} value.label
  */
-export const DataList = React.memo(({ options, onChange, onBlur, value, autoFocus, ...rest }) => {
+export const DataList = React.memo(({
+    options,
+    onChange,
+    onBlur,
+    value,
+    autoFocus,
+    propToShow = 'label',
+    error,
+    ...rest }) => {
 
     const ref = useRef();
 
     const randomId = Math.random().toString( 32 ).split('.')[1];
-    const inputValue = typeof value.label === 'string' ? value.label : '';
+
+    let inputValue = value && !value.label ? value : '';
+    inputValue = value && value.label && typeof value.label === 'string' ? value.label : inputValue;
 
     useEffect( () => {
 
@@ -22,26 +32,38 @@ export const DataList = React.memo(({ options, onChange, onBlur, value, autoFocu
 
     return (
         <div
-            className="input-form"
+            className="w-full h-full"
         >
             <input
                 { ...rest }
                 ref={ ref }
                 autoComplete="off"
                 className="
-                    w-full h-full
                     focus:outline-none
+                    input-form
                 "
                 list={ randomId }
                 onChange={ onChange }
                 onBlur={ onBlur }
                 value={ inputValue }
             />
+
+            { error &&
+                <small
+                    className="
+                        animate__animated animate__slideInRight
+                        text-rose-600 font-regular
+                        ml-2
+                        transform -translate-x-4
+                    "
+                >{ error } </small>
+            }
+
             <datalist id={ randomId }>
 
                 {options.map((o, i) => (
                     
-                    <option value={ o.label } key={ `${ randomId }-${ i }`} />
+                    <option value={ o[propToShow] } key={ `${ randomId }-${ i }`} />
                 ))}
                 
             </datalist>

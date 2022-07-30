@@ -1,4 +1,7 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+
+import { userUrls } from '../constant/routes';
 
 export const DefaultAvatar = React.memo(() => {
     return (
@@ -29,12 +32,12 @@ const Avatar = React.memo(({ avatar }) => {
 
 export const UserAvatar = React.memo(({ user }) => {
     return (
-        <>
+        <NavLink to={ userUrls.info }>
             {user.avatar
                 ?   <Avatar avatar={ user.avatar } />
                 :   <DefaultAvatar />
 
             }
-        </>
+        </NavLink>
     )
 })

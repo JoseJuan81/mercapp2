@@ -5,8 +5,8 @@ export const initialState = { logged: false };
 export const authReducer = ( state = initialState, action ) => {
 
     const opts = {
-        [type.auth.login]: () => ({ ...action.payload, logged: true }),
-        [type.auth.logout]: () => ({ ...initialState })
+        [type.auth.login]: () => ({ logged: true }),
+        [type.auth.logout]: () => ({ logged: false })
     }
 
     const fn = opts[action.type];
