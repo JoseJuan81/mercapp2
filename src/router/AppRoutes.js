@@ -43,11 +43,11 @@ export const AppRoutes = () => {
                         <HomeContainer />
                     </Route>
 
-                    <Route path={ userUrls.baseUrl }>
+                    <Route path={ userUrls.urlBase }>
                         <UserRoutes />
                     </Route>
 
-                    <Route path={ expensesUrls.baseUrl }>
+                    <Route path={ expensesUrls.urlBase }>
                         <ExpensesRoutes />
                     </Route>
 

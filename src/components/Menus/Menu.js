@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { appLogout } from '../../actions/authAction';
-import { startLoadingInsumos } from '../../actions/insumosAction';
-import { startGettingPurchases } from '../../actions/purchasesAction';
 
 import { MENU_ROUTES } from '../../constant/defaults';
 import { type } from '../../constant/type';
@@ -24,17 +22,6 @@ export const Menu = ({ showMenu, handleShowMenu }) => {
     const handleLogout = useCallback(() => {
 
         dispatch( appLogout() );
-
-    },[])
-
-    const handleRefresh = useCallback(() => {
-
-        removeFromLocalStorage( type.localStorage.insumos );
-        removeFromLocalStorage( type.localStorage.purchases );
-        removeFromLocalStorage( type.localStorage.newPurchase );
-        removeFromLocalStorage( type.localStorage.establishments );
-        dispatch( startLoadingInsumos() );
-        dispatch( startGettingPurchases() );
 
     },[])
 
@@ -72,7 +59,6 @@ export const Menu = ({ showMenu, handleShowMenu }) => {
             <MenuHeader
                 user={ user }
                 handleShowMenu={ handleShowMenu }
-                handleRefresh={ handleRefresh }
             />
 
             {MENU_ROUTES.map(( route, ind ) => (
@@ -136,16 +122,7 @@ const MenuHeader = React.memo(({ user, handleRefresh, handleShowMenu }) => {
                     flex items-center justify-between
                 "
             >
-                <UserAvatar user={ user } />
-
-                <RefreshButton
-                    isButton
-                    className="
-                        text-xl text-warmGray-300
-                    "
-                    onClick={ handleRefresh }
-                />
-                
+                <UserAvatar user={ user } />                
 
                 <CloseButton
                     isButton

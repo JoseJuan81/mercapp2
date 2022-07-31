@@ -8,7 +8,7 @@ import { inicioPath, userUrls } from '../../constant/routes';
 export const UserRoutes = () => {
     return (
         <Switch>
-            <Route exact path={ userUrls.info }>
+            <Route exact path={ userUrls.details() }>
                 <UserContainer />
             </Route>
 

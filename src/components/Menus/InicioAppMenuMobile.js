@@ -13,7 +13,7 @@ export const InicioAppMenuMobile = () => {
         "
     >
         <ShoppingCarPlusButton
-            to={ expensesUrls.new }
+            to={ expensesUrls.new() }
         />
     </div>
   )
