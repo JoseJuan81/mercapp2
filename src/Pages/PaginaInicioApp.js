@@ -19,7 +19,7 @@ export const PaginaInicioApp = () => {
 	const [currentMonth, setCurrentMonth] = useState( new Date().getMonth() );
 
 	// === VARIABLES LOCALES ===
-	const monthInWords = upperFirst( getMonthInWord( new Date().setMonth( currentMonth ) ));
+	const monthInWords = getMonthInWord( new Date().setMonth( currentMonth ) );
 	const totalByMonth = getTotalByMonth( expenses );
 	const last3ExpenseMonth = getLastMonths({ period: 3, data: totalByMonth, currentMonth });
 	const [currency] = currencies;

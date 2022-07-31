@@ -74,8 +74,7 @@ const AppName = React.memo( () => {
     return (
         <Link
             className="
-                font-medium
-                text-lime-500 text-base
+                font-semibold text-lime-500 text-base
             "
             to={ inicioPath }
         >MercApp2</Link>
