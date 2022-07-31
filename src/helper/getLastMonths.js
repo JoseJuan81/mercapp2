@@ -1,8 +1,8 @@
 import { timeMonth } from "d3";
 
-export const getLastMonths = ({ period, data }) => {
+export const getLastMonths = ({ period, data, currentMonth }) => {
 	
-	const currentTime = new Date()
+	const currentTime = new Date().setMonth( currentMonth );
 	const finalArr = [];
 
 	for (let i = 0; i < period; i += 1) {

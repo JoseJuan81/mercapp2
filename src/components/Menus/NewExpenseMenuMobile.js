@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { startCreatingNewExpense } from '../../actions/newExpenseAction';
 
-import { CheckButton } from '../Buttons/AppButtons';
+import { BackButton, CheckButton } from '../Buttons/AppButtons';
+
+import { inicioPath } from '../../constant/routes';
 
 export const NewExpenseMenuMobile = () => {
 
@@ -36,14 +38,17 @@ export const NewExpenseMenuMobile = () => {
 		<div
 			className="
 				menu_mobile__container
-				grid-cols-1
+				grid-cols-2
 			"
 		>
+			<BackButton to={ inicioPath } />
+
 			<CheckButton
                 isButton
 				disabled={ disabled }
                 onClick={ handleClickOnCheckButton }
             />
+
 		</div>
   	)
 }

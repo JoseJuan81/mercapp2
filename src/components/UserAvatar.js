@@ -32,7 +32,7 @@ const Avatar = React.memo(({ avatar }) => {
 
 export const UserAvatar = React.memo(({ user }) => {
     return (
-        <NavLink to={ userUrls.info }>
+        <NavLink to={ userUrls.details() }>
             {user.avatar
                 ?   <Avatar avatar={ user.avatar } />
                 :   <DefaultAvatar />

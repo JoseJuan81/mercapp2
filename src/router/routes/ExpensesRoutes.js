@@ -8,7 +8,7 @@ import { expensesUrls, inicioPath } from '../../constant/routes';
 export const ExpensesRoutes = () => {
     return (
         <Switch>
-            <Route exact path={ expensesUrls.new }>
+            <Route exact path={ expensesUrls.new() }>
                 <NewExpenseContainer />
             </Route>
 
