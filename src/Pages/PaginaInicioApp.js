@@ -2,6 +2,7 @@ import { map, upperFirst } from 'lodash';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { BackButton } from '../components/Buttons/AppButtons';
 import { AreaChart } from '../components/d3/AreaChart';
 import { ProgressBar } from '../components/d3/ProgressBar';
 
@@ -18,21 +19,38 @@ export const PaginaInicioApp = () => {
 
 	// === VARIABLES LOCALES ===
 	const totalByMonth = getTotalByMonth( expenses );
-	const last3ExpenseMonth = getLastMonths({ period: 3, data: totalByMonth });
+	const last3ExpenseMonth = getLastMonths({ period: 3, data: totalByMonth, currentMonth });
 	const [currency] = currencies;
 
 	return (
 		<div
 			className=""
 		>
-			<MonthlyExpensesCard
-				monthDate={ totalByMonth[currentMonth]?.month }
-				amount={ totalByMonth[currentMonth]?.total }
-				currency={ currency?.symbol }
-				average={ 817.35 }
-				diferencePercentageToPrevius={ 9.89 }
-				last3ExpenseMonth={ last3ExpenseMonth }
-			/>
+			<div
+				className="
+					flex justify-center
+				"
+			>
+				<BackButton
+					isButton
+					className="w-10"
+					onClick={ () => setCurrentMonth( m => m - 1 ) }
+				/>
+
+				<MonthlyExpensesCard
+					monthDate={ totalByMonth[currentMonth]?.month }
+					amount={ totalByMonth[currentMonth]?.total }
+					currency={ currency?.symbol }
+					diferencePercentageToPrevius={ 9.89 }
+					last3ExpenseMonth={ last3ExpenseMonth }
+				/>
+
+				<BackButton
+					isButton
+					className="w-10 transform rotate-180"
+					onClick={ () => setCurrentMonth( m => m + 1 ) }
+				/>
+			</div>
 			
 			<CategorySummaryCard
 				currentMonth={ totalByMonth[currentMonth] }
@@ -52,7 +70,6 @@ export const MonthlyExpensesCard = ({
 	monthDate,
 	amount,
 	currency,
-	average,
 	diferencePercentageToPrevius,
 	last3ExpenseMonth,
 }) => {
@@ -60,7 +77,7 @@ export const MonthlyExpensesCard = ({
 		<div
 			className="
 				rounded-lg shadow-md
-				mx-auto mt-4 mb-8 px-4 pt-4 pb-6	
+				mt-4 mb-8 px-4 pt-4 pb-6	
 				max-w-60
 			"
 			>
@@ -80,11 +97,6 @@ export const MonthlyExpensesCard = ({
 				<AreaChart
 					lastAmountsByMonth={ last3ExpenseMonth }
 				/>
-
-				{/* <ExpenseAverage
-					currency={ currency }
-					average={ average }
-				/>*/}
 
 			</div>
 		</div>
@@ -125,24 +137,6 @@ export const MonthAmount = ({ currency, amount, diferencePercentageToPrevius }) 
 
 			{/* <CompareToPrevius diferencePercentageToPrevius={ diferencePercentageToPrevius } /> */}
 			
-		</div>
-	)
-}
-
-export const ExpenseAverage = ({ currency, average }) => {
-	return (
-		<div
-			className="
-				text-warmGray-400 text-xs
-			"
-		>
-			<span>promedio:</span>
-			<span
-				className="
-					ml-2 mr-1
-				"
-			>{ currency }</span>
-			<span>{ average }</span>
 		</div>
 	)
 }

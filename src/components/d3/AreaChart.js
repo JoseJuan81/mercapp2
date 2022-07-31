@@ -40,7 +40,7 @@ export const AreaChart = ({ lastAmountsByMonth, heightContainer = 80, className,
 		.y0(y(0))
 		.y1(d => y(d.amount))
   
-	const formatTime = timeFormat("%B, %Y");
+	const formatTime = timeFormat("%m, %y");
   
   	useEffect(() => {
 		const svg = select("#area_chart--container")
@@ -62,7 +62,7 @@ export const AreaChart = ({ lastAmountsByMonth, heightContainer = 80, className,
 				update => update,
 				exit => exit.remove()
 			)
-		path.call( path => path.transition().duration(300).delay(400)
+		path.call( path => path.transition().duration(300).delay(300)
 			.attr("d", dArea(data))
 		)
 
@@ -75,7 +75,7 @@ export const AreaChart = ({ lastAmountsByMonth, heightContainer = 80, className,
 		
 		const circle = svg.select("#circles")
 		circle.selectAll("circle")
-			.data(data, d => d.date)
+			.data(data)
 			.join(
 				enter => enter.append("circle")
 					.attr("cx", width / 2)
@@ -84,9 +84,9 @@ export const AreaChart = ({ lastAmountsByMonth, heightContainer = 80, className,
 					.attr("fill", "white")
 					.attr("stroke", "#2186F1"),
 				update => update,
-				exit => exit
+				exit => exit.remove()
 			)
-			.call( circle => circle.transition().duration(400).delay(400)
+			.call( circle => circle.transition().duration(400).delay(300)
 				.attr("cy", d => y(d.amount))
 				.attr("cx", d => x((new Date(d.date))))
 				.attr("r", 3	)
