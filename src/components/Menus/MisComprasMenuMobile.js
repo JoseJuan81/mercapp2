@@ -22,15 +22,7 @@ export const MisComprasMenuMobile = () => {
 
     // ===== FUNCIONES PROPIAS =====
 
-    const handleClickOnMerge = () => {
-
-        if ( isStatistics ) {
-
-            const ids = map( getPropertysValue( 'id' ), selected );
-            const route = `${ comprasEstadisticas }?compras=${ ids.join(',') }`;
-            history.push( route );
-        }
-    }
+    const handleClickOnMerge = () => {}
 
     return (
         <div

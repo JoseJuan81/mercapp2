@@ -6,6 +6,7 @@ import { BackButton } from '../components/Buttons/AppButtons';
 import { AreaChart } from '../components/d3/AreaChart';
 import { ProgressBar } from '../components/d3/ProgressBar';
 
+import { getMonthInWord } from '../helper/dates';
 import { getLastMonths } from '../helper/getLastMonths';
 import { getTotalByMonth } from '../helper/totalByMonth';
 
@@ -18,6 +19,7 @@ export const PaginaInicioApp = () => {
 	const [currentMonth, setCurrentMonth] = useState( new Date().getMonth() );
 
 	// === VARIABLES LOCALES ===
+	const monthInWords = upperFirst( getMonthInWord( new Date().setMonth( currentMonth ) ));
 	const totalByMonth = getTotalByMonth( expenses );
 	const last3ExpenseMonth = getLastMonths({ period: 3, data: totalByMonth, currentMonth });
 	const [currency] = currencies;
@@ -38,8 +40,8 @@ export const PaginaInicioApp = () => {
 				/>
 
 				<MonthlyExpensesCard
-					monthDate={ totalByMonth[currentMonth]?.month }
-					amount={ totalByMonth[currentMonth]?.total }
+					monthDate={ monthInWords }
+					amount={ totalByMonth[currentMonth]?.total || 0 }
 					currency={ currency?.symbol }
 					diferencePercentageToPrevius={ 9.89 }
 					last3ExpenseMonth={ last3ExpenseMonth }

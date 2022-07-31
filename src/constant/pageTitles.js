@@ -1,6 +1,6 @@
-import { misInsumosPath, resumenDeComprasPath } from "./routes";
+import { expensesUrls, inicioPath } from "./routes";
 
 export const pageTitles = {
-    [misInsumosPath]: 'Mis Insumos',
-    [resumenDeComprasPath]: 'Mis Compras',
+    [expensesUrls.new]: 'Nuevo Gasto',
+    [inicioPath]: 'Inicio'
 }

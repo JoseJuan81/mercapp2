@@ -6,18 +6,12 @@ import { isEmpty } from 'functionallibrary';
 import {
     expensesUrls,
     inicioPath,
-    insumosBaseUrl,
-    purchasesBaseUrl,
-    purchasesListBaseUrl,
     userUrls,
 } from '../constant/routes';
 
 import { NavBar } from '../components/NavBar.js';
 import { HomeContainer } from '../components/Container/Home/HomeContainer';
 
-import { InsumosRoutes } from './routes/InsumosRoutes';
-import { PurchasesRoutes } from './routes/PurchasesRoutes';
-import { PurchasesListRoutes } from './routes/PurchasesListRoutes';
 import { UserRoutes } from './routes/UserRoutes';
 import { ExpensesRoutes } from './routes/ExpensesRoutes';
 
@@ -47,18 +41,6 @@ export const AppRoutes = () => {
 
                     <Route path={ inicioPath }>
                         <HomeContainer />
-                    </Route>
-
-                    <Route path={ insumosBaseUrl }>
-                        <InsumosRoutes />
-                    </Route>
-                    
-                    <Route path={ purchasesBaseUrl }>
-                        <PurchasesRoutes />
-                    </Route>
-
-                    <Route path={ purchasesListBaseUrl }>
-                        <PurchasesListRoutes />
                     </Route>
 
                     <Route path={ userUrls.baseUrl }>
