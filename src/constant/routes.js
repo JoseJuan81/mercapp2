@@ -5,8 +5,9 @@ export const registroUsuarioPath = '/registro-usuario';
 class Route {
     constructor(urlBase) {
         this.urlBase = `/${urlBase}/`;
-        this.urlNew = 'nuevo'
-        this.urlDetails = 'detalle'
+        this.urlNew = 'nuevo';
+        this.urlDetails = 'detalle';
+        this.urlList  = 'listado';
     }
 
     new() {
@@ -15,6 +16,10 @@ class Route {
 
     details() {
         return this.urlBase + this.urlDetails;
+    }
+
+    list() {
+        return this.urlBase + this.urlList;
     }
 }
 

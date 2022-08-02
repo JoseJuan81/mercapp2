@@ -1,8 +1,6 @@
 
 import { format } from 'date-fns';
 import { es, enUS } from 'date-fns/locale';
-import { cond, equals, head, join, map, pipe, prop, T, __ } from 'ramda';
-import { extent } from 'd3';
 import { upperFirst } from 'lodash';
 
 const locale = window.navigator.language.includes('es') ? es : enUS;

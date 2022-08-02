@@ -8,9 +8,9 @@ export const HomeContainer = () => {
   return (
     <div className="layout__page">
 
-        <PaginaInicioApp />
+		<PaginaInicioApp />
 
-        <InicioAppMenuMobile />
+		<InicioAppMenuMobile />
 
     </div>
   )
