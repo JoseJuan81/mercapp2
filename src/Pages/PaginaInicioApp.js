@@ -201,7 +201,10 @@ export const CategorySummaryCard = ({ currentMonth, currency }) => {
 						>{ upperFirst( key ) }</span>
 
 						<ProgressBar
-							className="col-span-3 px-2"
+							className="
+								col-span-3
+								pl-2 pr-3 -ml-2
+							"
 							percentage={ val.percentage }
 						/>
 						

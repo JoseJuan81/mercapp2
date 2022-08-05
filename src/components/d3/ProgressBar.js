@@ -45,14 +45,14 @@ export const ProgressBar = ({ percentage, heightBar = 7, heightContainer = 30, c
 			.join(
 				enter => enter.append("text")
 					.attr("y", heightContainer / 2 - 2)
-					.attr("x", d => -30)
+					.attr("x", -30)
 					.attr("class", "fill-sky-500 text-xxs italic")
 					.text(d => `${d}%`),
 				update => update,
 				exit => exit.remove()
 			)
 			.call( text => text.transition().duration(700).delay(200)
-				.attr("x", d => `${d}%`)
+				.attr("x", d => d <= 70 ? `${d}%` : '70%')
 			)
 
     }, [percentage, heightBar, heightContainer])
