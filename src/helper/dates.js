@@ -6,6 +6,9 @@ import { upperFirst } from 'lodash';
 const locale = window.navigator.language.includes('es') ? es : enUS;
 
 export const getFormatDate = (date, formatting = 'd LLL yy' ) => {
+
+    if ( !date ) return;
+    
     return format( new Date( date ), formatting, { locale } );
 }
 

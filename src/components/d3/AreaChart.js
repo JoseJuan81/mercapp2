@@ -2,10 +2,10 @@ import {
 	area,
 	axisBottom,
 	curveCatmullRom,
-	easeLinear,
 	extent,
 	max,
 	scaleLinear,
+	scaleTime,
 	scaleUtc,
 	select,
 	timeFormat,
@@ -21,11 +21,11 @@ export const AreaChart = ({ lastAmountsByMonth, heightContainer = 80, className,
 
 	// VARIABLES LOCALES
 	const data = [...lastAmountsByMonth];
-	const margin = ({ left: 10, top: 5, right: 10, bottom: 20 });
+	const margin = ({ left: 5, top: 5, right: 5, bottom: 20 });
 	const h = heightContainer - margin.bottom;
 	const initialPath = `${width},${h} ${width / 2},${h} ${width / 4},${h} ${width / 4},${h}`
 
-	const x = scaleUtc()
+	const x = scaleTime()
 		.domain(extent(data, d => (new Date(d.date))))
 		.range([margin.left, width - margin.right])
 		.nice();
@@ -71,7 +71,7 @@ export const AreaChart = ({ lastAmountsByMonth, heightContainer = 80, className,
 			.attr("stroke", "#2186F1")
 			.attr("stroke-width", "0.5")
 			.attr("stroke-miterlimit", "1")
-		xAxis.call(axisBottom(x).ticks(width / 60).tickSizeOuter(0).tickFormat(formatTime))
+		xAxis.call(axisBottom(x).ticks(3).tickFormat(formatTime))
 		
 		const circle = svg.select("#circles")
 		circle.selectAll("circle")

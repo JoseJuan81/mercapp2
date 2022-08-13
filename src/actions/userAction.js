@@ -22,6 +22,11 @@ export const updateExpensesInUser = ( expense ) => ({
     payload: expense
 });
 
+export const deleteExpenseFromUser = ( expenseId ) => ({
+    type: type.user.deleteExpense,
+    payload: expenseId
+});
+
 /// ============= Acciones asincronas ================= //
 export const fetchingUserData = () => async dispatch => {
 
