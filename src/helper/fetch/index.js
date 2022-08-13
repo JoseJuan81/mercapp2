@@ -228,6 +228,15 @@ export const fetchExpense = {
     baseURL: `${ URLBASE }/expenses`,
     new: ( body ) => {
         const url = fetchExpense.baseURL + '/new';
-        return buildPostOrPutFetch( url, body, 'PUT' ).then( (res) => res.json() );
+        return buildPostOrPutFetch( url, body, 'PUT' ).then( res => res.json() );
+    },
+    /**
+     * 
+     * @param { string } expenseId 
+     * @returns { array }
+     */
+    delete: ( expenseId ) => {
+        const url = fetchExpense.baseURL + '/remove/' + expenseId;
+        return buildDeleteFetch( url ).then( res => res.json() );
     }
 }

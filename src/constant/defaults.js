@@ -6,6 +6,4 @@ export const CATEGORY = 'category';
 
 export const ESTABLISHMENT = 'establishment';
 
-export const NO_PRICES_INSUMO = 'Sin Precio';
-
 export const MENU_ROUTES = [];

@@ -36,6 +36,7 @@ export const type = {
     user: {
         addExpense: '[user] add new expense to user expenses',
         data: '[user] get user data',
+        deleteExpense: '[user] delete a expense from user data',
         update: '[user] update user data',
         logout: '[user] reset users initial state',
     },
