@@ -19,7 +19,7 @@ export const clearNewExpenseData = () => ({
 
 
 /// ============= Acciones asincronas ================= //
-export const startDeletingExpense = ( expenseId ) => async dispatch => {
+export const  startDeletingExpense = ( expenseId ) => async dispatch => {
     
     dispatch( startLoading() );
 

@@ -23,7 +23,7 @@ export const userReducer = ( state = initialState, action ) => {
         [type.user.addExpense]: () => ({ ...state, expenses: concat( state.expenses, action.payload ) }),
         [type.user.deleteExpense]: () => ({
             ...state,
-            expenses: removeItemFromArrayByProp( 'id', action.payload )( state.expenses )
+            expenses: removeItemFromArrayByProp( '_id', action.payload )( state.expenses )
         })
     }
 
