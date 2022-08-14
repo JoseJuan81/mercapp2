@@ -40,7 +40,12 @@ export const absDate = ( date ) => {
     if ( isAbsDate ) {
         return new Date( date );
     }
+    const now = new Date();
+    const hr = now.getHours();
+    const min = now.getMinutes();
+    const seg = now.getSeconds();
+    const mili = now.getMilliseconds();
 
     const [y, month, d] = date.split('-');
-    return new Date(y, month - 1, d, 0, 0, 0, 0);
+    return new Date(y, month - 1, d, hr, min, seg, mili);
 }

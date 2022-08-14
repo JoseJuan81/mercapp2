@@ -40,6 +40,7 @@ const CALCULATE__TOTAL = arr => {
 export const PaginaExpensesList = () => {
 
     // STORE
+	const dispatch = useDispatch();
     const { currencies, expenses: expensesBase } = useSelector( store => store.user );
 
 	// VARIABLES LOCALES
@@ -64,15 +65,21 @@ export const PaginaExpensesList = () => {
 		setCurrentExpense({});
 	}
 
+	const handleDeleteExpense = ( expenseId ) => {
+		dispatch( startDeletingExpense( expenseId ) );
+		handlerCloseDeleteModal();
+	}
+
 	useEffect(() => {
 
 		const descExpenses = orderBy( expensesBase, ["date"], ["desc"] );
+		console.log(descExpenses.length)
 
 		const timeSelected = SELECTING__TIME( periodTime );
 		const expensesGroupedByTime = groupBy( descExpenses, timeSelected );
 		setExpenses( expensesGroupedByTime );
 
-	}, [periodTime, expensesBase])
+	}, [periodTime, expensesBase, expensesBase.length])
 	
 
 	return (
@@ -96,6 +103,7 @@ export const PaginaExpensesList = () => {
 				currency={ currency }
 				expense={ currentExpense }
 				handlerCloseDeleteModal={ handlerCloseDeleteModal }
+				handleDeleteExpense={ handleDeleteExpense }
 			/>
 		</BottomModal>
 
@@ -247,9 +255,13 @@ const HeaderTable = React.memo(() => {
 })
 
 const BodyTable = ({ expensesArray, currency, deleteAction }) => {
+
+	// VARIABLES LOCALES
+	const expenses = orderBy( expensesArray, ["date"], ["desc"] );
+
 	return (
 		<>
-			{!isEmpty(map) && map(expensesArray, (v, ind) => (
+			{!isEmpty(map) && map(expenses, (v, ind) => (
 				<div
 					key={ v._id }
 					className={`
@@ -275,7 +287,7 @@ const BodyTable = ({ expensesArray, currency, deleteAction }) => {
 
 					<span className="truncate col-span-3">{ upperFirst( v.establishment.name ) }</span>
 
-					<span className="col-span-8 italic">{ v.description }</span>
+					<span className="col-span-8 italic text-left text-xxs">{ v.description }</span>
 
 				</div>
 			))}
@@ -299,10 +311,7 @@ const ItemActions = ({ deleteAction }) => {
 	)
 }
 
-const DeleteExpenseForSure = ({ expense, currency, handlerCloseDeleteModal }) => {
-
-	// STORE
-	const dispatch = useDispatch();
+const DeleteExpenseForSure = ({ expense, currency, handlerCloseDeleteModal, handleDeleteExpense }) => {
 
 	return (
 		<div>
@@ -346,7 +355,7 @@ const DeleteExpenseForSure = ({ expense, currency, handlerCloseDeleteModal }) =>
 				<CheckButton
 					isButton
 					className="flex-auto text-white mx-1 bg-lime-600 rounded-md"
-					onClick={ () => dispatch( startDeletingExpense( expense._id ) ) }
+					onClick={ () => handleDeleteExpense( expense._id ) }
 				/>
 			</div>
 		</div>
