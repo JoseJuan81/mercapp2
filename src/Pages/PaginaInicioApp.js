@@ -1,10 +1,13 @@
 import { map, upperFirst } from 'lodash';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { BackButton } from '../components/Buttons/AppButtons';
 import { AreaChart } from '../components/d3/AreaChart';
 import { ProgressBar } from '../components/d3/ProgressBar';
+
+import { expensesUrls } from '../constant/routes';
 
 import { getMonthInWord } from '../helper/dates';
 import { getLastMonths } from '../helper/getLastMonths';
@@ -187,37 +190,43 @@ export const CategorySummaryCard = ({ currentMonth, currency }) => {
 					<li
 						key={ key }
 						className="
-							grid grid-cols-6
-							items-center
 							h-10
 							font-semibold text-sm
 							pt-3 mb-3
 						"
 					>
-						<span 
-							className="
-								col-span-2
-								font-semibold text-sm text-warmGray-600
-							"
-						>{ upperFirst( key ) }</span>
-
-						<ProgressBar
-							className="
-								col-span-3
-								pl-2 pr-3 -ml-2
-							"
-							percentage={ val.percentage }
-						/>
-						
-						<span
-							className="
-								justify-self-end
-								text-base text-warmGray-600
-							"
+						<Link
+							className="grid grid-cols-6 items-center"
+							to={{
+								pathname: expensesUrls.list(),
+								search: `?category=${ key }`
+							}}
 						>
-							<span className="text-xs mr-1">{ currency }</span>
-							{ val.total }
-						</span>
+							<span 
+								className="
+									col-span-2
+									font-semibold text-sm text-warmGray-600
+								"
+							>{ upperFirst( key ) }</span>
+
+							<ProgressBar
+								className="
+									col-span-3
+									pl-2 pr-3 -ml-2
+								"
+								percentage={ val.percentage }
+							/>
+							
+							<span
+								className="
+									justify-self-end
+									text-base text-warmGray-600
+								"
+							>
+								<span className="text-xs mr-1">{ currency }</span>
+								{ val.total }
+							</span>
+						</Link>
 					</li>
 				)) }
 
@@ -251,34 +260,40 @@ export const EstablishmentSummaryCard = ({ currentMonth, currency }) => {
 					<li
 						key={ key }
 						className="
-							grid grid-cols-6
-							items-center
 							h-10
 							font-semibold text-sm
 							pt-3 mb-3
 						"
 					>
-						<span 
-							className="
-								col-span-2
-								font-semibold text-sm text-warmGray-600
-							"
-						>{ upperFirst( key ) }</span>
-
-						<ProgressBar
-							className="col-span-3 px-2"
-							percentage={ val.percentage }
-						/>
-						
-						<span
-							className="
-								justify-self-end
-								text-base text-warmGray-600
-							"
+						<Link
+							className="grid grid-cols-6 items-center"
+							to={{
+								pathname: expensesUrls.list(),
+								search: `?establishment=${ key }`
+							}}
 						>
-							<span className="text-xs mr-1">{ currency }</span>
-							{ val.total }
-						</span>
+							<span 
+								className="
+									col-span-2
+									font-semibold text-sm text-warmGray-600
+								"
+							>{ upperFirst( key ) }</span>
+
+							<ProgressBar
+								className="col-span-3 px-2"
+								percentage={ val.percentage }
+							/>
+							
+							<span
+								className="
+									justify-self-end
+									text-base text-warmGray-600
+								"
+							>
+								<span className="text-xs mr-1">{ currency }</span>
+								{ val.total }
+							</span>
+						</Link>
 					</li>
 				)) }
 

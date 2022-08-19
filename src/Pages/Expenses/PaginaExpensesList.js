@@ -1,7 +1,6 @@
 import { timeDay, timeMonth, timeWeek } from 'd3';
-import { isEmpty, isNotEmpty } from 'functionallibrary';
-import { groupBy, map, orderBy, reduce, sum, upperFirst } from 'lodash';
-import { prop } from 'ramda';
+import { getPropertysValue, isEmpty } from 'functionallibrary';
+import { groupBy, map, orderBy, reduce, upperFirst } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { compose } from 'redux';
@@ -28,7 +27,7 @@ const TIME__FORMAT = {
 	[type.timePeriod.month]: type.timeFormat.month
 }
 
-const SELECTING__TIME = ( periodTime ) => compose( TIME__OPTION[periodTime], absDate, prop('date') );
+const SELECTING__TIME = ( periodTime ) => compose( TIME__OPTION[periodTime], absDate, getPropertysValue('date') );
 const CALCULATE__TOTAL = arr => {
 
 	if( isEmpty( arr )) return 0;
@@ -38,6 +37,9 @@ const CALCULATE__TOTAL = arr => {
 }
 
 export const PaginaExpensesList = () => {
+
+	// NAVEGACIÓN
+	const params = new URLSearchParams( window.location.search );
 
     // STORE
 	const dispatch = useDispatch();
@@ -70,16 +72,29 @@ export const PaginaExpensesList = () => {
 		handlerCloseDeleteModal();
 	}
 
+	// AGRUPAR GASTOS POR PERIODO DE TIEMPO (DÍA, SEMANA Y MES)
 	useEffect(() => {
 
-		const descExpenses = orderBy( expensesBase, ["date"], ["desc"] );
-		console.log(descExpenses.length)
+		let localExpenses = [...expensesBase];
+		const categoryParam = params.get("category");
+		const establishmentParam = params.get("establishment");
+		if (categoryParam) {
+			const groupByUrlParam = groupBy( localExpenses, getPropertysValue( "category.name" ) );
+			localExpenses = groupByUrlParam[categoryParam];
+		}
+
+		if (establishmentParam) {
+			const groupByUrlParam = groupBy( localExpenses, getPropertysValue( "establishment.name" ) );
+			localExpenses = groupByUrlParam[establishmentParam];
+		}
+
+		const descExpenses = orderBy( localExpenses, ["date"], ["desc"] );
 
 		const timeSelected = SELECTING__TIME( periodTime );
 		const expensesGroupedByTime = groupBy( descExpenses, timeSelected );
 		setExpenses( expensesGroupedByTime );
 
-	}, [periodTime, expensesBase, expensesBase.length])
+	}, [periodTime, expensesBase, expensesBase.length]);
 	
 
 	return (
