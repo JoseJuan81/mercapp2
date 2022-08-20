@@ -38,4 +38,4 @@ export const absDate = ( date ) => {
     return new Date(y, month - 1, d, hr, min, seg, mili);
 }
 
-export const dataListFormatDate = date => timeFormat("%Y-%m-%d");
+export const dataListFormatDate = date => timeFormat("%Y-%m-%d")(date);

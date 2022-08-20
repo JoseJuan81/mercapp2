@@ -1,9 +1,10 @@
 import { type } from "../constant/type";
+import { dataListFormatDate } from "../helper/dates";
 
 const initialState = {
     amount: 0,
     category: { name: '' },
-    date: '',
+    date: dataListFormatDate( Date.now() ),
     description: '',
     establishment: { name: '' },
     items: []

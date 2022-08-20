@@ -13,7 +13,7 @@ import { CATEGORY, ESTABLISHMENT } from '../../constant/defaults';
 
 import { getFromLocalStorage, setInLocalStorage } from '../../helper/localStorage';
 import { dataListFormatDate } from '../../helper/dates';
-import { PaginaLoading2 } from '../loading/PaginaLoading2';
+import { PaginaLoadingNewExpense } from '../loading/PaginaLoadingNewExpense';
 
 const isCategory = equals( CATEGORY );
 const isEstablishment = equals( ESTABLISHMENT );
@@ -81,7 +81,7 @@ export const PaginaNewExpense = () => {
 			dispatch( updateNewExpense( { ...localInfo } ) );
 		} else {
 			
-			dispatch( updateNewExpense( { ...newExpense, date: dataListFormatDate( Date.now() ) } ) );
+			dispatch( updateNewExpense( { ...newExpense } ) );
 		}
 
 	}, [])
@@ -93,7 +93,7 @@ export const PaginaNewExpense = () => {
 	}, [newExpense])
 
 	if (loading) {
-		return <PaginaLoading2 />
+		return <PaginaLoadingNewExpense />
 	}
 
 	return (

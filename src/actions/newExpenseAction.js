@@ -2,6 +2,7 @@ import { type } from "../constant/type";
 import { absDate } from "../helper/dates";
 
 import { fetchExpense } from "../helper/fetch";
+import { removeFromLocalStorage } from "../helper/localStorage";
 
 import { endLoading, startLoading } from "./loadingAction";
 
@@ -30,6 +31,8 @@ export const startCreatingNewExpense = () => async ( dispatch, rootState ) => {
         const expenseCreated = await fetchExpense.new( body );
         dispatch( clearNewExpenseData() );
         dispatch( updateExpensesInUser( expenseCreated.data ) );
+
+        removeFromLocalStorage( type.localStorage.newExpense );
 
     } catch ( err ) {
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const PaginaLoading2 = () => {
+export const PaginaLoadingNewExpense = () => {
 
     const pulseClass = `
         animate-pulse
