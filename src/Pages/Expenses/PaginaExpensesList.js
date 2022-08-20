@@ -1,6 +1,7 @@
 import { timeDay, timeMonth, timeWeek } from 'd3';
 import { getPropertysValue, isEmpty } from 'functionallibrary';
 import { groupBy, map, orderBy, reduce, upperFirst } from 'lodash';
+import { pipe, __ } from 'ramda';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { compose } from 'redux';
@@ -10,6 +11,7 @@ import { startDeletingExpense } from '../../actions/expensesAction';
 import { BaseButton, CheckButton, CloseButton, EditButton, TrashButton } from '../../components/Buttons/AppButtons';
 import { BottomModal } from '../../components/Modal/BottomModal';
 
+import { CATEGORY, ESTABLISHMENT } from '../../constant/defaults';
 import { type } from '../../constant/type';
 
 import { absDate, getFormatDate } from '../../helper/dates';
@@ -27,7 +29,7 @@ const TIME__FORMAT = {
 	[type.timePeriod.month]: type.timeFormat.month
 }
 
-const SELECTING__TIME = ( periodTime ) => compose( TIME__OPTION[periodTime], absDate, getPropertysValue('date') );
+const SELECTING__TIME = periodTime => compose( TIME__OPTION[periodTime], absDate, getPropertysValue('date') );
 const CALCULATE__TOTAL = arr => {
 
 	if( isEmpty( arr )) return 0;
@@ -35,6 +37,23 @@ const CALCULATE__TOTAL = arr => {
 	const sumReduce = (acc, item) =>  acc + item.amount;
 	return twoDecimals( reduce( arr, sumReduce, 0 ) );
 }
+const EXPENSES__FILTERED = ({ filter, param, expenses }) => {
+
+	if (isEmpty(expenses)) {
+		return
+	}
+
+	const filterValue = {
+		[CATEGORY]: "category.name",
+		[ESTABLISHMENT]: "establishment.name"
+	}
+
+	const groupByParamObject = groupBy( expenses, filterValue[filter] );
+	return getPropertysValue(param, groupByParamObject);
+}
+
+const ORDER_DESC_EXPENSES = expenses => orderBy( expenses, ["date"], ["desc"] );
+const TIME_SELECTING = time => SELECTING__TIME( time );
 
 export const PaginaExpensesList = () => {
 
@@ -47,9 +66,11 @@ export const PaginaExpensesList = () => {
 
 	// VARIABLES LOCALES
 	const [currency] = currencies;
+	const categoryParam = params.get( CATEGORY );
+	const establishmentParam = params.get( ESTABLISHMENT );
 
 	// STATE
-	const [periodTime, setPeriodTime] = useState( type.timePeriod.day);
+	const [periodTime, setPeriodTime] = useState("");
 	const [expenses, setExpenses] = useState({});
 	const [showModal, setShowModal] = useState(false);
 	const [currentExpense, setCurrentExpense] = useState({});
@@ -73,26 +94,41 @@ export const PaginaExpensesList = () => {
 	}
 
 	// AGRUPAR GASTOS POR PERIODO DE TIEMPO (DÍA, SEMANA Y MES)
+	// Y FILTRARLOS POR QUERY STRING SI EXISTE
 	useEffect(() => {
 
 		let localExpenses = [...expensesBase];
-		const categoryParam = params.get("category");
-		const establishmentParam = params.get("establishment");
+		let localPeriodoTime = periodTime || type.timePeriod.day;
+
 		if (categoryParam) {
-			const groupByUrlParam = groupBy( localExpenses, getPropertysValue( "category.name" ) );
-			localExpenses = groupByUrlParam[categoryParam];
+			const  filterOptions = {
+				param: categoryParam,
+				filter: CATEGORY,
+				expenses: localExpenses
+			};
+			localExpenses = EXPENSES__FILTERED( filterOptions );
+			localPeriodoTime = periodTime || type.timePeriod.month;
+			
 		}
-
+		
 		if (establishmentParam) {
-			const groupByUrlParam = groupBy( localExpenses, getPropertysValue( "establishment.name" ) );
-			localExpenses = groupByUrlParam[establishmentParam];
+			const  filterOptions = {
+				param: establishmentParam,
+				filter: ESTABLISHMENT,
+				expenses: localExpenses
+			};
+			localExpenses = EXPENSES__FILTERED( filterOptions );
+			localPeriodoTime = periodTime || type.timePeriod.month;
 		}
 
-		const descExpenses = orderBy( localExpenses, ["date"], ["desc"] );
+		// CONSIDERAR EL USO DE PIPE O COMPOSE
+		const expensesGroupedByTime = groupBy(
+			ORDER_DESC_EXPENSES( localExpenses ),
+			TIME_SELECTING( localPeriodoTime )
+		);
 
-		const timeSelected = SELECTING__TIME( periodTime );
-		const expensesGroupedByTime = groupBy( descExpenses, timeSelected );
 		setExpenses( expensesGroupedByTime );
+		setPeriodTime( localPeriodoTime );
 
 	}, [periodTime, expensesBase, expensesBase.length]);
 	
@@ -188,9 +224,10 @@ const ExpensesTable = ({ currency, expenses, periodTime, deleteAction }) => {
                 <li
                     key={ key + Date.now() }
 					className="
-						mb-4 px-2 py-4
-						rounded
-						shadow
+						mb-4 px-2 pb-4 pt-1
+						rounded-lg
+						shadow-md
+						border border-warGray-200
 					"
                 >
 					<HeaderBlock
@@ -219,9 +256,8 @@ const HeaderBlock = ({ date, periodTime, currency, expenses }) => {
 			className="
 				flex items-center justify-between
 				font-bold text-lg
-				mb-2
 				sticky top-14
-				h-16
+				h-12
 				bg-white
 			"
 		>
@@ -243,8 +279,8 @@ const HeaderTable = React.memo(() => {
 		<div
 			className="
 				grid grid-cols-8 items-center justify-center
-				text-sm font-semibold text-center
-				sticky top-28
+				text-sm font-semibold text-center text-sky-500
+				sticky top-24
 				bg-white
 				py-3
 			"
@@ -282,25 +318,38 @@ const BodyTable = ({ expensesArray, currency, deleteAction }) => {
 					className={`
 						grid grid-cols-8 grid-rows-2 gap-y-2
 						items-center justify-center
-						text-sm text-center
+						text-sm text-center text-warmGray-500
 						py-2
 						${ ind !== 0 ? 'border-t' : 'border-none' }
 					`}
 				>
 
-					<span className="text-xs row-span-2">{ ind + 1 }</span>
+					<span className="text-base font-semibold row-span-3">{ ind + 1 }</span>
 
-					<span className="text-xs col-span-2">{ getFormatDate( v.date ) }</span>
+					<span className="col-span-2">{ getFormatDate( v.date ) }</span>
 
-					<span className="col-span-3">{ currency + v.amount }</span>
+					<span className="font-semibold col-span-3">
+						<span className="text-xxs font-normal mr-1">{ currency }</span>
+							{ v.amount }
+					</span>
 
 					<ItemActions
 						deleteAction={ () => deleteAction( v ) }
 					/>
 
-					<span className="truncate col-span-2">{ upperFirst( v.category.name ) }</span>
+					<span className="ml-4 text-left font-semibold truncate col-span-5">
+						<span className="text-xs font-normal italic mr-1">
+							<i className="fas fa-sliders-h"></i>
+						</span>
+						{ upperFirst( v.category.name ) }
+					</span>
 
-					<span className="truncate col-span-3">{ upperFirst( v.establishment.name ) }</span>
+					<span className="ml-4 text-left font-semibold truncate col-span-7">
+						<span className="text-xs font-normal italic mr-1">
+							<i className="fas fa-store"></i>
+						</span>
+						{ upperFirst( v.establishment.name ) }
+					</span>
 
 					<span className="col-span-8 italic text-left text-xxs">{ v.description }</span>
 
