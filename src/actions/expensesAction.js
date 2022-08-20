@@ -1,32 +1,49 @@
 import { type } from "../constant/type";
-import { absDate } from "../helper/dates";
 
-import { fetchExpense } from "../helper/fetch";
+import { fetchExpense } from "../helper/fetch/fetchExpense";
 
 import { endLoading, startLoading } from "./loadingAction";
 
-import { deleteExpenseFromUser } from "./userAction";
-
 /// ============= Acciones síncronas ================= //
-export const updateNewExpense = ( newExpenseObj ) => ({
-    type: type.newExpense.update,
-    payload: newExpenseObj
-})
+export const deleteExpenseInUser = ( expenseId ) => ({
+    type: type.user.deleteExpense,
+    payload: expenseId
+});
 
-export const clearNewExpenseData = () => ({
-    type: type.newExpense.reset,
-})
+export const editExpenseInUser = ({ expense, index }) => ({
+    type: type.user.updateExpense,
+    payload: { expense, index }
+});
 
 
 /// ============= Acciones asincronas ================= //
-export const  startDeletingExpense = ( expenseId ) => async dispatch => {
+export const startDeletingExpense = ( expenseId ) => async dispatch => {
     
     dispatch( startLoading() );
 
     try {
 
         await fetchExpense.delete( expenseId );
-        dispatch( deleteExpenseFromUser( expenseId ) );
+        dispatch( deleteExpenseInUser( expenseId ) );
+
+    } catch ( err ) {
+
+        console.log( 'error eliminaddo un gasto', err );
+
+    } finally {
+
+        dispatch( endLoading() );
+    }
+}
+
+export const startEditingExpense = ( expense, index ) => async dispatch => {
+    
+    dispatch( startLoading() );
+
+    try {
+
+        await fetchExpense.update( expense );
+        dispatch( editExpenseInUser({ expense, index }) );
 
     } catch ( err ) {
 

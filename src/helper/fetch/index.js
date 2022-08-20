@@ -5,6 +5,62 @@ import { getFromLocalStorage } from "../localStorage";
 export const URLBASE = process.env.REACT_APP_URLBASE;
 
 /// ===== UTILIDADES PARA SERVICIOS WEB =====
+export class FetchClass {
+    constructor() {
+        this.urlBase = URLBASE;
+    }
+
+    buildDeleteFetch = ( url ) => {
+
+        const token = getFromLocalStorage( type.localStorage.token );
+    
+        return fetch(
+            url,
+            {
+                headers: {
+                    'Content-type': 'application/json',
+                    'x-token': token
+                },
+                method: 'DELETE',
+            },
+        )
+    }
+
+    buildGetFetch = ( url ) => {
+
+        const token = getFromLocalStorage( type.localStorage.token );
+    
+        return fetch(
+            url,
+            {
+                headers: {
+                    'Content-type': 'application/json',
+                    'x-token': token
+                },
+                method: 'GET',
+            },
+        )
+    }
+
+    buildPostOrPutFetch = ( url, data, method  ) => {
+
+        const token = getFromLocalStorage( type.localStorage.token );
+    
+        const body = JSON.stringify( data );
+    
+        return fetch(
+            url,
+            {
+                headers: {
+                    'Content-type': 'application/json',
+                    'x-token': token
+                },
+                method,
+                body,
+            }
+        )
+    }
+}
 
 /**
  * @description funcion para eliminar de BD
@@ -222,21 +278,4 @@ export const fetchCurrency = () => {
         .then(data => fetch( COUNTRY_URL + data.ip ))
         .then(res => res.json())
         .then(data => ({ code: data.geoplugin_currencyCode, symbol: data.geoplugin_currencySymbol }))
-}
-
-export const fetchExpense = {
-    baseURL: `${ URLBASE }/expenses`,
-    new: ( body ) => {
-        const url = fetchExpense.baseURL + '/new';
-        return buildPostOrPutFetch( url, body, 'PUT' ).then( res => res.json() );
-    },
-    /**
-     * 
-     * @param { string } expenseId 
-     * @returns { array }
-     */
-    delete: ( expenseId ) => {
-        const url = fetchExpense.baseURL + '/remove/' + expenseId;
-        return buildDeleteFetch( url ).then( res => res.json() );
-    }
 }

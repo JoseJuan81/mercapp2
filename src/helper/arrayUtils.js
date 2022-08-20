@@ -7,7 +7,7 @@ import { curry } from "ramda";
  * @param {object} item - elemento actualizado
  * @param {array} arr - arreglo de elementos
  * 
- * @return {array}
+ * @return {array} array
  */
 export const updateItemInArrayByProp = ( prop, item, arr ) => {
 
@@ -18,5 +18,3 @@ export const updateItemInArrayByProp = ( prop, item, arr ) => {
 
     return [...local];
 }
-
-export const updateItemInArrayById = curry( (item, array ) => updateItemInArrayByProp('id', item, array ) );

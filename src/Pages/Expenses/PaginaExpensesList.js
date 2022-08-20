@@ -3,7 +3,7 @@ import { groupBy, map, orderBy, upperFirst } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { startDeletingExpense } from '../../actions/expensesAction';
+import { startDeletingExpense, startEditingExpense } from '../../actions/expensesAction';
 
 import { BaseButton, CheckButton, CloseButton, EditButton, TrashButton } from '../../components/Buttons/AppButtons';
 import { BottomModal } from '../../components/Modal/BottomModal';
@@ -38,24 +38,49 @@ export const PaginaExpensesList = () => {
 	const [periodTime, setPeriodTime] = useState("");
 	const [expenses, setExpenses] = useState({});
 	const [showModal, setShowModal] = useState(false);
+	const [isDeleting, setIsDeleting] = useState(false);
+	const [isEditing, setIsEditing] = useState(false);
 	const [currentExpense, setCurrentExpense] = useState({});
+	const [currentExpenseIndex, setCurrentExpenseIndex] = useState(-1);
 
 	// FUNCIONES LOCALES
-	const handlerDeletingExpense = ( expense ) => {
+	const handlerOpeningDeleteExpenseModal = ( expense ) => {
 
 		setShowModal( true );
+		setIsDeleting( true );
 		setCurrentExpense( expense );
+	}
+
+	const handlerOpeningEditExpenseModal = ({ expense, index }) => {
+
+		setShowModal( true );
+		setIsEditing( true );
+		setCurrentExpense( expense );
+		setCurrentExpenseIndex( index );
 	}
 
 	const handlerCloseDeleteModal = () => {
 
 		setShowModal( false );
+		setIsDeleting( false );
+		setCurrentExpense({});
+	}
+
+	const handlerCloseEditModal = () => {
+
+		setShowModal( false );
+		setIsEditing( false );
 		setCurrentExpense({});
 	}
 
 	const handleDeleteExpense = ( expenseId ) => {
 		dispatch( startDeletingExpense( expenseId ) );
 		handlerCloseDeleteModal();
+	}
+
+	const handleEditExpense = ( expense ) => {
+		dispatch( startEditingExpense({ expense, index: currentExpenseIndex }) );
+		handlerCloseEditModal();
 	}
 
 	// AGRUPAR GASTOS POR PERIODO DE TIEMPO (DÍA, SEMANA Y MES)
@@ -86,7 +111,6 @@ export const PaginaExpensesList = () => {
 			localPeriodoTime = periodTime || type.timePeriod.month;
 		}
 
-		// CONSIDERAR EL USO DE PIPE O COMPOSE
 		const expensesGroupedByTime = groupBy(
 			ORDER_DESC_EXPENSES( localExpenses ),
 			TIME_SELECTING( localPeriodoTime )
@@ -111,16 +135,27 @@ export const PaginaExpensesList = () => {
 			expenses={ expenses }
 			currency={ currency?.symbol }
 			periodTime={ periodTime }
-			deleteAction={ handlerDeletingExpense }
+			deleteAction={ handlerOpeningDeleteExpenseModal }
+			editAction={ handlerOpeningEditExpenseModal }
 		/>
 
 		<BottomModal show={ showModal }>
-			<DeleteExpenseForSure
-				currency={ currency }
-				expense={ currentExpense }
-				handlerCloseDeleteModal={ handlerCloseDeleteModal }
-				handleDeleteExpense={ handleDeleteExpense }
-			/>
+			{isDeleting &&
+				<DeleteExpenseConfirm
+					currency={ currency }
+					expense={ currentExpense }
+					handlerCloseDeleteModal={ handlerCloseDeleteModal }
+					handleDeleteExpense={ handleDeleteExpense }
+				/>
+			}
+			{isEditing &&
+				<EditingExpenseForm
+					currency={ currency }
+					expense={ currentExpense }
+					handlerCloseEditModal={ handlerCloseEditModal }
+					handleEditExpense={ handleEditExpense }
+				/>
+			}
 		</BottomModal>
 
 	</div>
@@ -174,7 +209,7 @@ const TimePeriodButtons = ({ setPeriodTime, periodTime }) => {
 	)
 }
 
-const ExpensesTable = ({ currency, expenses, periodTime, deleteAction }) => {
+const ExpensesTable = ({ currency, expenses, periodTime, deleteAction, editAction }) => {
 
     return (
         <ul
@@ -207,6 +242,7 @@ const ExpensesTable = ({ currency, expenses, periodTime, deleteAction }) => {
 						expensesArray={ values }
 						currency={ currency }
 						deleteAction={ deleteAction }
+						editAction={ editAction }
 					/>
 					
                 </li>
@@ -270,7 +306,7 @@ const HeaderTable = React.memo(() => {
 	)
 })
 
-const BodyTable = ({ expensesArray, currency, deleteAction }) => {
+const BodyTable = ({ expensesArray, currency, deleteAction, editAction }) => {
 
 	// VARIABLES LOCALES
 	const expenses = orderBy( expensesArray, ["date"], ["desc"] );
@@ -300,6 +336,7 @@ const BodyTable = ({ expensesArray, currency, deleteAction }) => {
 
 					<ItemActions
 						deleteAction={ () => deleteAction( v ) }
+						editAction={ () => editAction({ expense: v, index: ind }) }
 					/>
 
 					<span className="ml-4 text-left font-semibold truncate col-span-5">
@@ -324,12 +361,13 @@ const BodyTable = ({ expensesArray, currency, deleteAction }) => {
 	)
 }
 
-const ItemActions = ({ deleteAction }) => {
+const ItemActions = ({ deleteAction, editAction }) => {
 	return (
 		<div className="col-span-2 row-span-2">
 			<EditButton
 				isButton
 				className="flex-auto p-2 mx-1 text-base"
+				onClick={ editAction }
 			/>
 			<TrashButton
 				isButton
@@ -340,7 +378,7 @@ const ItemActions = ({ deleteAction }) => {
 	)
 }
 
-const DeleteExpenseForSure = ({ expense, currency, handlerCloseDeleteModal, handleDeleteExpense }) => {
+const DeleteExpenseConfirm = ({ expense, currency, handlerCloseDeleteModal, handleDeleteExpense }) => {
 
 	return (
 		<div>
@@ -385,6 +423,35 @@ const DeleteExpenseForSure = ({ expense, currency, handlerCloseDeleteModal, hand
 					isButton
 					className="flex-auto text-white mx-1 bg-lime-600 rounded-md"
 					onClick={ () => handleDeleteExpense( expense._id ) }
+				/>
+			</div>
+		</div>
+	)
+}
+
+const EditingExpenseForm = ({ expense, currency, handlerCloseEditModal, handleEditExpense }) => {
+
+	// STATE
+	const [expenseForm, setExpenseForm] = useState({ ...expense });
+
+	return (
+		<div>
+			<i className="fas fa-exclamation-triangle text-yellow-500 text-5xl flex items-center justify-center my-4"></i>
+
+			<h2 className="font-bold text-center">¿Esta seguro que quiere editar este gasto?</h2>
+
+			
+
+			<div className="flex items-center justify-between py-4">
+				<CloseButton
+					isButton
+					className="flex-auto text-white mx-1 bg-rose-600 rounded-md"
+					onClick={ handlerCloseEditModal }
+				/>
+				<CheckButton
+					isButton
+					className="flex-auto text-white mx-1 bg-lime-600 rounded-md"
+					onClick={ () => handleEditExpense( expenseForm ) }
 				/>
 			</div>
 		</div>

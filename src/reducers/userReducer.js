@@ -2,6 +2,7 @@ import { removeItemFromArrayByProp } from "functionallibrary";
 import { concat } from "lodash";
 
 import { type } from "../constant/type";
+import { updateItemInArrayByProp } from "../helper/arrayUtils";
 
 const initialState = {
     avatar: '',
@@ -24,6 +25,10 @@ export const userReducer = ( state = initialState, action ) => {
         [type.user.deleteExpense]: () => ({
             ...state,
             expenses: removeItemFromArrayByProp( '_id', action.payload )( state.expenses )
+        }),
+        [type.user.updateExpense]: () => ({
+            ...state,
+            expenses: updateItemInArrayByProp( '_id', action.payload, state.expenses )
         })
     }
 
