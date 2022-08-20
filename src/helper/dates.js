@@ -1,4 +1,5 @@
 
+import { timeFormat } from 'd3';
 import { format } from 'date-fns';
 import { es, enUS } from 'date-fns/locale';
 import { upperFirst } from 'lodash';
@@ -20,19 +21,6 @@ export const getMonthInWord = ( date ) => {
     return upperFirst( format( new Date( date ), 'LLLL Y', { locale }) );
 }
 
-export const formattedByInputDate = ( date ) => {
-
-    if (date) {
-        return date;
-    }
-
-    const current = new Date().toLocaleDateString().split('/');
-    const year = current[2];
-    const month = current[1].length === 2 ? current[1] : `0${current[1]}`;
-    const day = current[0];
-    return year + '-' + month + '-' + day;
-}
-
 export const absDate = ( date ) => {
 
     const isAbsDate = date.includes("T");
@@ -49,3 +37,5 @@ export const absDate = ( date ) => {
     const [y, month, d] = date.split('-');
     return new Date(y, month - 1, d, hr, min, seg, mili);
 }
+
+export const dataListFormatDate = date => timeFormat("%Y-%m-%d");

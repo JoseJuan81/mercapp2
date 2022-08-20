@@ -196,7 +196,7 @@ export const CategorySummaryCard = ({ currentMonth, currency }) => {
 						"
 					>
 						<Link
-							className="grid grid-cols-6 items-center"
+							className="grid grid-cols-9 gap-2 items-center"
 							to={{
 								pathname: expensesUrls.list(),
 								search: `?category=${ key }`
@@ -204,14 +204,14 @@ export const CategorySummaryCard = ({ currentMonth, currency }) => {
 						>
 							<span 
 								className="
-									col-span-2
+									col-span-3
 									font-semibold text-sm text-warmGray-600
 								"
 							>{ upperFirst( key ) }</span>
 
 							<ProgressBar
 								className="
-									col-span-3
+									col-span-4
 									pl-2 pr-3 -ml-2
 								"
 								percentage={ val.percentage }
@@ -219,6 +219,7 @@ export const CategorySummaryCard = ({ currentMonth, currency }) => {
 							
 							<span
 								className="
+									col-span-2
 									justify-self-end
 									text-base text-warmGray-600
 								"
@@ -266,7 +267,7 @@ export const EstablishmentSummaryCard = ({ currentMonth, currency }) => {
 						"
 					>
 						<Link
-							className="grid grid-cols-6 items-center"
+							className="grid grid-cols-9 gap-2 items-center"
 							to={{
 								pathname: expensesUrls.list(),
 								search: `?establishment=${ key }`
@@ -274,18 +275,19 @@ export const EstablishmentSummaryCard = ({ currentMonth, currency }) => {
 						>
 							<span 
 								className="
-									col-span-2
+									col-span-3
 									font-semibold text-sm text-warmGray-600
 								"
 							>{ upperFirst( key ) }</span>
 
 							<ProgressBar
-								className="col-span-3 px-2"
+								className="col-span-4 px-2"
 								percentage={ val.percentage }
 							/>
 							
 							<span
 								className="
+									col-span-2
 									justify-self-end
 									text-base text-warmGray-600
 								"

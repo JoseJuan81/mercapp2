@@ -1,10 +1,7 @@
-import { timeDay, timeMonth, timeWeek } from 'd3';
-import { getPropertysValue, isEmpty } from 'functionallibrary';
-import { groupBy, map, orderBy, reduce, upperFirst } from 'lodash';
-import { pipe, __ } from 'ramda';
+import { isEmpty } from 'functionallibrary';
+import { groupBy, map, orderBy, upperFirst } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { compose } from 'redux';
 
 import { startDeletingExpense } from '../../actions/expensesAction';
 
@@ -14,46 +11,14 @@ import { BottomModal } from '../../components/Modal/BottomModal';
 import { CATEGORY, ESTABLISHMENT } from '../../constant/defaults';
 import { type } from '../../constant/type';
 
-import { absDate, getFormatDate } from '../../helper/dates';
-import { twoDecimals } from '../../helper/utils';
-
-const TIME__OPTION = {
-	[type.timePeriod.day]: timeDay,
-	[type.timePeriod.week]: timeWeek,
-	[type.timePeriod.month]: timeMonth
-}
-
-const TIME__FORMAT = {
-	[type.timePeriod.day]: type.timeFormat.day,
-	[type.timePeriod.week]: type.timeFormat.week,
-	[type.timePeriod.month]: type.timeFormat.month
-}
-
-const SELECTING__TIME = periodTime => compose( TIME__OPTION[periodTime], absDate, getPropertysValue('date') );
-const CALCULATE__TOTAL = arr => {
-
-	if( isEmpty( arr )) return 0;
-
-	const sumReduce = (acc, item) =>  acc + item.amount;
-	return twoDecimals( reduce( arr, sumReduce, 0 ) );
-}
-const EXPENSES__FILTERED = ({ filter, param, expenses }) => {
-
-	if (isEmpty(expenses)) {
-		return
-	}
-
-	const filterValue = {
-		[CATEGORY]: "category.name",
-		[ESTABLISHMENT]: "establishment.name"
-	}
-
-	const groupByParamObject = groupBy( expenses, filterValue[filter] );
-	return getPropertysValue(param, groupByParamObject);
-}
-
-const ORDER_DESC_EXPENSES = expenses => orderBy( expenses, ["date"], ["desc"] );
-const TIME_SELECTING = time => SELECTING__TIME( time );
+import { getFormatDate } from '../../helper/dates';
+import {
+	CALCULATE__TOTAL,
+	EXPENSES__FILTERED,
+	ORDER_DESC_EXPENSES,
+	TIME_SELECTING,
+	TIME__FORMAT
+} from '../../helper/expensesList';
 
 export const PaginaExpensesList = () => {
 
