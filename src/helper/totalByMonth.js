@@ -36,6 +36,7 @@ const getTotalBy = ({ expenses, total, prop }) => {
         (acu[k] || (acu[k] = {})).total = twoDecimals( totalByCat );
         (acu[k] || (acu[k] = {})).percentage = inPercentaje( totalByCat / total );
         (acu[k] || (acu[k] = {})).expenses = vals;
+        (acu[k] || (acu[k] = {})).title = k;
 
         return acu;
     }, {} )
@@ -43,7 +44,6 @@ const getTotalBy = ({ expenses, total, prop }) => {
 
     return result;
 }
-
 
 export const getTotalByMonth = data => chain(data)
     .groupBy( month )

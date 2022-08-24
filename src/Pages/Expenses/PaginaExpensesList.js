@@ -321,15 +321,15 @@ const BodyTable = ({ expensesArray, currency, deleteAction, editAction }) => {
 						items-center justify-center
 						text-sm text-center text-warmGray-500
 						py-2
-						${ ind !== 0 ? 'border-t' : 'border-none' }
+						${ ind !== 0 ? 'border-t-2 border-warmGray-200' : 'border-none' }
 					`}
 				>
 
-					<span className="text-base font-semibold row-span-3">{ ind + 1 }</span>
+					<span className="text-base font-semibold row-span-1">{ ind + 1 }</span>
 
-					<span className="col-span-2">{ getFormatDate( v.date ) }</span>
+					<span className="font-normal col-span-2">{ getFormatDate( v.date ) }</span>
 
-					<span className="font-semibold col-span-3">
+					<span className="text-warmGray-700 font-bold col-span-3">
 						<span className="text-xxs font-normal mr-1">{ currency }</span>
 							{ v.amount }
 					</span>
@@ -339,19 +339,39 @@ const BodyTable = ({ expensesArray, currency, deleteAction, editAction }) => {
 						editAction={ () => editAction({ expense: v, index: ind }) }
 					/>
 
-					<span className="ml-4 text-left font-semibold truncate col-span-5">
+					<div
+						className="
+							h-full
+							pl-4
+							text-left font-semibold
+							truncate
+							col-span-4
+							bg-warmGray-100
+							flex items-center justify-start
+						"
+					>
 						<span className="text-xs font-normal italic mr-1">
 							<i className="fas fa-sliders-h"></i>
 						</span>
 						{ upperFirst( v.category.name ) }
-					</span>
+					</div>
 
-					<span className="ml-4 text-left font-semibold truncate col-span-7">
+					<div
+						className="
+							h-full
+							pl-4
+							text-left font-semibold
+							truncate
+							col-span-4
+							bg-warmGray-50
+							flex items-center justify-start
+						"
+					>
 						<span className="text-xs font-normal italic mr-1">
 							<i className="fas fa-store"></i>
 						</span>
 						{ upperFirst( v.establishment.name ) }
-					</span>
+					</div>
 
 					<span className="col-span-8 italic text-left text-xxs">{ v.description }</span>
 
@@ -363,7 +383,7 @@ const BodyTable = ({ expensesArray, currency, deleteAction, editAction }) => {
 
 const ItemActions = ({ deleteAction, editAction }) => {
 	return (
-		<div className="col-span-2 row-span-2">
+		<div className="col-span-2 row-span-1">
 			<EditButton
 				isButton
 				className="flex-auto p-2 mx-1 text-base"

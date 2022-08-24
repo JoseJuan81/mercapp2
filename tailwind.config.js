@@ -35,7 +35,9 @@ module.exports = {
 				xxs: '0.65rem'
 			},
 			maxHeight: theme => ({
-				...theme('height')
+				...theme('height'),
+				'78': '19.7rem',
+				'infinity': '100rem'
 			}),
 			minHeight: theme => ({
 				...theme('spacing')

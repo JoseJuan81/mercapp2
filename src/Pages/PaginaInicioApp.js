@@ -1,14 +1,15 @@
 import { map, upperFirst } from 'lodash';
-import React, { useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { BackButton } from '../components/Buttons/AppButtons';
+import { BackButton, DownButton } from '../components/Buttons/AppButtons';
 import { AreaChart } from '../components/d3/AreaChart';
 import { ProgressBar } from '../components/d3/ProgressBar';
 
 import { expensesUrls } from '../constant/routes';
 
+import { transformToArrayAndSortDescendingByProp } from '../helper/arrayUtils';
 import { getMonthInWord } from '../helper/dates';
 import { getLastMonths } from '../helper/getLastMonths';
 import { getTotalByMonth } from '../helper/totalByMonth';
@@ -72,7 +73,7 @@ export const PaginaInicioApp = () => {
 	)
 }
 
-export const MonthlyExpensesCard = ({
+const MonthlyExpensesCard = ({
 	monthDate,
 	amount,
 	currency,
@@ -109,13 +110,13 @@ export const MonthlyExpensesCard = ({
 	)
 }
 
-export const MonthDate = ({ monthDate }) => {
+const MonthDate = ({ monthDate }) => {
 	return (
 		<span className="text-lime-500 font-bold">{ monthDate }</span>
 	)
 }
 
-export const MonthAmount = ({ currency, amount, diferencePercentageToPrevius }) => {
+const MonthAmount = ({ currency, amount, diferencePercentageToPrevius }) => {
 	return (
 		<div
 			className="
@@ -147,7 +148,7 @@ export const MonthAmount = ({ currency, amount, diferencePercentageToPrevius }) 
 	)
 }
 
-export const CompareToPrevius = ({ diferencePercentageToPrevius }) => {
+const CompareToPrevius = ({ diferencePercentageToPrevius }) => {
 	return (
 		<div
 			className="
@@ -165,85 +166,111 @@ export const CompareToPrevius = ({ diferencePercentageToPrevius }) => {
 	)
 }
 
-export const CategorySummaryCard = ({ currentMonth, currency }) => {
+const CategorySummaryCard = ({ currentMonth, currency }) => {
+
+	// STATE
+	const [collapse, setCollapse] = useState(false);
+
+	// VARIABLES LOCALES
+	const totalByCategory = transformToArrayAndSortDescendingByProp({
+		obj: currentMonth?.totalByCategory,
+		prop: 'total'
+	});
+
+	const heightCard = { low: 315, high: 10000 }
+
+	useEffect(() => {
+	
+		const summaryCard = document.querySelector("div[data-ref='category-summary-card']");
+		heightCard.high = summaryCard.clientHeight;
+		setCollapse( true );
+
+	}, [])
+
 	return (
 		<div
+			data-ref="category-summary-card"
+			style={{
+				maxHeight: collapse ? heightCard.low : heightCard.high
+			}}
 			className="
-				mx-6 px-4 py-4 mb-8
+				mx-6 px-4 pt-4 pb-16 mb-8
 				flex flex-col items-center
 				rounded-lg
 				shadow-md
+				border border-warGray-200
+				overflow-hidden
+				relative
+				transition-max-h duration-300
 			"
 		>
-			<h2
+			<h2 className="text-lg font-bold text-sky-500">
+				Acumulado por categoría
+			</h2>
+
+			<ProgressBarComponent data={ totalByCategory } currency={ currency } />
+
+			<div
 				className="
-					text-lg font-bold text-sky-500
+					absolute bottom-0 left-0
+					flex items-center justify-center
+					w-full
+					pb-4
+					text-base text-sky-500
+					bg-white
 				"
-			>Acumulado por categoría</h2>
-			<ul
-				className="
-					divide-y-2 divide-warmGray-100
-					mt-2
-				"
+				onClick={ () => setCollapse( c => !c ) }
 			>
-				{ map( currentMonth?.totalByCategory, (val, key) => (
-					<li
-						key={ key }
-						className="
-							h-10
-							font-semibold text-sm
-							pt-3 mb-3
-						"
-					>
-						<Link
-							className="grid grid-cols-9 gap-2 items-center"
-							to={{
-								pathname: expensesUrls.list(),
-								search: `?category=${ key }`
-							}}
-						>
-							<span 
-								className="
-									col-span-3
-									font-semibold text-sm text-warmGray-600
-								"
-							>{ upperFirst( key ) }</span>
-
-							<ProgressBar
-								className="
-									col-span-4
-									pl-2 pr-3 -ml-2
-								"
-								percentage={ val.percentage }
-							/>
-							
-							<span
-								className="
-									col-span-2
-									justify-self-end
-									text-base text-warmGray-600
-								"
-							>
-								<span className="text-xs mr-1">{ currency }</span>
-								{ val.total }
-							</span>
-						</Link>
-					</li>
-				)) }
-
-			</ul>
+				<DownButton
+					isButton
+					className={`
+						text-sky-500 text-base
+						mx-2
+						transform ${collapse ? 'rotate-0' : 'rotate-180'}
+					`}
+				/>
+				<h4>{ collapse ? 'Mostrar mas' : 'Mostrar menos' }</h4>
+			</div>
 		</div>
 	)
 }
 
-export const EstablishmentSummaryCard = ({ currentMonth, currency }) => {
+const EstablishmentSummaryCard = ({ currentMonth, currency }) => {
+	
+	// STATE
+	const [collapse, setCollapse] = useState(false);
+
+	// VARIABLES LOCALES
+	const totalByEstablishment = transformToArrayAndSortDescendingByProp({
+		obj: currentMonth?.totalByEstablishment,
+		prop: 'total'
+	});
+
+	const heightCard = { low: 315, high: 10000 }
+
+	useEffect(() => {
+	
+		const summaryCard = document.querySelector("div[data-ref='establishment-summary-card']");
+		heightCard.high = summaryCard.clientHeight;
+		setCollapse( true );
+
+	}, [])
+
 	return (
 		<div
+			data-ref="establishment-summary-card"
+			style={{
+				maxHeight: collapse ? heightCard.low : heightCard.high
+			}}
 			className="
-				mx-6 px-4 py-4 mb-8
+				mx-6 px-4 pt-4 pb-16 mb-8
 				flex flex-col items-center
 				rounded-lg
 				shadow-md
+				border border-warGray-200
+				overflow-hidden
+				relative
+				transition-max-h duration-300
 			"
 		>
 			<h2
@@ -251,55 +278,82 @@ export const EstablishmentSummaryCard = ({ currentMonth, currency }) => {
 					text-lg font-bold text-lime-500
 				"
 			>Acumulado por establecimiento</h2>
-			<ul
-				className="
-					divide-y-2 divide-warmGray-100
-					mt-2
-				"
+
+			<ProgressBarComponent data={ totalByEstablishment } currency={ currency } />
+
+			<div
+				className={`
+					absolute bottom-0 left-0
+					flex items-center justify-center
+					w-full
+					pb-4
+					text-base text-lime-500
+					bg-white
+				`}
+				onClick={ () => setCollapse( c => !c ) }
 			>
-				{ map( currentMonth?.totalByEstablishment, (val, key) => (
-					<li
-						key={ key }
-						className="
-							h-10
-							font-semibold text-sm
-							pt-3 mb-3
-						"
-					>
-						<Link
-							className="grid grid-cols-9 gap-2 items-center"
-							to={{
-								pathname: expensesUrls.list(),
-								search: `?establishment=${ key }`
-							}}
-						>
-							<span 
-								className="
-									col-span-3
-									font-semibold text-sm text-warmGray-600
-								"
-							>{ upperFirst( key ) }</span>
-
-							<ProgressBar
-								className="col-span-4 px-2"
-								percentage={ val.percentage }
-							/>
-							
-							<span
-								className="
-									col-span-2
-									justify-self-end
-									text-base text-warmGray-600
-								"
-							>
-								<span className="text-xs mr-1">{ currency }</span>
-								{ val.total }
-							</span>
-						</Link>
-					</li>
-				)) }
-
-			</ul>
+				<DownButton
+					isButton
+					className={`
+						text-lime-500 text-base
+						mx-2
+						transform ${collapse ? 'rotate-0' : 'rotate-180'}
+					`}
+				/>
+				<h4>{ collapse ? 'Mostrar mas' : 'Mostrar menos' }</h4>
+			</div>
 		</div>
 	)
 }
+
+const ProgressBarComponent = React.memo(({ data, currency }) => {
+	return (
+		<ul className="divide-y-2 divide-warmGray-100 mt-2">
+			{ map( data, val => (
+				<li
+					key={ `${val.title} - ${Math.random()}` }
+					className="
+						h-10
+						font-semibold text-sm
+						pt-3 mb-3
+					"
+				>
+					<Link
+						className="grid grid-cols-9 gap-2 items-center"
+						to={{
+							pathname: expensesUrls.list(),
+							search: `?category=${ val.title }`
+						}}
+					>
+						<span 
+							className="
+								col-span-3
+								font-semibold text-sm text-warmGray-600
+							"
+						>{ upperFirst( val.title ) }</span>
+
+						<ProgressBar
+							className="
+								col-span-4
+								pl-2 pr-3 -ml-2
+							"
+							percentage={ val.percentage }
+						/>
+						
+						<span
+							className="
+								col-span-2
+								justify-self-end
+								text-base text-warmGray-600
+							"
+						>
+							<span className="text-xs mr-1">{ currency }</span>
+							{ val.total }
+						</span>
+					</Link>
+				</li>
+			)) }
+
+		</ul>
+	)
+})

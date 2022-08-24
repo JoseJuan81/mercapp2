@@ -1,5 +1,4 @@
-import { equality, findIndex } from "functionallibrary";
-import { curry } from "ramda";
+import { equality, findIndex, isEmpty } from "functionallibrary";
 
 /**
  * Actualizar elemento dentro de un arreglo
@@ -17,4 +16,14 @@ export const updateItemInArrayByProp = ( prop, item, arr ) => {
     local.splice( index, 1, item );
 
     return [...local];
+}
+
+export const transformToArrayAndSortDescendingByProp = ({ obj, prop }) => {
+    
+    if ( isEmpty( obj ) ) {
+        return [];
+    }
+    
+    const arr = Object.values( obj );
+    return arr.sort( (a, b) => b[prop] - a[prop]);
 }

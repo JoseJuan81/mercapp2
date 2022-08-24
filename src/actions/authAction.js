@@ -3,10 +3,11 @@ import { isEmpty } from 'functionallibrary';
 import { firebase, googleAuthProvider } from '../firebase/firebase-config';
 
 import { clearLocalStorage, setInLocalStorage } from '../helper/localStorage';
-import { fetchCurrency, fetchSignUp } from '../helper/fetch';
-import { userFetch } from '../helper/fetch/userFetch';
-import { loginFetch } from '../helper/fetch/loginFetch';
+import { fetchCurrency } from '../helper/fetch';
 import toast, { NotificationInfo } from '../helper/toast';
+import { fetchLogin } from '../helper/fetch/fetchLogin';
+import { fetchSignUp } from '../helper/fetch/fetchSignUp';
+import { fetchUser } from '../helper/fetch/fetchUser';
 
 import { type } from '../constant/type';
 
@@ -57,7 +58,7 @@ export const startLoginWithEmailAndPassword = ({ email, password }) => async dis
 
     try {
 
-        const response = await loginFetch.login( email, password );
+        const response = await fetchLogin.login( email, password );
 
         if ( response.ok ) {
 
@@ -71,7 +72,7 @@ export const startLoginWithEmailAndPassword = ({ email, password }) => async dis
                 
                 const { code, symbol } = await fetchCurrency();
                 userResponse.currencies[0] = { code, symbol };
-                userFetch.update({ currencies: userResponse.currencies });
+                fetchUser.update({ currencies: userResponse.currencies });
             }
 
             const { token, uid, id, ...restUserData } = userResponse;
@@ -107,7 +108,7 @@ export const startRegisterWithNameEmailAndPassword = ({ name, email, password })
 
         const { code, symbol } = await fetchCurrency();
         const currencies = { code, symbol };
-        const response = await fetchSignUp( name, email, password, currencies );
+        const response = await fetchSignUp.new( name, email, password, currencies );
 
         if ( response.ok ) {
 
