@@ -1,12 +1,9 @@
-import { timeDay, timeMonth, timeWeek } from 'd3';
-import { getPropertysValue, isEmpty } from 'functionallibrary';
-import { groupBy, map, orderBy, reduce, upperFirst } from 'lodash';
-import { pipe, __ } from 'ramda';
+import { isEmpty } from 'functionallibrary';
+import { groupBy, map, orderBy, upperFirst } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { compose } from 'redux';
 
-import { startDeletingExpense } from '../../actions/expensesAction';
+import { startDeletingExpense, startEditingExpense } from '../../actions/expensesAction';
 
 import { BaseButton, CheckButton, CloseButton, EditButton, TrashButton } from '../../components/Buttons/AppButtons';
 import { BottomModal } from '../../components/Modal/BottomModal';
@@ -14,46 +11,14 @@ import { BottomModal } from '../../components/Modal/BottomModal';
 import { CATEGORY, ESTABLISHMENT } from '../../constant/defaults';
 import { type } from '../../constant/type';
 
-import { absDate, getFormatDate } from '../../helper/dates';
-import { twoDecimals } from '../../helper/utils';
-
-const TIME__OPTION = {
-	[type.timePeriod.day]: timeDay,
-	[type.timePeriod.week]: timeWeek,
-	[type.timePeriod.month]: timeMonth
-}
-
-const TIME__FORMAT = {
-	[type.timePeriod.day]: type.timeFormat.day,
-	[type.timePeriod.week]: type.timeFormat.week,
-	[type.timePeriod.month]: type.timeFormat.month
-}
-
-const SELECTING__TIME = periodTime => compose( TIME__OPTION[periodTime], absDate, getPropertysValue('date') );
-const CALCULATE__TOTAL = arr => {
-
-	if( isEmpty( arr )) return 0;
-
-	const sumReduce = (acc, item) =>  acc + item.amount;
-	return twoDecimals( reduce( arr, sumReduce, 0 ) );
-}
-const EXPENSES__FILTERED = ({ filter, param, expenses }) => {
-
-	if (isEmpty(expenses)) {
-		return
-	}
-
-	const filterValue = {
-		[CATEGORY]: "category.name",
-		[ESTABLISHMENT]: "establishment.name"
-	}
-
-	const groupByParamObject = groupBy( expenses, filterValue[filter] );
-	return getPropertysValue(param, groupByParamObject);
-}
-
-const ORDER_DESC_EXPENSES = expenses => orderBy( expenses, ["date"], ["desc"] );
-const TIME_SELECTING = time => SELECTING__TIME( time );
+import { getFormatDate } from '../../helper/dates';
+import {
+	CALCULATE__TOTAL,
+	EXPENSES__FILTERED,
+	ORDER_DESC_EXPENSES,
+	TIME_SELECTING,
+	TIME__FORMAT
+} from '../../helper/expensesList';
 
 export const PaginaExpensesList = () => {
 
@@ -73,24 +38,49 @@ export const PaginaExpensesList = () => {
 	const [periodTime, setPeriodTime] = useState("");
 	const [expenses, setExpenses] = useState({});
 	const [showModal, setShowModal] = useState(false);
+	const [isDeleting, setIsDeleting] = useState(false);
+	const [isEditing, setIsEditing] = useState(false);
 	const [currentExpense, setCurrentExpense] = useState({});
+	const [currentExpenseIndex, setCurrentExpenseIndex] = useState(-1);
 
 	// FUNCIONES LOCALES
-	const handlerDeletingExpense = ( expense ) => {
+	const handlerOpeningDeleteExpenseModal = ( expense ) => {
 
 		setShowModal( true );
+		setIsDeleting( true );
 		setCurrentExpense( expense );
+	}
+
+	const handlerOpeningEditExpenseModal = ({ expense, index }) => {
+
+		setShowModal( true );
+		setIsEditing( true );
+		setCurrentExpense( expense );
+		setCurrentExpenseIndex( index );
 	}
 
 	const handlerCloseDeleteModal = () => {
 
 		setShowModal( false );
+		setIsDeleting( false );
+		setCurrentExpense({});
+	}
+
+	const handlerCloseEditModal = () => {
+
+		setShowModal( false );
+		setIsEditing( false );
 		setCurrentExpense({});
 	}
 
 	const handleDeleteExpense = ( expenseId ) => {
 		dispatch( startDeletingExpense( expenseId ) );
 		handlerCloseDeleteModal();
+	}
+
+	const handleEditExpense = ( expense ) => {
+		dispatch( startEditingExpense({ expense, index: currentExpenseIndex }) );
+		handlerCloseEditModal();
 	}
 
 	// AGRUPAR GASTOS POR PERIODO DE TIEMPO (DÍA, SEMANA Y MES)
@@ -121,7 +111,6 @@ export const PaginaExpensesList = () => {
 			localPeriodoTime = periodTime || type.timePeriod.month;
 		}
 
-		// CONSIDERAR EL USO DE PIPE O COMPOSE
 		const expensesGroupedByTime = groupBy(
 			ORDER_DESC_EXPENSES( localExpenses ),
 			TIME_SELECTING( localPeriodoTime )
@@ -146,16 +135,27 @@ export const PaginaExpensesList = () => {
 			expenses={ expenses }
 			currency={ currency?.symbol }
 			periodTime={ periodTime }
-			deleteAction={ handlerDeletingExpense }
+			deleteAction={ handlerOpeningDeleteExpenseModal }
+			editAction={ handlerOpeningEditExpenseModal }
 		/>
 
 		<BottomModal show={ showModal }>
-			<DeleteExpenseForSure
-				currency={ currency }
-				expense={ currentExpense }
-				handlerCloseDeleteModal={ handlerCloseDeleteModal }
-				handleDeleteExpense={ handleDeleteExpense }
-			/>
+			{isDeleting &&
+				<DeleteExpenseConfirm
+					currency={ currency }
+					expense={ currentExpense }
+					handlerCloseDeleteModal={ handlerCloseDeleteModal }
+					handleDeleteExpense={ handleDeleteExpense }
+				/>
+			}
+			{isEditing &&
+				<EditingExpenseForm
+					currency={ currency }
+					expense={ currentExpense }
+					handlerCloseEditModal={ handlerCloseEditModal }
+					handleEditExpense={ handleEditExpense }
+				/>
+			}
 		</BottomModal>
 
 	</div>
@@ -209,7 +209,7 @@ const TimePeriodButtons = ({ setPeriodTime, periodTime }) => {
 	)
 }
 
-const ExpensesTable = ({ currency, expenses, periodTime, deleteAction }) => {
+const ExpensesTable = ({ currency, expenses, periodTime, deleteAction, editAction }) => {
 
     return (
         <ul
@@ -242,6 +242,7 @@ const ExpensesTable = ({ currency, expenses, periodTime, deleteAction }) => {
 						expensesArray={ values }
 						currency={ currency }
 						deleteAction={ deleteAction }
+						editAction={ editAction }
 					/>
 					
                 </li>
@@ -305,7 +306,7 @@ const HeaderTable = React.memo(() => {
 	)
 })
 
-const BodyTable = ({ expensesArray, currency, deleteAction }) => {
+const BodyTable = ({ expensesArray, currency, deleteAction, editAction }) => {
 
 	// VARIABLES LOCALES
 	const expenses = orderBy( expensesArray, ["date"], ["desc"] );
@@ -320,36 +321,57 @@ const BodyTable = ({ expensesArray, currency, deleteAction }) => {
 						items-center justify-center
 						text-sm text-center text-warmGray-500
 						py-2
-						${ ind !== 0 ? 'border-t' : 'border-none' }
+						${ ind !== 0 ? 'border-t-2 border-warmGray-200' : 'border-none' }
 					`}
 				>
 
-					<span className="text-base font-semibold row-span-3">{ ind + 1 }</span>
+					<span className="text-base font-semibold row-span-1">{ ind + 1 }</span>
 
-					<span className="col-span-2">{ getFormatDate( v.date ) }</span>
+					<span className="font-normal col-span-2">{ getFormatDate( v.date ) }</span>
 
-					<span className="font-semibold col-span-3">
+					<span className="text-warmGray-700 font-bold col-span-3">
 						<span className="text-xxs font-normal mr-1">{ currency }</span>
 							{ v.amount }
 					</span>
 
 					<ItemActions
 						deleteAction={ () => deleteAction( v ) }
+						editAction={ () => editAction({ expense: v, index: ind }) }
 					/>
 
-					<span className="ml-4 text-left font-semibold truncate col-span-5">
+					<div
+						className="
+							h-full
+							pl-4
+							text-left font-semibold
+							truncate
+							col-span-4
+							bg-warmGray-100
+							flex items-center justify-start
+						"
+					>
 						<span className="text-xs font-normal italic mr-1">
 							<i className="fas fa-sliders-h"></i>
 						</span>
 						{ upperFirst( v.category.name ) }
-					</span>
+					</div>
 
-					<span className="ml-4 text-left font-semibold truncate col-span-7">
+					<div
+						className="
+							h-full
+							pl-4
+							text-left font-semibold
+							truncate
+							col-span-4
+							bg-warmGray-50
+							flex items-center justify-start
+						"
+					>
 						<span className="text-xs font-normal italic mr-1">
 							<i className="fas fa-store"></i>
 						</span>
 						{ upperFirst( v.establishment.name ) }
-					</span>
+					</div>
 
 					<span className="col-span-8 italic text-left text-xxs">{ v.description }</span>
 
@@ -359,12 +381,13 @@ const BodyTable = ({ expensesArray, currency, deleteAction }) => {
 	)
 }
 
-const ItemActions = ({ deleteAction }) => {
+const ItemActions = ({ deleteAction, editAction }) => {
 	return (
-		<div className="col-span-2 row-span-2">
+		<div className="col-span-2 row-span-1">
 			<EditButton
 				isButton
 				className="flex-auto p-2 mx-1 text-base"
+				onClick={ editAction }
 			/>
 			<TrashButton
 				isButton
@@ -375,7 +398,7 @@ const ItemActions = ({ deleteAction }) => {
 	)
 }
 
-const DeleteExpenseForSure = ({ expense, currency, handlerCloseDeleteModal, handleDeleteExpense }) => {
+const DeleteExpenseConfirm = ({ expense, currency, handlerCloseDeleteModal, handleDeleteExpense }) => {
 
 	return (
 		<div>
@@ -420,6 +443,35 @@ const DeleteExpenseForSure = ({ expense, currency, handlerCloseDeleteModal, hand
 					isButton
 					className="flex-auto text-white mx-1 bg-lime-600 rounded-md"
 					onClick={ () => handleDeleteExpense( expense._id ) }
+				/>
+			</div>
+		</div>
+	)
+}
+
+const EditingExpenseForm = ({ expense, currency, handlerCloseEditModal, handleEditExpense }) => {
+
+	// STATE
+	const [expenseForm, setExpenseForm] = useState({ ...expense });
+
+	return (
+		<div>
+			<i className="fas fa-exclamation-triangle text-yellow-500 text-5xl flex items-center justify-center my-4"></i>
+
+			<h2 className="font-bold text-center">¿Esta seguro que quiere editar este gasto?</h2>
+
+			
+
+			<div className="flex items-center justify-between py-4">
+				<CloseButton
+					isButton
+					className="flex-auto text-white mx-1 bg-rose-600 rounded-md"
+					onClick={ handlerCloseEditModal }
+				/>
+				<CheckButton
+					isButton
+					className="flex-auto text-white mx-1 bg-lime-600 rounded-md"
+					onClick={ () => handleEditExpense( expenseForm ) }
 				/>
 			</div>
 		</div>

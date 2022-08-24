@@ -1,7 +1,7 @@
 import { always, cond, prop, propEq, T } from "ramda";
 import { type } from "../constant/type";
 
-import { userFetch } from "../helper/fetch/userFetch";
+import { fetchUser } from "../helper/fetch/fetchUser";
 import { clearLocalStorage } from "../helper/localStorage";
 import { appLogout } from "./authAction";
 
@@ -22,18 +22,13 @@ export const updateExpensesInUser = ( expense ) => ({
     payload: expense
 });
 
-export const deleteExpenseFromUser = ( expenseId ) => ({
-    type: type.user.deleteExpense,
-    payload: expenseId
-});
-
 /// ============= Acciones asincronas ================= //
 export const fetchingUserData = () => async dispatch => {
 
     dispatch( startLoading() );
     try {
         
-        const res = await userFetch.data();
+        const res = await fetchUser.data();
 
         if (res.ok) {
             dispatch( updateUserData( res.data ));

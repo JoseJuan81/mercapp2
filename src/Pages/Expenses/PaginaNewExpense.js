@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { equals, or, values } from 'ramda';
-import { every, isEmpty } from 'functionallibrary';
+import { equals, or} from 'ramda';
+import { isEmpty } from 'functionallibrary';
 
 import { updateNewExpense } from '../../actions/newExpenseAction';
 
@@ -9,10 +9,11 @@ import { DataList } from '../../components/Form/DataList';
 import { InputField } from '../../components/Form/InputField';
 
 import { type } from '../../constant/type';
-
-import { getFromLocalStorage, removeFromLocalStorage, setInLocalStorage } from '../../helper/localStorage';
-import { timeFormat } from 'd3';
 import { CATEGORY, ESTABLISHMENT } from '../../constant/defaults';
+
+import { getFromLocalStorage, setInLocalStorage } from '../../helper/localStorage';
+import { dataListFormatDate } from '../../helper/dates';
+import { PaginaLoadingNewExpense } from '../loading/PaginaLoadingNewExpense';
 
 const isCategory = equals( CATEGORY );
 const isEstablishment = equals( ESTABLISHMENT );
@@ -30,6 +31,7 @@ export const PaginaNewExpense = () => {
 	// STORE
 	const newExpense = useSelector( store => store.newExpense );
 	const { categories, establishments, items } = useSelector( store => store.user );
+	const { loading } = useSelector( store => store.loading );
 
 	// STATE
 	const [formErrors, setFormErrors] = useState( formField );
@@ -78,8 +80,8 @@ export const PaginaNewExpense = () => {
 		if ( localInfo && localInfo.date ) {
 			dispatch( updateNewExpense( { ...localInfo } ) );
 		} else {
-			const parsedTime = timeFormat("%Y-%m-%d");
-			dispatch( updateNewExpense( { ...newExpense, date: parsedTime( Date.now() ) } ) );
+			
+			dispatch( updateNewExpense( { ...newExpense } ) );
 		}
 
 	}, [])
@@ -88,15 +90,11 @@ export const PaginaNewExpense = () => {
 	useEffect(() => {
 
 		setInLocalStorage( type.localStorage.newExpense, { ...newExpense });
-
-		return () => {
-			const { date, ...rest } = newExpense;
-			const newExpenseValues = values( rest );
-			if ( every( isEmpty, newExpenseValues) ) {
-				removeFromLocalStorage( type.localStorage.newExpense );
-			}
-		}
 	}, [newExpense])
+
+	if (loading) {
+		return <PaginaLoadingNewExpense />
+	}
 
 	return (
 		<div>
