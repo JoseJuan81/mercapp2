@@ -26,7 +26,8 @@ module.exports = {
 				rose: colors.rose,
 				sky: colors.sky,
 				violet: colors.violet,
-				warmGray: colors.warmGray
+				warmGray: colors.warmGray,
+				white: colors.white
             },
 			fontFamily: {
 				mercapp: 'Nunito'

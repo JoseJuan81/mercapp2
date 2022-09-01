@@ -81,7 +81,7 @@ export const AreaChart = ({ lastAmountsByMonth, heightContainer = 80, className,
 					.attr("cx", width / 2)
 					.attr("cy", heightContainer)
 					.attr("r", 5)
-					.attr("fill", "white")
+					.attr("class", (d, i) => i === 0 ? 'fill-lime-400' : 'fill-white')
 					.attr("stroke", "#2186F1"),
 				update => update,
 				exit => exit.remove()
