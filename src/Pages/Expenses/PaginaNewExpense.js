@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { equals, or} from 'ramda';
+import { compose, equals, or, prop, reverse, sortBy, toLower} from 'ramda';
 import { isEmpty, removeItemFromArrayByIndex } from 'functionallibrary';
 import { map, now } from 'lodash';
 
@@ -62,15 +62,18 @@ export const PaginaNewExpense = () => {
 	const onClickAddItem = e => {
 		e.preventDefault();
 
-		const newItem = {
-			name: itemSelected,
-			createdAt: Date.now()
+		if ( itemSelected ) {
+
+			const newItem = {
+				name: itemSelected,
+				createdAt: Date.now()
+			}
+	
+			const itemsSelected = [{ ...newItem }, ...newExpense.items ];
+			dispatch( updateNewExpense({ ...newExpense, items: itemsSelected }) );
+			setItemSelected('');
+	
 		}
-
-		const itemsSelected = [{ ...newItem }, ...newExpense.items ];
-		dispatch( updateNewExpense({ ...newExpense, items: itemsSelected }) );
-		setItemSelected('');
-
 		const itemField = window.document.querySelector("input[data-item='item-field']")
 		itemField.select();
 	}
@@ -218,10 +221,12 @@ export const PaginaNewExpense = () => {
 				</fieldset>
 			</form>
 
-			<NewExpensesItems
-				items={ newExpense.items }
-				onClickRemoveItem={ onClickRemoveItem }
-			/>
+			{ !isEmpty( newExpense.items ) && 
+				<NewExpensesItems
+					items={ newExpense.items }
+					onClickRemoveItem={ onClickRemoveItem }
+				/>
+			}
 
 		</div>
 	)
@@ -229,48 +234,95 @@ export const PaginaNewExpense = () => {
 
 const NewExpensesItems = ({ items, onClickRemoveItem }) => {
 	// botones para ordenar alfabéticamente y por tiempo
+	// STATE
+	const [sorted, setSorted] = useState([]);
+	const [order, setOrder] = useState("new");
+
+	useEffect(() => {
+
+		if (order === "asc") {
+			const ascendingAlphabetical = sortBy(compose(toLower, prop("name")) );
+			setSorted(ascendingAlphabetical(items))
+		} else if (order === "desc") {
+			const ascendingAlphabetical = sortBy(compose(toLower, prop("name")));
+			setSorted( reverse( ascendingAlphabetical( items ) ) );
+		} else if (order === "old") {
+			const ascendingTime = sortBy(prop("createdAt"));
+			setSorted(ascendingTime(items))
+		} else {
+			const ascendingTime = sortBy(prop("createdAt"));
+			setSorted( reverse( ascendingTime( items ) ) );
+
+		}
+		
+	}, [order, items])
+
 	return (
-		<ul
+		<div
 			className="
 				px-3
-				flex items-start justify-center flex-col
-				divide-y
 			"
 		>
-			{!isEmpty( items ) && map(items, (item, i) => (
-				<li
-					key={ `${Math.random()} - ${i} - ${item}`}
-					className="
-						flex items-center justify-between
-						px-3 py-2
-						w-full
-						text-warmGray-500 text-sm
-					"
-				>
-					<span
+			<div
+				className="
+					flex items-center justify-start
+					space-x-4
+				"
+			>
+				<button
+					onClick={ () => setOrder("asc") }
+				>A-Z</button>
+				<button
+					onClick={ () => setOrder("desc") }
+				>Z-A</button>
+				<button
+					onClick={ () => setOrder("new") }
+				>Joven</button>
+				<button
+					onClick={ () => setOrder("old") }
+				>Viejo</button>
+			</div>
+			<ul
+				className="
+					flex items-start justify-center flex-col
+					divide-y
+				"
+			>
+				{map(sorted, (item, i) => (
+					<li
+						key={ `${Math.random()} - ${i} - ${item}`}
 						className="
-							flex-initial
-							text-sm
+							flex items-center justify-between
+							px-3 py-2
+							w-full
+							text-warmGray-500 text-sm
 						"
-					>{ i + 1 }</span>
-					<h2
-						className="
-							flex-1
-							mx-3
-							font-semibold italic
-						"
-					>{ item.name }</h2>
-					<TrashButton
-						isButton
-						className="
-							text-rose-500 text-sm
-							flex-initial
-							p-2
-						"
-						onClick={ () => onClickRemoveItem( i ) }
-					/>
-				</li>
-			))}
-		</ul>
+					>
+						<span
+							className="
+								flex-initial
+								text-sm
+							"
+						>{ i + 1 }</span>
+						<h2
+							className="
+								flex-1
+								mx-3
+								font-semibold italic
+							"
+						>{ item.name }</h2>
+						<TrashButton
+							isButton
+							className="
+								text-rose-500 text-sm
+								flex-initial
+								p-2
+							"
+							onClick={ () => onClickRemoveItem( i ) }
+						/>
+					</li>
+				))}
+			</ul>
+		</div>
 	)
 }
