@@ -79,8 +79,9 @@ export const PaginaNewExpense = () => {
 	}
 
 	const onClickRemoveItem = index => {
+		
 		const newItems = removeItemFromArrayByIndex( index, newExpense.items );
-		dispatch( updateNewExpense({ ...newExpense, items: newItems }) );
+		dispatch( updateNewExpense({ ...newExpense, items: [...newItems] }) );
 	}
 
 	const checkingForm = () => {
@@ -260,25 +261,53 @@ const NewExpensesItems = ({ items, onClickRemoveItem }) => {
 	return (
 		<div
 			className="
-				px-3
+				p-3
 			"
 		>
 			<div
 				className="
-					flex items-center justify-start
+					flex items-center justify-center
 					space-x-4
 				"
 			>
 				<button
+					className={`
+						border rounded
+						px-2 py-1
+						${ order === "asc" ? "bg-lime-500" : "bg-white" }
+						${ order === "asc" ? "border-lime-500" : "border-warmGray-300" }
+						${ order === "asc" ? "text-white" : "text-warmGray-600" }
+					`}
 					onClick={ () => setOrder("asc") }
 				>A-Z</button>
 				<button
+					className={`
+						border rounded
+						px-2 py-1
+						${ order === "desc" ? "bg-lime-500" : "bg-white" }
+						${ order === "desc" ? "border-lime-500" : "border-warmGray-300" }
+						${ order === "desc" ? "text-white" : "text-warmGray-600" }
+					`}
 					onClick={ () => setOrder("desc") }
 				>Z-A</button>
 				<button
+					className={`
+						border rounded
+						px-2 py-1
+						${ order === "new" ? "bg-lime-500" : "bg-white" }
+						${ order === "new" ? "border-lime-500" : "border-warmGray-300" }
+						${ order === "new" ? "text-white" : "text-warmGray-600" }
+					`}
 					onClick={ () => setOrder("new") }
 				>Joven</button>
 				<button
+					className={`
+						border rounded
+						px-2 py-1
+						${ order === "old" ? "bg-lime-500" : "bg-white" }
+						${ order === "old" ? "border-lime-500" : "border-warmGray-300" }
+						${ order === "old" ? "text-white" : "text-warmGray-600" }
+					`}
 					onClick={ () => setOrder("old") }
 				>Viejo</button>
 			</div>
