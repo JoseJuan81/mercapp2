@@ -10,7 +10,7 @@ export const PaginaLoadingNewExpense = () => {
     `
     return (
         <ul className="px-4 pt-4">
-            {new Array(5).fill(1).map((i, index) => (
+            {new Array(6).fill(undefined).map((i, index) => (
                 <li
                     key={index}
                     className={ pulseClass + 'h-12 mb-4' }
